@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  NARRATION_PREVIEW, chineseVoices, readNarrationPreferences,
+  NARRATION_PREVIEW, chineseVoices, chooseNarrationVoice, narrationFailure,
+  narrationStartTimeout, readNarrationPreferences,
   saveNarrationPreferences, splitNarrationText,
 } from './narration.js';
 
@@ -14,6 +15,9 @@ export default function useNarration({
   const [speaking, setSpeaking] = useState(false);
   const [status, setStatus] = useState(supported ? 'off' : 'unsupported');
   const [voices, setVoices] = useState([]);
+  const [lastError, setLastError] = useState(null);
+  const [voiceHealth, setVoiceHealth] = useState({});
+  const lastErrorRef = useRef(null);
   const mounted = useRef(true);
   const enabledRef = useRef(false);
   const preferencesRef = useRef(preferences);
@@ -60,17 +64,38 @@ export default function useNarration({
     active.mode = null;
     if (mounted.current) {
       setSpeaking(false);
-      if (nextStatus) setStatus(nextStatus);
+      if (lastErrorRef.current) setStatus('error');
+      else if (nextStatus) setStatus(nextStatus);
     }
   }, []);
+
+  const clearFailure = useCallback(() => {
+    lastErrorRef.current = null;
+    session.current.notified = '';
+    setLastError(null);
+  }, []);
+  const recordFailure = useCallback((code, voice) => {
+    const failure = narrationFailure(code, voice);
+    if (!failure) return;
+    lastErrorRef.current = failure;
+    setLastError(failure);
+    setStatus('error');
+    if (failure.voiceId) setVoiceHealth((previous) => ({
+      ...previous, [failure.voiceId]: { status: 'failed', code: failure.code, message: failure.message },
+    }));
+    report(failure.message, `${failure.code}:${failure.voiceId}`);
+  }, [report]);
 
   const start = useCallback(({ mode = 'story', source, force = false } = {}) => {
     const active = session.current;
     const frame = currentFrame();
     const content = mode === 'preview' ? source : inputRef.current.text;
+    // A refresh, next paragraph, or visibility event must not silently retry a
+    // failing OS/cloud voice. Only an explicit player action clears this lock.
+    if (lastErrorRef.current) { setStatus('error'); return; }
     if (!supported) {
       cancel('unsupported');
-      report('当前浏览器不支持系统朗读，可以继续安静阅读。', 'unsupported');
+      recordFailure('unsupported');
       return;
     }
     if (hidden() || (mode === 'story' && (inputRef.current.paused || !enabledRef.current))) {
@@ -83,12 +108,11 @@ export default function useNarration({
       setStatus('finished');
       return;
     }
-    const selected = available.current.find((voice) => voice.id === preferencesRef.current.voiceId)
-      ?? available.current[0];
+    const selected = chooseNarrationVoice(available.current, preferencesRef.current.voiceId);
     cancel();
     if (!selected) {
       setStatus(voicesLoading.current ? 'loading' : 'unavailable');
-      if (!voicesLoading.current) report('这台设备还没有可用的中文声音。请在系统里添加中文语音，或换用带中文朗读的浏览器。', 'no-chinese-voice');
+      if (!voicesLoading.current) recordFailure('no-chinese-voice');
       return;
     }
     const chunks = splitNarrationText(content);
@@ -104,37 +128,45 @@ export default function useNarration({
     const isCurrent = () => mounted.current && active.generation === generation
       && !hidden() && (mode === 'preview' || (!inputRef.current.paused && enabledRef.current))
       && active.frame === currentFrame();
-    const failSpeech = (message) => {
+    const failSpeech = (code) => {
       if (!isCurrent()) return;
       cancel('error');
-      report(message, `speech:${generation}`);
+      recordFailure(code, selected);
     };
     const speakChunk = (index) => {
       if (!isCurrent()) return;
       active.nextTimer = null;
       const utterance = new window.SpeechSynthesisUtterance(chunks[index]);
+      let started = false;
       utterance.voice = selected.voice;
       utterance.lang = selected.lang;
       utterance.rate = preferencesRef.current.rate;
       utterance.pitch = 1;
       utterance.volume = preferencesRef.current.volume;
       active.utterance = utterance; // Keep a strong reference until completion/cancellation.
-      active.timer = setTimeout(() => failSpeech('中文朗读暂时没有启动。请点击“重听”，或试试另一种中文声音。'), 8000);
+      active.timer = setTimeout(() => failSpeech('start-timeout'), narrationStartTimeout(selected));
       utterance.onstart = () => {
         if (!isCurrent() || active.utterance !== utterance) return;
+        started = true;
         clearTimeout(active.timer);
         // A bounded watchdog also releases a stalled OS/Chrome voice backend.
         const duration = Math.max(18000, Array.from(chunks[index]).length * 650 / utterance.rate + 6000);
-        active.timer = setTimeout(() => failSpeech('朗读暂时停住了。可以点击“重听”，接着听这一段。'), duration);
+        active.timer = setTimeout(() => failSpeech('stalled'), duration);
         setSpeaking(true);
         setStatus('speaking');
       };
-      utterance.onerror = () => {
+      utterance.onerror = (event) => {
         if (!isCurrent() || active.utterance !== utterance) return;
-        failSpeech('这个中文声音暂时无法播放。可以重听，或在设置里选择另一种声音；在线声音需要网络。');
+        if (event?.error === 'interrupted' || event?.error === 'canceled') {
+          if (mode === 'story') manualStop.current = true;
+          cancel(enabledRef.current ? inputRef.current.paused ? 'paused' : 'ready' : 'off');
+          return;
+        }
+        failSpeech(event?.error);
       };
       utterance.onend = () => {
         if (!isCurrent() || active.utterance !== utterance) return;
+        if (!started) { failSpeech('not-started'); return; }
         clearTimeout(active.timer);
         active.utterance = null;
         if (index + 1 < chunks.length) {
@@ -143,17 +175,22 @@ export default function useNarration({
         }
         active.mode = null;
         if (mode === 'story') active.completedFrame = frame;
+        setVoiceHealth((previous) => ({ ...previous, [selected.id]: { status: 'completed' } }));
         setSpeaking(false);
         setStatus('finished');
         if (mode === 'story') {
           try { inputRef.current.onEnd?.({ utteranceKey: keyAtStart }); } catch { /* Reading can continue by hand. */ }
         }
       };
-      try { getSynth().speak(utterance); }
-      catch { failSpeech('系统暂时无法播放中文朗读。请点击“重听”再试一次。'); }
+      try {
+        const synth = getSynth();
+        if (force && index === 0 && synth.paused === true) synth.resume();
+        synth.speak(utterance);
+      }
+      catch { failSpeech('unknown'); }
     };
     speakChunk(0);
-  }, [supported, cancel, report]);
+  }, [supported, cancel, recordFailure]);
   startRef.current = start;
 
   const refreshVoices = useCallback((autoStart = true) => {
@@ -166,7 +203,7 @@ export default function useNarration({
     const metadata = next.map(({ voice, ...details }) => details);
     setVoices((previous) => JSON.stringify(previous) === JSON.stringify(metadata) ? previous : metadata);
     if (next.length) voicesLoading.current = false;
-    if (session.current.mode === 'preview' || preferenceTimer.current !== null) return;
+    if (session.current.mode === 'preview' || preferenceTimer.current !== null || lastErrorRef.current) return;
     const changed = before.map((voice) => voice.id).join('\n') !== next.map((voice) => voice.id).join('\n');
     if (autoStart !== false && enabledRef.current && (!session.current.utterance || changed)) startRef.current();
   }, [supported]);
@@ -176,10 +213,11 @@ export default function useNarration({
     enabledRef.current = next;
     updateEnabled(next);
     if (!next) { cancel(supported ? 'off' : 'unsupported'); return; }
+    clearFailure();
     manualStop.current = false;
     refreshVoices(false);
     startRef.current({ force: true }); // Run speak directly in the player's click gesture.
-  }, [supported, cancel, refreshVoices]);
+  }, [supported, cancel, refreshVoices, clearFailure]);
   const toggle = useCallback(() => setEnabled(!enabledRef.current), [setEnabled]);
 
   const updatePreference = useCallback((patch) => {
@@ -200,8 +238,11 @@ export default function useNarration({
   }, [cancel]);
 
   const setVoiceId = useCallback((id) => {
-    if (available.current.some((voice) => voice.id === id)) updatePreference({ voiceId: id });
-  }, [updatePreference]);
+    if (available.current.some((voice) => voice.id === id)) {
+      clearFailure();
+      updatePreference({ voiceId: id });
+    }
+  }, [updatePreference, clearFailure]);
   const setRate = useCallback((value) => {
     if (Number.isFinite(value)) updatePreference({ rate: Math.max(0.75, Math.min(1.1, value)) });
   }, [updatePreference]);
@@ -210,16 +251,40 @@ export default function useNarration({
   }, [updatePreference]);
 
   const replay = useCallback(() => {
+    clearFailure();
     enabledRef.current = true;
     updateEnabled(true);
     manualStop.current = false;
     refreshVoices(false);
     startRef.current({ force: true });
-  }, [refreshVoices]);
+  }, [refreshVoices, clearFailure]);
   const preview = useCallback((sample = NARRATION_PREVIEW) => {
+    clearFailure();
     refreshVoices(false);
     startRef.current({ mode: 'preview', source: typeof sample === 'string' ? sample : NARRATION_PREVIEW, force: true });
-  }, [refreshVoices]);
+  }, [refreshVoices, clearFailure]);
+  const tryLocalVoice = useCallback(() => {
+    clearFailure();
+    refreshVoices(false);
+    if (!supported) {
+      cancel('unsupported');
+      recordFailure('unsupported');
+      return;
+    }
+    const local = available.current.find((voice) => voice.localService === true);
+    if (!local) {
+      cancel('error');
+      recordFailure('no-local-voice');
+      return;
+    }
+    const next = { ...preferencesRef.current, voiceId: local.id };
+    preferencesRef.current = next;
+    setPreferences(next);
+    saveNarrationPreferences(next);
+    // This is intentionally synchronous in the fallback button's click gesture.
+    // It tests a local voice without enabling narration or advancing the story.
+    startRef.current({ mode: 'preview', source: NARRATION_PREVIEW, force: true });
+  }, [supported, clearFailure, refreshVoices, cancel, recordFailure]);
   const stop = useCallback(() => {
     if (session.current.mode !== 'preview') manualStop.current = true;
     clearTimeout(preferenceTimer.current);
@@ -270,16 +335,17 @@ export default function useNarration({
     }
     clearTimeout(preferenceTimer.current);
     if (changed || paused || session.current.mode === 'preview') cancel();
+    if (lastErrorRef.current) { cancel('error'); return; }
     if (!enabledRef.current) { setStatus(supported ? 'off' : 'unsupported'); return; }
     if (paused || hidden()) { cancel('paused'); return; }
     startRef.current();
   }, [text, utteranceKey, paused, enabled, supported, cancel]);
 
-  const selected = voices.find((voice) => voice.id === preferences.voiceId) ?? voices[0];
+  const selected = chooseNarrationVoice(voices, preferences.voiceId);
   return {
-    enabled, setEnabled, toggle, speaking, status, supported, voices,
+    enabled, setEnabled, toggle, speaking, status, supported, voices, lastError, voiceHealth,
     voiceId: selected?.id ?? '', setVoiceId,
     rate: preferences.rate, setRate, volume: preferences.volume, setVolume,
-    replay, stop, preview,
+    replay, stop, preview, tryLocalVoice,
   };
 }

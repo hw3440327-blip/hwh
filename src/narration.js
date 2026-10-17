@@ -58,8 +58,56 @@ export function chineseVoices(voices) {
       localService: voice.localService === true, voice,
     });
   }
-  return [...found.values()].sort((left, right) => voiceScore(right.voice) - voiceScore(left.voice)
+  return [...found.values()].sort((left, right) => Number(right.localService) - Number(left.localService)
+    || voiceScore(right.voice) - voiceScore(left.voice)
     || left.name.localeCompare(right.name, 'zh-CN'));
+}
+
+export function chooseNarrationVoice(voices, preferredId = '') {
+  return voices.find((voice) => voice.id === preferredId)
+    ?? voices.find((voice) => voice.localService === true) ?? voices[0] ?? null;
+}
+
+export function narrationStartTimeout(voice) {
+  return voice?.localService === true ? 8000 : 15000;
+}
+
+// The browser reports these codes; an installed/listed voice is not proof that
+// its OS or online synthesis service can actually play audio on this device.
+export function narrationFailure(code, voice) {
+  if (code === 'interrupted' || code === 'canceled') return null;
+  const local = voice?.localService === true;
+  const messages = {
+    network: local
+      ? '浏览器报告语音网络错误，这个声音暂时未能播放。可以重试或更换中文声音。'
+      : '浏览器未能播放该联网音色，可能语音服务连接失败。可以重试，或改用本机中文声音。',
+    'not-allowed': '浏览器没有允许这次朗读。请直接点击“试听”或“重听”再试；如果仍不能播放，可改用另一种中文声音。',
+    'audio-busy': '设备的语音通道正忙，可能正被其他页面或应用使用。请暂停其他朗读后再试。',
+    'audio-hardware': '浏览器无法使用音频输出设备。请检查系统声音输出和耳机、扬声器连接后重试。',
+    'voice-unavailable': '这个中文音色当前不可用。可以选择另一种声音，或尝试本机中文声音。',
+    'language-unavailable': '系统暂时不能用这个音色朗读中文。请添加中文语音，或选择另一种中文声音。',
+    'synthesis-unavailable': '系统的语音合成服务暂时不可用。请稍后重试，或选择另一种中文声音。',
+    'synthesis-failed': '浏览器的语音合成未能完成，原因尚不明确。可以重听，或更换中文声音。',
+    'start-timeout': local
+      ? '本机中文声音未能及时启动。请点击“重听”，或检查系统中文语音是否已安装。'
+      : '联网中文声音等待后仍未启动，可能是语音服务连接较慢或不可用。可以重试，或改用本机中文声音。',
+    'not-started': local
+      ? '该音色没有开始播放，浏览器也没有说明具体原因。可以重试，或更换中文声音。'
+      : '该音色没有开始播放，浏览器也没有说明具体原因。可以重试，或切换为本机中文声音。',
+    stalled: '朗读没有继续完成。可以重听这一段，或更换中文声音。',
+    unsupported: '当前浏览器不支持系统朗读，可以继续安静阅读。',
+    'no-chinese-voice': '这台设备还没有可用的中文声音。请在系统里添加中文语音，或换用带中文朗读的浏览器。',
+    'no-local-voice': '这台设备还没有可用的本机中文声音。可以在系统语音设置里安装中文语音包，安装后重新打开页面；也可以继续阅读文字。',
+    unknown: '这个中文声音未能播放，浏览器没有说明具体原因。可以重试，或更换中文声音。',
+  };
+  const recognized = Object.hasOwn(messages, code) ? code : 'unknown';
+  return {
+    code: recognized,
+    message: messages[recognized],
+    voiceId: voice?.id ?? '',
+    voiceName: voice?.name ?? '',
+    localService: voice ? local : null,
+  };
 }
 
 // Keep utterances short enough to avoid Chrome's long-utterance stalls. Prefer

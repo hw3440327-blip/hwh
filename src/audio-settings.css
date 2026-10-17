@@ -23,6 +23,14 @@
 .audio-auto-read > div { flex: 1; }
 .audio-auto-read strong { font-size: 13px; }
 .audio-narration-status { display: flex; align-items: center; gap: 6px; margin: 16px 0 0 !important; color: #59664f; font-size: 12px; line-height: 1.8; }
+.audio-voice-error { margin-top: 17px; padding: 16px 18px; border: 1px solid #cabd99; border-radius: 5px 12px 5px 12px; background: #f4eddc; color: #5a503a; }
+.audio-voice-error > strong { display: block; font-size: 13px; font-weight: 500; }
+.audio-voice-error p { margin: 8px 0 !important; color: #61593f; font-size: 12px; line-height: 1.9; }
+.audio-voice-error small { display: block; overflow-wrap: anywhere; color: #675e48; font-size: 11px; line-height: 1.8; }
+.audio-voice-recovery { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 13px; }
+.audio-voice-recovery > button { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 12px; border: 1px solid #b4b99b; border-radius: 4px 9px 4px 9px; background: #fbf9ed; color: #465b3b; font: inherit; font-size: 12px; }
+.audio-voice-recovery > button:hover { background: #e7ebd8; border-color: #7c906b; }
+.audio-voice-error .audio-local-help { margin-top: 12px !important; }
 @media (max-width: 540px) {
   .audio-setting-card { padding: 18px 16px; }
   .audio-card-heading { gap: 10px; }

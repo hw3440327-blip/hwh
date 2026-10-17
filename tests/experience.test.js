@@ -8,15 +8,16 @@ import {
   saveNarrationPreferences, splitNarrationText,
 } from '../src/narration.js';
 
-test('中文讲述只提供中文音色，优先自然普通话且不受系统英语默认项影响', () => {
+test('中文讲述只提供中文音色，优先本机声音且不受系统英语默认项影响', () => {
   const english = { name: 'English default', lang: 'en-US', voiceURI: 'en', default: true };
   const regular = { name: '中文声音', lang: 'zh_CN', voiceURI: 'zh', localService: true };
   const natural = { name: 'Microsoft Xiaoxiao Natural', lang: 'zh-CN', voiceURI: 'zh-natural', localService: false };
   const voices = chineseVoices([english, regular, natural, { ...natural }]);
   assert.equal(voices.length, 2);
-  assert.equal(voices[0].name, natural.name);
-  assert.equal(voices[0].localService, false);
-  assert.equal(voices[1].localService, true);
+  assert.equal(voices[0].name, regular.name);
+  assert.equal(voices[0].localService, true);
+  assert.equal(voices[1].name, natural.name);
+  assert.equal(voices[1].localService, false);
   assert.notEqual(voices[0].id, voices[1].id);
   assert.equal(chineseVoices([english]).length, 0);
   assert.equal(chineseVoices([]).length, 0);
