@@ -1,0 +1,187 @@
+.spring-opening {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  min-height: 100svh;
+  max-width: none;
+  padding: 0;
+  margin: 0;
+  color: #fff5dc;
+  background: #344d45;
+}
+.spring-opening .opening-landscape { position: fixed; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; object-position: center 54%; }
+.spring-opening .opening-film-grade { position: fixed; inset: 0; z-index: -2; pointer-events: none; background: linear-gradient(180deg, #122a324a 0%, #12343912 24%, #193d3f2b 42%, #18353082 76%, #132a29b8 100%), radial-gradient(ellipse at 50% 48%, #193c3a26 12%, transparent 65%); transition: background .7s; }
+.spring-opening.is-setting-up .opening-film-grade { background: linear-gradient(180deg, #1737374d, #17373069 50%, #152b2ba6); }
+.spring-opening .opening-atmosphere { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.spring-opening .opening-mote { position: absolute; left: var(--mote-x); top: var(--mote-y); width: var(--mote-size); height: var(--mote-size); border-radius: 50%; background: #fff2b8; box-shadow: 0 0 10px 3px #ffe9a43d; opacity: .6; animation: spring-opening-mote var(--mote-duration, 11s) ease-in-out infinite alternate; animation-delay: var(--mote-delay, 0s); }
+.spring-opening .opening-mote-0 { --mote-x: 13%; --mote-y: 61%; --mote-size: 3px; --mote-delay: -2s; }
+.spring-opening .opening-mote-1 { --mote-x: 29%; --mote-y: 43%; --mote-size: 2px; --mote-duration: 14s; --mote-delay: -8s; }
+.spring-opening .opening-mote-2 { --mote-x: 77%; --mote-y: 68%; --mote-size: 4px; --mote-duration: 13s; --mote-delay: -3s; }
+.spring-opening .opening-mote-3 { --mote-x: 86%; --mote-y: 35%; --mote-size: 2px; --mote-duration: 17s; --mote-delay: -7s; }
+.spring-opening .opening-mote-4 { --mote-x: 47%; --mote-y: 82%; --mote-size: 3px; --mote-duration: 15s; --mote-delay: -10s; }
+.spring-opening .opening-mote-5 { --mote-x: 8%; --mote-y: 25%; --mote-size: 2px; --mote-duration: 16s; --mote-delay: -5s; }
+.spring-opening .opening-mote-6 { --mote-x: 67%; --mote-y: 21%; --mote-size: 2px; --mote-duration: 12s; --mote-delay: -6s; }
+.spring-opening .opening-mote-7 { --mote-x: 93%; --mote-y: 79%; --mote-size: 3px; --mote-duration: 19s; --mote-delay: -12s; }
+.spring-opening .opening-drifting-leaf { position: absolute; color: #d4dba87d; animation: spring-opening-leaf 21s ease-in-out infinite alternate; }
+.spring-opening .opening-drifting-leaf-one { left: 8%; top: 37%; transform: rotate(31deg); }
+.spring-opening .opening-drifting-leaf-two { right: 13%; top: 62%; animation-delay: -13s; animation-duration: 26s; }
+.spring-opening .opening-film-frame { display: flex; flex-direction: column; min-height: 100svh; }
+.spring-opening .opening-film-header { display: flex; align-items: center; justify-content: space-between; min-height: 86px; gap: 16px; padding: 20px clamp(24px, 4vw, 65px); }
+.spring-opening .opening-wordmark { display: flex; align-items: center; gap: 9px; color: #fff4daeb; font-size: 11px; letter-spacing: 2.5px; text-shadow: 0 1px 12px #16363366; }
+.spring-opening .opening-wordmark > svg { color: #e2e4b8; }
+.spring-opening .opening-sound { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 9px 14px; border: 1px solid #f4ebcf52; border-radius: 30px; background: #f9f1d80d; color: #fff4dd; font-size: 10px; letter-spacing: 1px; backdrop-filter: blur(8px); }
+.spring-opening .opening-sound:hover { background: #faf0d523; border-color: #f4ebcf80; }
+.spring-opening .opening-sound[aria-pressed="true"] { color: #fff2c8; border-color: #e9d99b99; background: #f4e7b91c; }
+.spring-opening .opening-title-stage { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; width: 100%; padding: 28px 24px 60px; text-align: center; animation: spring-opening-reveal 1.2s ease both; }
+.spring-opening .opening-title-emblem { display: flex; align-items: center; gap: 15px; color: #f4e9c6; margin: 0 0 17px; }
+.spring-opening .opening-title-emblem i { display: block; width: 47px; height: 1px; background: linear-gradient(90deg, transparent, #f8e9bf8c); }
+.spring-opening .opening-title-emblem i:last-child { transform: rotate(180deg); }
+.spring-opening .opening-film-kicker { margin: 0 0 13px; color: #fff1d5e3; font-size: 10px; letter-spacing: 5px; line-height: 1.8; text-shadow: 0 2px 14px #173a35; }
+.spring-opening .opening-film-title { margin: 0; padding-left: 11px; font-family: var(--serif); font-size: clamp(53px, 6.7vw, 98px); font-weight: 500; line-height: 1.6; letter-spacing: 11px; color: #fff6dc; text-shadow: 0 2px 2px #3f53304d, 0 7px 38px #11352b94; }
+.spring-opening .opening-film-subtitle { margin: 7px 0 0; color: #fff0d3; font-family: var(--serif); font-size: clamp(16px, 1.55vw, 22px); font-weight: 400; letter-spacing: 4px; line-height: 1.8; text-shadow: 0 2px 14px #183e37; }
+.spring-opening .opening-film-intro { margin: 31px 0 0; color: #fff1d8f2; font-size: 12px; line-height: 2.15; letter-spacing: 1.1px; text-shadow: 0 2px 15px #0d292ae6; }
+.spring-opening .opening-depart { display: inline-flex; align-items: center; justify-content: center; gap: 31px; min-width: 247px; min-height: 56px; margin: 32px 0 0; padding: 14px 27px; border: 1px solid #f6e5bc; border-radius: 3px; background: #f5e8c8f2; color: #4d5f4a; box-shadow: 0 6px 35px #183a3447, inset 0 0 0 3px #fffcf11f; transition: background .25s, transform .25s, box-shadow .25s; }
+.spring-opening .opening-depart span { font-family: var(--serif); font-size: 15px; letter-spacing: 2px; }
+.spring-opening .opening-depart:hover { background: #fff2d3; box-shadow: 0 8px 37px #183a3459; transform: translateY(-2px); }
+.spring-opening .opening-depart:active { transform: translateY(0); }
+.spring-opening .opening-depart > svg { transition: transform .25s; }
+.spring-opening .opening-depart:hover > svg { transform: translateX(3px); }
+.spring-opening .opening-echo { max-width: 360px; margin: 24px 0 0; color: #eee4c9; font-family: var(--serif); font-size: 11px; line-height: 1.9; letter-spacing: 1px; text-shadow: 0 2px 14px #12352e; }
+.spring-opening .opening-echo span { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.spring-opening .opening-film-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; min-height: 78px; padding: 16px clamp(24px, 4vw, 65px); }
+.spring-opening .opening-keep-note { color: #f7eaceb8; font-size: 10px; letter-spacing: 1.4px; line-height: 1.8; }
+.spring-opening .opening-import-button { display: flex; align-items: center; justify-content: center; gap: 7px; flex-shrink: 0; min-height: 44px; padding: 8px 11px; border: 1px solid transparent; border-radius: 4px; color: #f7e8c9da; background: transparent; font-size: 10px; letter-spacing: 1px; }
+.spring-opening .opening-import-button:hover { color: #fff6dd; background: #fff3d51a; border-color: #fff3d529; }
+.spring-opening button:focus-visible { outline: 2px solid #ffedb5; outline-offset: 5px; }
+
+.spring-opening .opening-character-stage { display: flex; flex: 1; align-items: center; justify-content: center; min-width: 0; padding: 14px 24px 26px; animation: spring-opening-paper-in .65s ease both; }
+.spring-opening .opening-character { position: relative; width: 100%; max-width: 423px; padding: 19px 30px 22px; border: 1px solid #e8dfbdb3; border-radius: 6px; color: #4f5b47; background: linear-gradient(130deg, #fcf6e7fa, #f6efdbf7); box-shadow: 0 24px 100px #102d294a, 0 2px 7px #17372c1a; }
+.spring-opening .opening-back { display: flex; align-items: center; gap: 7px; min-height: 44px; margin: -4px 0 8px -8px; padding: 8px; border: 0; border-radius: 4px; color: #7f8871; background: transparent; font-size: 10px; letter-spacing: 1px; }
+.spring-opening .opening-back:hover { color: #52644a; background: #d7dfbd40; }
+.spring-opening .opening-character-heading { margin-bottom: 23px; }
+.spring-opening .opening-character-kicker { display: block; margin-bottom: 7px; color: #96967b; font-size: 9px; letter-spacing: 2px; }
+.spring-opening .opening-character-heading h1 { margin: 0; color: #4d6044; font-family: var(--serif); font-size: 27px; font-weight: 500; letter-spacing: 1px; line-height: 1.65; }
+.spring-opening .opening-character-heading p { margin: 9px 0 0; color: #858871; font-size: 11px; line-height: 1.9; letter-spacing: .3px; }
+.spring-opening .opening-label { display: block; margin: 0; padding: 0; color: #626a53; font-size: 11px; font-weight: 500; letter-spacing: .5px; line-height: 1.8; }
+.spring-opening .opening-name-wrap { position: relative; margin-top: 8px; border: 1px solid #d9dcc4; border-radius: 4px; background: #fffdf5b3; transition: border-color .2s, box-shadow .2s; }
+.spring-opening .opening-name-wrap:focus-within { border-color: #8c9b77; box-shadow: 0 0 0 3px #9caf7912; }
+.spring-opening .opening-name-wrap.has-error { border-color: #bd8a6f; }
+.spring-opening .opening-name-wrap input { width: 100%; height: 47px; padding: 9px 66px 9px 13px; border: 0; border-radius: 4px; outline: 0; background: transparent; color: #566848; font-family: var(--serif); font-size: 16px; letter-spacing: 1px; }
+.spring-opening .opening-name-count { position: absolute; top: 50%; right: 13px; transform: translateY(-50%); color: #7d8a6a; font-size: 10px; pointer-events: none; }
+.spring-opening .opening-name-count i { margin-left: 4px; color: #a0a28a; font-size: 9px; font-style: normal; }
+.spring-opening .opening-name-count.over-limit { color: #a56d51; }
+.spring-opening .opening-name-help { min-height: 29px; padding-top: 7px; }
+.spring-opening .opening-name-help p { margin: 0; color: #93967e; font-size: 9px; line-height: 1.7; }
+.spring-opening .opening-name-help .opening-error { color: #a0694b; }
+.spring-opening .opening-origins { min-width: 0; margin: 15px 0 0; padding: 0; border: 0; }
+.spring-opening .opening-origin-hint { margin: 5px 0 10px; color: #93947b; font-size: 9px; line-height: 1.7; }
+.spring-opening .opening-origin-list { display: grid; gap: 8px; }
+.spring-opening .opening-origin { position: relative; display: flex; align-items: center; gap: 10px; min-height: 72px; padding: 11px; border: 1px solid #dedec8; border-radius: 4px; background: #fffdf140; cursor: pointer; transition: border-color .2s, background .2s; }
+.spring-opening .opening-origin:hover { border-color: #abb991; background: #edf0da7d; }
+.spring-opening .opening-origin.is-selected { border-color: #93a57d; background: #e7ecd7b3; }
+.spring-opening .opening-origin:has(input:focus-visible) { outline: 2px solid #7b8e64; outline-offset: 3px; }
+.spring-opening .opening-origin input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; }
+.spring-opening .opening-origin-symbol { flex-shrink: 0; margin: 0 2px; color: #8b9678; }
+.spring-opening .is-selected .opening-origin-symbol { color: #748a5d; }
+.spring-opening .opening-origin-copy { display: block; flex: 1; min-width: 0; }
+.spring-opening .opening-origin-copy strong { display: block; color: #5d6a4d; font-family: var(--serif); font-size: 13px; font-weight: 500; letter-spacing: .2px; line-height: 1.6; }
+.spring-opening .opening-origin-copy > span { display: block; margin-top: 3px; color: #858c72; font-size: 10px; line-height: 1.7; }
+.spring-opening .opening-radio-mark { display: grid; place-items: center; flex-shrink: 0; width: 15px; height: 15px; border: 1px solid #ccd3b9; border-radius: 50%; color: #fff8e9; background: #fffef370; }
+.spring-opening .is-selected .opening-radio-mark { border-color: #879b6d; background: #879b6d; }
+.spring-opening .opening-begin { display: flex; align-items: center; justify-content: center; gap: 30px; width: 100%; min-height: 50px; margin-top: 23px; padding: 13px 20px; border: 1px solid #7c8f65; border-radius: 4px; color: #fffae9; background: #80936a; box-shadow: 0 4px 14px #7b8b5621; }
+.spring-opening .opening-begin span { font-family: var(--serif); font-size: 15px; letter-spacing: 2px; }
+.spring-opening .opening-begin:hover { border-color: #6b8155; background: #71865d; }
+.spring-opening .opening-character button:focus-visible { outline-color: #71835c; }
+.spring-opening .opening-character-footnote { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 15px 0 0; color: #9b9e83; font-family: var(--serif); font-size: 9px; letter-spacing: .5px; line-height: 1.7; }
+.spring-opening .opening-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+@keyframes spring-opening-reveal { from { opacity: 0; transform: translateY(13px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes spring-opening-paper-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes spring-opening-mote { from { opacity: .2; transform: translate3d(0, 0, 0); } to { opacity: .8; transform: translate3d(19px, -36px, 0); } }
+@keyframes spring-opening-leaf { from { opacity: .2; transform: translate3d(-12px, -20px, 0) rotate(-25deg); } to { opacity: .65; transform: translate3d(45px, 55px, 0) rotate(85deg); } }
+
+@media (min-width: 1600px) {
+  .spring-opening .opening-title-stage { padding-bottom: 90px; }
+  .spring-opening .opening-film-title { font-size: 104px; }
+  .spring-opening .opening-film-intro { font-size: 13px; margin-top: 37px; }
+  .spring-opening .opening-depart { margin-top: 38px; }
+}
+@media (max-width: 760px) {
+  .spring-opening .opening-landscape { object-position: 47% center; }
+  .spring-opening .opening-film-header { min-height: 75px; padding: 15px 23px; }
+  .spring-opening .opening-wordmark { gap: 7px; font-size: 10px; letter-spacing: 1.7px; }
+  .spring-opening .opening-sound { gap: 6px; padding: 8px 11px; font-size: 9px; letter-spacing: .5px; }
+  .spring-opening .opening-title-stage { padding: 30px 22px 65px; }
+  .spring-opening .opening-film-title { font-size: 65px; letter-spacing: 8px; padding-left: 8px; }
+  .spring-opening .opening-film-kicker { font-size: 9px; letter-spacing: 3px; }
+  .spring-opening .opening-film-subtitle { font-size: 18px; letter-spacing: 2px; }
+  .spring-opening .opening-film-intro { font-size: 12px; letter-spacing: .5px; }
+  .spring-opening .opening-film-footer { min-height: 74px; padding: 14px 23px; }
+  .spring-opening .opening-keep-note { font-size: 9px; letter-spacing: .5px; }
+  .spring-opening .opening-import-button { font-size: 9px; gap: 6px; letter-spacing: .5px; padding-right: 3px; }
+  .spring-opening .opening-character-stage { padding: 8px 22px 20px; }
+}
+@media (max-width: 480px) {
+  .spring-opening .opening-film-grade { background: linear-gradient(180deg, #1633373d, #183f3d1a 23%, #16372f52 50%, #15352d8c 78%, #102d2ca3); }
+  .spring-opening .opening-landscape { object-position: 45% center; }
+  .spring-opening .opening-film-header { padding: 14px 20px; min-height: 72px; gap: 10px; }
+  .spring-opening .opening-wordmark { font-size: 9px; letter-spacing: 1.1px; }
+  .spring-opening .opening-wordmark > svg { width: 17px; }
+  .spring-opening .opening-sound { padding-left: 10px; padding-right: 10px; font-size: 8px; }
+  .spring-opening .opening-title-stage { padding: 30px 21px 63px; }
+  .spring-opening .opening-title-emblem { margin-bottom: 17px; gap: 12px; }
+  .spring-opening .opening-title-emblem i { width: 35px; }
+  .spring-opening .opening-title-emblem > svg { width: 16px; }
+  .spring-opening .opening-film-kicker { margin-bottom: 12px; font-size: 8px; letter-spacing: 2px; }
+  .spring-opening .opening-film-title { font-size: 47px; letter-spacing: 6px; padding-left: 6px; line-height: 1.7; }
+  .spring-opening .opening-film-subtitle { margin-top: 8px; font-size: 15px; letter-spacing: 1.7px; }
+  .spring-opening .opening-film-intro { margin-top: 29px; font-size: 11px; line-height: 2.1; letter-spacing: .4px; }
+  .spring-opening .opening-depart { min-height: 54px; min-width: 228px; margin-top: 29px; gap: 23px; }
+  .spring-opening .opening-depart span { font-size: 14px; }
+  .spring-opening .opening-echo { max-width: 280px; font-size: 10px; margin-top: 21px; }
+  .spring-opening .opening-film-footer { min-height: 70px; gap: 10px; padding: 12px 20px; }
+  .spring-opening .opening-keep-note { font-size: 8px; letter-spacing: .3px; }
+  .spring-opening .opening-character-stage { padding: 6px 17px 17px; }
+  .spring-opening .opening-character { padding: 14px 23px 20px; border-radius: 5px; }
+  .spring-opening .opening-back { margin-bottom: 6px; }
+  .spring-opening .opening-character-heading { margin-bottom: 20px; }
+  .spring-opening .opening-character-heading h1 { font-size: 25px; }
+  .spring-opening .opening-origin { min-height: 76px; padding: 11px 10px; gap: 9px; }
+  .spring-opening .opening-origin-copy strong { font-size: 13px; }
+  .spring-opening .opening-origin-copy > span { font-size: 10px; }
+}
+@media (max-width: 350px) {
+  .spring-opening .opening-film-header { padding-left: 16px; padding-right: 16px; }
+  .spring-opening .opening-wordmark { font-size: 8px; letter-spacing: .5px; gap: 5px; }
+  .spring-opening .opening-title-stage { padding-left: 18px; padding-right: 18px; }
+  .spring-opening .opening-film-title { font-size: 41px; letter-spacing: 5px; padding-left: 5px; }
+  .spring-opening .opening-film-kicker { font-size: 7px; letter-spacing: 1.7px; }
+  .spring-opening .opening-film-subtitle { font-size: 14px; letter-spacing: 1px; }
+  .spring-opening .opening-film-intro { font-size: 10px; letter-spacing: .2px; }
+  .spring-opening .opening-depart { min-width: 215px; }
+  .spring-opening .opening-film-footer { padding-left: 16px; padding-right: 16px; }
+  .spring-opening .opening-character-stage { padding-left: 13px; padding-right: 13px; }
+  .spring-opening .opening-character { padding-left: 19px; padding-right: 19px; }
+  .spring-opening .opening-character-heading h1 { font-size: 24px; }
+  .spring-opening .opening-origin { gap: 7px; padding-left: 8px; padding-right: 8px; }
+  .spring-opening .opening-origin-symbol { width: 17px; margin-left: 0; margin-right: 0; }
+  .spring-opening .opening-origin-copy strong { font-size: 12px; }
+  .spring-opening .opening-origin-copy > span { font-size: 9px; }
+  .spring-opening .opening-radio-mark { width: 13px; height: 13px; }
+}
+@media (max-height: 650px) and (min-width: 601px) {
+  .spring-opening .opening-film-header { min-height: 63px; padding-top: 9px; padding-bottom: 9px; }
+  .spring-opening .opening-title-stage { padding-top: 9px; padding-bottom: 20px; }
+  .spring-opening .opening-title-emblem { display: none; }
+  .spring-opening .opening-film-kicker { margin-bottom: 4px; font-size: 8px; }
+  .spring-opening .opening-film-title { font-size: 55px; letter-spacing: 7px; line-height: 1.4; }
+  .spring-opening .opening-film-subtitle { font-size: 16px; margin-top: 4px; }
+  .spring-opening .opening-film-intro { margin-top: 15px; font-size: 10px; }
+  .spring-opening .opening-depart { min-height: 47px; margin-top: 18px; padding-top: 10px; padding-bottom: 10px; }
+  .spring-opening .opening-echo { margin-top: 13px; font-size: 9px; }
+  .spring-opening .opening-film-footer { min-height: 60px; padding-top: 8px; padding-bottom: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spring-opening *, .spring-opening *::before, .spring-opening *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

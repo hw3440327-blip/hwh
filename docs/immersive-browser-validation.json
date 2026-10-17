@@ -1,0 +1,481 @@
+{
+  "passed": 25,
+  "failed": 0,
+  "lifeClicks": 100,
+  "extraClicks": 5,
+  "results": [
+    {
+      "name": "Cinematic title and seven new artworks load",
+      "status": "pass",
+      "detail": {
+        "dimensions": {
+          "width": 1440,
+          "height": 900,
+          "scrollWidth": 1440,
+          "scrollHeight": 900
+        },
+        "artworks": [
+          {
+            "src": "/art/immersive-arrival.png",
+            "width": 1672,
+            "height": 941
+          },
+          {
+            "src": "/art/immersive-bakery.png",
+            "width": 1672,
+            "height": 941
+          },
+          {
+            "src": "/art/immersive-room.png",
+            "width": 1672,
+            "height": 941
+          },
+          {
+            "src": "/art/immersive-room-night.png",
+            "width": 1672,
+            "height": 941
+          },
+          {
+            "src": "/art/immersive-workshop.png",
+            "width": 1672,
+            "height": 941
+          },
+          {
+            "src": "/art/immersive-letters.png",
+            "width": 1672,
+            "height": 941
+          },
+          {
+            "src": "/art/immersive-garden.png",
+            "width": 1672,
+            "height": 941
+          }
+        ]
+      }
+    },
+    {
+      "name": "Character panel name errors radio and begin",
+      "status": "pass",
+      "detail": {
+        "name": "小满",
+        "origin": "pause"
+      }
+    },
+    {
+      "name": "Typing complete next previous Space and Enter",
+      "status": "pass",
+      "detail": {
+        "paragraphIndex": 2,
+        "charactersBefore": 2,
+        "clickCompletesWithoutAdvancing": true,
+        "nextAndPrevious": true,
+        "spaceAndEnter": true
+      },
+      "test_note": "Use actual pointer force-click during CSS entrance animation to avoid Playwright waiting until typing naturally completes. Wait for saved paragraph index after React effects before asserting previous."
+    },
+    {
+      "name": "Journal pauses typing and keyboard then Escape preserves paragraph",
+      "status": "pass",
+      "detail": {
+        "index": 0,
+        "tabs": 22
+      }
+    },
+    {
+      "name": "Refresh title continues saved paragraph",
+      "status": "pass",
+      "detail": {
+        "sceneId": "arrival",
+        "paragraphIndex": 0
+      }
+    },
+    {
+      "name": "Landscape two observation points and return preserve reading",
+      "status": "pass",
+      "detail": {
+        "index": 0,
+        "observations": [
+          "鞋底踩过浅浅的积水。站房木檐上的雨，隔一会儿才落下一滴。",
+          "风把一点咸味带到这里。船慢慢过去，海面又合上了那道细长的白线。"
+        ]
+      }
+    },
+    {
+      "name": "Menu note rename album settings and focus across details",
+      "status": "pass",
+      "detail": {
+        "name": "小禾",
+        "note": true,
+        "textSpeed": 0,
+        "quietMotion": true,
+        "volume": 0.18
+      }
+    },
+    {
+      "name": "Rapid sound toggles and simulated background visibility state",
+      "status": "pass",
+      "detail": {
+        "rapidToggles": 8,
+        "initialStates": [
+          "closed",
+          "closed",
+          "closed",
+          "closed",
+          "running"
+        ],
+        "simulatedHidden": [
+          "suspended"
+        ],
+        "restored": [
+          "running"
+        ],
+        "allClosed": true
+      }
+    },
+    {
+      "name": "Letter reply note export reset import refresh",
+      "status": "pass",
+      "detail": {
+        "replies": {
+          "lin_first_parcel": "collect_and_dinner"
+        },
+        "scene": "first_week",
+        "reading": {
+          "sceneId": "first_week",
+          "paragraphIndex": 0
+        }
+      }
+    },
+    {
+      "name": "Actual cinematic lifetime farewell_bakery",
+      "status": "pass",
+      "detail": {
+        "ending": "farewell_bakery",
+        "choices": 25,
+        "age": 82,
+        "chapters": 8
+      }
+    },
+    {
+      "name": "Cinematic reincarnation farewell_bakery echo title and continue",
+      "status": "pass",
+      "detail": {
+        "echo": "echo:farewell_bakery"
+      }
+    },
+    {
+      "name": "Actual cinematic lifetime farewell_workshop",
+      "status": "pass",
+      "detail": {
+        "ending": "farewell_workshop",
+        "choices": 25,
+        "age": 82,
+        "chapters": 8
+      }
+    },
+    {
+      "name": "Cinematic reincarnation farewell_workshop echo title and continue",
+      "status": "pass",
+      "detail": {
+        "echo": "echo:farewell_workshop"
+      }
+    },
+    {
+      "name": "Actual cinematic lifetime farewell_bookshop",
+      "status": "pass",
+      "detail": {
+        "ending": "farewell_bookshop",
+        "choices": 25,
+        "age": 82,
+        "chapters": 8
+      }
+    },
+    {
+      "name": "Cinematic reincarnation farewell_bookshop echo title and continue",
+      "status": "pass",
+      "detail": {
+        "echo": "echo:farewell_bookshop"
+      }
+    },
+    {
+      "name": "Actual cinematic lifetime farewell_return",
+      "status": "pass",
+      "detail": {
+        "ending": "farewell_return",
+        "choices": 25,
+        "age": 82,
+        "chapters": 8
+      }
+    },
+    {
+      "name": "Cinematic reincarnation farewell_return echo title and continue",
+      "status": "pass",
+      "detail": {
+        "echo": "echo:farewell_return"
+      }
+    },
+    {
+      "name": "Legacy v1 ending and echo import continue to life_bridge",
+      "status": "pass",
+      "detail": {
+        "historyBefore": 8,
+        "historyAfter": 9,
+        "scene": "life_bridge",
+        "echo": true
+      }
+    },
+    {
+      "name": "Responsive cinematic 1440x900",
+      "status": "pass",
+      "detail": {
+        "title": {
+          "width": 1440,
+          "height": 900,
+          "scrollWidth": 1440,
+          "scrollHeight": 900
+        },
+        "story": {
+          "width": 1440,
+          "height": 900,
+          "scrollWidth": 1440,
+          "scrollHeight": 900
+        },
+        "landscape": {
+          "width": 1440,
+          "height": 900,
+          "scrollWidth": 1440,
+          "scrollHeight": 900
+        },
+        "largeChoices": {
+          "width": 1440,
+          "height": 900,
+          "scrollWidth": 1440,
+          "scrollHeight": 917
+        },
+        "menu": {
+          "width": 1440,
+          "height": 900,
+          "scrollWidth": 1440,
+          "scrollHeight": 900
+        },
+        "largeMotion": {
+          "width": 1440,
+          "height": 900,
+          "scrollWidth": 1440,
+          "scrollHeight": 900
+        }
+      }
+    },
+    {
+      "name": "Responsive cinematic 390x844",
+      "status": "pass",
+      "detail": {
+        "title": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390,
+          "scrollHeight": 844
+        },
+        "story": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390,
+          "scrollHeight": 844
+        },
+        "landscape": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390,
+          "scrollHeight": 844
+        },
+        "largeChoices": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390,
+          "scrollHeight": 844
+        },
+        "menu": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390,
+          "scrollHeight": 844
+        },
+        "largeMotion": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390,
+          "scrollHeight": 844
+        }
+      }
+    },
+    {
+      "name": "Responsive cinematic 320x700",
+      "status": "pass",
+      "detail": {
+        "title": {
+          "width": 320,
+          "height": 700,
+          "scrollWidth": 320,
+          "scrollHeight": 700
+        },
+        "story": {
+          "width": 320,
+          "height": 700,
+          "scrollWidth": 320,
+          "scrollHeight": 700
+        },
+        "landscape": {
+          "width": 320,
+          "height": 700,
+          "scrollWidth": 320,
+          "scrollHeight": 700
+        },
+        "largeChoices": {
+          "width": 320,
+          "height": 700,
+          "scrollWidth": 320,
+          "scrollHeight": 855
+        },
+        "menu": {
+          "width": 320,
+          "height": 700,
+          "scrollWidth": 320,
+          "scrollHeight": 700
+        },
+        "largeMotion": {
+          "width": 320,
+          "height": 700,
+          "scrollWidth": 320,
+          "scrollHeight": 700
+        }
+      }
+    },
+    {
+      "name": "Responsive cinematic 844x390",
+      "status": "pass",
+      "detail": {
+        "title": {
+          "width": 844,
+          "height": 390,
+          "scrollWidth": 844,
+          "scrollHeight": 403
+        },
+        "story": {
+          "width": 844,
+          "height": 390,
+          "scrollWidth": 844,
+          "scrollHeight": 450
+        },
+        "landscape": {
+          "width": 844,
+          "height": 390,
+          "scrollWidth": 844,
+          "scrollHeight": 390
+        },
+        "largeChoices": {
+          "width": 844,
+          "height": 390,
+          "scrollWidth": 844,
+          "scrollHeight": 677
+        },
+        "menu": {
+          "width": 844,
+          "height": 390,
+          "scrollWidth": 844,
+          "scrollHeight": 479
+        },
+        "largeMotion": {
+          "width": 844,
+          "height": 390,
+          "scrollWidth": 844,
+          "scrollHeight": 479
+        }
+      }
+    },
+    {
+      "name": "No console pageexception image/font failures",
+      "status": "pass",
+      "detail": {
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedAssets": 0,
+        "artworkPaths": [
+          "/art/immersive-arrival.png",
+          "/art/immersive-bakery.png",
+          "/art/immersive-room.png",
+          "/art/immersive-room-night.png",
+          "/art/immersive-workshop.png",
+          "/art/immersive-letters.png",
+          "/art/immersive-garden.png"
+        ]
+      }
+    },
+    {
+      "name": "Same-scene import restores saved paragraph and menu close focus",
+      "status": "pass",
+      "detail": {
+        "status": "pass",
+        "before": 2,
+        "after": 0,
+        "scene": "first_week",
+        "visibleParagraphMatchesSave": true,
+        "menuCloseFocusRestored": true
+      }
+    },
+    {
+      "name": "Native tab switch preserves sound preference and audio state",
+      "status": "pass",
+      "detail": {
+        "status": "pass",
+        "foreground": {
+          "visibility": "visible",
+          "states": [
+            "running"
+          ]
+        },
+        "background": {
+          "visibility": "visible",
+          "states": [
+            "running"
+          ],
+          "pressed": "true"
+        },
+        "returned": {
+          "visibility": "visible",
+          "states": [
+            "running"
+          ]
+        },
+        "actualBackgroundVisibilityAvailable": false,
+        "note": "Headless Chromium keeps both tabs visible; native switch preserved sound state. Actual suspend/resume verified with explicit visibilitychange in main test."
+      }
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedAssets": [],
+  "seenArt": [
+    "/art/immersive-arrival.png",
+    "/art/immersive-bakery.png",
+    "/art/immersive-room.png",
+    "/art/immersive-room-night.png",
+    "/art/immersive-workshop.png",
+    "/art/immersive-letters.png",
+    "/art/immersive-garden.png"
+  ],
+  "limitations": [
+    "Headless Chromium keeps native inactive tabs visible. Actual native visibility suspension could not be observed; explicit visibilitychange verified suspended/running transitions with enabled preference retained."
+  ],
+  "screenshots": [
+    "/tmp/immersive-title-desktop.png",
+    "/tmp/immersive-story-desktop.png",
+    "/tmp/immersive-choices-desktop.png",
+    "/tmp/immersive-landscape-desktop.png",
+    "/tmp/immersive-menu-desktop.png",
+    "/tmp/immersive-title-mobile.png",
+    "/tmp/immersive-story-mobile.png",
+    "/tmp/immersive-choices-mobile.png",
+    "/tmp/immersive-landscape-mobile.png",
+    "/tmp/immersive-menu-mobile.png"
+  ]
+}
