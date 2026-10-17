@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowLeft, ArrowRight, BookOpen, ChevronRight, Eye, Leaf, MapPin,
-  RotateCcw, Sprout, Volume2, VolumeX, X,
+  HandHeart, RotateCcw, Sprout, Volume2, VolumeX, X,
 } from 'lucide-react';
 import { getSceneArt, sceneDescription, sceneDetails } from './visuals.js';
 import './cinematic-scene.css';
@@ -31,6 +31,7 @@ export default function CinematicScene({
   game, scene, chapter, paragraphs = [], choices = [], onChoose, onMenu,
   onSound, soundEnabled = false, preferences = {}, onReincarnate, onReview, onProgress,
   initialParagraphIndex = 0,
+  activity = null, activityDone = false, onActivity,
 }) {
   const reducedMotion = useReducedMotion();
   const quietMotion = Boolean(preferences.quietMotion || reducedMotion);
@@ -225,6 +226,9 @@ export default function CinematicScene({
           <p>{observing.text}</p>
           <button onClick={() => setObserving(null)} aria-label="收起这段风景描写"><X size={14} strokeWidth={1.4} aria-hidden="true" /></button>
         </div>}
+        {activity && <button className="cm-landscape-activity" onClick={(event) => { event.stopPropagation(); onActivity?.(); }} disabled={paused}>
+          <HandHeart size={19} strokeWidth={1.3} aria-hidden="true" /><span>{activityDone ? '看看亲手留下的温暖' : activity.actionLabel || activity.title}</span><ChevronRight size={15} />
+        </button>}
         <div className="cm-landscape-thought"><Leaf size={20} strokeWidth={1} aria-hidden="true" /><p>{scene.note || '什么也不用着急，先在这里待一会儿。'}</p></div>
         <button className="cm-return-story" onClick={(event) => { event.stopPropagation(); setLandscape(false); }} aria-label="返回故事，继续当前段落">
           <ArrowLeft size={16} strokeWidth={1.3} aria-hidden="true" />返回故事
@@ -233,9 +237,14 @@ export default function CinematicScene({
         <div className="cm-reader" key={scene.id}>
           <div className="cm-reader-topline">
             <span className="cm-day-label">{scene.age || 22} 岁<span />{scene.season || '初秋'}<span />{scene.weather || '微风'}</span>
+            <div className="cm-reader-tools">
+            {activity && <button className={`cm-activity-button${activityDone ? ' is-kept' : ''}`} onClick={onActivity} disabled={paused}>
+              <HandHeart size={15} strokeWidth={1.3} aria-hidden="true" /><span>{activityDone ? '看看小成果' : activity.actionLabel || '做件小事'}</span>{!activityDone && <i aria-hidden="true" />}
+            </button>}
             <button className="cm-landscape-button" onClick={() => setLandscape(true)} disabled={paused} aria-label="暂时收起文字，看看风景">
               <Eye size={15} strokeWidth={1.3} aria-hidden="true" />看看风景
             </button>
+            </div>
           </div>
 
           <button

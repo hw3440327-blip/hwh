@@ -1,0 +1,465 @@
+{
+  "passed": 25,
+  "failed": 0,
+  "lifeChoices": 100,
+  "setupChoices": 7,
+  "activityActions": 66,
+  "results": [
+    {
+      "name": "Actual bread partial exit refresh complete reward once",
+      "status": "pass",
+      "detail": {
+        "scene": "bakery",
+        "partial": {
+          "ingredients": [
+            "flour",
+            "water"
+          ],
+          "kneads": 1,
+          "temperature": 180,
+          "completed": false
+        },
+        "after": {
+          "ingredients": [
+            "flour",
+            "water"
+          ],
+          "kneads": 3,
+          "temperature": 180,
+          "completed": true
+        },
+        "reward": {
+          "energy": 4,
+          "connection": 2
+        },
+        "memory": "moment_bread"
+      }
+    },
+    {
+      "name": "Actual plant partial exit refresh complete reward once",
+      "status": "pass",
+      "detail": {
+        "scene": "room",
+        "partial": {
+          "seed": "cosmos",
+          "watered": true,
+          "light": false,
+          "cared": false,
+          "completed": false
+        },
+        "after": {
+          "seed": "cosmos",
+          "watered": true,
+          "light": true,
+          "cared": true,
+          "completed": true
+        },
+        "reward": {
+          "energy": 5,
+          "connection": 1
+        },
+        "memory": "moment_plant"
+      }
+    },
+    {
+      "name": "Actual repair partial exit refresh complete reward once",
+      "status": "pass",
+      "detail": {
+        "scene": "workshop",
+        "partial": {
+          "rotations": [
+            2,
+            3,
+            2
+          ],
+          "completed": false
+        },
+        "after": {
+          "rotations": [
+            0,
+            0,
+            0
+          ],
+          "completed": true
+        },
+        "reward": {
+          "energy": 2,
+          "connection": 3
+        },
+        "memory": "moment_repair"
+      }
+    },
+    {
+      "name": "Three completed activities export import preserve all moments",
+      "status": "pass",
+      "detail": {
+        "scene": "workshop",
+        "activities": [
+          "bread",
+          "repair",
+          "plant"
+        ],
+        "moments": [
+          "moment_bread",
+          "moment_plant",
+          "moment_repair"
+        ]
+      }
+    },
+    {
+      "name": "Collection from another scene views three completed results without changing state",
+      "status": "pass",
+      "detail": {
+        "scene": "first_week",
+        "completed": 3,
+        "readonly": true,
+        "mutedAudioContexts": 0
+      }
+    },
+    {
+      "name": "Old v2 save without activities imports and continues",
+      "status": "pass",
+      "detail": {
+        "oldScene": "first_week",
+        "nextScene": "laundry",
+        "activities": {}
+      }
+    },
+    {
+      "name": "Optional activities do not block full route bakery",
+      "status": "pass",
+      "detail": {
+        "ending": "farewell_bakery",
+        "choices": 25,
+        "age": 82,
+        "activityProgressEmpty": true
+      }
+    },
+    {
+      "name": "Optional activities do not block full route workshop",
+      "status": "pass",
+      "detail": {
+        "ending": "farewell_workshop",
+        "choices": 25,
+        "age": 82,
+        "activityProgressEmpty": true
+      }
+    },
+    {
+      "name": "Optional activities do not block full route bookshop",
+      "status": "pass",
+      "detail": {
+        "ending": "farewell_bookshop",
+        "choices": 25,
+        "age": 82,
+        "activityProgressEmpty": true
+      }
+    },
+    {
+      "name": "Optional activities do not block full route return",
+      "status": "pass",
+      "detail": {
+        "ending": "farewell_return",
+        "choices": 25,
+        "age": 82,
+        "activityProgressEmpty": true
+      }
+    },
+    {
+      "name": "Activity bread layout 1440x900",
+      "status": "pass",
+      "detail": {
+        "bounds": {
+          "x": 330,
+          "y": 60.890625,
+          "width": 780,
+          "height": 778.203125
+        },
+        "width": 1440,
+        "height": 900,
+        "documentWidth": 1440,
+        "dialogWidth": 778,
+        "scrollerWidth": 778,
+        "scrollerContentWidth": 778,
+        "completed": true
+      }
+    },
+    {
+      "name": "Activity repair layout 1440x900",
+      "status": "pass",
+      "detail": {
+        "bounds": {
+          "x": 330,
+          "y": 55.390625,
+          "width": 780,
+          "height": 789.203125
+        },
+        "width": 1440,
+        "height": 900,
+        "documentWidth": 1440,
+        "dialogWidth": 778,
+        "scrollerWidth": 778,
+        "scrollerContentWidth": 778,
+        "completed": true
+      }
+    },
+    {
+      "name": "Activity plant layout 1440x900",
+      "status": "pass",
+      "detail": {
+        "bounds": {
+          "x": 330,
+          "y": 76.828125,
+          "width": 780,
+          "height": 746.34375
+        },
+        "width": 1440,
+        "height": 900,
+        "documentWidth": 1440,
+        "dialogWidth": 778,
+        "scrollerWidth": 778,
+        "scrollerContentWidth": 778,
+        "completed": true
+      }
+    },
+    {
+      "name": "Activity bread layout 390x844",
+      "status": "pass",
+      "detail": {
+        "bounds": {
+          "x": 12,
+          "y": 74.640625,
+          "width": 366,
+          "height": 694.703125
+        },
+        "width": 390,
+        "height": 844,
+        "documentWidth": 390,
+        "dialogWidth": 364,
+        "scrollerWidth": 364,
+        "scrollerContentWidth": 364,
+        "completed": true
+      }
+    },
+    {
+      "name": "Activity repair layout 390x844",
+      "status": "pass",
+      "detail": {
+        "bounds": {
+          "x": 12,
+          "y": 73.640625,
+          "width": 366,
+          "height": 696.703125
+        },
+        "width": 390,
+        "height": 844,
+        "documentWidth": 390,
+        "dialogWidth": 364,
+        "scrollerWidth": 364,
+        "scrollerContentWidth": 364,
+        "completed": true
+      }
+    },
+    {
+      "name": "Activity plant layout 390x844",
+      "status": "pass",
+      "detail": {
+        "bounds": {
+          "x": 12,
+          "y": 86.109375,
+          "width": 366,
+          "height": 671.765625
+        },
+        "width": 390,
+        "height": 844,
+        "documentWidth": 390,
+        "dialogWidth": 364,
+        "scrollerWidth": 364,
+        "scrollerContentWidth": 364,
+        "completed": true
+      }
+    },
+    {
+      "name": "Activity bread layout 320x700",
+      "status": "pass",
+      "detail": {
+        "bounds": {
+          "x": 8,
+          "y": 29.96875,
+          "width": 304,
+          "height": 640.0625
+        },
+        "width": 320,
+        "height": 700,
+        "documentWidth": 320,
+        "dialogWidth": 302,
+        "scrollerWidth": 302,
+        "scrollerContentWidth": 302,
+        "completed": true
+      }
+    },
+    {
+      "name": "Activity repair layout 320x700",
+      "status": "pass",
+      "detail": {
+        "bounds": {
+          "x": 8,
+          "y": 28.96875,
+          "width": 304,
+          "height": 642.0625
+        },
+        "width": 320,
+        "height": 700,
+        "documentWidth": 320,
+        "dialogWidth": 302,
+        "scrollerWidth": 302,
+        "scrollerContentWidth": 302,
+        "completed": true
+      }
+    },
+    {
+      "name": "Activity plant layout 320x700",
+      "status": "pass",
+      "detail": {
+        "bounds": {
+          "x": 8,
+          "y": 37.90625,
+          "width": 304,
+          "height": 624.1875
+        },
+        "width": 320,
+        "height": 700,
+        "documentWidth": 320,
+        "dialogWidth": 302,
+        "scrollerWidth": 302,
+        "scrollerContentWidth": 302,
+        "completed": true
+      }
+    },
+    {
+      "name": "Activity bread layout 844x390",
+      "status": "pass",
+      "detail": {
+        "bounds": {
+          "x": 32,
+          "y": 10,
+          "width": 780,
+          "height": 370
+        },
+        "width": 844,
+        "height": 390,
+        "documentWidth": 844,
+        "dialogWidth": 778,
+        "scrollerWidth": 778,
+        "scrollerContentWidth": 778,
+        "completed": true
+      }
+    },
+    {
+      "name": "Activity repair layout 844x390",
+      "status": "pass",
+      "detail": {
+        "bounds": {
+          "x": 32,
+          "y": 10,
+          "width": 780,
+          "height": 370
+        },
+        "width": 844,
+        "height": 390,
+        "documentWidth": 844,
+        "dialogWidth": 778,
+        "scrollerWidth": 778,
+        "scrollerContentWidth": 778,
+        "completed": true
+      }
+    },
+    {
+      "name": "Activity plant layout 844x390",
+      "status": "pass",
+      "detail": {
+        "bounds": {
+          "x": 32,
+          "y": 10,
+          "width": 780,
+          "height": 370
+        },
+        "width": 844,
+        "height": 390,
+        "documentWidth": 844,
+        "dialogWidth": 778,
+        "scrollerWidth": 778,
+        "scrollerContentWidth": 778,
+        "completed": true
+      }
+    },
+    {
+      "name": "Second plant seed forgetmenot produces blue flower",
+      "status": "pass",
+      "detail": {
+        "seed": "forgetmenot",
+        "flower": "浅蓝色勿忘我"
+      }
+    },
+    {
+      "name": "Enabled interaction sound creates cues without a new audio context per gesture",
+      "status": "pass",
+      "detail": {
+        "mutedContexts": 0,
+        "enabledContexts": 1,
+        "cueVoiceDelta": 1
+      }
+    },
+    {
+      "name": "No console page exceptions image/font failures",
+      "status": "pass",
+      "detail": {
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedAssets": 0
+      }
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "assets": [],
+  "resolvedFindings": [
+    {
+      "issue": "First bread ingredient became disabled and focus moved to BODY while staying at ingredients stage.",
+      "status": "fixed and verified",
+      "verification": "Independent retry focused remaining water button; full 25-case acceptance passed after progress-dependent focus recovery."
+    }
+  ],
+  "supplementalCollectionLayout": [
+    {
+      "label": "mobile",
+      "completedCards": 3,
+      "sizes": {
+        "width": 390,
+        "documentWidth": 390,
+        "contentWidth": 364,
+        "contentScrollWidth": 364
+      }
+    },
+    {
+      "label": "desktop",
+      "completedCards": 3,
+      "sizes": {
+        "width": 1440,
+        "documentWidth": 1440,
+        "contentWidth": 998,
+        "contentScrollWidth": 998
+      }
+    }
+  ],
+  "screenshots": [
+    "/tmp/interactive-bread-desktop.png",
+    "/tmp/interactive-repair-desktop.png",
+    "/tmp/interactive-plant-desktop.png",
+    "/tmp/interactive-collection-desktop.png",
+    "/tmp/interactive-bread-mobile.png",
+    "/tmp/interactive-repair-mobile.png",
+    "/tmp/interactive-plant-mobile.png",
+    "/tmp/interactive-collection-mobile.png"
+  ]
+}

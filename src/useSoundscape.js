@@ -155,6 +155,75 @@ function scheduleAccent(layer, first = false) {
   layer.timers.add(timer);
 }
 
+function cueLayer(session) {
+  if (session.cueLayer) return session.cueLayer;
+  const layer = {
+    session, kind: 'cues', nodes: new Set(), sources: new Set(), timers: new Set(),
+    active: true, disposed: false, lastCueAt: -Infinity, lastCompleteAt: -Infinity,
+  };
+  session.layers.add(layer);
+  session.cueLayer = layer;
+  layer.gain = addNode(layer, session.context.createGain());
+  layer.gain.gain.value = 1;
+  layer.gain.connect(session.master);
+  return layer;
+}
+
+function cueVoice(layer, frequency, endFrequency, offset, duration, level) {
+  const { context } = layer.session;
+  const start = context.currentTime + offset;
+  const oscillator = addNode(layer, context.createOscillator(), true);
+  const envelope = addNode(layer, context.createGain());
+  oscillator.type = 'sine';
+  oscillator.frequency.setValueAtTime(frequency, start);
+  oscillator.frequency.exponentialRampToValueAtTime(endFrequency, start + duration * 0.8);
+  envelope.gain.setValueAtTime(0, start);
+  envelope.gain.linearRampToValueAtTime(level, start + 0.012);
+  envelope.gain.exponentialRampToValueAtTime(0.00001, start + duration);
+  oscillator.connect(envelope).connect(layer.gain);
+  let finished = false;
+  let timer;
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    clearTimeout(timer);
+    layer.timers.delete(timer);
+    oscillator.onended = null;
+    try { oscillator.stop(); } catch { /* Already ended. */ }
+    disconnect(oscillator); disconnect(envelope);
+    layer.sources.delete(oscillator);
+    layer.nodes.delete(oscillator); layer.nodes.delete(envelope);
+  };
+  oscillator.onended = finish;
+  oscillator.start(start);
+  oscillator.stop(start + duration + 0.025);
+  // Also release short voices while the AudioContext is paused in a hidden tab.
+  timer = setTimeout(finish, (offset + duration + 0.12) * 1000);
+  layer.timers.add(timer);
+}
+
+function playInteractionCue(session, kind) {
+  if (!['touch', 'wood', 'water', 'complete'].includes(kind)) return false;
+  const layer = cueLayer(session);
+  const now = session.context.currentTime;
+  if (kind === 'complete' ? now - layer.lastCompleteAt < 0.8 : now - layer.lastCueAt < 0.11) return false;
+  // At most four tiny voices can coexist, including a completion's two notes.
+  const voices = kind === 'wood' || kind === 'complete' ? 2 : 1;
+  if (layer.sources.size + voices > 4) return false;
+  if (kind === 'complete') layer.lastCompleteAt = now;
+  layer.lastCueAt = now;
+  if (kind === 'touch') cueVoice(layer, 155, 105, 0, 0.15, 0.022);
+  else if (kind === 'wood') {
+    cueVoice(layer, 410, 250, 0, 0.11, 0.016);
+    cueVoice(layer, 815, 670, 0, 0.07, 0.003);
+  } else if (kind === 'water') cueVoice(layer, 1060, 540, 0, 0.22, 0.018);
+  else {
+    cueVoice(layer, 523.25, 523.25, 0, 0.58, 0.014);
+    cueVoice(layer, 659.25, 659.25, 0.16, 0.62, 0.012);
+  }
+  return true;
+}
+
 function createLayer(session, kind) {
   const { context } = session;
   const layer = { session, kind, nodes: new Set(), sources: new Set(), timers: new Set(), active: true, disposed: false };
@@ -333,6 +402,14 @@ export default function useSoundscape(scene, { onError } = {}) {
     }
   }, [fail]);
 
+  const playCue = useCallback((cue) => {
+    const session = sessionRef.current;
+    if (!mountedRef.current || !enabledRef.current || !session?.active
+      || session.context.state !== 'running' || document.hidden || volumeRef.current <= 0) return false;
+    try { return playInteractionCue(session, cue); }
+    catch { fail(session); return false; }
+  }, [fail]);
+
   useEffect(() => {
     try { localStorage.setItem(VOLUME_KEY, String(volume)); } catch { /* Sound remains available without storage. */ }
   }, [volume]);
@@ -362,5 +439,5 @@ export default function useSoundscape(scene, { onError } = {}) {
     };
   }, [release, syncVisibility]);
 
-  return { enabled, toggle, setEnabled, volume, setVolume, kind };
+  return { enabled, toggle, setEnabled, volume, setVolume, kind, playCue };
 }

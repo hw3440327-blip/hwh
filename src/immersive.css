@@ -534,3 +534,31 @@
     scroll-behavior: auto !important;
   }
 }
+.moment-collection-count { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; color: #4c6345; font-size: 13px; line-height: 1.8; }
+.moment-collection-count span { margin-left: auto; font-size: 11px; color: #65715c; }
+.moment-collection { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; }
+.moment-card { overflow: hidden; border: 1px solid #e0e1d0; border-radius: 5px 18px 5px 18px; background: #fffef7; box-shadow: 0 5px 20px rgb(66 79 49 / 4%); }
+.moment-card-art { position: relative; height: 130px; background: #e3e5d5; }
+.moment-card-art img { width: 100%; height: 100%; object-fit: cover; }
+.moment-card-art > span { position: absolute; left: 11px; bottom: 10px; display: inline-flex; align-items: center; gap: 5px; padding: 5px 9px; border: 1px solid rgb(255 248 224 / 40%); border-radius: 3px; background: rgb(35 54 41 / 82%); color: #fff5da; font-size: 10px; }
+.moment-card-copy { padding: 18px 15px 12px; }
+.moment-card-copy h3 { margin: 0 0 8px; color: #3e583d; font-family: 'Spring Serif', serif; font-size: 17px; font-weight: 400; line-height: 1.65; }
+.moment-card-copy p { min-height: 66px; margin: 0; color: #626d57; font-size: 12px; line-height: 1.9; }
+.moment-card-copy button { display: flex; align-items: center; justify-content: space-between; gap: 6px; width: 100%; min-height: 48px; margin-top: 14px; padding: 10px 0; border: 0; border-top: 1px solid #e4e5d5; background: transparent; color: #47643b; font: inherit; font-size: 11px; text-align: left; cursor: pointer; }
+.moment-card-copy button:disabled { color: #707662; cursor: default; }
+.moment-card-copy button:disabled > svg { display: none; }
+.moment-card-copy button:not(:disabled):hover { color: #293f23; }
+.moment-card-copy button:focus-visible { outline: 2px solid #69845a; outline-offset: 3px; }
+.moment-card.is-complete { border-color: #c9d2b5; }
+.moment-gentle-note { display: flex; align-items: center; justify-content: center; gap: 7px; margin: 24px 0 0; color: #69745d; font-size: 11px; line-height: 1.8; text-align: center; }
+@media (max-width: 700px) {
+  .moment-collection { grid-template-columns: 1fr; }
+  .moment-card { display: grid; grid-template-columns: 120px minmax(0, 1fr); }
+  .moment-card-art { height: 100%; min-height: 180px; }
+  .moment-card-copy p { min-height: 0; }
+  .moment-collection-count span { width: 100%; margin-left: 26px; }
+}
+@media (max-width: 380px) {
+  .moment-card { grid-template-columns: 1fr; }
+  .moment-card-art { height: 125px; min-height: 0; }
+}

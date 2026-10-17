@@ -1,0 +1,160 @@
+{
+  "artifact": "/workspace/hwh/release/下一次春天-互动版.html",
+  "bytes": 25257991,
+  "checks": [
+    {
+      "name": "All seven embedded illustrations and local serif font load without requests",
+      "status": "pass",
+      "detail": {
+        "illustrations": [
+          {
+            "loaded": true,
+            "width": 1672,
+            "height": 941
+          },
+          {
+            "loaded": true,
+            "width": 1672,
+            "height": 941
+          },
+          {
+            "loaded": true,
+            "width": 1672,
+            "height": 941
+          },
+          {
+            "loaded": true,
+            "width": 1672,
+            "height": 941
+          },
+          {
+            "loaded": true,
+            "width": 1672,
+            "height": 941
+          },
+          {
+            "loaded": true,
+            "width": 1672,
+            "height": 941
+          },
+          {
+            "loaded": true,
+            "width": 1672,
+            "height": 941
+          }
+        ],
+        "externalScriptElements": 0,
+        "externalStylesheets": 0,
+        "externalCSSURLs": [],
+        "cssImport": false,
+        "fonts": [
+          {
+            "family": "Spring Serif",
+            "status": "loaded"
+          }
+        ],
+        "serifAvailable": true,
+        "titleImageLoaded": true,
+        "titleImageEmbedded": true
+      }
+    },
+    {
+      "name": "Cinematic title, sound enablement, and character introduction",
+      "status": "pass",
+      "detail": {
+        "name": "听风",
+        "origin": "independent",
+        "choicesInitiallyHidden": true,
+        "sound": "running"
+      }
+    },
+    {
+      "name": "Real story choice enters the bakery and preserves an interior paragraph",
+      "status": "pass",
+      "detail": {
+        "scene": "bakery",
+        "paragraph": 1,
+        "energy": 80,
+        "connection": 15
+      }
+    },
+    {
+      "name": "Ingredients and one knead are saved when leaving the activity",
+      "status": "pass",
+      "detail": {
+        "ingredients": [
+          "flour",
+          "water"
+        ],
+        "kneads": 1,
+        "temperature": 180,
+        "completed": false
+      }
+    },
+    {
+      "name": "Refresh restores the unfinished bread and the same story paragraph",
+      "status": "pass",
+      "detail": {
+        "scene": "bakery",
+        "paragraph": 1,
+        "kneads": 1,
+        "sound": "running"
+      }
+    },
+    {
+      "name": "Three kneads and low/high oven temperature feedback work offline",
+      "status": "pass",
+      "detail": {
+        "kneads": 3,
+        "cold": 150,
+        "hot": 210,
+        "corrected": 180,
+        "prematureRewards": 0
+      }
+    },
+    {
+      "name": "Baking creates one memory and grants the gift exactly once",
+      "status": "pass",
+      "detail": {
+        "memory": "moment_bread",
+        "count": 1,
+        "energy": [
+          80,
+          84
+        ],
+        "connection": [
+          15,
+          17
+        ],
+        "reopenedRewards": 0
+      }
+    },
+    {
+      "name": "Completed keepsake survives refresh once and appears once in the album",
+      "status": "pass",
+      "detail": {
+        "completed": true,
+        "memoryCount": 1,
+        "duplicateRewardsOnReload": 0,
+        "paragraph": 1,
+        "albumEntry": true
+      }
+    },
+    {
+      "name": "No external requests, page exceptions, or console errors",
+      "status": "pass",
+      "detail": {
+        "documentResponses": 3,
+        "externalRequests": 0,
+        "pageErrors": 0,
+        "consoleErrors": 0
+      }
+    }
+  ],
+  "documentResponses": 3,
+  "blockedRequests": [],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "fileURL": "Direct file:// navigation is forbidden by this Chromium enterprise URL policy. No policy was changed; the exact HTML is served by Playwright route fulfillment with offline mode enabled and every other request aborted.",
+  "passed": true
+}

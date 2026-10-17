@@ -9,6 +9,8 @@ export const artwork = {
 const keyFor = scene => scene?.image === 'room' && /夜晚|晚上/.test(scene.time) ? 'room-night' : scene?.image || 'arrival';
 export const getSceneArt = scene => artwork[keyFor(scene)] || artwork.arrival;
 export function memoryArt(memory) {
+  const momentImage = { moment_bread: 'bakery', moment_repair: 'workshop', moment_plant: 'room' }[memory.id];
+  if (momentImage) return artwork[momentImage];
   const scene = memory.id.startsWith('echo:') ? scenes[memory.id.slice(5)] : Object.values(scenes).find(item => item.choices.some(choice => choice.memory?.id === memory.id));
   return getSceneArt(scene);
 }

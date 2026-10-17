@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpFromLine, BookOpen, Check, ChevronRight, Feather, Flower2, Heart, Image, Leaf, Mail, NotebookPen, Pencil, RotateCcw, Route, Settings2, Sprout, Wallet, X } from 'lucide-react';
+import { ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpFromLine, BookOpen, Check, ChevronRight, Feather, Flower2, HandHeart, Heart, Image, Leaf, Mail, NotebookPen, Pencil, RotateCcw, Route, Settings2, Sprout, Wallet, X } from 'lucide-react';
 import { chapters, scenes } from './story.js';
 import { origins } from './origins.js';
 import { STORAGE_KEY, createGame, availableChoices, choose, serializeGame, restoreGame, reincarnate, finishIntroduction, getSceneParagraphs, replyToLetter } from './engine.js';
 import { unlockedLetters } from './letters.js';
 import { memoryArt } from './visuals.js';
+import { activityDefinitions, activityProgress, getSceneActivity, performActivity } from './activities.js';
 import Opening from './Opening.jsx';
 import CinematicScene from './CinematicScene.jsx';
 import LettersPanel from './LettersPanel.jsx';
 import LifeReview from './LifeReview.jsx';
+import LifeActivity from './LifeActivity.jsx';
 import useSoundscape from './useSoundscape.js';
 import './styles.css';
 import './immersive.css';
@@ -18,6 +20,7 @@ const NOTES_KEY = 'next-spring-notes-v1';
 const READING_KEY = 'next-spring-reading-v2';
 const tabs = [
   { id: 'journey', label: '这段旅程', icon: BookOpen }, { id: 'album', label: '人生相册', icon: Image },
+  { id: 'moments', label: '小镇日常', icon: HandHeart },
   { id: 'letters', label: '小镇来信', icon: Mail }, { id: 'note', label: '随身手记', icon: NotebookPen },
   { id: 'life', label: '人生回望', icon: Route }, { id: 'settings', label: '阅读与声音', icon: Settings2 },
 ];
@@ -32,6 +35,7 @@ export default function ImmersiveApp() {
   const [showTitle, setShowTitle] = useState(true);
   const [sceneSession, setSceneSession] = useState(0);
   const [menu, setMenu] = useState(null);
+  const [activityId, setActivityId] = useState(null);
   const [detail, setDetail] = useState(null);
   const [note, setNote] = useState(() => read(NOTES_KEY));
   const [reading, setReading] = useState(() => validReading(parse(READING_KEY, null), game));
@@ -48,8 +52,12 @@ export default function ImmersiveApp() {
   const importRef = useRef(null);
   const toastTimer = useRef(null);
   const menuTrigger = useRef(null);
+  const activityTrigger = useRef(null);
   const scene = scenes[game.sceneId];
   const chapter = chapters[scene.chapter];
+  const sceneActivity = getSceneActivity(game);
+  const activeActivity = activityDefinitions.find(item => item.id === activityId);
+  const overlayOpen = menu !== null || Boolean(activeActivity);
   const sound = useSoundscape(scene, { onError: message => notify(message) });
   function notify(message) { clearTimeout(toastTimer.current); setToast(message); toastTimer.current = setTimeout(() => setToast(''), 3600); }
   useEffect(() => { try { localStorage.setItem(STORAGE_KEY, serializeGame(game)); setSaveError(false); } catch { setSaveError(true); } }, [game]);
@@ -59,6 +67,27 @@ export default function ImmersiveApp() {
   useEffect(() => () => clearTimeout(toastTimer.current), []);
   function openMenu(tab = 'journey') { menuTrigger.current = document.activeElement; setDetail(null); setMenu(tab); }
   function closeMenu() { setMenu(null); setDetail(null); requestAnimationFrame(() => { if (menuTrigger.current?.isConnected) menuTrigger.current.focus(); }); }
+  function openActivity(activity = sceneActivity) {
+    if (!activity) return;
+    activityTrigger.current = document.activeElement;
+    setMenu(null); setDetail(null); setActivityId(activity.id);
+  }
+  function closeActivity() {
+    setActivityId(null);
+    requestAnimationFrame(() => {
+      const target = activityTrigger.current?.isConnected ? activityTrigger.current : document.querySelector('.cm-activity-button, .cm-menu-button');
+      target?.focus();
+    });
+  }
+  function actOnMoment(id, action) {
+    const next = performActivity(game, id, action);
+    if (next === game) return;
+    if (action.type !== 'set_temperature') {
+      const finished = activityProgress(next, id).completed && !activityProgress(game, id).completed;
+      sound.playCue?.(finished ? 'complete' : id === 'repair' ? 'wood' : id === 'plant' && action.type === 'water' ? 'water' : 'touch');
+    }
+    setGame(current => performActivity(current, id, action));
+  }
   function personalize(text) { return text.replaceAll('{name}', game.name); }
   function begin(details) { setGame(finishIntroduction(game, details)); setShowTitle(false); setReading({ sceneId: 'arrival', paragraphIndex: 0 }); }
   function makeChoice(choice) {
@@ -85,7 +114,7 @@ export default function ImmersiveApp() {
       setGame(restored); setReading(validReading(parsed.reading, restored)); setSceneSession(value => value + 1);
       setNote(typeof parsed.note === 'string' ? parsed.note.slice(0, 5000) : '');
       if (Number.isSafeInteger(parsed.cycles) && parsed.cycles > 0) setPreferences(p => ({ ...p, cycles: parsed.cycles }));
-      closeMenu(); setShowTitle(!restored.introDone); notify('风翻回了熟悉的那一页。');
+      setActivityId(null); closeMenu(); setShowTitle(!restored.introDone); notify('风翻回了熟悉的那一页。');
     } catch { notify('这份存档还没有读懂，请选择之前导出的旅程文件。'); }
     event.target.value = '';
   }
@@ -93,7 +122,7 @@ export default function ImmersiveApp() {
     const next = carry ? reincarnate(game) : createGame(game.name, game.origin);
     setGame(next); setReading({ sceneId: 'arrival', paragraphIndex: 0 });
     if (carry) setPreferences(p => ({ ...p, cycles: p.cycles + 1 }));
-    closeMenu(); setShowTitle(true);
+    setActivityId(null); closeMenu(); setShowTitle(true);
   }
   function rename(event) {
     event.preventDefault(); const value = nameInput.trim();
@@ -105,14 +134,16 @@ export default function ImmersiveApp() {
   const isTitle = showTitle || !game.introDone;
 
   return <div className={`immersive-shell ${preferences.largeText ? 'large-text' : ''} ${preferences.quietMotion ? 'quiet-motion' : ''}`}>
-    <div className="story-layer" inert={menu !== null} aria-hidden={menu !== null}>
+    <div className="story-layer" inert={overlayOpen} aria-hidden={overlayOpen}>
       {isTitle ? <Opening game={game} onBegin={begin} onContinue={() => setShowTitle(false)} onImport={importSave} onSound={sound.toggle} soundEnabled={sound.enabled} /> : <CinematicScene key={sceneSession}
         game={game} scene={scene} chapter={chapter} paragraphs={getSceneParagraphs(game).map(personalize)} choices={availableChoices(game)}
         initialParagraphIndex={reading.sceneId === game.sceneId ? reading.paragraphIndex : 0}
         onChoose={makeChoice} onMenu={() => openMenu()} onSound={sound.toggle} soundEnabled={sound.enabled}
-        preferences={{ ...preferences, paused: menu !== null }} onReincarnate={() => nextLife(true)} onReview={() => openMenu('life')} onProgress={recordProgress}
+        preferences={{ ...preferences, paused: overlayOpen }} onReincarnate={() => nextLife(true)} onReview={() => openMenu('life')} onProgress={recordProgress}
+        activity={sceneActivity} activityDone={Boolean(sceneActivity && activityProgress(game, sceneActivity.id).completed)} onActivity={() => openActivity()}
       />}
     </div>
+    {activeActivity && <LifeActivity game={game} activity={activeActivity} onAction={action => actOnMoment(activeActivity.id, action)} onClose={closeActivity} quietMotion={preferences.quietMotion} />}
     {menu && <JourneyDialog onClose={closeMenu}>
       <header className="journey-header"><div><Sprout size={23} strokeWidth={1.2} /><div><span className="eyebrow">LET THE STORY REST A MOMENT</span><h2>旅程手记</h2></div></div><button className="journey-close" onClick={closeMenu} aria-label="返回故事"><X size={23} strokeWidth={1.3} /></button></header>
       <nav className="journey-tabs" aria-label="旅程手记分类">{tabs.map(({ id, label, icon: Icon }) => <button className={menu === id ? 'selected' : ''} key={id} onClick={() => { setMenu(id); setDetail(null); }} aria-current={menu === id ? 'page' : undefined}><Icon size={16} strokeWidth={1.4} /><span>{label}</span>{id === 'letters' && unread > 0 && <small>{unread}</small>}</button>)}</nav>
@@ -134,6 +165,19 @@ export default function ImmersiveApp() {
             <div className="journey-save-actions"><button onClick={exportSave}><ArrowDownToLine size={16} />收藏这段旅程</button><button onClick={() => setDetail({ type: 'import' })}><ArrowUpFromLine size={16} />从存档继续</button></div><p className={`quiet-save-status ${saveError ? 'warning' : ''}`}><span />{saveError ? '暂时无法自动保存，可以先导出旅程。' : '旅程正在这个浏览器里，安静地替你收好。'}</p>
           </>}
           {menu === 'album' && <><PanelHeading eyebrow="THE LITTLE THINGS THAT STAY" title="有些温暖，记得就不会走远。" subtitle={`${game.memories.length} 段回忆，都有各自的光。`} /><div className="quiet-album">{game.memories.map((memory, i) => <button key={memory.id} className="quiet-photo" onClick={() => setDetail({ type: 'memory', memory })}><img src={memoryArt(memory)} alt="手绘动画里的生活回忆" loading="lazy" /><div><span>NO. {String(i + 1).padStart(2, '0')}</span><h3>{memory.title}</h3><p>{personalize(memory.description)}</p><small>翻开回忆<ChevronRight size={13} /></small></div></button>)}</div></>}
+          {menu === 'moments' && <>
+            <PanelHeading eyebrow="A DAY HELD IN YOUR HANDS" title="有些日子，要亲手过一过。" subtitle="在面粉、木纹和一盆小花里，慢慢和小镇熟起来。" />
+            <p className="moment-collection-count"><HandHeart size={18} strokeWidth={1.3} />留下了 {activityDefinitions.filter(item => activityProgress(game, item.id).completed).length} 件亲手做的小事<span>进度会跟着旅程一起保存</span></p>
+            <div className="moment-collection">{activityDefinitions.map(item => {
+              const progress = activityProgress(game, item.id);
+              const here = sceneActivity?.id === item.id;
+              return <article key={item.id} className={`moment-card${progress.completed ? ' is-complete' : ''}`}>
+                <div className="moment-card-art"><img src={memoryArt(item.memory)} alt={`${item.place}的手绘场景`} loading="lazy" /><span>{progress.completed ? <><Check size={14} />已好好记住</> : item.place}</span></div>
+                <div className="moment-card-copy"><h3>{item.title}</h3><p>{item.summary}</p><button disabled={!here && !progress.completed} onClick={() => openActivity(item)}>{progress.completed ? '看看亲手留下的成果' : here ? '就在这里，试着做一做' : `路过${item.place}时，可以试试`}<ChevronRight size={15} /></button></div>
+              </article>;
+            })}</div>
+            <p className="moment-gentle-note"><Leaf size={15} strokeWidth={1.2} />这些小事可以慢慢做，也可以先让故事继续。</p>
+          </>}
           {menu === 'letters' && <LettersPanel game={game} onReply={(id, reply) => setGame(replyToLetter(game, id, reply.id))} onNotify={notify} />}
           {menu === 'note' && <><PanelHeading eyebrow="DEAR ME, HOW WAS YOUR DAY?" title="这一页，留给你自己。" subtitle="想说的话，可以先轻轻写下来。" /><label className="sr-only" htmlFor="private-note">随身手记</label><textarea id="private-note" className="quiet-note" maxLength={5000} placeholder={'今天的海风是什么味道的？\n有没有一件，让你想记住的小事……'} value={note} onChange={event => setNote(event.target.value)} /><div className="quiet-note-footer"><Feather size={15} /><span>随写随存，只有你自己看见。</span><small>{note.length} / 5000</small></div></>}
           {menu === 'life' && <><PanelHeading eyebrow="A LIFE, ONE DAY AT A TIME" title="原来，已经走了这么远。" subtitle="起点、相遇和选择，慢慢成为了你。" /><LifeReview game={game} onContinue={closeMenu} onRecall={index => setDetail({ type: 'chapter', index })} /></>}
