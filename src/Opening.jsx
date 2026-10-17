@@ -71,7 +71,7 @@ export default function Opening({ game, onBegin, onContinue, onImport, onSound, 
       <div className="opening-film-frame">
         <header className="opening-film-header">
           <div className="opening-wordmark"><Sprout size={19} strokeWidth={1.3} aria-hidden="true" /><span>{settingUp ? '下一次春天' : '栖屿 · 海边小镇'}</span></div>
-          {onSound && <button type="button" className="opening-sound" onClick={onSound} aria-pressed={soundEnabled}>{soundEnabled ? <Volume2 size={16} strokeWidth={1.4} aria-hidden="true" /> : <VolumeX size={16} strokeWidth={1.4} aria-hidden="true" />}<span>{soundEnabled ? '海风已开启' : '听听海风'}</span></button>}
+          {onSound && <button type="button" className="opening-sound" onClick={onSound} aria-pressed={soundEnabled}>{soundEnabled ? <Volume2 size={16} strokeWidth={1.4} aria-hidden="true" /> : <VolumeX size={16} strokeWidth={1.4} aria-hidden="true" />}<span>{soundEnabled ? '配乐与海风' : '听听小镇的声音'}</span></button>}
         </header>
 
         {!settingUp ? (

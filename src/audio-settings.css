@@ -1,0 +1,36 @@
+.audio-settings { display: grid; gap: 15px; margin: 25px 0 24px; }
+.audio-setting-card { padding: 22px 24px; border: 1px solid #d7d8c9; border-radius: 5px 16px 5px 16px; background: linear-gradient(115deg, #faf8ee, #f2f3e9); }
+.audio-card-heading { display: flex; align-items: center; gap: 13px; }
+.audio-card-heading > svg { flex-shrink: 0; color: #72836b; }
+.audio-card-heading > div { flex: 1; min-width: 0; }
+.audio-card-heading strong, .audio-auto-read strong { display: block; color: #354b3d; font-size: 15px; font-weight: 500; line-height: 1.6; letter-spacing: .035em; }
+.audio-card-heading small, .audio-auto-read small { display: block; margin-top: 4px; color: #59664f; font-size: 12px; line-height: 1.8; }
+.audio-card-heading .toggle, .audio-auto-read .toggle { flex-shrink: 0; }
+.audio-settings .toggle:disabled { cursor: default; opacity: .4; }
+.audio-volume { display: grid; grid-template-columns: 132px minmax(60px, 1fr); align-items: center; gap: 18px; margin-top: 20px; }
+.audio-volume > span { display: flex; align-items: baseline; gap: 11px; font-size: 12px; color: #65735f; }
+.audio-volume small { font: 12px Georgia, serif; color: #59664f; white-space: nowrap; }
+.audio-volume input { width: 100%; max-width: none; accent-color: #748866; cursor: pointer; }
+.audio-gentle-note, .audio-voice-help { margin: 15px 0 0 !important; color: #59664f; font-size: 12px; line-height: 1.9; }
+.audio-narration-card { background: linear-gradient(115deg, #faf7ec, #eeefe1); }
+.audio-voice-help { color: #59664f; }
+.audio-voice-select { display: grid; grid-template-columns: 114px minmax(0, 1fr); align-items: center; gap: 18px; margin-top: 20px; }
+.audio-voice-select label { color: #65735f; font-size: 12px; }
+.audio-voice-select select { min-width: 0; width: 100%; padding: 10px 29px 10px 10px; border: 1px solid #cdd1bf; border-radius: 5px; background: #fbfaf2; color: #40533f; font-family: inherit; font-size: 12px; text-overflow: ellipsis; }
+.audio-preview { display: inline-flex; align-items: center; gap: 7px; min-height: 39px; margin: 12px 0 0 132px; padding: 7px 12px; border: 1px solid #cdd2bd; border-radius: 4px 9px 4px 9px; background: #f6f6e9; color: #566a4f; font-family: inherit; font-size: 11px; }
+.audio-preview:hover { border-color: #94a17f; background: #ecefdf; }
+.audio-auto-read { display: flex; align-items: center; gap: 16px; margin-top: 23px; padding-top: 18px; border-top: 1px solid #dce0ce; }
+.audio-auto-read > div { flex: 1; }
+.audio-auto-read strong { font-size: 13px; }
+.audio-narration-status { display: flex; align-items: center; gap: 6px; margin: 16px 0 0 !important; color: #59664f; font-size: 12px; line-height: 1.8; }
+@media (max-width: 540px) {
+  .audio-setting-card { padding: 18px 16px; }
+  .audio-card-heading { gap: 10px; }
+  .audio-card-heading > svg { width: 18px; }
+  .audio-card-heading strong { font-size: 14px; }
+  .audio-card-heading small { font-size: 12px; }
+  .audio-volume { grid-template-columns: 107px minmax(50px, 1fr); gap: 10px; }
+  .audio-volume > span { gap: 7px; font-size: 11px; }
+  .audio-voice-select { grid-template-columns: 1fr; gap: 8px; }
+  .audio-preview { margin-left: 0; }
+}

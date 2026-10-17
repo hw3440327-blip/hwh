@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowLeft, ArrowRight, BookOpen, ChevronRight, Eye, Leaf, MapPin,
-  HandHeart, RotateCcw, Sprout, Volume2, VolumeX, X,
+  HandHeart, Headphones, RotateCcw, Sprout, Volume2, VolumeX, X,
 } from 'lucide-react';
 import { getSceneArt, sceneDescription, sceneDetails } from './visuals.js';
 import './cinematic-scene.css';
@@ -32,6 +32,8 @@ export default function CinematicScene({
   onSound, soundEnabled = false, preferences = {}, onReincarnate, onReview, onProgress,
   initialParagraphIndex = 0,
   activity = null, activityDone = false, onActivity,
+  onNarrationChange, onNarration, onNarrationReplay, narrationEnabled = false,
+  narrationSupported = false, narrationSpeaking = false, narrationCompleted = null, autoNarration = true,
 }) {
   const reducedMotion = useReducedMotion();
   const quietMotion = Boolean(preferences.quietMotion || reducedMotion);
@@ -47,6 +49,12 @@ export default function CinematicScene({
   const ageRef = useRef(scene.age || 22);
   const progressRef = useRef(onProgress);
   progressRef.current = onProgress;
+  const narrationRef = useRef(onNarrationChange);
+  narrationRef.current = onNarrationChange;
+  const autoCompletedRef = useRef(new Set());
+  const observationTriggerRef = useRef(null);
+  const landscapeButtonRef = useRef(null);
+  const wasLandscapeRef = useRef(false);
   const screenRef = useRef(null);
   const activeReading = reading.sceneId === scene.id
     ? reading : { sceneId: scene.id, index: startingIndex, characters: 0 };
@@ -61,6 +69,39 @@ export default function CinematicScene({
   const chapterIndex = Number.isInteger(scene.chapter) ? scene.chapter : 0;
   const details = sceneDetails(scene);
   const textSpeed = preferences.textSpeed === 0 ? 0 : Math.min(100, Math.max(8, Number(preferences.textSpeed) || 18));
+  const storyUtteranceKey = `story:${scene.id}:${paragraphIndex}`;
+  const narrationText = observing ? `${observing.label}。${observing.text}${observing.connection}` : landscape ? '' : paragraph;
+  const narrationKey = observing ? `detail:${scene.id}:${observing.id}` : landscape ? '' : storyUtteranceKey;
+  const narrationPaused = Boolean(paused || ageTransition || (landscape && !observing));
+
+  useEffect(() => {
+    narrationRef.current?.({ text: narrationText, utteranceKey: narrationKey, paused: narrationPaused });
+  }, [narrationText, narrationKey, narrationPaused]);
+  useEffect(() => () => {
+    narrationRef.current?.({ text: '', utteranceKey: '', paused: true });
+  }, []);
+
+  useEffect(() => {
+    const completedKey = narrationCompleted?.utteranceKey;
+    const sequence = narrationCompleted?.sequence;
+    if (!narrationEnabled || !autoNarration || paused || landscape || ageTransition || lastParagraph
+      || completedKey !== storyUtteranceKey || sequence == null) return;
+    const token = `${completedKey}:${sequence}`;
+    if (autoCompletedRef.current.has(token)) return;
+    const timer = setTimeout(() => {
+      autoCompletedRef.current.add(token);
+      if (autoCompletedRef.current.size > 128) autoCompletedRef.current.delete(autoCompletedRef.current.values().next().value);
+      setReading(previous => previous.sceneId === scene.id && previous.index === paragraphIndex
+        ? { sceneId: scene.id, index: paragraphIndex + 1, characters: 0 } : previous);
+    }, 650);
+    return () => clearTimeout(timer);
+  }, [narrationCompleted?.utteranceKey, narrationCompleted?.sequence, narrationEnabled, autoNarration,
+    paused, landscape, ageTransition, lastParagraph, storyUtteranceKey, scene.id, paragraphIndex]);
+
+  useEffect(() => {
+    if (!landscape && wasLandscapeRef.current) requestAnimationFrame(() => landscapeButtonRef.current?.focus({ preventScroll: true }));
+    wasLandscapeRef.current = landscape;
+  }, [landscape]);
 
   useEffect(() => {
     setReading((previous) => previous.sceneId === scene.id
@@ -145,7 +186,8 @@ export default function CinematicScene({
       if (paused || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
       if (event.key === 'Escape') {
         event.preventDefault();
-        if (landscape) { setLandscape(false); setObserving(null); }
+        if (observing) setObserving(null);
+        else if (landscape) { setLandscape(false); setObserving(null); }
         else if (ageTransition) setAgeTransition(null);
         else onMenu?.();
         return;
@@ -159,7 +201,7 @@ export default function CinematicScene({
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [paused, landscape, typing, paragraphIndex, characters.length, lastParagraph, scene.id, ageTransition, onMenu]);
+  }, [paused, landscape, observing, typing, paragraphIndex, characters.length, lastParagraph, scene.id, ageTransition, onMenu]);
 
   const readableHint = typing ? '轻点，读完这一句' : lastParagraph
     ? scene.ending ? '春天，会记得你' : '把故事交给你的选择' : '轻点，听故事继续';
@@ -167,7 +209,7 @@ export default function CinematicScene({
   return (
     <section
       ref={screenRef}
-      className={`cm-screen${quietMotion ? ' cm-quiet' : ''}${paused ? ' cm-paused' : ''}${landscape ? ' cm-landscape-mode' : ''}${preferences.largeText ? ' cm-large-text' : ''}${ready ? ' cm-ready' : ''}`}
+      className={`cm-screen${quietMotion ? ' cm-quiet' : ''}${paused ? ' cm-paused' : ''}${landscape ? ' cm-landscape-mode' : ''}${observing ? ' cm-has-observation' : ''}${preferences.largeText ? ' cm-large-text' : ''}${ready ? ' cm-ready' : ''}`}
       aria-label={`${chapter?.title || '人生旅程'} · ${scene.title}`}
     >
       <div className="cm-world" aria-hidden="true">
@@ -183,15 +225,24 @@ export default function CinematicScene({
       </div>
       <p className="cm-accessible-text">{sceneDescription(scene)}</p>
 
-      <header className="cm-header">
+      <header className="cm-header" inert={Boolean(observing)} aria-hidden={Boolean(observing)}>
         <div className="cm-brand"><Sprout size={24} strokeWidth={1.25} aria-hidden="true" />
           <span>下一次春天<small>A LITTLE LIFE, A LITTLE LIGHT</small></span>
         </div>
         <div className="cm-header-actions">
+          <button className={`cm-narration-button${narrationSpeaking ? ' is-speaking' : ''}`} onClick={onNarration}
+            disabled={paused || !narrationSupported} aria-pressed={narrationEnabled}
+            aria-label={!narrationSupported ? '此浏览器暂不支持故事朗读' : narrationEnabled ? '关闭故事朗读' : '开启故事朗读'}
+            title={!narrationSupported ? '此浏览器暂不支持故事朗读' : '故事朗读'}>
+            <Headphones size={18} strokeWidth={1.4} aria-hidden="true" /><span>故事朗读</span>
+          </button>
+          {narrationEnabled && onNarrationReplay && <button className="cm-replay-button" onClick={onNarrationReplay} disabled={paused} aria-label="重听当前这段故事" title="重听">
+            <RotateCcw size={15} strokeWidth={1.4} aria-hidden="true" /><span>重听</span>
+          </button>}
           <button className="cm-sound-button" onClick={onSound} disabled={paused}
-            aria-label={soundEnabled ? '关闭环境声音' : '开启环境声音'} aria-pressed={soundEnabled}>
+            aria-label={soundEnabled ? '关闭配乐与海风' : '开启配乐与海风'} aria-pressed={soundEnabled}>
             {soundEnabled ? <Volume2 size={19} strokeWidth={1.4} /> : <VolumeX size={19} strokeWidth={1.4} />}
-            <span>{soundEnabled ? '聆听小镇' : '开启声音'}</span>
+            <span>配乐与海风</span>
           </button>
           <button className="cm-menu-button" onClick={onMenu} disabled={paused} aria-label="打开旅程手记">
             <BookOpen size={18} strokeWidth={1.35} aria-hidden="true" /><span>旅程手记</span>
@@ -212,20 +263,15 @@ export default function CinematicScene({
         <p><MapPin size={12} strokeWidth={1.4} aria-hidden="true" />{scene.location}<span className="cm-meta-divider">/</span>{scene.time}</p>
       </div>}
 
-      {landscape ? <div className="cm-landscape" onClick={() => { setLandscape(false); setObserving(null); }}>
+      {landscape ? <div className="cm-landscape" inert={Boolean(observing)} aria-hidden={Boolean(observing)} onClick={() => { setLandscape(false); setObserving(null); }}>
         <div className="cm-detail-points" aria-label="观察身边的风景">
           {details.map((detail) => <button key={detail.id} className={`cm-detail-point${observing?.id === detail.id ? ' is-observing' : ''}`}
             style={{ left: `${Math.min(88, Math.max(12, detail.x))}%`, top: `${Math.min(72, Math.max(20, detail.y))}%` }}
-            onClick={(event) => { event.stopPropagation(); setObserving(detail); }} disabled={paused}
+            onClick={(event) => { event.stopPropagation(); observationTriggerRef.current = event.currentTarget; setObserving(detail); }} disabled={paused}
             aria-label={`仔细看看${detail.label}`} aria-pressed={observing?.id === detail.id}>
             <span className="cm-detail-glow" /><span className="cm-detail-label">{detail.label}</span>
           </button>)}
         </div>
-        {observing && <div className="cm-observation" role="status" onClick={(event) => event.stopPropagation()}>
-          <span className="cm-observation-label">{observing.label}</span>
-          <p>{observing.text}</p>
-          <button onClick={() => setObserving(null)} aria-label="收起这段风景描写"><X size={14} strokeWidth={1.4} aria-hidden="true" /></button>
-        </div>}
         {activity && <button className="cm-landscape-activity" onClick={(event) => { event.stopPropagation(); onActivity?.(); }} disabled={paused}>
           <HandHeart size={19} strokeWidth={1.3} aria-hidden="true" /><span>{activityDone ? '看看亲手留下的温暖' : activity.actionLabel || activity.title}</span><ChevronRight size={15} />
         </button>}
@@ -241,7 +287,7 @@ export default function CinematicScene({
             {activity && <button className={`cm-activity-button${activityDone ? ' is-kept' : ''}`} onClick={onActivity} disabled={paused}>
               <HandHeart size={15} strokeWidth={1.3} aria-hidden="true" /><span>{activityDone ? '看看小成果' : activity.actionLabel || '做件小事'}</span>{!activityDone && <i aria-hidden="true" />}
             </button>}
-            <button className="cm-landscape-button" onClick={() => setLandscape(true)} disabled={paused} aria-label="暂时收起文字，看看风景">
+            <button ref={landscapeButtonRef} className="cm-landscape-button" onClick={() => setLandscape(true)} disabled={paused} aria-label="暂时收起文字，看看风景">
               <Eye size={15} strokeWidth={1.3} aria-hidden="true" />看看风景
             </button>
             </div>
@@ -296,7 +342,79 @@ export default function CinematicScene({
         </div>
       </main>}
 
+      {observing && <ObservationDialog key={`${scene.id}:${observing.id}`} detail={observing} scene={scene} art={currentArt}
+        onClose={() => setObserving(null)} returnTo={observationTriggerRef.current} paused={paused}
+        onReplay={narrationEnabled ? onNarrationReplay : null} />}
       <footer className="cm-screen-foot" aria-hidden="true"><span>栖屿镇</span><i />时间在这里，走得慢一些。</footer>
     </section>
   );
+}
+
+function ObservationDialog({ detail, scene, art, onClose, returnTo, paused, onReplay }) {
+  const dialogRef = useRef(null);
+  const frameRef = useRef(null);
+  const closeRef = useRef(onClose);
+  const pausedRef = useRef(paused);
+  closeRef.current = onClose; pausedRef.current = paused;
+  const [frameSize, setFrameSize] = useState({ width: 800, height: 400 });
+  const [imageSize, setImageSize] = useState({ width: 1672, height: 941 });
+  const scale = Math.max(frameSize.width / imageSize.width, frameSize.height / imageSize.height) * (detail.zoom || 2.15);
+  const imageWidth = imageSize.width * scale;
+  const imageHeight = imageSize.height * scale;
+  const left = Math.min(0, Math.max(frameSize.width - imageWidth, frameSize.width / 2 - imageWidth * (detail.focusX ?? detail.x) / 100));
+  const top = Math.min(0, Math.max(frameSize.height - imageHeight, frameSize.height / 2 - imageHeight * (detail.focusY ?? detail.y) / 100));
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    const observer = new ResizeObserver(entries => {
+      const { width, height } = entries[0].contentRect;
+      if (width && height) setFrameSize({ width, height });
+    });
+    observer.observe(frame);
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    dialogRef.current.querySelector('button')?.focus({ preventScroll: true });
+    function onKey(event) {
+      if (pausedRef.current) return;
+      if (event.key === 'Escape') { event.preventDefault(); event.stopImmediatePropagation(); closeRef.current(); return; }
+      if (event.key === 'Tab') {
+        const buttons = [...dialogRef.current.querySelectorAll('button:not([disabled])')].filter(button => button.getClientRects().length);
+        if (event.shiftKey && document.activeElement === buttons[0]) { event.preventDefault(); buttons.at(-1)?.focus(); }
+        else if (!event.shiftKey && document.activeElement === buttons.at(-1)) { event.preventDefault(); buttons[0]?.focus(); }
+      }
+    }
+    document.addEventListener('keydown', onKey, true);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', onKey, true);
+      requestAnimationFrame(() => { if (returnTo?.isConnected && !pausedRef.current) returnTo.focus({ preventScroll: true }); });
+    };
+  }, []);
+
+  return <div className="cm-closeup-backdrop" onClick={event => { event.stopPropagation(); if (event.target === event.currentTarget) onClose(); }}>
+    <section className="cm-closeup-dialog" ref={dialogRef} role="dialog" aria-modal="true" aria-label={`仔细看看${detail.label}`}
+      aria-describedby="cm-detail-description cm-detail-connection" onClick={event => event.stopPropagation()}>
+      <div ref={frameRef} className="cm-closeup-frame">
+        <img className="cm-closeup-image" src={art} alt={`${detail.label}的近景`}
+          onLoad={event => setImageSize({ width: event.currentTarget.naturalWidth, height: event.currentTarget.naturalHeight })}
+          style={{ width: imageWidth, height: imageHeight, left, top }} />
+        <div className="cm-closeup-vignette" />
+        <span className="cm-closeup-location"><MapPin size={12} strokeWidth={1.4} aria-hidden="true" />{scene.location}</span>
+        <button className="cm-closeup-close" onClick={onClose} disabled={paused} aria-label="关闭细节特写"><X size={21} strokeWidth={1.4} aria-hidden="true" /></button>
+      </div>
+      <div className="cm-closeup-copy">
+        <span className="cm-closeup-kicker">靠近一点，生活在这里。</span>
+        <h2 id="cm-detail-title">{detail.label}</h2>
+        <p id="cm-detail-description" className="cm-closeup-description">{detail.text}</p>
+        <div className="cm-closeup-connection" id="cm-detail-connection"><Leaf size={16} strokeWidth={1.2} aria-hidden="true" /><p>{detail.connection}</p></div>
+        <div className="cm-closeup-actions">
+          <button className="cm-closeup-return" onClick={onClose} disabled={paused}><ArrowLeft size={15} strokeWidth={1.4} aria-hidden="true" />返回这片风景</button>
+          {onReplay && <button className="cm-closeup-replay" onClick={onReplay} disabled={paused} aria-label="重听这处风景的讲述"><RotateCcw size={14} strokeWidth={1.4} aria-hidden="true" />重听讲述</button>}
+        </div>
+      </div>
+    </section>
+  </div>;
 }

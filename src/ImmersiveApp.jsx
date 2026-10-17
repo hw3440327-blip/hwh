@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpFromLine, BookOpen, Check, ChevronRight, Feather, Flower2, HandHeart, Heart, Image, Leaf, Mail, NotebookPen, Pencil, RotateCcw, Route, Settings2, Sprout, Wallet, X } from 'lucide-react';
 import { chapters, scenes } from './story.js';
 import { origins } from './origins.js';
 import { STORAGE_KEY, createGame, availableChoices, choose, serializeGame, restoreGame, reincarnate, finishIntroduction, getSceneParagraphs, replyToLetter } from './engine.js';
 import { unlockedLetters } from './letters.js';
-import { memoryArt } from './visuals.js';
+import { memoryArt, sceneArtKey } from './visuals.js';
 import { activityDefinitions, activityProgress, getSceneActivity, performActivity } from './activities.js';
 import Opening from './Opening.jsx';
 import CinematicScene from './CinematicScene.jsx';
@@ -12,6 +12,9 @@ import LettersPanel from './LettersPanel.jsx';
 import LifeReview from './LifeReview.jsx';
 import LifeActivity from './LifeActivity.jsx';
 import useSoundscape from './useSoundscape.js';
+import useMusic from './useMusic.js';
+import useNarration from './useNarration.js';
+import AudioSettings from './AudioSettings.jsx';
 import './styles.css';
 import './immersive.css';
 
@@ -39,9 +42,12 @@ export default function ImmersiveApp() {
   const [detail, setDetail] = useState(null);
   const [note, setNote] = useState(() => read(NOTES_KEY));
   const [reading, setReading] = useState(() => validReading(parse(READING_KEY, null), game));
+  const [narrationFrame, setNarrationFrame] = useState({ text: '', utteranceKey: '', paused: true });
+  const [narrationCompleted, setNarrationCompleted] = useState({ utteranceKey: '', sequence: 0 });
   const [preferences, setPreferences] = useState(() => {
     const saved = parse(PREF_KEY, {});
     return { largeText: saved.largeText === true, quietMotion: saved.quietMotion === true,
+      autoNarration: saved.autoNarration !== false,
       textSpeed: [0, 18, 30].includes(saved.textSpeed) ? saved.textSpeed : 18,
       cycles: Number.isSafeInteger(saved.cycles) && saved.cycles > 0 ? saved.cycles : 1 };
   });
@@ -58,7 +64,25 @@ export default function ImmersiveApp() {
   const sceneActivity = getSceneActivity(game);
   const activeActivity = activityDefinitions.find(item => item.id === activityId);
   const overlayOpen = menu !== null || Boolean(activeActivity);
-  const sound = useSoundscape(scene, { onError: message => notify(message) });
+  const isTitle = showTitle || !game.introDone;
+  const handleNarrationEnd = useCallback(({ utteranceKey }) => {
+    setNarrationCompleted(previous => ({ utteranceKey, sequence: previous.sequence + 1 }));
+  }, []);
+  const narration = useNarration({
+    text: narrationFrame.text,
+    utteranceKey: narrationFrame.utteranceKey,
+    paused: isTitle || overlayOpen || narrationFrame.paused || narrationFrame.utteranceKey.split(':')[1] !== scene.id,
+    onError: message => notify(message), onEnd: handleNarrationEnd,
+  });
+  const audioScene = { ...scene, image: sceneArtKey(scene) };
+  const music = useMusic({ scene: audioScene, ducked: narration.speaking, onError: message => notify(message) });
+  const sound = useSoundscape(audioScene, { ducked: narration.speaking, onError: message => notify(message) });
+  const anySound = sound.enabled || music.enabled;
+  function toggleSound() {
+    const next = !anySound;
+    music.setEnabled(next);
+    sound.setEnabled(next);
+  }
   function notify(message) { clearTimeout(toastTimer.current); setToast(message); toastTimer.current = setTimeout(() => setToast(''), 3600); }
   useEffect(() => { try { localStorage.setItem(STORAGE_KEY, serializeGame(game)); setSaveError(false); } catch { setSaveError(true); } }, [game]);
   useEffect(() => { try { localStorage.setItem(NOTES_KEY, note); } catch { setSaveError(true); } }, [note]);
@@ -66,6 +90,21 @@ export default function ImmersiveApp() {
   useEffect(() => { try { localStorage.setItem(READING_KEY, JSON.stringify(reading)); } catch { /* The main save is independent. */ } }, [reading]);
   useEffect(() => () => clearTimeout(toastTimer.current), []);
   function openMenu(tab = 'journey') { menuTrigger.current = document.activeElement; setDetail(null); setMenu(tab); }
+  function toggleNarration() {
+    if (!narration.supported || narration.voices.length === 0) { openMenu('settings'); return; }
+    setNarrationCompleted(current => ({ utteranceKey: '', sequence: current.sequence + 1 }));
+    narration.toggle();
+  }
+  function replayNarration() {
+    setNarrationCompleted(current => ({ utteranceKey: '', sequence: current.sequence + 1 }));
+    narration.replay();
+  }
+  function resetNarrationSession() {
+    narration.stop();
+    setNarrationFrame({ text: '', utteranceKey: '', paused: true });
+    setNarrationCompleted(current => ({ utteranceKey: '', sequence: current.sequence + 1 }));
+  }
+  function returnToTitle() { resetNarrationSession(); closeMenu(); setShowTitle(true); }
   function closeMenu() { setMenu(null); setDetail(null); requestAnimationFrame(() => { if (menuTrigger.current?.isConnected) menuTrigger.current.focus(); }); }
   function openActivity(activity = sceneActivity) {
     if (!activity) return;
@@ -89,7 +128,7 @@ export default function ImmersiveApp() {
     setGame(current => performActivity(current, id, action));
   }
   function personalize(text) { return text.replaceAll('{name}', game.name); }
-  function begin(details) { setGame(finishIntroduction(game, details)); setShowTitle(false); setReading({ sceneId: 'arrival', paragraphIndex: 0 }); }
+  function begin(details) { resetNarrationSession(); setGame(finishIntroduction(game, details)); setShowTitle(false); setReading({ sceneId: 'arrival', paragraphIndex: 0 }); }
   function makeChoice(choice) {
     const next = choose(game, choice.id);
     setReading({ sceneId: next.sceneId, paragraphIndex: 0 }); setGame(next);
@@ -111,6 +150,7 @@ export default function ImmersiveApp() {
       if (file.size > 2_000_000) throw new Error('size');
       const parsed = JSON.parse(await file.text()); const restored = restoreGame(JSON.stringify(parsed.save ?? parsed));
       if (!restored) throw new Error('invalid');
+      resetNarrationSession();
       setGame(restored); setReading(validReading(parsed.reading, restored)); setSceneSession(value => value + 1);
       setNote(typeof parsed.note === 'string' ? parsed.note.slice(0, 5000) : '');
       if (Number.isSafeInteger(parsed.cycles) && parsed.cycles > 0) setPreferences(p => ({ ...p, cycles: parsed.cycles }));
@@ -119,6 +159,7 @@ export default function ImmersiveApp() {
     event.target.value = '';
   }
   function nextLife(carry) {
+    resetNarrationSession();
     const next = carry ? reincarnate(game) : createGame(game.name, game.origin);
     setGame(next); setReading({ sceneId: 'arrival', paragraphIndex: 0 });
     if (carry) setPreferences(p => ({ ...p, cycles: p.cycles + 1 }));
@@ -131,14 +172,16 @@ export default function ImmersiveApp() {
   }
   const unread = unlockedLetters(game).filter(letter => !game.letterReplies?.[letter.id]).length;
   const origin = origins.find(item => item.id === game.origin) || origins[0];
-  const isTitle = showTitle || !game.introDone;
 
   return <div className={`immersive-shell ${preferences.largeText ? 'large-text' : ''} ${preferences.quietMotion ? 'quiet-motion' : ''}`}>
     <div className="story-layer" inert={overlayOpen} aria-hidden={overlayOpen}>
-      {isTitle ? <Opening game={game} onBegin={begin} onContinue={() => setShowTitle(false)} onImport={importSave} onSound={sound.toggle} soundEnabled={sound.enabled} /> : <CinematicScene key={sceneSession}
+      {isTitle ? <Opening game={game} onBegin={begin} onContinue={() => setShowTitle(false)} onImport={importSave} onSound={toggleSound} soundEnabled={anySound} /> : <CinematicScene key={sceneSession}
         game={game} scene={scene} chapter={chapter} paragraphs={getSceneParagraphs(game).map(personalize)} choices={availableChoices(game)}
         initialParagraphIndex={reading.sceneId === game.sceneId ? reading.paragraphIndex : 0}
-        onChoose={makeChoice} onMenu={() => openMenu()} onSound={sound.toggle} soundEnabled={sound.enabled}
+        onChoose={makeChoice} onMenu={() => openMenu()} onSound={toggleSound} soundEnabled={anySound}
+        onNarrationChange={setNarrationFrame} onNarration={toggleNarration} onNarrationReplay={replayNarration}
+        narrationEnabled={narration.enabled} narrationSupported={narration.supported}
+        narrationSpeaking={narration.speaking} narrationCompleted={narrationCompleted} autoNarration={preferences.autoNarration}
         preferences={{ ...preferences, paused: overlayOpen }} onReincarnate={() => nextLife(true)} onReview={() => openMenu('life')} onProgress={recordProgress}
         activity={sceneActivity} activityDone={Boolean(sceneActivity && activityProgress(game, sceneActivity.id).completed)} onActivity={() => openActivity()}
       />}
@@ -181,7 +224,9 @@ export default function ImmersiveApp() {
           {menu === 'letters' && <LettersPanel game={game} onReply={(id, reply) => setGame(replyToLetter(game, id, reply.id))} onNotify={notify} />}
           {menu === 'note' && <><PanelHeading eyebrow="DEAR ME, HOW WAS YOUR DAY?" title="这一页，留给你自己。" subtitle="想说的话，可以先轻轻写下来。" /><label className="sr-only" htmlFor="private-note">随身手记</label><textarea id="private-note" className="quiet-note" maxLength={5000} placeholder={'今天的海风是什么味道的？\n有没有一件，让你想记住的小事……'} value={note} onChange={event => setNote(event.target.value)} /><div className="quiet-note-footer"><Feather size={15} /><span>随写随存，只有你自己看见。</span><small>{note.length} / 5000</small></div></>}
           {menu === 'life' && <><PanelHeading eyebrow="A LIFE, ONE DAY AT A TIME" title="原来，已经走了这么远。" subtitle="起点、相遇和选择，慢慢成为了你。" /><LifeReview game={game} onContinue={closeMenu} onRecall={index => setDetail({ type: 'chapter', index })} /></>}
-          {menu === 'settings' && <><PanelHeading eyebrow="MAKE YOURSELF COMFORTABLE" title="找一个，舒服的节奏。" subtitle="把声音和阅读，调成自己喜欢的样子。" /><div className="quiet-setting"><div><strong>听见小镇</strong><small>海风、细雨和窗边的轻响</small></div><Toggle label="环境声音" checked={sound.enabled} onChange={sound.toggle} /></div><div className="quiet-setting"><div><strong>声音轻一点</strong><small>{Math.round(sound.volume * 100)}%</small></div><input type="range" aria-label="环境音量" min="0" max="1" step="0.02" value={sound.volume} onChange={event => sound.setVolume(Number(event.target.value))} /></div><div className="quiet-setting"><div><strong>文字出现的速度</strong><small>也可以轻点一句，立即读完整段</small></div><select aria-label="文字出现的速度" value={preferences.textSpeed} onChange={event => setPreferences(p => ({ ...p, textSpeed: Number(event.target.value) }))}><option value={30}>慢慢说</option><option value={18}>自然地说</option><option value={0}>整句出现</option></select></div><div className="quiet-setting"><div><strong>大一点的故事文字</strong><small>给眼睛多一点余裕</small></div><Toggle label="故事文字放大" checked={preferences.largeText} onChange={() => setPreferences(p => ({ ...p, largeText: !p.largeText }))} /></div><div className="quiet-setting"><div><strong>减少动态</strong><small>让画面停在安静的时刻</small></div><Toggle label="减少动态" checked={preferences.quietMotion} onChange={() => setPreferences(p => ({ ...p, quietMotion: !p.quietMotion }))} /></div><div className="quiet-setting-actions"><button onClick={() => { closeMenu(); setShowTitle(true); }}><BookOpen size={16} />回到标题画面</button><button onClick={() => setDetail({ type: 'reset' })}><RotateCcw size={15} />开始新的生活</button></div></>}
+          {menu === 'settings' && <><PanelHeading eyebrow="MAKE YOURSELF COMFORTABLE" title="找一个，舒服的节奏。" subtitle="把声音和阅读，调成自己喜欢的样子。" />
+            <AudioSettings music={music} sound={sound} narration={{ ...narration, toggle: toggleNarration }} autoNarration={preferences.autoNarration} onAutoNarration={() => setPreferences(p => ({ ...p, autoNarration: !p.autoNarration }))} />
+            <div className="quiet-setting"><div><strong>文字出现的速度</strong><small>也可以轻点一句，立即读完整段</small></div><select aria-label="文字出现的速度" value={preferences.textSpeed} onChange={event => setPreferences(p => ({ ...p, textSpeed: Number(event.target.value) }))}><option value={30}>慢慢说</option><option value={18}>自然地说</option><option value={0}>整句出现</option></select></div><div className="quiet-setting"><div><strong>大一点的故事文字</strong><small>给眼睛多一点余裕</small></div><Toggle label="故事文字放大" checked={preferences.largeText} onChange={() => setPreferences(p => ({ ...p, largeText: !p.largeText }))} /></div><div className="quiet-setting"><div><strong>减少动态</strong><small>让画面停在安静的时刻</small></div><Toggle label="减少动态" checked={preferences.quietMotion} onChange={() => setPreferences(p => ({ ...p, quietMotion: !p.quietMotion }))} /></div><div className="quiet-setting-actions"><button onClick={returnToTitle}><BookOpen size={16} />回到标题画面</button><button onClick={() => setDetail({ type: 'reset' })}><RotateCcw size={15} />开始新的生活</button></div></>}
         </>}
       </div>
       <footer className="journey-footer"><button onClick={closeMenu}><ArrowLeft size={15} />回到故事里</button><span><Sprout size={13} />日子很长，我们慢慢来。</span></footer>

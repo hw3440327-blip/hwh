@@ -6,12 +6,14 @@ import { fileURLToPath } from 'node:url';
 // Only the existing, local production build is read; no network is needed.
 const root = fileURLToPath(new URL('../', import.meta.url));
 const dist = path.join(root, 'dist');
-const destination = path.join(root, 'release', '下一次春天-互动版.html');
+const destination = path.join(root, 'release', '下一次春天-声景故事版.html');
 const requiredAssets = [
   '/art/immersive-arrival.png', '/art/immersive-bakery.png',
   '/art/immersive-room.png', '/art/immersive-room-night.png',
   '/art/immersive-workshop.png', '/art/immersive-letters.png',
   '/art/immersive-garden.png', '/fonts/spring-serif.woff', '/favicon.svg',
+  '/art/immersive-bookshop.webp', '/art/immersive-market.webp',
+  '/art/immersive-courtyard.webp', '/art/immersive-shore.webp',
 ];
 const mimeTypes = {
   '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
@@ -111,7 +113,7 @@ for (const tag of iconTags) {
   html = html.replace(tag, () => inlineTag);
 }
 
-html = html.replace('</head>', '<!-- Next Spring: Interactive Edition 2.1. Spring Serif is a subset of Noto Serif SC, licensed under the SIL Open Font License 1.1; see the accompanying OFL-Noto.txt. -->\n  </head>');
+html = html.replace('</head>', '<!-- Next Spring: Sound and Story Edition 2.2. Original music is synthesized locally. Narration uses available Chinese system voices; online voices require a connection. Spring Serif is a subset of Noto Serif SC, licensed under the SIL Open Font License 1.1; see the accompanying OFL-Noto.txt. -->\n  </head>');
 if (/(?:src|href)\s*=\s*["']\/(?:assets|art|fonts)\//i.test(html) || /<link\b[^>]*rel=["']modulepreload["']/i.test(html)) {
   throw new Error('The HTML still requires a production asset request.');
 }

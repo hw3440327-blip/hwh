@@ -19,7 +19,7 @@ function soundKind(scene) {
   if (/雨/.test(weather) && !/雨(?:已经|已)?停|雨过|雨后|停雨|无雨|放晴/.test(weather)) return 'rain';
   if (/workshop/.test(image)) return 'workshop';
   if (/bakery/.test(image)) return 'bakery';
-  if (/room|letters|interior|\bday\b|\bnight\b/.test(image)) return 'interior';
+  if (/room|letters|interior|bookshop|\bday\b|\bnight\b/.test(image)) return 'interior';
   if (/arrival|station|spring|garden|站台/.test(image)) return 'sea';
   return /夜晚|深夜|凌晨/.test(time) ? 'interior' : 'sea';
 }
@@ -139,14 +139,6 @@ function scheduleAccent(layer, first = false) {
           const pitch = 1800 + Math.random() * 550;
           playTone(layer, pitch, 0, 0.19, 0.009, true);
           playTone(layer, pitch * 1.04, 0.26, 0.14, 0.006, true);
-        } else if (layer.kind !== 'rain' && Math.random() > 0.35) {
-          // An original, sparse three-note colour; no repeating melody or music loop.
-          const notes = [392, 440, 523.25, 587.33, 659.25];
-          const root = Math.floor(Math.random() * 3);
-          [notes[root], notes[root + 2], notes[root + 1]].forEach((pitch, index) => {
-            playTone(layer, pitch, index * 0.42, 2.8, 0.016 - index * 0.003);
-            playTone(layer, pitch * 2, index * 0.42, 1.4, 0.003);
-          });
         }
       } catch { session.onFailure(); return; }
     }
@@ -278,7 +270,7 @@ function changeLayer(session, kind) {
   previous.timers.add(timer);
 }
 
-export default function useSoundscape(scene, { onError } = {}) {
+export default function useSoundscape(scene, { onError, ducked = false } = {}) {
   const [enabled, updateEnabled] = useState(false);
   const [volume, updateVolume] = useState(readVolume);
   const kind = soundKind(scene);
@@ -291,6 +283,8 @@ export default function useSoundscape(scene, { onError } = {}) {
   const retiredRef = useRef(new Set());
   const mountedRef = useRef(true);
   const errorReportedRef = useRef(false);
+  const duckedRef = useRef(Boolean(ducked));
+  duckedRef.current = Boolean(ducked);
   sceneRef.current = scene;
   kindRef.current = kind;
   errorRef.current = onError;
@@ -373,7 +367,7 @@ export default function useSoundscape(scene, { onError } = {}) {
       session.onFailure = () => fail(session);
       session.master = context.createGain();
       session.master.gain.setValueAtTime(0, context.currentTime);
-      session.master.gain.linearRampToValueAtTime(volumeRef.current, context.currentTime + 0.55);
+      session.master.gain.linearRampToValueAtTime(volumeRef.current * (duckedRef.current ? 0.34 : 1), context.currentTime + 0.55);
       session.limiter = context.createDynamicsCompressor();
       session.limiter.threshold.value = -18; session.limiter.knee.value = 18;
       session.limiter.ratio.value = 3; session.limiter.attack.value = 0.03; session.limiter.release.value = 0.4;
@@ -397,7 +391,7 @@ export default function useSoundscape(scene, { onError } = {}) {
     updateVolume(next);
     const session = sessionRef.current;
     if (session?.active) {
-      try { ramp(session.master.gain, next, session.context.currentTime, 0.25); }
+      try { ramp(session.master.gain, next * (duckedRef.current ? 0.34 : 1), session.context.currentTime, 0.25); }
       catch { fail(session); }
     }
   }, [fail]);
@@ -413,6 +407,13 @@ export default function useSoundscape(scene, { onError } = {}) {
   useEffect(() => {
     try { localStorage.setItem(VOLUME_KEY, String(volume)); } catch { /* Sound remains available without storage. */ }
   }, [volume]);
+
+  useEffect(() => {
+    const session = sessionRef.current;
+    if (!enabledRef.current || !session?.active) return;
+    try { ramp(session.master.gain, volumeRef.current * (ducked ? 0.34 : 1), session.context.currentTime, ducked ? 0.35 : 0.8); }
+    catch { fail(session); }
+  }, [ducked, fail]);
 
   useEffect(() => {
     const session = sessionRef.current;
