@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { createNaturalBed } from './naturalAmbience.js';
+import { SOUND_RECORDINGS } from './ambienceClips.js';
 
 const VOLUME_KEY = 'next-spring-volume-v2';
 const DEFAULT_VOLUME = 0.32;
-const FADE_TIME = 1.1;
+const FADE_TIME = 1.6;
 
 function readVolume() {
   try {
@@ -13,7 +13,7 @@ function readVolume() {
   } catch { return DEFAULT_VOLUME; }
 }
 
-function soundKind(scene) {
+export function soundKind(scene) {
   const image = String(scene?.image || '').toLowerCase();
   const weather = String(scene?.weather || '');
   const time = String(scene?.time || '');
@@ -22,7 +22,7 @@ function soundKind(scene) {
   if (/bakery/.test(image)) return 'bakery';
   if (/garden|courtyard|market/.test(image)) return 'garden';
   if (/room|letters|interior|bookshop|\bday\b|\bnight\b/.test(image)) return 'interior';
-  if (/arrival|station|spring|garden|站台/.test(image)) return 'sea';
+  if (/arrival|station|spring|站台/.test(image)) return 'sea';
   return /夜晚|深夜|凌晨/.test(time) ? 'interior' : 'sea';
 }
 
@@ -36,228 +36,164 @@ function ramp(parameter, value, now, duration) {
   parameter.linearRampToValueAtTime(value, now + duration);
 }
 
-function disconnect(node) {
-  try { node.disconnect(); } catch { /* Already disconnected. */ }
-}
-
+function disconnect(node) { try { node.disconnect(); } catch { /* Detached. */ } }
 function clearLayerTimers(layer) {
   layer.active = false;
   for (const timer of layer.timers) clearTimeout(timer);
   layer.timers.clear();
 }
-
 function destroyLayer(layer) {
   if (!layer || layer.disposed) return;
-  layer.disposed = true;
-  clearLayerTimers(layer);
+  layer.disposed = true; clearLayerTimers(layer);
   for (const source of layer.sources) {
     source.onended = null;
-    try { source.stop(); } catch { /* A short accent may already have ended. */ }
+    try { source.stop(); } catch { /* Already ended. */ }
   }
   for (const node of layer.nodes) disconnect(node);
-  layer.sources.clear();
-  layer.nodes.clear();
-  layer.session.layers.delete(layer);
+  layer.sources.clear(); layer.nodes.clear(); layer.session.layers.delete(layer);
   if (layer.session.retiringLayer === layer) layer.session.retiringLayer = null;
+  if (layer.session.audibleLayer === layer) layer.session.audibleLayer = null;
+  if (layer.session.pourLayer === layer) layer.session.pourLayer = null;
 }
-
 function destroySession(session) {
   if (session.destroyed) return;
-  session.active = false;
-  session.destroyed = true;
-  clearTimeout(session.retirementTimer);
+  session.active = false; session.destroyed = true;
+  session.abort.abort(); clearTimeout(session.retirementTimer);
   for (const layer of [...session.layers]) destroyLayer(layer);
-  disconnect(session.master);
-  disconnect(session.limiter);
-  session.naturalBuffers?.clear();
-  try {
-    if (session.context.state !== 'closed') Promise.resolve(session.context.close()).catch(() => {});
-  } catch { /* Cleanup must remain safe after a device disconnect. */ }
+  session.recordings.clear(); disconnect(session.master); disconnect(session.limiter);
+  try { if (session.context.state !== 'closed') Promise.resolve(session.context.close()).catch(() => {}); } catch { /* Device disconnected. */ }
 }
-
-function noiseBuffers(context) {
-  const length = Math.ceil(context.sampleRate * 5);
-  const white = context.createBuffer(1, length, context.sampleRate);
-  const brown = context.createBuffer(1, length, context.sampleRate);
-  const fine = white.getChannelData(0);
-  const soft = brown.getChannelData(0);
-  let previous = 0;
-  for (let i = 0; i < length; i += 1) {
-    fine[i] = Math.random() * 2 - 1;
-    previous = previous * 0.985 + fine[i] * 0.035;
-    soft[i] = Math.tanh(previous * 2);
-  }
-  // Taper the boundary over a few milliseconds so the looping air never clicks.
-  const seam = Math.min(256, Math.floor(length / 8));
-  for (let i = 0; i < seam; i += 1) {
-    const fraction = Math.sin((i / (seam - 1)) * Math.PI * 0.5);
-    fine[i] *= fraction; fine[length - 1 - i] *= fraction;
-    soft[i] *= fraction; soft[length - 1 - i] *= fraction;
-  }
-  return { white, brown };
-}
-
 function addNode(layer, node, source = false) {
-  layer.nodes.add(node);
-  if (source) layer.sources.add(node);
-  return node;
+  layer.nodes.add(node); if (source) layer.sources.add(node); return node;
 }
-
-function scheduleAccent(layer, first = false) {
-  const delay = first ? 3500 + Math.random() * 6000 : 6500 + Math.random() * 15000;
-  const timer = setTimeout(() => {
-    layer.timers.delete(timer);
-    if (!layer.active || !layer.session.active) return;
-    const { session } = layer;
-    if (session.context.state === 'running' && !document.hidden) {
-      try {
-        // Surface noises replace the former repeating sine-wave bird beeps.
-        playSurfaceAccent(layer);
-      } catch { session.onFailure(); return; }
-    }
-    scheduleAccent(layer);
-  }, delay);
-  layer.timers.add(timer);
-}
-
-function playSurfaceAccent(layer) {
-  const { context, buffers } = layer.session;
-  const source = addNode(layer, context.createBufferSource(), true);
-  source.buffer = buffers.brown;
-  const filter = addNode(layer, context.createBiquadFilter());
-  filter.type = 'bandpass'; filter.frequency.value = layer.kind === 'rain' ? 1400 : layer.kind === 'sea' ? 530 : 380 + Math.random() * 550;
-  filter.Q.value = .6;
-  const gain = addNode(layer, context.createGain());
-  const pan = addNode(layer, context.createStereoPanner());
-  pan.pan.value = (Math.random() * 2 - 1) * .55;
-  const now = context.currentTime;
-  const duration = layer.kind === 'sea' ? 1.6 + Math.random() * 1.8 : .12 + Math.random() * .45;
-  const level = layer.kind === 'rain' ? .055 : layer.kind === 'sea' ? .10 : .018;
-  gain.gain.setValueAtTime(0, now); gain.gain.linearRampToValueAtTime(level, now + duration * .3); gain.gain.exponentialRampToValueAtTime(.00001, now + duration);
-  source.connect(filter).connect(gain).connect(pan).connect(layer.gain);
-  source.onended = () => { for (const node of [source, filter, gain, pan]) { disconnect(node); layer.nodes.delete(node); } layer.sources.delete(source); };
-  source.start(now, Math.random() * 2, duration); source.stop(now + duration + .02);
-}
-
-function cueLayer(session) {
-  if (session.cueLayer) return session.cueLayer;
-  const layer = {
-    session, kind: 'cues', nodes: new Set(), sources: new Set(), timers: new Set(),
-    active: true, disposed: false, lastCueAt: -Infinity, lastCompleteAt: -Infinity,
-  };
+function makeLayer(session, kind) {
+  const layer = { session, kind, nodes: new Set(), sources: new Set(), timers: new Set(), active: true, disposed: false, pending: 0 };
   session.layers.add(layer);
-  session.cueLayer = layer;
   layer.gain = addNode(layer, session.context.createGain());
-  layer.gain.gain.value = 1;
-  layer.gain.connect(session.master);
+  layer.gain.gain.value = 0; layer.gain.connect(session.master);
   return layer;
 }
 
-function cueVoice(layer, frequency, endFrequency, offset, duration, level) {
-  const { context } = layer.session;
-  const start = context.currentTime + offset;
-  const oscillator = addNode(layer, context.createOscillator(), true);
-  const envelope = addNode(layer, context.createGain());
-  oscillator.type = 'sine';
-  oscillator.frequency.setValueAtTime(frequency, start);
-  oscillator.frequency.exponentialRampToValueAtTime(endFrequency, start + duration * 0.8);
-  envelope.gain.setValueAtTime(0, start);
-  envelope.gain.linearRampToValueAtTime(level, start + 0.012);
-  envelope.gain.exponentialRampToValueAtTime(0.00001, start + duration);
-  oscillator.connect(envelope).connect(layer.gain);
-  let finished = false;
-  let timer;
-  const finish = () => {
-    if (finished) return;
-    finished = true;
-    clearTimeout(timer);
-    layer.timers.delete(timer);
-    oscillator.onended = null;
-    try { oscillator.stop(); } catch { /* Already ended. */ }
-    disconnect(oscillator); disconnect(envelope);
-    layer.sources.delete(oscillator);
-    layer.nodes.delete(oscillator); layer.nodes.delete(envelope);
-  };
-  oscillator.onended = finish;
-  oscillator.start(start);
-  oscillator.stop(start + duration + 0.025);
-  // Also release short voices while the AudioContext is paused in a hidden tab.
-  timer = setTimeout(finish, (offset + duration + 0.12) * 1000);
+async function recording(session, key) {
+  if (!SOUND_RECORDINGS[key]) throw new Error('Unknown field recording');
+  if (session.recordings.has(key)) return session.recordings.get(key);
+  const promise = (async () => {
+    const response = await fetch(SOUND_RECORDINGS[key].src, { signal: session.abort.signal });
+    if (!response.ok) throw new Error('Recording could not be loaded');
+    const bytes = await response.arrayBuffer();
+    if (session.destroyed) throw new Error('Sound session closed');
+    const buffer = await session.context.decodeAudioData(bytes);
+    if (!Number.isFinite(buffer.duration) || Math.abs(buffer.duration - SOUND_RECORDINGS[key].seconds) > .12) throw new Error('Recording duration mismatch');
+    return buffer;
+  })();
+  session.recordings.set(key, promise);
+  // Keep the decoded working set bounded on phones. Active sources retain their
+  // own buffers, so evicting a cache entry cannot interrupt a playing recording.
+  while (session.recordings.size > 4) session.recordings.delete(session.recordings.keys().next().value);
+  try { return await promise; }
+  catch (error) { if (session.recordings.get(key) === promise) session.recordings.delete(key); throw error; }
+}
+
+function retire(layer, seconds = FADE_TIME) {
+  if (!layer || layer.disposed) return;
+  clearLayerTimers(layer);
+  ramp(layer.gain.gain, 0, layer.session.context.currentTime, seconds);
+  const timer = setTimeout(() => { layer.timers.delete(timer); destroyLayer(layer); }, (seconds + .08) * 1000);
   layer.timers.add(timer);
 }
-
-function playInteractionCue(session, kind) {
-  if (!['touch', 'wood', 'water', 'complete'].includes(kind)) return false;
-  const layer = cueLayer(session);
-  const now = session.context.currentTime;
-  if (kind === 'complete' ? now - layer.lastCompleteAt < 0.8 : now - layer.lastCueAt < 0.11) return false;
-  // At most four tiny voices can coexist, including a completion's two notes.
-  const voices = kind === 'wood' || kind === 'complete' ? 2 : 1;
-  if (layer.sources.size + voices > 4) return false;
-  if (kind === 'complete') layer.lastCompleteAt = now;
-  layer.lastCueAt = now;
-  if (kind === 'touch') cueVoice(layer, 155, 105, 0, 0.15, 0.022);
-  else if (kind === 'wood') {
-    cueVoice(layer, 410, 250, 0, 0.11, 0.016);
-    cueVoice(layer, 815, 670, 0, 0.07, 0.003);
-  } else if (kind === 'water') cueVoice(layer, 1060, 540, 0, 0.22, 0.018);
-  else {
-    cueVoice(layer, 523.25, 523.25, 0, 0.58, 0.014);
-    cueVoice(layer, 659.25, 659.25, 0.16, 0.62, 0.012);
-  }
+function scheduleAccent(layer) {
+  if (!['interior', 'workshop'].includes(layer.kind)) return;
+  const timer = setTimeout(() => {
+    layer.timers.delete(timer);
+    if (!layer.active || !layer.session.active) return;
+    if (layer.session.context.state === 'running' && !document.hidden) playFoley(layer, 'page', .11, .85);
+    scheduleAccent(layer);
+  }, 18000 + Math.random() * 26000);
+  layer.timers.add(timer);
+}
+function playFoley(layer, key, level, duration) {
+  const { session } = layer;
+  if (!layer.active || layer.pending + layer.sources.size >= 4) return false;
+  layer.pending += 1;
+  recording(session, key).then(buffer => {
+    if (!layer.active || layer.disposed || !session.active || document.hidden || session.context.state !== 'running' || layer.sources.size >= 4) return;
+    const { context } = session;
+    const source = addNode(layer, context.createBufferSource(), true);
+    const envelope = addNode(layer, context.createGain());
+    const pan = addNode(layer, context.createStereoPanner());
+    source.buffer = buffer; pan.pan.value = (Math.random() * 2 - 1) * .18;
+    const start = context.currentTime, seconds = Math.min(duration || buffer.duration, buffer.duration);
+    envelope.gain.setValueAtTime(0, start); envelope.gain.linearRampToValueAtTime(level, start + .012);
+    envelope.gain.setValueAtTime(level, start + Math.max(.02, seconds - .07)); envelope.gain.linearRampToValueAtTime(0, start + seconds);
+    source.connect(envelope).connect(pan).connect(layer.gain);
+    let ended = false, timer;
+    const finish = () => {
+      if (ended) return; ended = true; clearTimeout(timer); layer.timers.delete(timer); source.onended = null;
+      try { source.stop(); } catch { /* Ended. */ }
+      for (const node of [source, envelope, pan]) { disconnect(node); layer.nodes.delete(node); }
+      layer.sources.delete(source);
+    };
+    source.onended = finish; source.start(start, 0, seconds); source.stop(start + seconds + .02);
+    timer = setTimeout(finish, (seconds + .18) * 1000); layer.timers.add(timer);
+  }).catch(() => { if (session.active && !session.destroyed && layer.active) session.onFailure(); })
+    .finally(() => { layer.pending -= 1; });
   return true;
 }
-
-function createLayer(session, kind) {
-  const { context } = session;
-  const layer = { session, kind, nodes: new Set(), sources: new Set(), timers: new Set(), active: true, disposed: false };
-  session.layers.add(layer);
-  try {
-    const profiles = {
-      rain: { high: 180, low: 4700, level: 0.24 },
-      sea: { high: 65, low: 2100, level: 0.29 },
-      garden: { high: 160, low: 2400, level: 0.16 },
-      interior: { high: 90, low: 710, level: 0.065 },
-      bakery: { high: 120, low: 950, level: 0.085 },
-      workshop: { high: 130, low: 1300, level: 0.09 },
-    };
-    const profile = profiles[kind] || profiles.sea;
-    const source = addNode(layer, context.createBufferSource(), true);
-    session.naturalBuffers ||= new Map();
-    if (!session.naturalBuffers.has(kind)) session.naturalBuffers.set(kind, createNaturalBed(context, kind));
-    source.buffer = session.naturalBuffers.get(kind);
-    source.loop = true;
-    const highpass = addNode(layer, context.createBiquadFilter());
-    highpass.type = 'highpass'; highpass.frequency.value = profile.high; highpass.Q.value = 0.45;
-    const lowpass = addNode(layer, context.createBiquadFilter());
-    lowpass.type = 'lowpass'; lowpass.frequency.value = profile.low; lowpass.Q.value = 0.45;
-    const air = addNode(layer, context.createGain());
-    air.gain.value = profile.level;
-    layer.gain = addNode(layer, context.createGain());
-    layer.gain.gain.setValueAtTime(0, context.currentTime);
-    layer.gain.gain.linearRampToValueAtTime(1, context.currentTime + FADE_TIME);
-    source.connect(highpass).connect(lowpass).connect(air).connect(layer.gain).connect(session.master);
-    source.start(0, .03 + Math.random() * 4);
-    scheduleAccent(layer, true);
-    return layer;
-  } catch (error) { destroyLayer(layer); throw error; }
+function cueLayer(session) {
+  if (session.cueLayer) return session.cueLayer;
+  const layer = makeLayer(session, 'cues'); layer.gain.gain.value = 1;
+  layer.lastCueAt = -Infinity; layer.lastCompleteAt = -Infinity; session.cueLayer = layer; return layer;
 }
-
+function playInteractionCue(session, kind) {
+  if (!['touch', 'wood', 'water', 'complete'].includes(kind)) return false;
+  const layer = cueLayer(session), now = session.context.currentTime;
+  if (kind === 'complete' ? now - layer.lastCompleteAt < .8 : now - layer.lastCueAt < .14) return false;
+  if (kind === 'complete') layer.lastCompleteAt = now;
+  layer.lastCueAt = now;
+  const levels = { touch: .18, wood: .29, water: .34, complete: .28 };
+  return playFoley(layer, kind, levels[kind], kind === 'water' ? 1.05 : undefined);
+}
+function changePouring(session, wanted) {
+  if (!wanted) { const old = session.pourLayer; session.pourLayer = null; retire(old, .16); return; }
+  if (session.pourLayer?.active) return;
+  const layer = makeLayer(session, 'pour'); session.pourLayer = layer;
+  recording(session, 'pour').then(buffer => {
+    if (!layer.active || layer.disposed || !session.active || session.pourLayer !== layer || document.hidden) return;
+    const source = addNode(layer, session.context.createBufferSource(), true); source.buffer = buffer; source.loop = true;
+    source.connect(layer.gain); source.start();
+    ramp(layer.gain.gain, .46, session.context.currentTime, .22);
+  }).catch(() => { if (session.active && layer.active && !session.destroyed) session.onFailure(); });
+}
+function createLayer(session, kind) {
+  const layer = makeLayer(session, kind);
+  const levels = { sea: .62, rain: .53, garden: .48, interior: .19, bakery: .4, workshop: .25 };
+  recording(session, kind).then(buffer => {
+    if (!layer.active || layer.disposed || !session.active || session.currentLayer !== layer) return;
+    const source = addNode(layer, session.context.createBufferSource(), true); source.buffer = buffer; source.loop = true;
+    source.connect(layer.gain); source.start(0, Math.random() * Math.max(0, buffer.duration - 2));
+    ramp(layer.gain.gain, levels[kind] ?? .4, session.context.currentTime, FADE_TIME);
+    scheduleAccent(layer);
+    // Keep the last audible place until its replacement really starts. Rapid
+    // scene changes can cancel a pending download without cutting off the sea.
+    if (session.retiringLayer) destroyLayer(session.retiringLayer);
+    const previous = session.audibleLayer;
+    session.audibleLayer = layer;
+    if (previous && previous !== layer) {
+      session.retiringLayer = previous;
+      retire(previous);
+    }
+  }).catch(() => { if (session.active && layer.active && !session.destroyed) session.onFailure(); });
+  return layer;
+}
 function changeLayer(session, kind) {
   if (!session.active || session.currentLayer?.kind === kind) return;
-  if (session.retiringLayer) destroyLayer(session.retiringLayer);
   const previous = session.currentLayer;
-  const next = createLayer(session, kind);
-  session.currentLayer = next;
-  if (!previous) return;
-  clearLayerTimers(previous);
-  session.retiringLayer = previous;
-  ramp(previous.gain.gain, 0, session.context.currentTime, FADE_TIME);
-  const timer = setTimeout(() => {
-    previous.timers.delete(timer);
-    destroyLayer(previous);
-  }, (FADE_TIME + 0.08) * 1000);
-  previous.timers.add(timer);
+  if (previous && previous !== session.audibleLayer) destroyLayer(previous);
+  if (session.audibleLayer?.active && session.audibleLayer.kind === kind) {
+    session.currentLayer = session.audibleLayer;
+    return;
+  }
+  const next = createLayer(session, kind); session.currentLayer = next;
 }
 
 export default function useSoundscape(scene, { onError, ducked = false } = {}) {
@@ -352,7 +288,7 @@ export default function useSoundscape(scene, { onError, ducked = false } = {}) {
       }
       // Never create an AudioContext from an effect, scene change, or visibility event.
       const context = new AudioContextClass();
-      session = { context, layers: new Set(), active: true, destroyed: false, sceneRef };
+      session = { context, layers: new Set(), active: true, destroyed: false, sceneRef, recordings: new Map(), abort: new AbortController() };
       sessionRef.current = session;
       session.onFailure = () => fail(session);
       session.master = context.createGain();
@@ -362,8 +298,8 @@ export default function useSoundscape(scene, { onError, ducked = false } = {}) {
       session.limiter.threshold.value = -18; session.limiter.knee.value = 18;
       session.limiter.ratio.value = 3; session.limiter.attack.value = 0.03; session.limiter.release.value = 0.4;
       session.master.connect(session.limiter).connect(context.destination);
-      session.buffers = noiseBuffers(context);
       changeLayer(session, kindRef.current);
+      recording(session, 'pour').catch(() => {});
       enabledRef.current = true;
       updateEnabled(true);
       syncVisibility(session, true);
@@ -394,6 +330,13 @@ export default function useSoundscape(scene, { onError, ducked = false } = {}) {
     catch { fail(session); return false; }
   }, [fail]);
 
+  const setPouring = useCallback((value) => {
+    const session = sessionRef.current;
+    if (!session?.active || !enabledRef.current) return false;
+    try { changePouring(session, Boolean(value) && session.context.state === 'running' && !document.hidden); return true; }
+    catch { fail(session); return false; }
+  }, [fail]);
+
   useEffect(() => {
     try { localStorage.setItem(VOLUME_KEY, String(volume)); } catch { /* Sound remains available without storage. */ }
   }, [volume]);
@@ -415,7 +358,7 @@ export default function useSoundscape(scene, { onError, ducked = false } = {}) {
     mountedRef.current = true;
     const onVisibility = () => {
       const session = sessionRef.current;
-      if (enabledRef.current && session?.active) syncVisibility(session);
+      if (enabledRef.current && session?.active) { if (document.hidden) changePouring(session, false); syncVisibility(session); }
     };
     document.addEventListener('visibilitychange', onVisibility);
     return () => {
@@ -430,5 +373,5 @@ export default function useSoundscape(scene, { onError, ducked = false } = {}) {
     };
   }, [release, syncVisibility]);
 
-  return { enabled, toggle, setEnabled, volume, setVolume, kind, playCue };
+  return { enabled, toggle, setEnabled, volume, setVolume, kind, playCue, setPouring };
 }

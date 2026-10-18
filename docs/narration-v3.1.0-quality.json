@@ -1,0 +1,29 @@
+{
+  "version": "3.1.0",
+  "voice": "User-restored first reference audition; reference-conditioned synthetic narration",
+  "model": "ZipVoice-Distill-FP32-zh-en-Emilia",
+  "voiceConfigHash": "358365d3aa946c0e80c943259352d9a05d9b16bee9583e7fa47f69ee690cc8bd",
+  "clips": 213,
+  "bindings": 227,
+  "seconds": 2549.4,
+  "bytes": 20445468,
+  "asr": {
+    "model": "SenseVoice Small int8 2025-09-09",
+    "allPassed": true,
+    "flaggedTranscripts": 0,
+    "resolvedReviewIds": [],
+    "maximumCER": 0.1667,
+    "maximumPhoneticCER": 0.1087
+  },
+  "timbreComparison": {
+    "count": 213,
+    "minimumToReference": 0.7135,
+    "meanToReference": 0.8087,
+    "minimumToSelectedAudition": 0.8545,
+    "reviewIds": []
+  },
+  "limits": "Automated transcription, decoding and relative speaker-embedding comparisons are not a human perceptual listening assessment or an identity claim. The user explicitly restored the first reference audition from the public comparison page. Original reference audio is private.",
+  "selectedAuditionSha256": "0f9d4f91770ec21a81353431cdfe1730895e0d4f113b0b3e3d156d40e67a22e6",
+  "openingMatchesSelectedAuditionExactly": true,
+  "voiceName": "春语 · 初版参考音色"
+}

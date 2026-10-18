@@ -1,12 +1,20 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
+import { NARRATION_MANIFEST } from './narrationClips.js';
 import useNarration from './useNarration.js';
 import useRecordedNarration, { RECORDED_NARRATION_VOICE } from './useRecordedNarration.js';
 
 const MODE_KEY = 'next-spring-narration-mode-v2';
+const EDITION_KEY = 'next-spring-voice-edition-v1';
 
 function readMode() {
-  try { return localStorage.getItem(MODE_KEY) === 'system' ? 'system' : 'recorded'; }
+  try {
+    const edition = NARRATION_MANIFEST.voice?.voiceConfigHash;
+    if (edition && localStorage.getItem(EDITION_KEY) !== edition) {
+      localStorage.setItem(EDITION_KEY, edition); localStorage.setItem(MODE_KEY, 'recorded'); return 'recorded';
+    }
+    return localStorage.getItem(MODE_KEY) === 'system' ? 'system' : 'recorded';
+  }
   catch { return 'recorded'; }
 }
 

@@ -1,0 +1,47 @@
+{
+  "checks": [
+    {
+      "name": "old scene continues while next recording loads; pending scenes do not stack",
+      "status": "pass",
+      "details": {
+        "whileLoading": [
+          45.999977324263035
+        ],
+        "after": [
+          33.499977324263035
+        ]
+      }
+    },
+    {
+      "name": "speaking ducks ambient gain; volume and unmount cleanup apply",
+      "status": "pass",
+      "details": {
+        "before": 0.6000000238418579,
+        "during": 0.20399999618530273
+      }
+    },
+    {
+      "name": "missing real recording shows recovery message and closes graph",
+      "status": "pass",
+      "details": {
+        "error": "环境音暂时无法播放，你仍然可以安静地读故事。",
+        "enabled": false,
+        "contexts": [
+          "closed"
+        ]
+      }
+    },
+    {
+      "name": "malformed Ogg cannot leave enabled silent graph",
+      "status": "pass",
+      "details": {
+        "error": "环境音暂时无法播放，你仍然可以安静地读故事。",
+        "enabled": false,
+        "contexts": [
+          "closed"
+        ]
+      }
+    }
+  ],
+  "errors": []
+}

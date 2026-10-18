@@ -1,18 +1,28 @@
-《下一次春天》内置旁白 · 春语
+《下一次春天》3.1 内置旁白 · 春语 · 初版参考音色
 
-本游戏的默认旁白是预先制作的神经网络合成语音，采用玩家在试听页选择的 A 音色。
-它不是人类配音演员的录音，不需要在玩家电脑上运行语音模型或安装中文语音包。
-音频内容对应本项目的故事与风景讲解；游戏内的选择和人物姓名仍由玩家决定。
+本游戏默认旁白为按玩家上传的参考录音制作的神经网络合成语音。
+音色方案按玩家最新选择恢复为第一次参考试听，与试听页“对比上一次试读”一致。
+开场段落保留同一份试听 MP3；全篇使用相同参考片段、模型和制作设置。
+不是配音演员重新录制，不保证与参考录音完全一致；原始参考录音没有公开或随游戏分发。
+故事、风景讲解与试听共 213 段，覆盖 227 处文本绑定，均内置并支持离线播放。
 
-制作模型：Kokoro-82M-v1.1-zh，中文女声 zf_001（sherpa-onnx speaker ID 3）
-模型项目：https://huggingface.co/hexgrad/Kokoro-82M-v1.1-zh
-项目代码：https://github.com/hexgrad/kokoro
-ONNX 模型分发：https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models
-模型包：kokoro-multi-lang-v1_1.tar.bz2
-模型包 SHA-256：a3f4c73d043860e3fd2e5b06f36795eb81de0fc8e8de6df703245edddd87dbad
-模型随附许可：Apache License 2.0，全文见 LICENSE-Kokoro.txt。
-模型及推理程序不随游戏分发。上述链接只用于来源说明，游玩时无需访问。
+模型：ZipVoice Distill zh-en Emilia，FP32 text encoder 与 FP32 flow-matching decoder
+项目：https://github.com/k2-fsa/ZipVoice
+权重分发：https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models
+模型包：sherpa-onnx-zipvoice-distill-fp32-zh-en-emilia.tar.bz2
+模型包 SHA-256：3b6729d03bf4ba64deeec113048bdbbe55dbc30580b609be76342e0099fd23a8
+文本前端词典：sherpa-onnx-zipvoice-distill-fp32-zh-en-emilia/lexicon.txt
+词典分发包 SHA-256：3b6729d03bf4ba64deeec113048bdbbe55dbc30580b609be76342e0099fd23a8
+ZipVoice 许可：Apache License 2.0，全文见 LICENSE-ZipVoice.txt。
 
-制作参数：语速 0.94，保留语句停顿；统一响度后转为单声道 24 kHz、48 kbps MP3。
-录制工具：sherpa-onnx 1.13.8；音频处理：FFmpeg。
-本项目在构建时验证完整正文、文件 SHA-256、解码与时长，避免错误段落或缺失录音。
+声码器：Vocos 24 kHz
+项目：https://github.com/gemelo-ai/vocos
+模型分发：https://github.com/k2-fsa/sherpa-onnx/releases/tag/vocoder-models
+模型 SHA-256：bcb3b970e384161c4d634f0bb9e999ff1c471b34c9bc0b1049a5014065ed3cc0
+Vocos 许可：MIT，Copyright (c) 2023 Charactr Inc.，全文见 LICENSE-Vocos.txt。
+
+制作参数：4 步 flow matching，库默认 guidance，速度 0.94；24 kHz 单声道。
+处理：55 Hz 高通，目标响度 -19 LUFS、真峰值 -2.5 dBTP、LRA 9；64 kbps MP3。
+工具：sherpa-onnx 1.13.8、FFmpeg；SenseVoice 自动识别逐段核对正文。
+制作模型和参考原音均不随游戏分发；上述链接仅说明来源，游玩无需连接。
+自动文本与解码检查不代表人工逐段听感评估。

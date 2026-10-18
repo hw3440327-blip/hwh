@@ -1,6 +1,7 @@
 import React from 'react';
 import { Headphones, Music2, Play, Sprout, Waves } from 'lucide-react';
 import './audio-settings.css';
+import { SOUND_ATTRIBUTIONS } from './ambienceClips.js';
 
 function Switch({ label, checked, onChange, disabled = false }) {
   return <button type="button" className={`toggle ${checked ? 'checked' : ''}`} role="switch" aria-label={label} aria-checked={checked} disabled={disabled} onClick={onChange}><span /></button>;
@@ -20,7 +21,7 @@ export default function AudioSettings({ music, sound, narration, autoNarration, 
     : !hasVoice
       ? '这台电脑还没有可用的中文声音。可以先在系统的语言与语音设置里添加中文语音包，再重新打开游戏。'
       : selectedVoice?.kind === 'recorded'
-        ? '「春语」是为游戏预先制作的温柔合成女声。故事与风景讲解都已内置，无需连接语音服务。'
+        ? '「春语」是为游戏预先制作的中文旁白。故事与风景讲解均有配音，下载版也可离线播放。'
       : selectedVoice?.localService
         ? '这是这台电脑的本机中文音色，通常不需要联网。可以先试听，确认它能在这里播放。'
         : '这是浏览器提供的联网音色。出现在列表里，不代表语音服务当前能连接或播放；听不到时，可以重试或改用本机中文声音。';
@@ -33,8 +34,9 @@ export default function AudioSettings({ music, sound, narration, autoNarration, 
     </div>
 
     <div className="audio-setting-card">
-      <div className="audio-card-heading"><Waves size={22} strokeWidth={1.2} aria-hidden="true" /><div><strong>身边的声音</strong><small>慢慢涨落的潮声、细雨、树叶与屋内轻响</small></div><Switch label="环境声音" checked={sound.enabled} onChange={sound.toggle} /></div>
+      <div className="audio-card-heading"><Waves size={22} strokeWidth={1.2} aria-hidden="true" /><div><strong>身边的声音</strong><small>真实海潮、雨声与枝叶，近处是纸页和木纹的轻响</small></div><Switch label="环境声音" checked={sound.enabled} onChange={sound.toggle} /></div>
       <Volume label="环境音量" value={sound.volume} onChange={sound.setVolume} />
+      <details className="audio-source-credits"><summary>听见真实的日常 · 素材来源</summary><p>环境声与操作轻响来自有授权的实地录音和生活拟音，经过节选、滤波、混音与循环衔接。</p><ul>{SOUND_ATTRIBUTIONS.map(source=><li key={source.key}><a href={source.page} target="_blank" rel="noopener noreferrer">{({sea:'海潮',rain:'雨声',garden:'花园鸟鸣',leaves:'枝叶',fire:'炉火',water:'杯中落水',wood:'木纹触碰',paper:'纸页'})[source.key]} · {source.artist}</a><span> · </span><a href={source.licenseUrl} target="_blank" rel="noopener noreferrer">{source.license}</a></li>)}</ul></details>
     </div>
 
     <div className="audio-setting-card audio-narration-card">

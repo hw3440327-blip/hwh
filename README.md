@@ -1,4 +1,4 @@
-# 下一次春天 · 电影生活版 3.0.0
+# 下一次春天 · 电影生活版 3.1.0
 
 风停在这里，故事从你开始。
 
@@ -6,7 +6,13 @@
 
 ![面包房的绘本式动态场景](docs/cinematic-v3.0.0-desktop.webp)
 
-## 3.0 的画面与互动
+## 3.1 的声音
+
+默认旁白按玩家最新选择恢复为第一次参考音色，与试听页“对比上一次试读”相同：ZipVoice Distill FP32、4 步合成、速度 0.94。开场段落使用同一份试听音频，全篇沿用相同的参考片段与制作设置。它是合成声音，不能保证与参考录音完全一致；原始参考文件没有随游戏公开。所有故事、风景讲解与试听仍预先内置，可离线播放。
+
+“身边的声音”改为有授权的真实海潮、雨声、鸟鸣、枝叶、炉火、纸页、木质轻敲与杯中落水录音。场景之间淡入淡出，旁白响起时自动降低；倒茶的连续水声跟随壶嘴停留，松手即退去。素材作者、许可与处理方式在声音设置以及 `public/audio/SOUND-CREDITS.txt` 中保留。
+
+## 画面与互动
 
 主人公重绘进车站、面包房、书店、修补铺、厨房与菜畦的原画中，随环境的透视、光线和遮挡呈现。8 段 8 秒循环短片让人物的衣袖、手边细节、海面、枝叶与灯光在同一个镜头内轻动。这是以绘画为基础制作的动态短片：局部形变、光影变化与缓慢运镜，动作幅度轻柔，不是完整人物动作的逐帧动画。其余地点保留独立插画与气氛动态。
 
@@ -25,9 +31,9 @@
 
 ## 打开成品
 
-公开网站：https://hw3440327-blip.github.io/hwh/ 。无需账号。首次需加载内嵌媒体，之后也可以下载离线成品。
+公开网站：https://hw3440327-blip.github.io/hwh/ 。无需账号。网页按需加载当前场景的画面与声音；也可以下载完整离线成品。
 
-解压 `docs/downloads/next-spring-v3.0.0.zip`，在电脑的新版 Edge 或 Chrome 中打开 **下一次春天-电影生活版.html**。图像、短片、字体、程序和默认中文旁白都已内嵌，无需安装 Node.js、注册账号或连接语音服务。也可打开 `release/下一次春天-电影生活版.html`；旧版成品分别保留。
+解压 `docs/downloads/next-spring-v3.1.0.zip`，在电脑的新版 Edge 或 Chrome 中打开 **下一次春天-电影生活版.html**。图像、短片、字体、程序和默认中文旁白都已内嵌，无需安装 Node.js、注册账号或连接语音服务。也可打开 `release/下一次春天-电影生活版.html`；旧版成品分别保留。
 
 首次点击“从这一刻出发”，填写名字与来时的故事，再“走进小镇”。已有旅程时点击“继续这段人生”。手机浏览器若只预览下载的 HTML，可在电脑浏览器中打开成品。
 
@@ -37,11 +43,11 @@
 
 声音默认关闭，主动开启后可以听到本项目原创配乐《把日子慢慢过》与按地点变化的环境声。在“阅读与声音”中可以分别控制配乐、环境声、旁白、音量、速度、文字大小和动态。场景短片没有音轨，避免与配乐、讲述抢声音。“流动的场景”可以单独关闭；“减少动态”和系统偏好也会停用视频和额外动画。
 
-默认“春语 · 温柔女声”沿用试听 A 的声线，故事与风景讲解共 213 段内置神经网络合成音频，覆盖 227 处文本绑定。它不是真人录音，玩家无需安装语音包。“连续讲述”会在读完一段后翻到下一段，遇到选择停下；打开手记、互动或切后台时停止故事旁白，音乐和环境声在讲述时自动降低。
+默认“春语 · 初版参考音色”采用恢复的第一次参考音色，故事与风景讲解共 213 段内置神经网络合成音频，覆盖 227 处文本绑定。它不是真人录音，玩家无需安装语音包。“连续讲述”会在读完一段后翻到下一段，遇到选择停下；打开手记、互动或切后台时停止故事旁白，音乐和环境声在讲述时自动降低。
 
 原来的系统本机与联网音色作为可选项保留；只有主动选择才会使用。联网音色是否可用取决于浏览器服务，内置声音不依赖这些服务。播放失败时设置会显示具体错误，可再次试听或切回内置声音。
 
-配乐与声景通过浏览器 Web Audio 在本机合成；环境声是程序合成的立体声纹理、非周期潮声与细响，没有声称野外实录。媒体与布局自动检查不代表全篇人工听感评估。
+配乐由浏览器 Web Audio 演奏原创乐谱；环境声与拟音来自内置真实录音，经过节选、滤波、层次混音和循环衔接。自动检查覆盖解码、文本识别、响度和播放行为，不代表全篇人工听感评估。
 
 ## 保存与继续
 
@@ -59,12 +65,13 @@ npm run dev          # 端口 5173，监听 0.0.0.0
 npm test             # 故事、路线、存档、互动与旁白资源校验
 npm run build        # 生产构建到 dist
 npm run preview      # 预览生产构建
-npm run package:game # 生成 release/下一次春天-电影生活版.html
+npm run package:game # 生成完整离线 HTML
+npm run package:web  # 生成按需加载的网站到 release/web/hwh
 ```
 
-打包只读取本地 `dist`，核查短片、插画、字体和图标，统一内嵌为 data URL，重复素材只保存一份。单 HTML 无需另取脚本、样式或媒体；只创建当前场景所需的视频元素。ZIP 另包含游玩说明与字体、声音许可。
+离线打包只读取本地 `dist`，核查短片、插画、字体和图标，统一内嵌为 data URL，重复素材只保存一份。单 HTML 无需另取脚本、样式或媒体；只创建当前场景所需的视频元素。ZIP 另包含游玩说明与字体、声音许可。
 
-旁白重制流程：`scripts/list-narration.mjs` 枚举正文和讲解；`scripts/generate-narration.py` 使用本地 Kokoro v1.1-zh；`scripts/build-narration-manifest.mjs` 核对精确文本、SHA-256、时长和解码。来源与许可见 `public/audio/NARRATION-CREDITS.txt`。
+旁白重制流程：`scripts/list-narration.mjs` 枚举正文和讲解；`scripts/generate-reference-narration.py` 使用本地 ZipVoice 与私有参考录音，并逐段通过 SenseVoice 检查正文；`--first-reference-audition --steps 4 --speed .94 --threads 1` 保留第一次试听的完整配置与缓存；`scripts/build-narration-manifest.mjs` 核对精确文本、SHA-256、时长和解码。来源与许可见 `public/audio/NARRATION-CREDITS.txt`。
 
 场景短片制作脚本为 `scripts/render-scene-films.cjs`，需要制作环境的 Playwright、Chromium、ffmpeg 及 `release/film-sources/<场景名>.png` 源画。制作环境通过 WebGL 对源画连续合成，输出 1280 像素宽、24 fps、H.264/yuv420p 的无声 MP4；播放器不依赖这些制作工具。源画在制作工作区保留，最终海报、短片及制作校验信息随仓库提供。
 
@@ -78,10 +85,10 @@ npm run package:game # 生成 release/下一次春天-电影生活版.html
 - `src/DiscoveryScene.jsx`、`src/discoveries.js`：茶席、拾贝、真实帧摄影与相册。
 - `src/activities.js`、`src/LifeActivity.jsx`：面包、木盒与种花三种手作。
 - `src/useStoryNarration.js`、`src/useRecordedNarration.js`、`src/narrationClips.js`：默认内置旁白及逐段同步。
-- `src/useMusic.js`、`src/musicScore.js`、`src/useSoundscape.js`、`src/naturalAmbience.js`：原创乐谱与本机声音。
+- `src/useMusic.js`、`src/musicScore.js`、`src/useSoundscape.js`、`src/ambienceClips.js`：原创乐谱、真实环境录音与互动拟音。
 - `src/letters.js`、`src/LettersPanel.jsx`、`src/LifeReview.jsx`：来信、回信和人生回望。
 - `public/art/film-*.webp`、`public/films/`：人物已融入的海报与八段动态镜头。
 - `public/art/play-*.webp`：新互动的绘画茶席、透明瓷器与浅潮海岸。
 - `public/fonts/`、`public/audio/`：中文字体、默认旁白及许可。
 
-网站由 GitHub Pages 从 `main` 分支的 `/docs` 发布。公开访问不要求登录；下载包可离线游玩。云端网络验证不代表已验证中国大陆各地免 VPN 访问。
+网站由 GitHub Pages 从 `main` 分支的 `/docs` 发布。`scripts/package-web.mjs` 为同一构建生成按需加载的网站，只复制实际引用的素材，追加内容摘要以更新声音缓存，不携带未引用的工作画稿；离线包独立保留完整媒体。公开访问不要求登录；下载包可离线游玩。云端网络验证不代表已验证中国大陆各地免 VPN 访问。

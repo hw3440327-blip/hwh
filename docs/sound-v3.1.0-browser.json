@@ -1,0 +1,203 @@
+{
+  "checks": [
+    {
+      "name": "all 12 real Ogg recordings decode in native AudioContext",
+      "status": "pass",
+      "detail": [
+        {
+          "key": "sea",
+          "seconds": 46,
+          "channels": 2
+        },
+        {
+          "key": "rain",
+          "seconds": 39,
+          "channels": 2
+        },
+        {
+          "key": "garden",
+          "seconds": 41.5,
+          "channels": 2
+        },
+        {
+          "key": "interior",
+          "seconds": 36,
+          "channels": 2
+        },
+        {
+          "key": "bakery",
+          "seconds": 37.2,
+          "channels": 2
+        },
+        {
+          "key": "workshop",
+          "seconds": 33.5,
+          "channels": 2
+        },
+        {
+          "key": "wood",
+          "seconds": 0.48,
+          "channels": 2
+        },
+        {
+          "key": "touch",
+          "seconds": 0.36,
+          "channels": 2
+        },
+        {
+          "key": "page",
+          "seconds": 1.1,
+          "channels": 2
+        },
+        {
+          "key": "water",
+          "seconds": 3.55,
+          "channels": 2
+        },
+        {
+          "key": "pour",
+          "seconds": 5.2,
+          "channels": 2
+        },
+        {
+          "key": "complete",
+          "seconds": 1.08,
+          "channels": 2
+        }
+      ]
+    },
+    {
+      "name": "real ambient output, credits visible and rapid off/on cleanup",
+      "status": "pass",
+      "detail": {
+        "first": {
+          "contexts": [
+            "running"
+          ],
+          "oscillators": 0,
+          "sources": [
+            {
+              "duration": 38.999977324263035,
+              "loop": true
+            }
+          ],
+          "rms": [
+            0.011974344844806084
+          ]
+        },
+        "afterToggle": {
+          "contexts": [
+            "closed",
+            "closed",
+            "closed",
+            "running"
+          ],
+          "oscillators": 0,
+          "sources": [
+            {
+              "duration": 38.999977324263035,
+              "loop": true
+            }
+          ],
+          "rms": [
+            0.0002885415875574878,
+            0,
+            0,
+            0.010053110315893838
+          ]
+        }
+      }
+    },
+    {
+      "name": "continuous real water follows pot dragging and stops on release",
+      "status": "pass",
+      "detail": {
+        "during": {
+          "contexts": [
+            "closed",
+            "closed",
+            "closed",
+            "running"
+          ],
+          "oscillators": 0,
+          "sources": [
+            {
+              "duration": 38.999977324263035,
+              "loop": true
+            },
+            {
+              "duration": 5.199977324263038,
+              "loop": true
+            }
+          ],
+          "rms": [
+            0.0002885415875574878,
+            0,
+            0,
+            0.0210429798893944
+          ]
+        },
+        "after": {
+          "contexts": [
+            "closed",
+            "closed",
+            "closed",
+            "running"
+          ],
+          "oscillators": 0,
+          "sources": [
+            {
+              "duration": 38.999977324263035,
+              "loop": true
+            }
+          ],
+          "rms": [
+            0.0002885415875574878,
+            0,
+            0,
+            0.009985369208976512
+          ]
+        }
+      }
+    },
+    {
+      "name": "hidden tab suspends audio; return resumes; off releases all contexts",
+      "status": "pass",
+      "detail": {
+        "contexts": [
+          "closed",
+          "closed",
+          "closed",
+          "closed"
+        ],
+        "oscillators": 0,
+        "sources": [],
+        "rms": [
+          0.0002885415875574878,
+          0,
+          0,
+          0.000020892857355832355
+        ]
+      }
+    },
+    {
+      "name": "mobile sound controls and attribution have no overflow",
+      "status": "pass",
+      "detail": {
+        "width": 390,
+        "scroll": 390,
+        "credits": {
+          "x": 50,
+          "y": 624.328125,
+          "width": 290,
+          "height": 43,
+          "top": 624.328125,
+          "right": 340,
+          "bottom": 667.328125,
+          "left": 50
+        }
+      }
+    }
+  ],
+  "errors": []
+}

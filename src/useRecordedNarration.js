@@ -4,7 +4,7 @@ import { lookupRecordedNarration, RECORDED_PREVIEW_KEY } from './recordedNarrati
 import { NARRATION_MANIFEST as MANIFEST } from './narrationClips.js';
 
 export const RECORDED_NARRATION_VOICE = {
-  id: 'spring-recorded-v1', name: '春语 · 温柔女声', lang: 'zh-CN',
+  id: 'spring-recorded-v1', name: MANIFEST.voice?.name || '春语 · 参考音色', lang: 'zh-CN',
   kind: 'recorded', localService: true,
 };
 

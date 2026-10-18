@@ -42,3 +42,5 @@
   .audio-voice-select { grid-template-columns: 1fr; gap: 8px; }
   .audio-preview { margin-left: 0; }
 }
+
+.audio-source-credits{margin-top:14px;border-top:1px solid #d7dfca;padding-top:11px;color:#89927c;font-size:10px;line-height:1.9;}.audio-source-credits>summary{cursor:pointer;min-height:30px;padding:6px 0;letter-spacing:.05em;}.audio-source-credits p{font-size:10px;line-height:1.9;margin:7px 0 9px;}.audio-source-credits ul{list-style:none;padding:0;margin:0;}.audio-source-credits li{font-size:9px;line-height:2.1;}.audio-source-credits a{color:#7b8b69;text-decoration-color:#a8b69a;text-underline-offset:3px;}

@@ -1,0 +1,406 @@
+{
+  "checks": [
+    {
+      "name": "title and story native film playback, painted protagonist and changing pixels",
+      "status": "pass",
+      "details": {
+        "title": {
+          "w": 1280,
+          "h": 720,
+          "duration": 8,
+          "time": 0.281272,
+          "muted": true
+        },
+        "changedPixels": 3960,
+        "sampledPixels": 9600,
+        "mascot": false
+      }
+    },
+    {
+      "name": "landscape stays open, closeup plays, real lens drag and zoom, resume paragraph",
+      "status": "pass",
+      "details": {
+        "pause": true,
+        "zoom": true,
+        "drag": true,
+        "paragraphPreserved": true
+      }
+    },
+    {
+      "name": "painted tea table, actual pot drag continuous pour, partial save, completion",
+      "status": "pass",
+      "details": {
+        "dragFilled": 42,
+        "completed": true,
+        "partialSave": true
+      }
+    },
+    {
+      "name": "real frame photo, caption, original JPEG download and persistent album",
+      "status": "pass",
+      "details": {
+        "jpegChars": 51463,
+        "dims": [
+          512,
+          384
+        ],
+        "caption": "把今天的阳光，分一点给明天。",
+        "download": true
+      }
+    },
+    {
+      "name": "shell discovery, physical drag, keyboard rotation, completion and reload",
+      "status": "pass",
+      "details": {
+        "found": [
+          0,
+          1,
+          2
+        ],
+        "layout": [
+          {
+            "x": 0.639999977429218,
+            "y": 0.5200000217982701,
+            "angle": -3
+          },
+          {
+            "x": 0.5,
+            "y": 0.43,
+            "angle": 12
+          },
+          {
+            "x": 0.7,
+            "y": 0.54,
+            "angle": -8
+          }
+        ],
+        "completed": true
+      }
+    },
+    {
+      "name": "all eight H264 scene films actually decode",
+      "status": "pass",
+      "details": [
+        {
+          "duration": 8,
+          "width": 1280,
+          "height": 720,
+          "error": null,
+          "film": "arrival",
+          "source": "embedded data:video/mp4"
+        },
+        {
+          "duration": 8,
+          "width": 1280,
+          "height": 720,
+          "error": null,
+          "film": "bakery",
+          "source": "embedded data:video/mp4"
+        },
+        {
+          "duration": 8,
+          "width": 1280,
+          "height": 720,
+          "error": null,
+          "film": "bookshop",
+          "source": "embedded data:video/mp4"
+        },
+        {
+          "duration": 8,
+          "width": 1280,
+          "height": 720,
+          "error": null,
+          "film": "workshop",
+          "source": "embedded data:video/mp4"
+        },
+        {
+          "duration": 8,
+          "width": 1280,
+          "height": 854,
+          "error": null,
+          "film": "kitchen",
+          "source": "embedded data:video/mp4"
+        },
+        {
+          "duration": 8,
+          "width": 1280,
+          "height": 854,
+          "error": null,
+          "film": "garden",
+          "source": "embedded data:video/mp4"
+        },
+        {
+          "duration": 8,
+          "width": 1280,
+          "height": 720,
+          "error": null,
+          "film": "shore",
+          "source": "embedded data:video/mp4"
+        },
+        {
+          "duration": 8,
+          "width": 1280,
+          "height": 720,
+          "error": null,
+          "film": "night",
+          "source": "embedded data:video/mp4"
+        }
+      ]
+    },
+    {
+      "name": "offline reference narrator: actual MP3, menu pause/resume, two detail clips, no system TTS",
+      "status": "pass",
+      "details": {
+        "firstParagraphDuration": 9.623583,
+        "detailClips": 2,
+        "systemCalls": 0
+      }
+    },
+    {
+      "name": "offline natural ambience: real AudioContext output and graph cleanup",
+      "status": "pass",
+      "details": {
+        "contexts": [
+          "running"
+        ],
+        "oscillators": 0,
+        "rms": [
+          0.005593392667017926
+        ]
+      }
+    },
+    {
+      "name": "offline original bread drag, recipe, bake, completion remains functional",
+      "status": "pass",
+      "details": {
+        "completed": true
+      }
+    },
+    {
+      "name": "offline original repair and planting both remain functional",
+      "status": "pass",
+      "details": {
+        "repair": true,
+        "plant": true
+      }
+    },
+    {
+      "name": "offline film visibility handler, reduced-motion media preference and unmount cleanup",
+      "status": "pass",
+      "details": {
+        "simulatedVisibilityEvent": true,
+        "reducedMotion": true,
+        "resourceReleased": true
+      }
+    },
+    {
+      "name": "all twelve embedded real recordings decode offline with audible samples",
+      "status": "pass",
+      "details": [
+        {
+          "seconds": 46,
+          "channels": 2,
+          "rms": 0.031098831186219242
+        },
+        {
+          "seconds": 39,
+          "channels": 2,
+          "rms": 0.04232460500295742
+        },
+        {
+          "seconds": 41.5,
+          "channels": 2,
+          "rms": 0.042142463114290575
+        },
+        {
+          "seconds": 36,
+          "channels": 2,
+          "rms": 0.023326461216627115
+        },
+        {
+          "seconds": 37.2,
+          "channels": 2,
+          "rms": 0.007212134131295027
+        },
+        {
+          "seconds": 33.5,
+          "channels": 2,
+          "rms": 0.026870949299556565
+        },
+        {
+          "seconds": 0.48,
+          "channels": 2,
+          "rms": 0.03053657478944142
+        },
+        {
+          "seconds": 0.36,
+          "channels": 2,
+          "rms": 0.04431654274229665
+        },
+        {
+          "seconds": 1.1,
+          "channels": 2,
+          "rms": 0.01622032339512144
+        },
+        {
+          "seconds": 3.55,
+          "channels": 2,
+          "rms": 0.0459732186325523
+        },
+        {
+          "seconds": 5.2,
+          "channels": 2,
+          "rms": 0.04598122431926908
+        },
+        {
+          "seconds": 1.08,
+          "channels": 2,
+          "rms": 0.02703763321701013
+        }
+      ]
+    },
+    {
+      "name": "offline every runtime painting and embedded font decodes without network",
+      "status": "pass",
+      "details": {
+        "images": [
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1536,
+            1024
+          ],
+          [
+            1536,
+            1024
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1536,
+            1024
+          ],
+          [
+            1536,
+            1024
+          ],
+          [
+            1536,
+            1024
+          ],
+          [
+            1312,
+            1199
+          ],
+          [
+            1402,
+            1122
+          ],
+          [
+            1536,
+            1024
+          ]
+        ],
+        "font": true,
+        "externalRequests": 0
+      }
+    },
+    {
+      "name": "mobile landscape, tea/photo/shell layouts and reduced motion",
+      "status": "pass",
+      "details": [
+        {
+          "id": "tea",
+          "width": 390,
+          "scroll": 390,
+          "dialog": {
+            "x": 9,
+            "y": 63.890625,
+            "width": 372,
+            "height": 716.21875,
+            "top": 63.890625,
+            "right": 381,
+            "bottom": 780.109375,
+            "left": 9
+          }
+        },
+        {
+          "id": "photo",
+          "width": 390,
+          "scroll": 390,
+          "dialog": {
+            "x": 9,
+            "y": 136.078125,
+            "width": 372,
+            "height": 571.828125,
+            "top": 136.078125,
+            "right": 381,
+            "bottom": 707.90625,
+            "left": 9
+          }
+        },
+        {
+          "id": "shells",
+          "width": 390,
+          "scroll": 390,
+          "dialog": {
+            "x": 9,
+            "y": 72.53125,
+            "width": 372,
+            "height": 698.9375,
+            "top": 72.53125,
+            "right": 381,
+            "bottom": 771.46875,
+            "left": 9
+          }
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "artifact": {
+    "path": "下一次春天-电影生活版.html",
+    "bytes": 68140822,
+    "sha256": "5188e4d13eae8360b90331f014fd454faab417fc27e9b4ac751102c9bf538d3a"
+  },
+  "externalRequests": [],
+  "passed": 14,
+  "failed": 0,
+  "browserErrors": 0
+}

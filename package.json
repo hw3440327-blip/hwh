@@ -1,6 +1,6 @@
 {
   "name": "next-spring",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -11,7 +11,8 @@
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
     "test": "node --test tests/*.test.js",
-    "package:game": "npm run build && node scripts/package-game.mjs"
+    "package:game": "npm run build && node scripts/package-game.mjs",
+    "package:web": "npm run build && node scripts/package-web.mjs"
   },
   "dependencies": {
     "lucide-react": "0.468.0",

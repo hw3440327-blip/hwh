@@ -1,0 +1,110 @@
+《下一次春天》3.1 · 环境声与互动拟音来源
+
+所有声音在游戏文件中内置。下列来源链接仅作署名与授权说明，游玩无需联网访问。
+音频经过节选、滤波、混音、增益调整、循环重叠与边缘淡化，并编码为 Opus/Ogg。
+海边、雨天、花园使用实地录音；室内与木工房使用低音量、低通处理的窗外枝叶和远处鸟鸣。
+倒茶声来自真实杯中落水，操作声来自纸页与木质轻敲。详细处理与输出 SHA-256 见 SOUND-SOURCES.json。
+
+File:Oceanwavescrushing.ogg
+作者：Luftrum
+许可：CC BY 3.0 · https://creativecommons.org/licenses/by/3.0
+作品页面：https://commons.wikimedia.org/wiki/File:Oceanwavescrushing.ogg
+原始录音：https://upload.wikimedia.org/wikipedia/commons/f/f1/Oceanwavescrushing.ogg
+源文件 SHA-256：2a56648817264b6caa30426baa2245a03041b1febe9faa7b9235d7cc539aa9ca
+
+File:Rain (1).ogg
+作者：ezwa
+许可：Public domain · https://creativecommons.org/publicdomain/mark/1.0/
+作品页面：https://commons.wikimedia.org/wiki/File:Rain_(1).ogg
+原始录音：https://upload.wikimedia.org/wikipedia/commons/0/0e/Rain_%281%29.ogg
+源文件 SHA-256：31efcbe952a3989a9276774e2d7be61a2dc98fdd785a94d1435fc19cda9a84d1
+
+File:Birds singing in garden.ogg
+作者：ezwa
+许可：Public domain · https://creativecommons.org/publicdomain/mark/1.0/
+作品页面：https://commons.wikimedia.org/wiki/File:Birds_singing_in_garden.ogg
+原始录音：https://upload.wikimedia.org/wikipedia/commons/8/80/Birds_singing_in_garden.ogg
+源文件 SHA-256：c3a9cbbecb313810e6ca9a0c38743a7548749a0c18fda5659f9d5dc7060bddd8
+
+File:Rustling leaves (Gravity Sound).wav
+作者：Gravity Sound
+许可：CC BY 4.0 · https://creativecommons.org/licenses/by/4.0
+作品页面：https://commons.wikimedia.org/wiki/File:Rustling_leaves_(Gravity_Sound).wav
+原始录音：https://upload.wikimedia.org/wikipedia/commons/d/db/Rustling_leaves_%28Gravity_Sound%29.wav
+源文件 SHA-256：b801edd2e049ba2084e8fa3f90374c2cbae16032965df6db5d32d4850d4afdb3
+
+File:Boiling water being poured into a mug for tea.ogg
+作者：cori
+许可：Public domain · https://creativecommons.org/publicdomain/mark/1.0/
+作品页面：https://commons.wikimedia.org/wiki/File:Boiling_water_being_poured_into_a_mug_for_tea.ogg
+原始录音：https://upload.wikimedia.org/wikipedia/commons/6/69/Boiling_water_being_poured_into_a_mug_for_tea.ogg
+源文件 SHA-256：5580d3f8f6bde68b5215a99c7a8180536eb89be3a47b49e21da73e4e17e0906f
+
+File:Knocking on wood or door.ogg
+作者：stephan
+许可：Public domain · https://creativecommons.org/publicdomain/mark/1.0/
+作品页面：https://commons.wikimedia.org/wiki/File:Knocking_on_wood_or_door.ogg
+原始录音：https://upload.wikimedia.org/wikipedia/commons/1/1c/Knocking_on_wood_or_door.ogg
+源文件 SHA-256：f65a210f76fd6e76757ac632585b1bbf9ffeaf35b9c3aa1466eb9dd6c7ca9590
+
+File:WWS Fireoftheforge.ogg
+作者：Work With Sounds / La Fonderie
+许可：CC BY 4.0 · https://creativecommons.org/licenses/by/4.0
+作品页面：https://commons.wikimedia.org/wiki/File:WWS_Fireoftheforge.ogg
+原始录音：https://upload.wikimedia.org/wikipedia/commons/0/01/WWS_Fireoftheforge.ogg
+源文件 SHA-256：2a417865af90e546d6dd2e6aefa374f7082d5e6a90f067830a915b0a9f4a5d68
+
+File:Book paper pages assorted.ogg
+作者：stephan
+许可：Public domain · https://creativecommons.org/publicdomain/mark/1.0/
+作品页面：https://commons.wikimedia.org/wiki/File:Book_paper_pages_assorted.ogg
+原始录音：https://upload.wikimedia.org/wikipedia/commons/7/79/Book_paper_pages_assorted.ogg
+源文件 SHA-256：7725928b65296676cff33f2d2c6f1489e810acf27c1a48a9c452263c26fd2a08
+
+sea · 46.0 s
+来源：sea
+处理：shore waves; excerpt from 18 s; bandpass, equal-power overlap, gain
+
+rain · 39.0 s
+来源：rain
+处理：rain excerpt from 2 s; bandpass, equal-power overlap, gain
+
+garden · 41.5 s
+来源：garden, leaves
+处理：garden birds with quiet rustling leaves; layered, bandpass, seamless overlap, gain
+
+interior · 36.0 s
+来源：leaves, garden
+处理：window-side air made from attenuated outdoor recordings; lowpass, seamless overlap, gain; not an indoor field recording
+
+bakery · 37.2 s
+来源：fire, leaves
+处理：quiet hearth texture and distant leaves; layered, bandpass, seamless overlap, gain
+
+workshop · 33.5 s
+来源：leaves, garden
+处理：quiet window-side outdoor texture; lowpass, seamless overlap, gain
+
+wood · 0.48 s
+来源：wood
+处理：wood touch excerpt from 0.720 s; bandpass and short edge fades
+
+touch · 0.36 s
+来源：paper
+处理：paper surface excerpt from 4.360 s; bandpass and short edge fades
+
+page · 1.1 s
+来源：paper
+处理：book/paper excerpt from 13.800 s; bandpass and short edge fades
+
+water · 3.55 s
+来源：water
+处理：real water into a mug excerpt from 4 s; bandpass, seamless overlap, gain
+
+pour · 5.2 s
+来源：water
+处理：real water into a mug excerpt from 3.5 s; bandpass, seamless overlap, gain
+
+complete · 1.08 s
+来源：wood
+处理：two attenuated wooden taps; splice and gain; no electronic completion tone

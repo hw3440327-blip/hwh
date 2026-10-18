@@ -12,11 +12,12 @@ function useDialog(close) {
   return ref;
 }
 
-function TeaExperience({ progress:p, onAction }) {
+function TeaExperience({ progress:p, onAction, onPouringChange }) {
   const [pot,setPot]=useState({x:.72,y:.4});const [pouring,setPouring]=useState(false);const [size,setSize]=useState({w:1300,h:560,pot:315,cup:225});const drag=useRef(null),area=useRef(null),current=useRef({p,onAction});current.current={p,onAction};
   useEffect(()=>{const measure=()=>{const b=area.current.getBoundingClientRect();setSize({w:b.width,h:b.height,pot:parseFloat(getComputedStyle(area.current.querySelector('.ds-teapot')||area.current).width),cup:parseFloat(getComputedStyle(area.current.querySelector('.ds-tea-cup')).width)})};measure();const observer=new ResizeObserver(measure);observer.observe(area.current);return()=>observer.disconnect()},[Boolean(p.blend)]);
   const target={x:size.w*.47-size.cup*.01,y:size.h*.65-size.cup*.21};
   const spout={x:pot.x*size.w-size.pot*.435,y:pot.y*size.h+size.pot*.087};
+  useEffect(()=>{onPouringChange?.(pouring);return()=>onPouringChange?.(false)},[pouring,onPouringChange]);
   useEffect(()=>{if(!pouring)return;const timer=setInterval(()=>current.current.onAction({type:'pour',amount:3}),150);return()=>clearInterval(timer)},[pouring]);
   useEffect(()=>{if(p.filled>=82||p.steeped)setPouring(false)},[p.filled,p.steeped]);
   function move(event){if(!drag.current)return;const bounds=area.current.getBoundingClientRect();const next={x:Math.max(.2,Math.min(.85,(event.clientX-bounds.left)/bounds.width)),y:Math.max(.12,Math.min(.7,(event.clientY-bounds.top)/bounds.height))};setPot(next);const tip={x:next.x*size.w-size.pot*.435,y:next.y*size.h+size.pot*.087};setPouring(Math.abs(tip.x-target.x)<size.cup*.23&&tip.y>target.y-Math.min(180,size.h*.36)&&tip.y<target.y-12&&!p.steeped&&p.filled<82)}
@@ -33,7 +34,7 @@ function TeaExperience({ progress:p, onAction }) {
       {stage==='done'&&<div className="ds-in-scene-note"><span>这一盏茶，留给自己。</span><small>{p.blend==='jasmine'?'茉莉的清香':'桂花的暖香'} · 旅程已经替你记住</small></div>}
     </div>
     <div className="ds-ritual-footer">
-      {stage==='blend'?<><p>今天，想让哪一种香气陪你？</p><div className="ds-blends"><button onClick={()=>onAction({type:'blend',blend:'jasmine'})}><span className="ds-blossom"/>茉莉青茶<small>清轻，像窗外的风</small></button><button onClick={()=>onAction({type:'blend',blend:'osmanthus'})}><span className="ds-blossom is-golden"/>桂花暖茶<small>柔和，像傍晚的光</small></button></div></>:stage==='pour'?<><p><Hand size={14}/>把壶拖到杯子右上方，停一会儿，让细水慢慢落下。</p><button className="ds-keyboard-help" onClick={()=>onAction({type:'pour',amount:9})}>也可以轻点这里，添一点热水</button></>:stage==='steep'?<><p>茶色刚刚好。把壶放下，让香气醒过来。</p><button className="ds-quiet-primary" onClick={()=>onAction({type:'steep'})}>收壶，闻一闻茶香<Leaf size={15}/></button></>:stage==='savor'?<><p>有些事情，等一盏茶的时间再想也可以。</p><button className="ds-quiet-primary" onClick={()=>onAction({type:'savor'})}>捧起杯子，给自己一点时间<Check size={15}/></button></>:<p className="ds-earned-note"><Check size={14}/>这盏茶，已经收进人生相册。</p>}
+      {stage==='blend'?<><p>今天，想让哪一种香气陪你？</p><div className="ds-blends"><button onClick={()=>onAction({type:'blend',blend:'jasmine'})}><span className="ds-blossom"/>茉莉青茶<small>清轻，像窗外的风</small></button><button onClick={()=>onAction({type:'blend',blend:'osmanthus'})}><span className="ds-blossom is-golden"/>桂花暖茶<small>柔和，像傍晚的光</small></button></div></>:stage==='pour'?<><p><Hand size={14}/>把壶拖到杯子右上方，停一会儿，让细水慢慢落下。</p><button className="ds-keyboard-help" onClick={()=>onAction({type:'pour',amount:9,manual:true})}>也可以轻点这里，添一点热水</button></>:stage==='steep'?<><p>茶色刚刚好。把壶放下，让香气醒过来。</p><button className="ds-quiet-primary" onClick={()=>onAction({type:'steep'})}>收壶，闻一闻茶香<Leaf size={15}/></button></>:stage==='savor'?<><p>有些事情，等一盏茶的时间再想也可以。</p><button className="ds-quiet-primary" onClick={()=>onAction({type:'savor'})}>捧起杯子，给自己一点时间<Check size={15}/></button></>:<p className="ds-earned-note"><Check size={14}/>这盏茶，已经收进人生相册。</p>}
     </div>
   </div>;
 }
@@ -68,11 +69,11 @@ function PhotoExperience({ game, scene, progress:p, onAction, quiet }) {
   </div><div className="ds-ritual-footer">{taken?<><p role="status">{message}</p><div className="ds-photo-actions"><button onClick={()=>{setTaken(null);setMessage('')}}><RotateCcw size={15}/>再取一个角度</button><button onClick={download}><Download size={15}/>保存这张照片</button></div></>:<><div className="ds-camera-controls"><label>靠近一点<input type="range" min="1" max="2.2" step=".05" value={frame.zoom} onChange={e=>{const zoom=Number(e.target.value),w=.64/zoom,h=w*1.2;setFrame(f=>({...f,zoom,x:Math.max(w/2,Math.min(1-w/2,f.x)),y:Math.max(h/2,Math.min(1-h/2,f.y))}))}} aria-label="镜头取景大小"/></label><input className="ds-photo-caption" maxLength="48" value={caption} onChange={e=>setCaption(e.target.value)} placeholder="给这一帧，留一句自己的话……" aria-label="照片题字"/><button className="ds-shutter" disabled={!loaded} onPointerUp={event=>{if(event.pointerType==='touch'){event.preventDefault();capture()}}} onClick={capture} aria-label="按下快门，收藏这一帧"><Camera size={23}/><span>{loaded?'留下这一束光':'等光落稳…'}</span></button></div>{message&&<p role="status">{message}</p>}<small>已留存 {p.shots.length} 张 · 保留最近 6 张 · 可随旅程导出</small></>}</div></div>;
 }
 
-export default function DiscoveryScene({ game, scene, discovery, onAction, onClose, quiet=false }) {
+export default function DiscoveryScene({ game, scene, discovery, onAction, onClose, quiet=false, onPouringChange }) {
   const ref=useDialog(onClose),id='discovery-'+useId().replace(/[^a-z0-9]/gi,'');const progress=discoveryProgress(game,discovery.id);
   return <div className={'ds-overlay'+(quiet?' ds-quiet':'')}><section ref={ref} className={'ds-dialog ds-kind-'+discovery.id} role="dialog" aria-modal="true" aria-labelledby={id}>
     <header className="ds-header"><button className="ds-back" onClick={onClose} aria-label="收好这一刻，回到故事"><ArrowLeft size={19}/><span>回到小镇</span></button><div><span>栖屿 · 把时间交还给自己</span><h2 id={id}>{discovery.title}</h2><p>{discovery.subtitle}</p></div><span className="ds-edition">SLOW DAYS<br/>VOL. 01</span></header>
-    <div className="ds-scroll">{discovery.id==='tea'?<TeaExperience progress={progress} onAction={onAction}/>:discovery.id==='shells'?<ShellExperience progress={progress} onAction={onAction} id={id}/>:<PhotoExperience game={game} scene={scene} progress={progress} onAction={onAction} quiet={quiet}/>}</div>
+    <div className="ds-scroll">{discovery.id==='tea'?<TeaExperience progress={progress} onAction={onAction} onPouringChange={onPouringChange}/>:discovery.id==='shells'?<ShellExperience progress={progress} onAction={onAction} id={id}/>:<PhotoExperience game={game} scene={scene} progress={progress} onAction={onAction} quiet={quiet}/>}</div>
     <footer className="ds-footer"><span><Leaf size={12}/>这一刻不用赶路。</span><button onClick={onClose}>{progress.completed?'把温暖带回故事':'先让故事继续'}<ArrowRight size={14}/></button></footer>
   </section></div>;
 }

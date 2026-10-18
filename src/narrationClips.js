@@ -5,56 +5,55 @@ export const NARRATION_MANIFEST = {
   "voice": {
     "id": "spring-recorded-v1",
     "kind": "recorded",
-    "name": "春语 · 温柔女声",
+    "name": "春语 · 初版参考音色",
     "lang": "zh-CN",
     "localService": true,
-    "model": "Kokoro-82M-v1.1-zh",
+    "model": "ZipVoice-Distill-FP32-zh-en-Emilia",
     "license": "Apache-2.0",
-    "licenseUrl": "https://raw.githubusercontent.com/hexgrad/kokoro/main/LICENSE",
+    "licenseUrl": "https://raw.githubusercontent.com/k2-fsa/ZipVoice/master/LICENSE",
     "synthetic": true,
-    "sid": 3,
+    "sid": 0,
     "speed": 0.94,
     "sampleRate": 24000,
     "voiceConfig": {
-      "model": "Kokoro-82M-v1.1-zh",
-      "modelArchiveSha256": "a3f4c73d043860e3fd2e5b06f36795eb81de0fc8e8de6df703245edddd87dbad",
+      "model": "ZipVoice-Distill-FP32-zh-en-Emilia",
+      "modelArchiveSha256": "3b6729d03bf4ba64deeec113048bdbbe55dbc30580b609be76342e0099fd23a8",
+      "vocoderSha256": "bcb3b970e384161c4d634f0bb9e999ff1c471b34c9bc0b1049a5014065ed3cc0",
       "modelFiles": {
-        "model.onnx": "acc4adc175b9d9986106cd20060329673ad5a2e12ef3c557d2d3745b694f8b38",
-        "voices.bin": "e64a5a581d8c2a350d848f51c3121657cd83aa07ed6109172177345874a7244c",
-        "tokens.txt": "931ab2df2400cd65d580a22402024c2347ced8ae9ea300e545144b1aacc48e14",
-        "lexicon-us-en.txt": "7daaab53a181be9885b853a8582bf1838186317e5dadacbcef9c426d6fa0da14",
-        "lexicon-zh.txt": "11111d8cd695fba2ace1367a1d0a708b586e6ef5c1f9be91da5d7eef129b651c",
-        "phone-zh.fst": "1ac2b6fa56b1442320c4de7db08353bab8963a2b57f365eebcdd3a2d3562f8d7",
-        "date-zh.fst": "eb8aa079ae3cb81d8f4404992f39d61a0cb990947512b5b8d1e54d1f6980e718",
-        "number-zh.fst": "743f402181fcfebf76cc2f0546b71fa26476e626fbe4e460fb7b4c3a7a8bd5bd"
+        "encoder.onnx": "495eca2d5f8a911f5c361bcce5bd55cdd2508ccdd26ce3e9bf1d3c29eb974861",
+        "decoder.onnx": "4510d4f5f049f14ef80207fca695e13c820e2cea61635f402954950bc62b1e3c",
+        "tokens.txt": "ce98c1afc5f7a20c2484dffdd68a1fff0a4a2cc707328833750c4476c37cdbda",
+        "lexicon.txt": "c94b049d970e971acdc2a7e5e7b23ca594222a9d640e417c711f2ad1e7bb7d46"
       },
-      "sid": 3,
+      "referenceSha256": "41b374eec64de5199a8751126a43d2f70be125e3b785c6b6245bc1efc6c5810c",
+      "referenceTextSha256": "f3388c9f2dea49ac3416046d4dd55800ef0b2f3cd9d4bd0e422910f2582248d3",
+      "sid": 0,
       "speed": 0.94,
-      "silenceScale": 0.45,
-      "maxNumSentences": 1,
-      "provider": "cpu",
-      "numThreads": 2,
+      "steps": 4,
+      "minCharInSentence": 30,
       "sampleRate": 24000,
       "channels": 1,
       "codec": "libmp3lame",
-      "bitrate": "48k",
+      "bitrate": "64k",
       "loudnorm": {
         "I": -19,
         "TP": -2.5,
-        "LRA": 7
+        "LRA": 9
       },
-      "trimSilence": false,
-      "sherpaOnnx": "1.13.8",
-      "pipelineVersion": 1
+      "highpass": 55,
+      "provider": "cpu",
+      "numThreads": 1,
+      "pipelineVersion": 1,
+      "sherpaOnnx": "1.13.8"
     },
-    "voiceConfigHash": "ffa78e330297fec98c6ef6b2c4d85269236d9d70e3a88438c6a1591e2c8a9e5b",
-    "modelArchiveSha256": "a3f4c73d043860e3fd2e5b06f36795eb81de0fc8e8de6df703245edddd87dbad"
+    "voiceConfigHash": "358365d3aa946c0e80c943259352d9a05d9b16bee9583e7fa47f69ee690cc8bd",
+    "modelArchiveSha256": "3b6729d03bf4ba64deeec113048bdbbe55dbc30580b609be76342e0099fd23a8"
   },
   "stats": {
     "clips": 213,
     "bindings": 227,
-    "seconds": 2759.4960000000015,
-    "bytes": 16607244
+    "seconds": 2549.399999999999,
+    "bytes": 20445468
   },
   "clips": [
     {
@@ -65,11 +64,11 @@ export const NARRATION_MANIFEST = {
       "characters": 49,
       "han": 44,
       "src": "/audio/narration/1c9a5c2cd357d71486be5e588d296f876ebc8bc9bcb722a59ce1b8cfba8676f0.mp3",
-      "sha256": "480d81db87c216015ad2fff574de01c81aecbcfff7e6c043cd8a5fdaa3f68757",
-      "seconds": 12.576,
-      "durationMs": 12576,
+      "sha256": "0f9d4f91770ec21a81353431cdfe1730895e0d4f113b0b3e3d156d40e67a22e6",
+      "seconds": 11.376,
+      "durationMs": 11376,
       "sampleRate": 24000,
-      "bytes": 75692
+      "bytes": 91244
     },
     {
       "id": "cebc638833c8db5a355193a70331e762736d2d77d2fd8db88542b46623f187cd",
@@ -79,11 +78,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 45,
       "src": "/audio/narration/cebc638833c8db5a355193a70331e762736d2d77d2fd8db88542b46623f187cd.mp3",
-      "sha256": "2656e5090a85c9fc3ec3428ee79069fcb7ffa5019e90ebf06d40326c520f388e",
-      "seconds": 12.72,
-      "durationMs": 12720,
+      "sha256": "4e7017fb1c58b4ec2bfa33aa8491ed287f1485db6b0b3de65f22f0d350e3c36c",
+      "seconds": 12.216,
+      "durationMs": 12216,
       "sampleRate": 24000,
-      "bytes": 76556
+      "bytes": 97964
     },
     {
       "id": "0040d968d2f6b94e4c355176f3c9ff7f64804008fa882022422f66f46c859a28",
@@ -93,11 +92,11 @@ export const NARRATION_MANIFEST = {
       "characters": 57,
       "han": 50,
       "src": "/audio/narration/0040d968d2f6b94e4c355176f3c9ff7f64804008fa882022422f66f46c859a28.mp3",
-      "sha256": "d1dbbed6bea4a1f106abb3f27681076abdd1ce2c62f0be1f1fb07848d3f9e567",
-      "seconds": 15.12,
-      "durationMs": 15120,
+      "sha256": "331cfc08261e8bcca67d5a548f74916ba0727db99dd72bc3162dcdbe6b39fcb0",
+      "seconds": 12.6,
+      "durationMs": 12600,
       "sampleRate": 24000,
-      "bytes": 90956
+      "bytes": 101036
     },
     {
       "id": "746b17be2a1e3f1996f80d00186a98f13651b38415fc28e54ae89a4cc4811d11",
@@ -107,11 +106,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 50,
       "src": "/audio/narration/746b17be2a1e3f1996f80d00186a98f13651b38415fc28e54ae89a4cc4811d11.mp3",
-      "sha256": "72a89a334264eaf020ee691799e378ab3f9bdfff355d2c47b07adfaa29ec4ae1",
-      "seconds": 12.888,
-      "durationMs": 12888,
+      "sha256": "7d5c1b0501fa3e713e71c36c3e1db4ed5aea94662aa9db6a153f2f6af44ee313",
+      "seconds": 13.128,
+      "durationMs": 13128,
       "sampleRate": 24000,
-      "bytes": 77564
+      "bytes": 105260
     },
     {
       "id": "e94de4ee71d0e7fe8fc5b7ddec24124a1a233db74d6a7699aaf6753070f85f81",
@@ -121,11 +120,11 @@ export const NARRATION_MANIFEST = {
       "characters": 58,
       "han": 53,
       "src": "/audio/narration/e94de4ee71d0e7fe8fc5b7ddec24124a1a233db74d6a7699aaf6753070f85f81.mp3",
-      "sha256": "87425d47ad90d190d0b77ba79034bcb040af00adde6515af35ea728c35703f58",
-      "seconds": 14.376,
-      "durationMs": 14376,
+      "sha256": "aa15b00e338c3cefe57793ff33ee87630aa550681a03fddae8f2aede8500752f",
+      "seconds": 14.064,
+      "durationMs": 14064,
       "sampleRate": 24000,
-      "bytes": 86492
+      "bytes": 112748
     },
     {
       "id": "e6abba9fc9db662554a7f6cbc65f4a8f69015b6b6068154090454cf8cdf79c47",
@@ -135,11 +134,11 @@ export const NARRATION_MANIFEST = {
       "characters": 42,
       "han": 35,
       "src": "/audio/narration/e6abba9fc9db662554a7f6cbc65f4a8f69015b6b6068154090454cf8cdf79c47.mp3",
-      "sha256": "602240e825ff995c04bee360503f6bdc58824da620e494bd5c8a0ca856dd0357",
-      "seconds": 10.08,
-      "durationMs": 10080,
+      "sha256": "be1d559e7f60910df219b10e6eae3185005d27b4edb8990d73b6d611b1071312",
+      "seconds": 8.928,
+      "durationMs": 8928,
       "sampleRate": 24000,
-      "bytes": 60716
+      "bytes": 71660
     },
     {
       "id": "4b424e49784eb78bff8b3b2f94ac8d1a3751b544ddc667a26442000c8a2c1c3c",
@@ -149,11 +148,11 @@ export const NARRATION_MANIFEST = {
       "characters": 42,
       "han": 37,
       "src": "/audio/narration/4b424e49784eb78bff8b3b2f94ac8d1a3751b544ddc667a26442000c8a2c1c3c.mp3",
-      "sha256": "7e56f5ea517e56b66ad983cfa53502ec3bea1b11761f09449e658bf3943dc038",
-      "seconds": 11.088,
-      "durationMs": 11088,
+      "sha256": "8c26a91651373a5619c1db19c1f78c7ab65c2c442d3a6540c0415c8fe9879231",
+      "seconds": 9.672,
+      "durationMs": 9672,
       "sampleRate": 24000,
-      "bytes": 66764
+      "bytes": 77612
     },
     {
       "id": "46b29dda04cdab1475daca61eadbfa07cdc793d7a491234c886a4116a3229448",
@@ -163,11 +162,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 40,
       "src": "/audio/narration/46b29dda04cdab1475daca61eadbfa07cdc793d7a491234c886a4116a3229448.mp3",
-      "sha256": "365d038a95e327c8d23bdcbd3060603ec3f17ad337b2b38de17d378d94245c53",
-      "seconds": 13.128,
-      "durationMs": 13128,
+      "sha256": "86236ce855327380f7fb06abc0096f087d798a381c05d8c7b330027c74092e56",
+      "seconds": 10.848,
+      "durationMs": 10848,
       "sampleRate": 24000,
-      "bytes": 79004
+      "bytes": 87020
     },
     {
       "id": "58b8350c8105ccb0d6e6996f47be2e893cea1a6a2862dcf6c407b94126935fb5",
@@ -177,11 +176,11 @@ export const NARRATION_MANIFEST = {
       "characters": 34,
       "han": 31,
       "src": "/audio/narration/58b8350c8105ccb0d6e6996f47be2e893cea1a6a2862dcf6c407b94126935fb5.mp3",
-      "sha256": "47ed752cf185553993a9aa8e44194c916c681893c2fac3a71f03ba339754d6a7",
-      "seconds": 8.4,
-      "durationMs": 8400,
+      "sha256": "05dbbdbc2e643904b808dc3bc957c6f749a65e52061fdd496c4a72bb21212202",
+      "seconds": 7.848,
+      "durationMs": 7848,
       "sampleRate": 24000,
-      "bytes": 50636
+      "bytes": 63020
     },
     {
       "id": "ef0efb89a19a653c2e1a07db689e0891480f763c3aed4cb8e22879d83cdb3a85",
@@ -191,11 +190,11 @@ export const NARRATION_MANIFEST = {
       "characters": 44,
       "han": 40,
       "src": "/audio/narration/ef0efb89a19a653c2e1a07db689e0891480f763c3aed4cb8e22879d83cdb3a85.mp3",
-      "sha256": "869092834cd3c0d1bab4b2db0e22d1f6e4c90f5d776ef4344b231b8d073eb59a",
-      "seconds": 11.184,
-      "durationMs": 11184,
+      "sha256": "441ae7110856dd113bef2a33fb8d262045251c04d13619a0a8a2f77b94642f0c",
+      "seconds": 10.68,
+      "durationMs": 10680,
       "sampleRate": 24000,
-      "bytes": 67340
+      "bytes": 85676
     },
     {
       "id": "582d65aa44f8402fc22b933d1ebd3f54e4cf50ea0fbbc15c28b7332ee2af78e2",
@@ -205,11 +204,11 @@ export const NARRATION_MANIFEST = {
       "characters": 45,
       "han": 40,
       "src": "/audio/narration/582d65aa44f8402fc22b933d1ebd3f54e4cf50ea0fbbc15c28b7332ee2af78e2.mp3",
-      "sha256": "5d81c59b7611123a80f48cd10067696d99c51fa929db60e3e9a57e15852e1d11",
-      "seconds": 11.904,
-      "durationMs": 11904,
+      "sha256": "7968c28c5f3e851e653e4c3f9bfcea28b079fc5906b1fa1faa6f183c184b8eac",
+      "seconds": 10.056,
+      "durationMs": 10056,
       "sampleRate": 24000,
-      "bytes": 71660
+      "bytes": 80684
     },
     {
       "id": "ada304fd42d6d693f0580fc97933dff44e92cda45bde3b26952f06fc684aecc2",
@@ -219,11 +218,11 @@ export const NARRATION_MANIFEST = {
       "characters": 45,
       "han": 41,
       "src": "/audio/narration/ada304fd42d6d693f0580fc97933dff44e92cda45bde3b26952f06fc684aecc2.mp3",
-      "sha256": "65ef27e17798e4cca414a5f4cd7a5b4cacd347672c983c08b1248ce7f5a46dbf",
-      "seconds": 11.328,
-      "durationMs": 11328,
+      "sha256": "7df80f025ff2446e913146c9b4d64b3d38e98b8830fa791a447dfff1f2fea56b",
+      "seconds": 10.032,
+      "durationMs": 10032,
       "sampleRate": 24000,
-      "bytes": 68204
+      "bytes": 80492
     },
     {
       "id": "d70a23082876658a09a572b7851687b01cce48a3ba5d7cd4dd9e49c34e8003b6",
@@ -233,11 +232,11 @@ export const NARRATION_MANIFEST = {
       "characters": 48,
       "han": 44,
       "src": "/audio/narration/d70a23082876658a09a572b7851687b01cce48a3ba5d7cd4dd9e49c34e8003b6.mp3",
-      "sha256": "0d1784d3883414c46cfd0126d592c60008464023fa580e734b6f265c944e1267",
-      "seconds": 11.64,
-      "durationMs": 11640,
+      "sha256": "1ce5959edfec2e7319a7b41e389bb810860e7fa53d076bf34d82391d78e11f6a",
+      "seconds": 11.064,
+      "durationMs": 11064,
       "sampleRate": 24000,
-      "bytes": 70076
+      "bytes": 88748
     },
     {
       "id": "9a46a60caed126b287b1e9a9b8852803ef36217335ffc9fdde69aa6105d6b334",
@@ -247,11 +246,11 @@ export const NARRATION_MANIFEST = {
       "characters": 45,
       "han": 37,
       "src": "/audio/narration/9a46a60caed126b287b1e9a9b8852803ef36217335ffc9fdde69aa6105d6b334.mp3",
-      "sha256": "988e7ee01706c18e8d6bd2f01ddbd81b317abbe88a76e90f1a90503ddae4929e",
-      "seconds": 11.688,
-      "durationMs": 11688,
+      "sha256": "9279885e5792d808b603284ee0813b463186e7ab345aee2881cce1f0e0acc496",
+      "seconds": 9.504,
+      "durationMs": 9504,
       "sampleRate": 24000,
-      "bytes": 70364
+      "bytes": 76268
     },
     {
       "id": "1d04b63cdd6cfb5516d4af3c305dbefbe8113ade098447cf6ef92455ce5af305",
@@ -261,11 +260,11 @@ export const NARRATION_MANIFEST = {
       "characters": 41,
       "han": 37,
       "src": "/audio/narration/1d04b63cdd6cfb5516d4af3c305dbefbe8113ade098447cf6ef92455ce5af305.mp3",
-      "sha256": "3735ca8c6884ba982a31567da069d9b16d2c057ee33a3f729d59ddd54ba1e0e0",
-      "seconds": 10.08,
-      "durationMs": 10080,
+      "sha256": "fa281caab126c3bf54640524e5e950b7511da5424e25c859974db0f589a4ab26",
+      "seconds": 9.624,
+      "durationMs": 9624,
       "sampleRate": 24000,
-      "bytes": 60716
+      "bytes": 77228
     },
     {
       "id": "efa8bfe42a11b4faaf7520d8fab09747d4890e9ab8ec62e96c7de83c882ca34e",
@@ -275,11 +274,11 @@ export const NARRATION_MANIFEST = {
       "characters": 47,
       "han": 43,
       "src": "/audio/narration/efa8bfe42a11b4faaf7520d8fab09747d4890e9ab8ec62e96c7de83c882ca34e.mp3",
-      "sha256": "dc60a709bea15008574bf9d97900b2391a5d950268fe66a72a4129e5b4edd270",
-      "seconds": 12.072,
-      "durationMs": 12072,
+      "sha256": "ebede688df305b011bbb8f1bcf71df7b44cf64b5433ae7b4a11c4a88dda3b418",
+      "seconds": 11.976,
+      "durationMs": 11976,
       "sampleRate": 24000,
-      "bytes": 72668
+      "bytes": 96044
     },
     {
       "id": "9a61620a42aa13aa06e08c7885b874c71673ad6920cec76a67828243ccfa9545",
@@ -289,11 +288,11 @@ export const NARRATION_MANIFEST = {
       "characters": 47,
       "han": 43,
       "src": "/audio/narration/9a61620a42aa13aa06e08c7885b874c71673ad6920cec76a67828243ccfa9545.mp3",
-      "sha256": "3238259f52fc94c2583efe8910fe49ec0669abd6f124948360b30fbbb39d4e20",
-      "seconds": 11.904,
-      "durationMs": 11904,
+      "sha256": "11b0ec2f63da1aefd8ef96880544e33c57a7108595ca779876d84c88e5dd02b3",
+      "seconds": 11.832,
+      "durationMs": 11832,
       "sampleRate": 24000,
-      "bytes": 71660
+      "bytes": 94892
     },
     {
       "id": "68119dc31ca3f03127d2094dc36aad45fd625ef592b0e4035fe5369358b4dd20",
@@ -303,11 +302,11 @@ export const NARRATION_MANIFEST = {
       "characters": 33,
       "han": 30,
       "src": "/audio/narration/68119dc31ca3f03127d2094dc36aad45fd625ef592b0e4035fe5369358b4dd20.mp3",
-      "sha256": "0ec122620c8043749abedb8d4818783a9fef5c862106ef2ce08811faf243d636",
-      "seconds": 8.28,
-      "durationMs": 8280,
+      "sha256": "149a67be123b689281d5c984f0ab2ae8a9f15511c18f3ba129275d0a4ee7061d",
+      "seconds": 8.016,
+      "durationMs": 8016,
       "sampleRate": 24000,
-      "bytes": 49916
+      "bytes": 64364
     },
     {
       "id": "388c89c5af16f9e2e4d93b74fc4b890efcfe5bfc33f8bdd752a6b1b710ba6c25",
@@ -317,11 +316,11 @@ export const NARRATION_MANIFEST = {
       "characters": 48,
       "han": 42,
       "src": "/audio/narration/388c89c5af16f9e2e4d93b74fc4b890efcfe5bfc33f8bdd752a6b1b710ba6c25.mp3",
-      "sha256": "8c73a3f087423fbdfd2b20cbe16fe7b8bac19cc86950daae22ea944635ec05eb",
-      "seconds": 13.128,
-      "durationMs": 13128,
+      "sha256": "42e106dbba2909d01d646827ecd7acd9f8183894e508b7c7752a2fefe131645e",
+      "seconds": 11.16,
+      "durationMs": 11160,
       "sampleRate": 24000,
-      "bytes": 79004
+      "bytes": 89516
     },
     {
       "id": "01e95f2ab949e87ea9428204c9846b241725b2b8bc83b96286aee37dc2478732",
@@ -331,11 +330,11 @@ export const NARRATION_MANIFEST = {
       "characters": 47,
       "han": 40,
       "src": "/audio/narration/01e95f2ab949e87ea9428204c9846b241725b2b8bc83b96286aee37dc2478732.mp3",
-      "sha256": "b7550fefa9c2995a96b7d4c132a4abe169c12ae0360e1c583ff51ff89c49ce4f",
-      "seconds": 11.784,
-      "durationMs": 11784,
+      "sha256": "d4e12b579925c8d05de6f44377639e15d39bd5dd8724fd4d4e0a1f3db46fb9b4",
+      "seconds": 10.104,
+      "durationMs": 10104,
       "sampleRate": 24000,
-      "bytes": 70940
+      "bytes": 81068
     },
     {
       "id": "ca6e6b052c22e53a113bbc9b7c5ca1b4e12053a5540b820cea10ce1b6cc4d6d3",
@@ -345,11 +344,11 @@ export const NARRATION_MANIFEST = {
       "characters": 45,
       "han": 40,
       "src": "/audio/narration/ca6e6b052c22e53a113bbc9b7c5ca1b4e12053a5540b820cea10ce1b6cc4d6d3.mp3",
-      "sha256": "8e348f9c482a1ae1ff77519c9f5d183ffe6683796ca865d134830f59c7214b8c",
-      "seconds": 11.592,
-      "durationMs": 11592,
+      "sha256": "af0bba095b7c12472dbed96ef3249f26674256372e8eeffed519d2a6cf7e6900",
+      "seconds": 10.416,
+      "durationMs": 10416,
       "sampleRate": 24000,
-      "bytes": 69788
+      "bytes": 83564
     },
     {
       "id": "a343684c2998d9444dea0899618735562a13ccd1905e5ce6a6258efad865425c",
@@ -359,11 +358,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 44,
       "src": "/audio/narration/a343684c2998d9444dea0899618735562a13ccd1905e5ce6a6258efad865425c.mp3",
-      "sha256": "86ab9d4396c8c22cc0a3311457da9808e75817ee55ece30611808e4fa6dc0a17",
-      "seconds": 12.984,
-      "durationMs": 12984,
+      "sha256": "2fc5172b3ddb2a784f3df5d70e3686829fea8310fab431536a3e50977dd85736",
+      "seconds": 11.664,
+      "durationMs": 11664,
       "sampleRate": 24000,
-      "bytes": 78140
+      "bytes": 93548
     },
     {
       "id": "c7a96a0fddd0b2ee9144dfc0c8bcb239ef23743c2e852389dfcc3baca7624be2",
@@ -373,11 +372,11 @@ export const NARRATION_MANIFEST = {
       "characters": 48,
       "han": 43,
       "src": "/audio/narration/c7a96a0fddd0b2ee9144dfc0c8bcb239ef23743c2e852389dfcc3baca7624be2.mp3",
-      "sha256": "b0be495df0420c37676c97a8423eca7469b44e20ce37a84ff597f02c246b622b",
-      "seconds": 12.504,
-      "durationMs": 12504,
+      "sha256": "466e41b3005bca01a111733b279d7f0e488410204f6ccfe469a23a31d37b7b11",
+      "seconds": 11.544,
+      "durationMs": 11544,
       "sampleRate": 24000,
-      "bytes": 75260
+      "bytes": 92588
     },
     {
       "id": "58c3a3eb3d8e568858ad769f40c7d95578196c6dba062bd735d61bfc1b332ad7",
@@ -387,11 +386,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 44,
       "src": "/audio/narration/58c3a3eb3d8e568858ad769f40c7d95578196c6dba062bd735d61bfc1b332ad7.mp3",
-      "sha256": "3e9b664f1975503b5208a3a250e1725d510933f1181c0fe14f6a33cb53bdd67d",
-      "seconds": 12.144,
-      "durationMs": 12144,
+      "sha256": "eb2e20b2ff5f0b9a708d22fb855f8c2fe023333ae0950d97d1e55eb5bdf1e4c9",
+      "seconds": 11.688,
+      "durationMs": 11688,
       "sampleRate": 24000,
-      "bytes": 73100
+      "bytes": 93740
     },
     {
       "id": "c13e6139ef5f199f3bca9ee9ade29ef7759d5addf70bb1c9219b92c060adb97a",
@@ -401,11 +400,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 45,
       "src": "/audio/narration/c13e6139ef5f199f3bca9ee9ade29ef7759d5addf70bb1c9219b92c060adb97a.mp3",
-      "sha256": "329154908fca5b500e486cc19a1a31e11355c989838f2b5a9e526c8b6b43a379",
-      "seconds": 12.84,
-      "durationMs": 12840,
+      "sha256": "94f5f1f30052738a406e63fea0c93e3be3e8c2f4064d15c381f1c710ca23e3c3",
+      "seconds": 11.952,
+      "durationMs": 11952,
       "sampleRate": 24000,
-      "bytes": 77276
+      "bytes": 95852
     },
     {
       "id": "4aec4faadb85158f6c02fefffd9a733706673a4776336114e91d79ddfcb89b80",
@@ -415,11 +414,11 @@ export const NARRATION_MANIFEST = {
       "characters": 49,
       "han": 44,
       "src": "/audio/narration/4aec4faadb85158f6c02fefffd9a733706673a4776336114e91d79ddfcb89b80.mp3",
-      "sha256": "1e823650e75c6c789dfbbcf479feec76d365b06f40a24b736faca761558029a4",
-      "seconds": 12.288,
-      "durationMs": 12288,
+      "sha256": "9b3da8517bb2a702f25b679a1e04250f584018af56427ecab693ee88164339e5",
+      "seconds": 11.616,
+      "durationMs": 11616,
       "sampleRate": 24000,
-      "bytes": 73964
+      "bytes": 93164
     },
     {
       "id": "eb6c2447835045a87d572fad458d24b71948b22e8beeaa646d4fbdd1b595ca7b",
@@ -429,11 +428,11 @@ export const NARRATION_MANIFEST = {
       "characters": 43,
       "han": 37,
       "src": "/audio/narration/eb6c2447835045a87d572fad458d24b71948b22e8beeaa646d4fbdd1b595ca7b.mp3",
-      "sha256": "e68d04f12860dbe5f620e449c6d4213bc1e9a91e76032157d26b0047a5bbb361",
-      "seconds": 12.264,
-      "durationMs": 12264,
+      "sha256": "38dcc31d85e34b3b8353707342564401cb26923a4f728eed92d237c99a033886",
+      "seconds": 9.768,
+      "durationMs": 9768,
       "sampleRate": 24000,
-      "bytes": 73820
+      "bytes": 78380
     },
     {
       "id": "df39565e5559f7cfe70e84367798730d13457657d75955102680381f5451308a",
@@ -443,11 +442,11 @@ export const NARRATION_MANIFEST = {
       "characters": 46,
       "han": 42,
       "src": "/audio/narration/df39565e5559f7cfe70e84367798730d13457657d75955102680381f5451308a.mp3",
-      "sha256": "c17af2b0c7a478e80dfd4e64ac0930b93a1d32b22701a508656a8f0c180ee4ae",
-      "seconds": 11.64,
-      "durationMs": 11640,
+      "sha256": "442fc231898bea3f32693f108278fd5ba6581b4830ba06f59f035977c219f71c",
+      "seconds": 11.208,
+      "durationMs": 11208,
       "sampleRate": 24000,
-      "bytes": 70076
+      "bytes": 89900
     },
     {
       "id": "54c48c3602fe78a658fd9408ba53465857e39a475c57d63920e50f1360ca57e9",
@@ -457,11 +456,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 45,
       "src": "/audio/narration/54c48c3602fe78a658fd9408ba53465857e39a475c57d63920e50f1360ca57e9.mp3",
-      "sha256": "24c5ab3c168127bb3f440dcc9979c23ba7b3f886939d147fb72fb8656ab2eb22",
-      "seconds": 13.08,
-      "durationMs": 13080,
+      "sha256": "52f7643da8fb87a2419781413f64ccb6865f27a4ab62a976b96fcbe1c29d648e",
+      "seconds": 11.472,
+      "durationMs": 11472,
       "sampleRate": 24000,
-      "bytes": 78716
+      "bytes": 92012
     },
     {
       "id": "3dfa9502edba4db4eb74b7531ca6e1198c78f9de98455ce6614ac96f5dbc33b8",
@@ -471,11 +470,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 42,
       "src": "/audio/narration/3dfa9502edba4db4eb74b7531ca6e1198c78f9de98455ce6614ac96f5dbc33b8.mp3",
-      "sha256": "f319e9b0feb6fc54be36bfe23a72ffcd9de8332f4e2a5a3659e43189d7ee747e",
-      "seconds": 12.504,
-      "durationMs": 12504,
+      "sha256": "bbe5663b7d77534b60ec41e8a785dc841da709c93f1478e779184b15e9d25ee7",
+      "seconds": 10.224,
+      "durationMs": 10224,
       "sampleRate": 24000,
-      "bytes": 75260
+      "bytes": 82028
     },
     {
       "id": "9163cff3498674e56d19087a95363916972d9cce5a9c91b8c07dabc820904808",
@@ -485,11 +484,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 45,
       "src": "/audio/narration/9163cff3498674e56d19087a95363916972d9cce5a9c91b8c07dabc820904808.mp3",
-      "sha256": "d1910ddd318eac57dbff546f846e681dbc96dd791c0c1a1149462df866a5ab82",
-      "seconds": 12.96,
-      "durationMs": 12960,
+      "sha256": "e9fa45b0548834e4c9fa2c22c0d06e39b254cbdeede797d1530e386cd1db05f8",
+      "seconds": 12.312,
+      "durationMs": 12312,
       "sampleRate": 24000,
-      "bytes": 77996
+      "bytes": 98732
     },
     {
       "id": "519cc34e047e5a796543e6bdabbdba4efbb6dce602360b69780dc5faac5ec50d",
@@ -499,11 +498,11 @@ export const NARRATION_MANIFEST = {
       "characters": 62,
       "han": 56,
       "src": "/audio/narration/519cc34e047e5a796543e6bdabbdba4efbb6dce602360b69780dc5faac5ec50d.mp3",
-      "sha256": "c324c6df1dd5799ac44ce66c122e6b919413a2a0085370fea135b3b331b84cb7",
-      "seconds": 15.768,
-      "durationMs": 15768,
+      "sha256": "303c3abc3073f3759d9febe812164b89e4b779626b44a658b0420d38dea13000",
+      "seconds": 14.616,
+      "durationMs": 14616,
       "sampleRate": 24000,
-      "bytes": 94844
+      "bytes": 117164
     },
     {
       "id": "78db2f6abefce9150eb30953fabe48c5f2dcfb743d17d5cea9adf93d39e282fb",
@@ -513,11 +512,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 49,
       "src": "/audio/narration/78db2f6abefce9150eb30953fabe48c5f2dcfb743d17d5cea9adf93d39e282fb.mp3",
-      "sha256": "658bf883618cfd5816828d34c985e7f82adc286ba1413a7b1b815c99418fef32",
-      "seconds": 13.8,
-      "durationMs": 13800,
+      "sha256": "6057b8cee895ee46f742d25e251d948da4f82dbea42c92e77e5a75059670e75e",
+      "seconds": 12.624,
+      "durationMs": 12624,
       "sampleRate": 24000,
-      "bytes": 83036
+      "bytes": 101228
     },
     {
       "id": "88658b40530f72fa358aca245b165b7295e02eabb69141c20e0a22f551a4b3c0",
@@ -527,11 +526,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 45,
       "src": "/audio/narration/88658b40530f72fa358aca245b165b7295e02eabb69141c20e0a22f551a4b3c0.mp3",
-      "sha256": "535952ee145dab44e160435010c2bbb0fdf46ef5f7a3d0e7eb505e32c27fbd21",
-      "seconds": 12.792,
-      "durationMs": 12792,
+      "sha256": "19466b267b33b8334e982668d1d4076f6426753fd77839d15628ee5dc1c1fd2b",
+      "seconds": 11.472,
+      "durationMs": 11472,
       "sampleRate": 24000,
-      "bytes": 76988
+      "bytes": 92012
     },
     {
       "id": "733ddac7ac48489f1bc20c95be8f9718a9f20e8cd3979fced99c4e810cf66e93",
@@ -541,11 +540,11 @@ export const NARRATION_MANIFEST = {
       "characters": 48,
       "han": 44,
       "src": "/audio/narration/733ddac7ac48489f1bc20c95be8f9718a9f20e8cd3979fced99c4e810cf66e93.mp3",
-      "sha256": "38d5a1e015d15ef192b0a2864d5f8cdd5b356cf11d41f7e30ad25c58aa39b6f7",
-      "seconds": 12.192,
-      "durationMs": 12192,
+      "sha256": "fe0133d475ebce225bbdf134150886635464b683d30755b000abdad06b4a16e9",
+      "seconds": 11.208,
+      "durationMs": 11208,
       "sampleRate": 24000,
-      "bytes": 73388
+      "bytes": 89900
     },
     {
       "id": "7503932f8683fb17eb98d1f7893934c02be2c8de06beedaecc32122b1575bed6",
@@ -555,11 +554,11 @@ export const NARRATION_MANIFEST = {
       "characters": 58,
       "han": 50,
       "src": "/audio/narration/7503932f8683fb17eb98d1f7893934c02be2c8de06beedaecc32122b1575bed6.mp3",
-      "sha256": "656be811293a32340f8ef229935154beab8af06925e15447131a5a4c6bb1aca1",
-      "seconds": 15.504,
-      "durationMs": 15504,
+      "sha256": "575d27e9b4d9fcf5bc25f3f975b9f1763efac4e15e8bf1d435ab3c266c2c43ba",
+      "seconds": 13.416,
+      "durationMs": 13416,
       "sampleRate": 24000,
-      "bytes": 93260
+      "bytes": 107564
     },
     {
       "id": "5f37a5e6ccb4956256ec86fe103f5f58394c350572875b599dff38cb8e10532b",
@@ -569,11 +568,11 @@ export const NARRATION_MANIFEST = {
       "characters": 47,
       "han": 39,
       "src": "/audio/narration/5f37a5e6ccb4956256ec86fe103f5f58394c350572875b599dff38cb8e10532b.mp3",
-      "sha256": "1a956d565b41f713c6d5c891d74b7d4c8e233db9043af302c39ad4588e8b34cf",
-      "seconds": 12.408,
-      "durationMs": 12408,
+      "sha256": "090845ffc8d7f6424987fb6a3c6af1d411e634a9e3842bea198dad15df0fce25",
+      "seconds": 9.936,
+      "durationMs": 9936,
       "sampleRate": 24000,
-      "bytes": 74684
+      "bytes": 79724
     },
     {
       "id": "9c20f3ef9ffa5b207d91e4ec1a628492078745d92b9062688506df1305d85dbc",
@@ -583,11 +582,11 @@ export const NARRATION_MANIFEST = {
       "characters": 53,
       "han": 46,
       "src": "/audio/narration/9c20f3ef9ffa5b207d91e4ec1a628492078745d92b9062688506df1305d85dbc.mp3",
-      "sha256": "e4fb11a8398d00c6ecad891077e4f4e1c94b381e812f12d1938722ddfb3cefda",
-      "seconds": 13.248,
-      "durationMs": 13248,
+      "sha256": "f5756adec2821f8c957e9f442aff79ac348c02530470e96ffb389556028bb1b7",
+      "seconds": 11.928,
+      "durationMs": 11928,
       "sampleRate": 24000,
-      "bytes": 79724
+      "bytes": 95660
     },
     {
       "id": "d3f10d5013d0721d1a27073d41a2ee6ba86f705ce39ef31ef81e3f9eb97dbd7f",
@@ -597,11 +596,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 49,
       "src": "/audio/narration/d3f10d5013d0721d1a27073d41a2ee6ba86f705ce39ef31ef81e3f9eb97dbd7f.mp3",
-      "sha256": "52e0b625ef58f09c739a7ff676c49e182d3f59fff709c96e15921499883ea3c2",
-      "seconds": 13.488,
-      "durationMs": 13488,
+      "sha256": "f17a57be532e4436b56d6d7f0d2a5487ec88fa323df5ff4d4cd73f028aad8f29",
+      "seconds": 13.896,
+      "durationMs": 13896,
       "sampleRate": 24000,
-      "bytes": 81164
+      "bytes": 111404
     },
     {
       "id": "3fdf2d5e270b77c5c71ee67616bc9ffe49ba9c3bfa3edaba74a126132f8c4978",
@@ -611,11 +610,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 46,
       "src": "/audio/narration/3fdf2d5e270b77c5c71ee67616bc9ffe49ba9c3bfa3edaba74a126132f8c4978.mp3",
-      "sha256": "634dafd244849c6e14cb156dc1c367328096a6a26b31119301fded8c2c19cdee",
-      "seconds": 13.128,
-      "durationMs": 13128,
+      "sha256": "0fc431a045829fd3a5aaf1e2f79547d61344e0304f0242885609d0a3858c8de6",
+      "seconds": 12.552,
+      "durationMs": 12552,
       "sampleRate": 24000,
-      "bytes": 79004
+      "bytes": 100652
     },
     {
       "id": "2f7642d1fb5af5dc1ecc2a1c79a81a7937bad22fd5bd04ec961cc88636aa2401",
@@ -625,11 +624,11 @@ export const NARRATION_MANIFEST = {
       "characters": 49,
       "han": 44,
       "src": "/audio/narration/2f7642d1fb5af5dc1ecc2a1c79a81a7937bad22fd5bd04ec961cc88636aa2401.mp3",
-      "sha256": "a64f2b7603979a0cd969c2425675ea1029e1275d22197fdfccb07d185c9e5f85",
-      "seconds": 12.648,
-      "durationMs": 12648,
+      "sha256": "f463c061824e6898af196071a66de48b8353d3a45fb109bfc3448d113d3eb2d8",
+      "seconds": 11.184,
+      "durationMs": 11184,
       "sampleRate": 24000,
-      "bytes": 76124
+      "bytes": 89708
     },
     {
       "id": "76e14a6d118c67d74e4525f1fd70b489d805a6f751e9138649700841ac781e10",
@@ -639,11 +638,11 @@ export const NARRATION_MANIFEST = {
       "characters": 44,
       "han": 40,
       "src": "/audio/narration/76e14a6d118c67d74e4525f1fd70b489d805a6f751e9138649700841ac781e10.mp3",
-      "sha256": "df6f94b975e9d17200c08d9176d2e202a84c14e8e3cb08455f6a5ff6f26429ed",
-      "seconds": 10.872,
-      "durationMs": 10872,
+      "sha256": "440c1aea8d6de29f28ce4964d0d1aa6071cbdd5d7dc5c2c8806d194524d836b9",
+      "seconds": 10.488,
+      "durationMs": 10488,
       "sampleRate": 24000,
-      "bytes": 65468
+      "bytes": 84140
     },
     {
       "id": "8176ac1008acae021749e2d8009834d92ef7260013b2620551d243cb1f9b6bc9",
@@ -653,11 +652,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 49,
       "src": "/audio/narration/8176ac1008acae021749e2d8009834d92ef7260013b2620551d243cb1f9b6bc9.mp3",
-      "sha256": "2b2084db76ffa7a97d5522be4f61cd8eaf44289867983937862dda9a1b2664ae",
-      "seconds": 13.512,
-      "durationMs": 13512,
+      "sha256": "1cdd0f0f521781718af66a2a656a180cd26f476fd6692dc36f5eddab592a4aae",
+      "seconds": 12.192,
+      "durationMs": 12192,
       "sampleRate": 24000,
-      "bytes": 81308
+      "bytes": 97772
     },
     {
       "id": "8ef5edc178bcea1340963567d176f83e10fe5c5fe88023ee2620b6996c836060",
@@ -667,11 +666,11 @@ export const NARRATION_MANIFEST = {
       "characters": 46,
       "han": 41,
       "src": "/audio/narration/8ef5edc178bcea1340963567d176f83e10fe5c5fe88023ee2620b6996c836060.mp3",
-      "sha256": "7892933d134a037e466ce6abd529a8357345bce2d0a104b853487be7070338c4",
-      "seconds": 11.832,
-      "durationMs": 11832,
+      "sha256": "6f1ef2556cef444eff33372d5c4925d218dfb6db512801759e07e34221342f7c",
+      "seconds": 10.488,
+      "durationMs": 10488,
       "sampleRate": 24000,
-      "bytes": 71228
+      "bytes": 84140
     },
     {
       "id": "7affa3d46ffa5b17dd5d85c0a9f051f2959397faaa81334c8a504810af2de4b8",
@@ -681,11 +680,11 @@ export const NARRATION_MANIFEST = {
       "characters": 49,
       "han": 44,
       "src": "/audio/narration/7affa3d46ffa5b17dd5d85c0a9f051f2959397faaa81334c8a504810af2de4b8.mp3",
-      "sha256": "b5f9b1e95c0632854d8dbf4bbac576c451997b9e93ffe07a3e9233ccf83ad993",
-      "seconds": 12.552,
-      "durationMs": 12552,
+      "sha256": "39a1e77fa6ace7090db02c2fe839ea867b9e5a9a75c17b1de384915645d1230d",
+      "seconds": 11.856,
+      "durationMs": 11856,
       "sampleRate": 24000,
-      "bytes": 75548
+      "bytes": 95084
     },
     {
       "id": "5a1aa482c0bd82174ebe66820d81ce7eb09c6509a9e3a95aa09f48e9050be233",
@@ -695,11 +694,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 46,
       "src": "/audio/narration/5a1aa482c0bd82174ebe66820d81ce7eb09c6509a9e3a95aa09f48e9050be233.mp3",
-      "sha256": "2fc87d601f83eee225a41b6e913528c3886fd1765d0d8c44634fa0e4ea440e7a",
-      "seconds": 12.336,
-      "durationMs": 12336,
+      "sha256": "d94a56661755e5ca50f43185699a85d9660b5ba08431a2e74f588f18a92a49e4",
+      "seconds": 11.592,
+      "durationMs": 11592,
       "sampleRate": 24000,
-      "bytes": 74252
+      "bytes": 92972
     },
     {
       "id": "af7b955c0186a0d67b285dfb7522d1f00fac2d3b93c5a9af51d5d2a257810410",
@@ -709,11 +708,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 45,
       "src": "/audio/narration/af7b955c0186a0d67b285dfb7522d1f00fac2d3b93c5a9af51d5d2a257810410.mp3",
-      "sha256": "619a30744c20b86cc91dfe616f10dd9dc59db6701b902a46d541c99741bd9513",
-      "seconds": 12.768,
-      "durationMs": 12768,
+      "sha256": "41f84950e7d3d792c5e61059ddbcc478ca27c295f71fab9bf47dd5c296bf1241",
+      "seconds": 11.616,
+      "durationMs": 11616,
       "sampleRate": 24000,
-      "bytes": 76844
+      "bytes": 93164
     },
     {
       "id": "f0f18339a2926deaf4b9e0f3898fe458f7dc874090ec65f1c88450488c2f0257",
@@ -723,11 +722,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 49,
       "src": "/audio/narration/f0f18339a2926deaf4b9e0f3898fe458f7dc874090ec65f1c88450488c2f0257.mp3",
-      "sha256": "bd2b1813ee892a7086d56f7faff0c920346155926e89d094f2efbc04fd1b1bf1",
-      "seconds": 13.8,
-      "durationMs": 13800,
+      "sha256": "43023de455947f9a52106d67939536faffdea1e1b9b86868eb5ee7f699ad351c",
+      "seconds": 13.2,
+      "durationMs": 13200,
       "sampleRate": 24000,
-      "bytes": 83036
+      "bytes": 105836
     },
     {
       "id": "34926799363dd67280e4a7dee2830c4c5c65cf41b395fbf713ad687c5ee0ea8c",
@@ -737,11 +736,11 @@ export const NARRATION_MANIFEST = {
       "characters": 55,
       "han": 49,
       "src": "/audio/narration/34926799363dd67280e4a7dee2830c4c5c65cf41b395fbf713ad687c5ee0ea8c.mp3",
-      "sha256": "1f8db86534aa7327f493f8334ac0063b8d1b9847d8d823301f31cec2a4608082",
-      "seconds": 13.656,
-      "durationMs": 13656,
+      "sha256": "9cbc0b769a610652d19b8df70ba785448ffaffc0af93e9e329656f8df033b51b",
+      "seconds": 13.368,
+      "durationMs": 13368,
       "sampleRate": 24000,
-      "bytes": 82172
+      "bytes": 107180
     },
     {
       "id": "fb18afe4a1e635ae5ea6c78c659d90fc46d65c14edd8e5bcabab5cea610d76de",
@@ -751,11 +750,11 @@ export const NARRATION_MANIFEST = {
       "characters": 57,
       "han": 48,
       "src": "/audio/narration/fb18afe4a1e635ae5ea6c78c659d90fc46d65c14edd8e5bcabab5cea610d76de.mp3",
-      "sha256": "0b4d113bab6411ba59ae2a76fbcbd2f98adf5ba886b00c017487cbafa2eecf33",
-      "seconds": 15.24,
-      "durationMs": 15240,
+      "sha256": "95cf9ccb6700f4b5badda1d7c3443172e9af2422ff6d09d23ba72defa96f1cc2",
+      "seconds": 12.432,
+      "durationMs": 12432,
       "sampleRate": 24000,
-      "bytes": 91676
+      "bytes": 99692
     },
     {
       "id": "f17a449ace093bbff8156fe23acd1c4fdf20fe151e38d599d139900df94a8b66",
@@ -765,11 +764,11 @@ export const NARRATION_MANIFEST = {
       "characters": 57,
       "han": 51,
       "src": "/audio/narration/f17a449ace093bbff8156fe23acd1c4fdf20fe151e38d599d139900df94a8b66.mp3",
-      "sha256": "7325bce0869e19fe203770fb7c8799bb104150fde491c58abdd47c9e5b7c4f8a",
-      "seconds": 13.8,
-      "durationMs": 13800,
+      "sha256": "f6e3a3a64e7112122de10d0a6c3cf5cf0d5716544ebf0cb91fcba75f1fd4a430",
+      "seconds": 12.96,
+      "durationMs": 12960,
       "sampleRate": 24000,
-      "bytes": 83036
+      "bytes": 103916
     },
     {
       "id": "a8417d8fea17603f430a7a82f602502e5b2507fb5ae1118d5e69b0a10d26fbb4",
@@ -779,11 +778,11 @@ export const NARRATION_MANIFEST = {
       "characters": 49,
       "han": 45,
       "src": "/audio/narration/a8417d8fea17603f430a7a82f602502e5b2507fb5ae1118d5e69b0a10d26fbb4.mp3",
-      "sha256": "d85b686430483dd50030e00768fe468408a6e74949d3786dfa15648e6c62d70f",
-      "seconds": 12.408,
-      "durationMs": 12408,
+      "sha256": "90fd97f2f312173090d6f0bf7f52036b561fc067615c099946e780d70daf82e3",
+      "seconds": 11.976,
+      "durationMs": 11976,
       "sampleRate": 24000,
-      "bytes": 74684
+      "bytes": 96044
     },
     {
       "id": "3b94a2bd4136ca1235764dabd05f04e58c2810f656f4389a42e992c6372e351d",
@@ -793,11 +792,11 @@ export const NARRATION_MANIFEST = {
       "characters": 49,
       "han": 45,
       "src": "/audio/narration/3b94a2bd4136ca1235764dabd05f04e58c2810f656f4389a42e992c6372e351d.mp3",
-      "sha256": "4864d73aaf1026687308ee78bd1267cc676c1ab6ed317e6a0254e5014d820fdf",
-      "seconds": 12.024,
-      "durationMs": 12024,
+      "sha256": "d16bb4f1ba30f29520f2244ea5939b1d67ec531145ac597af23c02cb6dd25adf",
+      "seconds": 11.424,
+      "durationMs": 11424,
       "sampleRate": 24000,
-      "bytes": 72380
+      "bytes": 91628
     },
     {
       "id": "68486b7d10a656f2ef358ab95868280b85a80489fc2efdc311a42c7691166fdf",
@@ -807,11 +806,11 @@ export const NARRATION_MANIFEST = {
       "characters": 41,
       "han": 37,
       "src": "/audio/narration/68486b7d10a656f2ef358ab95868280b85a80489fc2efdc311a42c7691166fdf.mp3",
-      "sha256": "acd46b2170186d2394449d50aaa4143734d965b7b0afe07d15a77ddb918f68b0",
-      "seconds": 10.464,
-      "durationMs": 10464,
+      "sha256": "ac61dcb0cfed382034ab2e9db5c9a8605827cab62750e19d8c135b60cbc79d07",
+      "seconds": 9.96,
+      "durationMs": 9960,
       "sampleRate": 24000,
-      "bytes": 63020
+      "bytes": 79916
     },
     {
       "id": "c937bcc8e3445b9ce490e65f59678d330cec131fd62728862916bbf7c159a284",
@@ -821,11 +820,11 @@ export const NARRATION_MANIFEST = {
       "characters": 52,
       "han": 44,
       "src": "/audio/narration/c937bcc8e3445b9ce490e65f59678d330cec131fd62728862916bbf7c159a284.mp3",
-      "sha256": "8abcf6c6c6094043a0274305c59e40f44a104006deb83c65b13f8f19d4568dd5",
-      "seconds": 13.032,
-      "durationMs": 13032,
+      "sha256": "c7d24b3b36939339c2d917d4bce66ff33d603d67c8340565227777669cb8aa58",
+      "seconds": 11.424,
+      "durationMs": 11424,
       "sampleRate": 24000,
-      "bytes": 78428
+      "bytes": 91628
     },
     {
       "id": "070a3c96b3d6fc44e9035d91f3fb358b2f6216a2b1e7b508e2e82e05ca524b4f",
@@ -835,11 +834,11 @@ export const NARRATION_MANIFEST = {
       "characters": 49,
       "han": 44,
       "src": "/audio/narration/070a3c96b3d6fc44e9035d91f3fb358b2f6216a2b1e7b508e2e82e05ca524b4f.mp3",
-      "sha256": "e36f2dfdeb8510e20a857e39c9c23905997f7a03036c4c9773f4b186f3fc12d0",
-      "seconds": 12.768,
-      "durationMs": 12768,
+      "sha256": "0f1eb323506c2f0d43ed6244e553b711df37ab111b43df24a283b2969ea99555",
+      "seconds": 11.784,
+      "durationMs": 11784,
       "sampleRate": 24000,
-      "bytes": 76844
+      "bytes": 94508
     },
     {
       "id": "4c2e157497f27375551b38465a24e6e66fb6415611fa3fb0159290e5b10d0c85",
@@ -849,11 +848,11 @@ export const NARRATION_MANIFEST = {
       "characters": 53,
       "han": 48,
       "src": "/audio/narration/4c2e157497f27375551b38465a24e6e66fb6415611fa3fb0159290e5b10d0c85.mp3",
-      "sha256": "c7aef9f9fdd03c3984eb974435be12c9bdd9c732763cfd2c13771155325129f7",
-      "seconds": 13.056,
-      "durationMs": 13056,
+      "sha256": "a76c41ed6a8eb84d56b90b1167c6ee0f195cd3620dcd25262cb5135dcc64b894",
+      "seconds": 12.12,
+      "durationMs": 12120,
       "sampleRate": 24000,
-      "bytes": 78572
+      "bytes": 97196
     },
     {
       "id": "26ff488c88d75593fd0bfbde2ba2b1f739f65ae39b20d5ef1994b794b1d73d19",
@@ -863,11 +862,11 @@ export const NARRATION_MANIFEST = {
       "characters": 47,
       "han": 43,
       "src": "/audio/narration/26ff488c88d75593fd0bfbde2ba2b1f739f65ae39b20d5ef1994b794b1d73d19.mp3",
-      "sha256": "4e95037d8be9e787ca8ef36ab4f1f8827d3dba55df9b8067574eb35ebd106837",
-      "seconds": 11.28,
-      "durationMs": 11280,
+      "sha256": "f1395f51f0ffb03cc45e03c21cb3b5db0ad025c094a50d30dcf2b877be1a4005",
+      "seconds": 10.824,
+      "durationMs": 10824,
       "sampleRate": 24000,
-      "bytes": 67916
+      "bytes": 86828
     },
     {
       "id": "090b4b6a33be99b3a184afe14cf3d38bb575fd0c02821c45ba69a6fbcf958919",
@@ -877,11 +876,11 @@ export const NARRATION_MANIFEST = {
       "characters": 52,
       "han": 46,
       "src": "/audio/narration/090b4b6a33be99b3a184afe14cf3d38bb575fd0c02821c45ba69a6fbcf958919.mp3",
-      "sha256": "30ab4b0ebfc543a56633d0c100ff2e18e9699d8d0131dd7d43120ded06da01e7",
-      "seconds": 13.536,
-      "durationMs": 13536,
+      "sha256": "a4baf5b17f6148ec3f6c42470e019ac73473af5e455d2a3523af715abd51a79e",
+      "seconds": 12.384,
+      "durationMs": 12384,
       "sampleRate": 24000,
-      "bytes": 81452
+      "bytes": 99308
     },
     {
       "id": "4f2bead1b8f23f9d56bc53a75efd5f03d72ab2323652be3bc14f497655dcc90c",
@@ -891,11 +890,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 47,
       "src": "/audio/narration/4f2bead1b8f23f9d56bc53a75efd5f03d72ab2323652be3bc14f497655dcc90c.mp3",
-      "sha256": "88b925e655878622e66c6693541c6cfa120148bb098a4b19c17c747679cd75cd",
-      "seconds": 12.36,
-      "durationMs": 12360,
+      "sha256": "c48c8a26d152b68b174fc83094b7a63d3412da91679383324a9e115a7706e1b5",
+      "seconds": 12.768,
+      "durationMs": 12768,
       "sampleRate": 24000,
-      "bytes": 74396
+      "bytes": 102380
     },
     {
       "id": "b434d15806b97fdc30fbb650b7c233991680e59797e5d6dcf93bb36a87496750",
@@ -905,11 +904,11 @@ export const NARRATION_MANIFEST = {
       "characters": 53,
       "han": 48,
       "src": "/audio/narration/b434d15806b97fdc30fbb650b7c233991680e59797e5d6dcf93bb36a87496750.mp3",
-      "sha256": "cead8de5c3f57d0843ea993d6c9a24b4eda36e83d0d5e3dc973c9920e6a3d3ad",
-      "seconds": 13.056,
-      "durationMs": 13056,
+      "sha256": "2ac7fae49893794b592aa42708e5789717c8d6dcd9bb22162cb7a029d93a73ed",
+      "seconds": 12.288,
+      "durationMs": 12288,
       "sampleRate": 24000,
-      "bytes": 78572
+      "bytes": 98540
     },
     {
       "id": "d33905e911dfca911a2a79da928746d8427d4fe8e466ebeac5e39d53828635bb",
@@ -919,11 +918,11 @@ export const NARRATION_MANIFEST = {
       "characters": 47,
       "han": 41,
       "src": "/audio/narration/d33905e911dfca911a2a79da928746d8427d4fe8e466ebeac5e39d53828635bb.mp3",
-      "sha256": "a61d6122d43afa647d0c249f7f13a6acb90bfcf2ee6c02b587a619fab4e8c7bc",
-      "seconds": 12.648,
-      "durationMs": 12648,
+      "sha256": "3acbbde7a9f3c89534c902df948b1e17ecae803225a1dd3d50d90f00c9aa7e3d",
+      "seconds": 9.912,
+      "durationMs": 9912,
       "sampleRate": 24000,
-      "bytes": 76124
+      "bytes": 79532
     },
     {
       "id": "40fddd64bfa4003d9c54a844ee630df2d518b9f2f7da3ea75526dddaac966ab1",
@@ -933,11 +932,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 43,
       "src": "/audio/narration/40fddd64bfa4003d9c54a844ee630df2d518b9f2f7da3ea75526dddaac966ab1.mp3",
-      "sha256": "8427003d84cae7a5bc85a53f03d817935cb46635cf34ec978158a93e7b771c3b",
-      "seconds": 13.056,
-      "durationMs": 13056,
+      "sha256": "674546b31a9dc4c96e1245baec83e376ae8efdd69fba44d6613b7538fafa6bbf",
+      "seconds": 11.088,
+      "durationMs": 11088,
       "sampleRate": 24000,
-      "bytes": 78572
+      "bytes": 88940
     },
     {
       "id": "73c0362bd0642f2087a36066335d1dd8400b6ca63348f8521aabc0d0baedac78",
@@ -947,11 +946,11 @@ export const NARRATION_MANIFEST = {
       "characters": 49,
       "han": 44,
       "src": "/audio/narration/73c0362bd0642f2087a36066335d1dd8400b6ca63348f8521aabc0d0baedac78.mp3",
-      "sha256": "cad6bb6cab62fdd062f82bedece7218ffd49319f2f84766c4887617accbd3ad2",
-      "seconds": 12.696,
-      "durationMs": 12696,
+      "sha256": "f627d44281199386c67502831f44000cab4c041620fdbb3122911e1337218644",
+      "seconds": 11.52,
+      "durationMs": 11520,
       "sampleRate": 24000,
-      "bytes": 76412
+      "bytes": 92396
     },
     {
       "id": "750aac7496059ec9ffe0841d658d56d3edf31b1c555466c2525d77ed135854dc",
@@ -961,11 +960,11 @@ export const NARRATION_MANIFEST = {
       "characters": 47,
       "han": 41,
       "src": "/audio/narration/750aac7496059ec9ffe0841d658d56d3edf31b1c555466c2525d77ed135854dc.mp3",
-      "sha256": "15bff789f75201d5384694e6731a78046387178ff96216d79b86f643e4df5a80",
-      "seconds": 11.184,
-      "durationMs": 11184,
+      "sha256": "4659578fa7abc2fed6dbe68507decda253af60b4fd016e34a554aab4ad50455a",
+      "seconds": 10.68,
+      "durationMs": 10680,
       "sampleRate": 24000,
-      "bytes": 67340
+      "bytes": 85676
     },
     {
       "id": "5af6ce0993d54253958ad6d4dde4f1355ee0c43adbb4be1ac42d176342256e8c",
@@ -975,11 +974,11 @@ export const NARRATION_MANIFEST = {
       "characters": 52,
       "han": 46,
       "src": "/audio/narration/5af6ce0993d54253958ad6d4dde4f1355ee0c43adbb4be1ac42d176342256e8c.mp3",
-      "sha256": "eb244fd580db9b81188f61205f536eabfdf39f4b1358f529136263739f55f335",
-      "seconds": 13.128,
-      "durationMs": 13128,
+      "sha256": "e7844961c0c10b5e0197d9dc8087012cbb8ffc00657e732eb9569d8c767fc157",
+      "seconds": 11.376,
+      "durationMs": 11376,
       "sampleRate": 24000,
-      "bytes": 79004
+      "bytes": 91244
     },
     {
       "id": "3fff5d42b40a7740044c90542b41c4e9431538f224d5ecc9695f978355cbfb8c",
@@ -989,11 +988,11 @@ export const NARRATION_MANIFEST = {
       "characters": 60,
       "han": 51,
       "src": "/audio/narration/3fff5d42b40a7740044c90542b41c4e9431538f224d5ecc9695f978355cbfb8c.mp3",
-      "sha256": "0273b66418b3269e2959427c14a3dcc39c889bffd7a8e914b1412a733d65133c",
-      "seconds": 15,
-      "durationMs": 15000,
+      "sha256": "d3deac2ea183be57abc7cf34262a2bffdab5c1c010dccd5e156f4eda4b742ec3",
+      "seconds": 12.6,
+      "durationMs": 12600,
       "sampleRate": 24000,
-      "bytes": 90236
+      "bytes": 101036
     },
     {
       "id": "42d092c979e0292a45b6197f4070207c71dccc707470e3c629a81880880caa95",
@@ -1003,11 +1002,11 @@ export const NARRATION_MANIFEST = {
       "characters": 49,
       "han": 44,
       "src": "/audio/narration/42d092c979e0292a45b6197f4070207c71dccc707470e3c629a81880880caa95.mp3",
-      "sha256": "61126d544781c11585cb16117c1a6a7d136c4d808b286d0a474bc0b95bf05498",
-      "seconds": 12.408,
-      "durationMs": 12408,
+      "sha256": "2b6974b44dbece4866f321934cbf835339a318167d56ebb563d4b2c9a21b2021",
+      "seconds": 10.896,
+      "durationMs": 10896,
       "sampleRate": 24000,
-      "bytes": 74684
+      "bytes": 87404
     },
     {
       "id": "568749a732e11c45cecfb7d0a59505d274332eab4db23233e16b3eade88ab4bd",
@@ -1017,11 +1016,11 @@ export const NARRATION_MANIFEST = {
       "characters": 53,
       "han": 48,
       "src": "/audio/narration/568749a732e11c45cecfb7d0a59505d274332eab4db23233e16b3eade88ab4bd.mp3",
-      "sha256": "11cf52cd92a9ec605184925fb3cb595e2bf9eaa6dd904de1d920fe565f9b43b9",
-      "seconds": 13.704,
-      "durationMs": 13704,
+      "sha256": "83149734b76d07c8865c77d6aacfa1a17cd43295e04b88c510fcc237be90733f",
+      "seconds": 12.96,
+      "durationMs": 12960,
       "sampleRate": 24000,
-      "bytes": 82460
+      "bytes": 103916
     },
     {
       "id": "de31c6a7e480bab2f952de272deba8387178f5d42386a2523a4cd6131c428926",
@@ -1031,11 +1030,11 @@ export const NARRATION_MANIFEST = {
       "characters": 56,
       "han": 49,
       "src": "/audio/narration/de31c6a7e480bab2f952de272deba8387178f5d42386a2523a4cd6131c428926.mp3",
-      "sha256": "3b5da66c8be405d3ee37c5bfd5221f7f283e59f88c9d4ffb82f345b229d02433",
-      "seconds": 15.456,
-      "durationMs": 15456,
+      "sha256": "395a6de929ac2af34148868db4d2d1ea0aa47c51f461febf9008089038345a69",
+      "seconds": 12.6,
+      "durationMs": 12600,
       "sampleRate": 24000,
-      "bytes": 92972
+      "bytes": 101036
     },
     {
       "id": "420e44c12b8843270283c5fcfe901435a4a6c85488658c1f3ed4e9557f8099a6",
@@ -1045,11 +1044,11 @@ export const NARRATION_MANIFEST = {
       "characters": 56,
       "han": 51,
       "src": "/audio/narration/420e44c12b8843270283c5fcfe901435a4a6c85488658c1f3ed4e9557f8099a6.mp3",
-      "sha256": "7251848963b8c4081b8b8658f3bb1f7c9f02f76a6e5c185a677b5e8928c685d0",
-      "seconds": 14.16,
-      "durationMs": 14160,
+      "sha256": "17dceccf3b2cf0dba9955d199e8f790ee89657e75bcf7c6d662cee8500dbc65e",
+      "seconds": 13.488,
+      "durationMs": 13488,
       "sampleRate": 24000,
-      "bytes": 85196
+      "bytes": 108140
     },
     {
       "id": "c056280ba7bcab4fd23ff882502347688c6460cf1eb90334d23d14552296ad05",
@@ -1059,11 +1058,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 48,
       "src": "/audio/narration/c056280ba7bcab4fd23ff882502347688c6460cf1eb90334d23d14552296ad05.mp3",
-      "sha256": "befd1cb18047001bcbc4adcd19f3f275632c302a27fd9910a0d41a449d8a8987",
-      "seconds": 14.064,
-      "durationMs": 14064,
+      "sha256": "2f4cfa9c551f3ecfcd6ec2beaa5466c33cb99015fda230ff523764ab00d188c1",
+      "seconds": 12.792,
+      "durationMs": 12792,
       "sampleRate": 24000,
-      "bytes": 84620
+      "bytes": 102572
     },
     {
       "id": "06fab662cdd9d0dbd3b2d02069c8201204434673f89f6d94f1d3f87d4354996a",
@@ -1073,11 +1072,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 45,
       "src": "/audio/narration/06fab662cdd9d0dbd3b2d02069c8201204434673f89f6d94f1d3f87d4354996a.mp3",
-      "sha256": "72b0648bf0acce40824e488c856ac28a8bcb22d18428246dbbe7039a4aeec5ae",
-      "seconds": 13.824,
-      "durationMs": 13824,
+      "sha256": "aaab693bae940dc7e477c5be36ab07290fac041350798882e7d028d83f40dd26",
+      "seconds": 12.744,
+      "durationMs": 12744,
       "sampleRate": 24000,
-      "bytes": 83180
+      "bytes": 102188
     },
     {
       "id": "6a377e3b4f216ec2113e0a6aa52405715ad16c523d0ad0f95793558321922d1b",
@@ -1087,11 +1086,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 49,
       "src": "/audio/narration/6a377e3b4f216ec2113e0a6aa52405715ad16c523d0ad0f95793558321922d1b.mp3",
-      "sha256": "1eaf76e3cd80ecf16e3c86161864663f8ba3af6b59cd1123e99dec4038f5ba67",
-      "seconds": 13.656,
-      "durationMs": 13656,
+      "sha256": "843c3c43300caaa35aa359d64d2b6db35242b9263729ed1f21b50a07b450777c",
+      "seconds": 13.032,
+      "durationMs": 13032,
       "sampleRate": 24000,
-      "bytes": 82172
+      "bytes": 104492
     },
     {
       "id": "629928b8fedee02bdfa2756d7616537fc832a002d8463c4f3e18aa323ae0533b",
@@ -1101,11 +1100,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 45,
       "src": "/audio/narration/629928b8fedee02bdfa2756d7616537fc832a002d8463c4f3e18aa323ae0533b.mp3",
-      "sha256": "412aa4e1be1d5b5294e086fa4299f8831da77826451a9d62a599acf4f121961a",
-      "seconds": 12.672,
-      "durationMs": 12672,
+      "sha256": "50564e56b25850f85a8ff903be22f54ebf8f2fc8c4b588c566405eb40b2d9225",
+      "seconds": 12.936,
+      "durationMs": 12936,
       "sampleRate": 24000,
-      "bytes": 76268
+      "bytes": 103724
     },
     {
       "id": "2cdfc74322a4a1b802eb7a9d022b9ee9536be6b577d916bdcea5cd8d919829a3",
@@ -1115,11 +1114,11 @@ export const NARRATION_MANIFEST = {
       "characters": 53,
       "han": 48,
       "src": "/audio/narration/2cdfc74322a4a1b802eb7a9d022b9ee9536be6b577d916bdcea5cd8d919829a3.mp3",
-      "sha256": "ea66e8261d8ecad38edb439366a7ed648b2f6f33a0268811f251c0cbb2bd5025",
-      "seconds": 13.272,
-      "durationMs": 13272,
+      "sha256": "59a756cdacadc67ee97d904e8e5f13ab0874bf1a9c57338ed6934b8018e7f32f",
+      "seconds": 12.384,
+      "durationMs": 12384,
       "sampleRate": 24000,
-      "bytes": 79868
+      "bytes": 99308
     },
     {
       "id": "9b21e355c1634fcdf92d6b35fd2bb3a0cbe135adf4f5de32ec26e6bee9bf0900",
@@ -1129,11 +1128,11 @@ export const NARRATION_MANIFEST = {
       "characters": 42,
       "han": 39,
       "src": "/audio/narration/9b21e355c1634fcdf92d6b35fd2bb3a0cbe135adf4f5de32ec26e6bee9bf0900.mp3",
-      "sha256": "e1ded01ad6deed817eab0d0e1e15c461c08b641e4926ce74d20c03cf066d318f",
-      "seconds": 10.272,
-      "durationMs": 10272,
+      "sha256": "05abcc1241e953fd1cd1d246ca6b04d85f08bcb91827be69826ec4ff1a0f6754",
+      "seconds": 9.12,
+      "durationMs": 9120,
       "sampleRate": 24000,
-      "bytes": 61868
+      "bytes": 73196
     },
     {
       "id": "2a453213a7382696040ca66b13baa58f514ccf8bca89be06d5aeb6f893e842ab",
@@ -1143,11 +1142,11 @@ export const NARRATION_MANIFEST = {
       "characters": 57,
       "han": 51,
       "src": "/audio/narration/2a453213a7382696040ca66b13baa58f514ccf8bca89be06d5aeb6f893e842ab.mp3",
-      "sha256": "f62229af13d9531c61c0a13f8c876513f26571966d357bc0a75890c7a8ad5b8f",
-      "seconds": 14.136,
-      "durationMs": 14136,
+      "sha256": "f84abfd6aed61b52e943f1ef9079efda49e5a0e524289c2649bbae7e5ab5cdf8",
+      "seconds": 13.728,
+      "durationMs": 13728,
       "sampleRate": 24000,
-      "bytes": 85052
+      "bytes": 110060
     },
     {
       "id": "fae18857802c5041658d178b8dc87aee652a64e9e76db8173771986fecab2b20",
@@ -1157,11 +1156,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 48,
       "src": "/audio/narration/fae18857802c5041658d178b8dc87aee652a64e9e76db8173771986fecab2b20.mp3",
-      "sha256": "3d43047f46e9f0ae60f60157b00248850397b3ac191932dd9cbe49b6a5c065a8",
-      "seconds": 13.368,
-      "durationMs": 13368,
+      "sha256": "cd49605c4db0b5c6b870eec5a8a737d1017d2b35db956679eaccd1f5834cb0ca",
+      "seconds": 13.416,
+      "durationMs": 13416,
       "sampleRate": 24000,
-      "bytes": 80444
+      "bytes": 107564
     },
     {
       "id": "da6923d17893591e6c9816368b5afee4bb04e856c7039b9b8054e930190a6b6f",
@@ -1171,11 +1170,11 @@ export const NARRATION_MANIFEST = {
       "characters": 52,
       "han": 47,
       "src": "/audio/narration/da6923d17893591e6c9816368b5afee4bb04e856c7039b9b8054e930190a6b6f.mp3",
-      "sha256": "8147d9d7e3a6f030735f1d7ec9d6b2b1d8c0b5bf04a099ac9bb5b957d42ddc8f",
-      "seconds": 12.792,
-      "durationMs": 12792,
+      "sha256": "94af9dcb952559d4602585226af6b37fce4b5f91401a3c13025bcbc27ad680ec",
+      "seconds": 11.304,
+      "durationMs": 11304,
       "sampleRate": 24000,
-      "bytes": 76988
+      "bytes": 90668
     },
     {
       "id": "49f7620f0a1f6cf6bf346c8736adc243605a018f0c9202660bfa5e63c618ada5",
@@ -1185,11 +1184,11 @@ export const NARRATION_MANIFEST = {
       "characters": 52,
       "han": 48,
       "src": "/audio/narration/49f7620f0a1f6cf6bf346c8736adc243605a018f0c9202660bfa5e63c618ada5.mp3",
-      "sha256": "aec5fb99b6a3b4a8a32e5988fdefd8c1c8c36bde9a176a440cadaa81a23c0eb7",
-      "seconds": 12.216,
-      "durationMs": 12216,
+      "sha256": "0a3061a5201fe5b6708c164100bc4b49b3819b33b44f47f3331ae17d22442141",
+      "seconds": 13.08,
+      "durationMs": 13080,
       "sampleRate": 24000,
-      "bytes": 73532
+      "bytes": 104876
     },
     {
       "id": "cac765e83458fec201aa768e0506c036d17be0ce1704acbbff5492b8225d0952",
@@ -1199,11 +1198,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 48,
       "src": "/audio/narration/cac765e83458fec201aa768e0506c036d17be0ce1704acbbff5492b8225d0952.mp3",
-      "sha256": "c954418c0d84569fda81c8e2f39a36d49bf11e72cf2f009568140c237d144066",
-      "seconds": 13.944,
-      "durationMs": 13944,
+      "sha256": "76790d27d0c583a4c0689c9c3492e891cc7c9d93724d25cac85d29ef2de6d39e",
+      "seconds": 12.096,
+      "durationMs": 12096,
       "sampleRate": 24000,
-      "bytes": 83900
+      "bytes": 97004
     },
     {
       "id": "808fd275dd2d7a6ec5d7c9fd68ae9314c5eeffb6a685bfed6d1c916eed7138dd",
@@ -1213,11 +1212,11 @@ export const NARRATION_MANIFEST = {
       "characters": 55,
       "han": 50,
       "src": "/audio/narration/808fd275dd2d7a6ec5d7c9fd68ae9314c5eeffb6a685bfed6d1c916eed7138dd.mp3",
-      "sha256": "1a4527cca9ffdbe2c1d6392e8308ca861d93514f38988631bda3a0160f02d1f2",
-      "seconds": 13.872,
-      "durationMs": 13872,
+      "sha256": "60525db4f6de88fca9b42d6df32f78e6bda0e4d23623e88e2342905bc5e0b027",
+      "seconds": 12.528,
+      "durationMs": 12528,
       "sampleRate": 24000,
-      "bytes": 83468
+      "bytes": 100460
     },
     {
       "id": "7283d295f99d54c2be2f94db41e9c3778f6fe43f5d699265c405ca81744679d3",
@@ -1227,11 +1226,11 @@ export const NARRATION_MANIFEST = {
       "characters": 59,
       "han": 52,
       "src": "/audio/narration/7283d295f99d54c2be2f94db41e9c3778f6fe43f5d699265c405ca81744679d3.mp3",
-      "sha256": "f3cb48659bd09985f7e532fcbaabf7c2e380ad3008ab9123a8812803f4ab3c2d",
-      "seconds": 15.624,
-      "durationMs": 15624,
+      "sha256": "5db396be8ed213589a4369a76132a6a4bcf2be79331bc05a63435d2a1bb35614",
+      "seconds": 13.176,
+      "durationMs": 13176,
       "sampleRate": 24000,
-      "bytes": 93980
+      "bytes": 105644
     },
     {
       "id": "73c414ab8e558707038615e85d7cd12798c9ce6178a355ca341d32ad99d50fd3",
@@ -1241,11 +1240,11 @@ export const NARRATION_MANIFEST = {
       "characters": 57,
       "han": 51,
       "src": "/audio/narration/73c414ab8e558707038615e85d7cd12798c9ce6178a355ca341d32ad99d50fd3.mp3",
-      "sha256": "28c095c7008a918173a717403b6a5f4a2330fdb838352a866b9d5eae36dea66e",
-      "seconds": 14.376,
-      "durationMs": 14376,
+      "sha256": "3f7bb2dafa459b922a313ad5d473176e9669c9daefaf7c1c73ed14813514537d",
+      "seconds": 13.584,
+      "durationMs": 13584,
       "sampleRate": 24000,
-      "bytes": 86492
+      "bytes": 108908
     },
     {
       "id": "85619f531fbc25265ade4bdf3ddfa2bbe165e388c03ddced9771efbb68607ef9",
@@ -1255,11 +1254,11 @@ export const NARRATION_MANIFEST = {
       "characters": 47,
       "han": 43,
       "src": "/audio/narration/85619f531fbc25265ade4bdf3ddfa2bbe165e388c03ddced9771efbb68607ef9.mp3",
-      "sha256": "f200a1132731ad10f85645c94a6d1b977f0913e58849bcc15e35a182cc869787",
-      "seconds": 11.976,
-      "durationMs": 11976,
+      "sha256": "66041db171600cb415d5cf138fc9f439a3face3ff59c253906f482359db7b7bd",
+      "seconds": 11.472,
+      "durationMs": 11472,
       "sampleRate": 24000,
-      "bytes": 72092
+      "bytes": 92012
     },
     {
       "id": "98ef2a3437dab6a1906f0aa0b6bd1f9aa17d8f44f2972a4e041e52797a5c9fba",
@@ -1269,11 +1268,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 45,
       "src": "/audio/narration/98ef2a3437dab6a1906f0aa0b6bd1f9aa17d8f44f2972a4e041e52797a5c9fba.mp3",
-      "sha256": "8b522392c38afc91eeabfd1dca324f264c08da9ae34c2f1341cab6d49c25b73c",
-      "seconds": 12.528,
-      "durationMs": 12528,
+      "sha256": "619c4051af025d6be65b9d201a895684e250683be60d08eddcd7be2273e25fa6",
+      "seconds": 11.064,
+      "durationMs": 11064,
       "sampleRate": 24000,
-      "bytes": 75404
+      "bytes": 88748
     },
     {
       "id": "26df35e9e04af5a07bab3f7f03040c6748ed8168bb7a7bfb4cb340f564043a43",
@@ -1283,11 +1282,11 @@ export const NARRATION_MANIFEST = {
       "characters": 52,
       "han": 47,
       "src": "/audio/narration/26df35e9e04af5a07bab3f7f03040c6748ed8168bb7a7bfb4cb340f564043a43.mp3",
-      "sha256": "982b4350391a54849b891e528a3751268056881ec049bf1bc1dd6d86dee333aa",
-      "seconds": 13.44,
-      "durationMs": 13440,
+      "sha256": "7fe14f2d616cf285b14a146f2253277e471f4f85b6b4c119f5ae4232c6f029d6",
+      "seconds": 12.144,
+      "durationMs": 12144,
       "sampleRate": 24000,
-      "bytes": 80876
+      "bytes": 97388
     },
     {
       "id": "906771247a2ced7c3482e70c67ebc5a17a03011c54dc5a3300c1c5c41f7dfe5f",
@@ -1297,11 +1296,11 @@ export const NARRATION_MANIFEST = {
       "characters": 55,
       "han": 50,
       "src": "/audio/narration/906771247a2ced7c3482e70c67ebc5a17a03011c54dc5a3300c1c5c41f7dfe5f.mp3",
-      "sha256": "23378eee0d59c0da4e4da47d346069e5bc24d3ae92f0d22df913091686742077",
-      "seconds": 13.896,
-      "durationMs": 13896,
+      "sha256": "0900f5665ea758282b465775df3ada09bd3b0e25c68d5d9fce9274768c76a72e",
+      "seconds": 12.528,
+      "durationMs": 12528,
       "sampleRate": 24000,
-      "bytes": 83612
+      "bytes": 100460
     },
     {
       "id": "f80665513678bf77a0b5555fb28288d4ccb0cbacb37e651e3b4cc57492f65fcd",
@@ -1311,11 +1310,11 @@ export const NARRATION_MANIFEST = {
       "characters": 56,
       "han": 51,
       "src": "/audio/narration/f80665513678bf77a0b5555fb28288d4ccb0cbacb37e651e3b4cc57492f65fcd.mp3",
-      "sha256": "a75348a31861f05f892fee1f52e661e59ca5abc3c10a73ea5f8fa637b5aab54e",
-      "seconds": 13.968,
-      "durationMs": 13968,
+      "sha256": "4ae899a403daa31c5c4fd987af9d9937b0c41dbb04a90f691da225db7f886d46",
+      "seconds": 13.344,
+      "durationMs": 13344,
       "sampleRate": 24000,
-      "bytes": 84044
+      "bytes": 106988
     },
     {
       "id": "012b695388cd3ae37058311cb951d9eca35ca2d6f6e71fd2b1cabc647a6abf54",
@@ -1325,11 +1324,11 @@ export const NARRATION_MANIFEST = {
       "characters": 47,
       "han": 42,
       "src": "/audio/narration/012b695388cd3ae37058311cb951d9eca35ca2d6f6e71fd2b1cabc647a6abf54.mp3",
-      "sha256": "52b59f29143de42782e1d2e1938e5abd08350d9ec118493de06502ac5fac9ead",
-      "seconds": 12.048,
-      "durationMs": 12048,
+      "sha256": "7f1879000a8af54202e91fe52243a5d3a9dc40b9523df431b999be70318ee3bf",
+      "seconds": 10.92,
+      "durationMs": 10920,
       "sampleRate": 24000,
-      "bytes": 72524
+      "bytes": 87596
     },
     {
       "id": "d6a9033751c3493b3e93290110f286d9a1d86b5157c2e0f8b14aae8480574018",
@@ -1339,11 +1338,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 49,
       "src": "/audio/narration/d6a9033751c3493b3e93290110f286d9a1d86b5157c2e0f8b14aae8480574018.mp3",
-      "sha256": "340a42aada002ea10073ad6ff505220ab41046c88fdad5a9420525dbf2d458e1",
-      "seconds": 13.512,
-      "durationMs": 13512,
+      "sha256": "a5a45351ccf7623d9adf3cf5294fa54ed9469bb2451828c1f85ff632f86e9aee",
+      "seconds": 13.776,
+      "durationMs": 13776,
       "sampleRate": 24000,
-      "bytes": 81308
+      "bytes": 110444
     },
     {
       "id": "ffeee0e9302227087e6e17bd9773096a2aa00df892fceb4620a4ea43c27f2d43",
@@ -1353,11 +1352,11 @@ export const NARRATION_MANIFEST = {
       "characters": 56,
       "han": 51,
       "src": "/audio/narration/ffeee0e9302227087e6e17bd9773096a2aa00df892fceb4620a4ea43c27f2d43.mp3",
-      "sha256": "6029a96b845057df94f5120ca1769ebc745add90f5da82bd32c5caeddd099d38",
-      "seconds": 13.824,
-      "durationMs": 13824,
+      "sha256": "1191f61781c304de5f874344c2fc0b6115a735e3c937a1bc78910e06f42235b1",
+      "seconds": 13.128,
+      "durationMs": 13128,
       "sampleRate": 24000,
-      "bytes": 83180
+      "bytes": 105260
     },
     {
       "id": "19b353f75ffd9090b4cae699e1e980680ab3f7b805c6588efee03f12b8c17c44",
@@ -1367,11 +1366,11 @@ export const NARRATION_MANIFEST = {
       "characters": 56,
       "han": 51,
       "src": "/audio/narration/19b353f75ffd9090b4cae699e1e980680ab3f7b805c6588efee03f12b8c17c44.mp3",
-      "sha256": "893cb01e52dc3b55e8f82eaef17befcf7843cc4756a64d21c6865087169c75bc",
-      "seconds": 13.992,
-      "durationMs": 13992,
+      "sha256": "3e4d6b2195b7291ac211e98dd81500421e0d28fb83bfad361b62057e13072ca4",
+      "seconds": 13.368,
+      "durationMs": 13368,
       "sampleRate": 24000,
-      "bytes": 84188
+      "bytes": 107180
     },
     {
       "id": "015e6c755a03e465b5da01917044acfc202551e8363a7a19bc17f7130aef13a2",
@@ -1381,11 +1380,11 @@ export const NARRATION_MANIFEST = {
       "characters": 60,
       "han": 55,
       "src": "/audio/narration/015e6c755a03e465b5da01917044acfc202551e8363a7a19bc17f7130aef13a2.mp3",
-      "sha256": "fdacfe8c0c314743fcde20b33408fe2d16ac0ebfc930aea41f1a5e1a5c86855b",
-      "seconds": 14.64,
-      "durationMs": 14640,
+      "sha256": "c865fed4ff97d3cfdcbaad1c89a86ee7b2c212b3ec1a29668d7de377c5e329cc",
+      "seconds": 14.352,
+      "durationMs": 14352,
       "sampleRate": 24000,
-      "bytes": 88076
+      "bytes": 115052
     },
     {
       "id": "dd9cc8b9dc562d8d408e3945f6ce6c559d3b24a825c1fa83b58dfc106d9bf6e9",
@@ -1395,11 +1394,11 @@ export const NARRATION_MANIFEST = {
       "characters": 57,
       "han": 50,
       "src": "/audio/narration/dd9cc8b9dc562d8d408e3945f6ce6c559d3b24a825c1fa83b58dfc106d9bf6e9.mp3",
-      "sha256": "3547e2f1af2424348420095025cb91deed6d92c6fbba6d89f603eb268b2a8987",
-      "seconds": 14.976,
-      "durationMs": 14976,
+      "sha256": "6c8528de26e363b349e0440fb2ca5c10d1682a35a8cb764456a3717f24ece923",
+      "seconds": 12.36,
+      "durationMs": 12360,
       "sampleRate": 24000,
-      "bytes": 90092
+      "bytes": 99116
     },
     {
       "id": "ea542294c913714f5cb6fb569422e5df9239e72566cd263248f21f649e4360fa",
@@ -1409,11 +1408,11 @@ export const NARRATION_MANIFEST = {
       "characters": 57,
       "han": 50,
       "src": "/audio/narration/ea542294c913714f5cb6fb569422e5df9239e72566cd263248f21f649e4360fa.mp3",
-      "sha256": "5de1c7a53f27fa61ea1a305f5924a78c06020b18dd7ab81950f30a214e524f73",
-      "seconds": 13.992,
-      "durationMs": 13992,
+      "sha256": "d956b5224483ac0ca2b248839eae4f5fd23763ca1a0c3a9f85acbca4870427a3",
+      "seconds": 12.936,
+      "durationMs": 12936,
       "sampleRate": 24000,
-      "bytes": 84188
+      "bytes": 103724
     },
     {
       "id": "f1c279677509aaa31b678b88f9f856c1025a550ff2b3f631098a70e2e5c0b502",
@@ -1423,11 +1422,11 @@ export const NARRATION_MANIFEST = {
       "characters": 48,
       "han": 44,
       "src": "/audio/narration/f1c279677509aaa31b678b88f9f856c1025a550ff2b3f631098a70e2e5c0b502.mp3",
-      "sha256": "cba7c568874ffe6c6fc072157eaa8519845a66ce123c80ec996eab69a64a9e91",
-      "seconds": 11.904,
-      "durationMs": 11904,
+      "sha256": "fdca9744bf5628f869ec261b641c7987fc9fc9dfb5fe8ba8796cc1b383db0cb8",
+      "seconds": 11.64,
+      "durationMs": 11640,
       "sampleRate": 24000,
-      "bytes": 71660
+      "bytes": 93356
     },
     {
       "id": "303d1373433c3489ed9ee10fe9a994d77b5c0a3f9873b0aeef66399687a6cf15",
@@ -1437,11 +1436,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 45,
       "src": "/audio/narration/303d1373433c3489ed9ee10fe9a994d77b5c0a3f9873b0aeef66399687a6cf15.mp3",
-      "sha256": "9e475e04e03ffc673d125ed68a3918210318a8a321222197024038376db9a729",
-      "seconds": 13.392,
-      "durationMs": 13392,
+      "sha256": "937f3fe1dc7e63a1a9f50797343ba35cda2eb69ee4700e15d25eeabeace1863c",
+      "seconds": 12.552,
+      "durationMs": 12552,
       "sampleRate": 24000,
-      "bytes": 80588
+      "bytes": 100652
     },
     {
       "id": "c352c12d2ded1ef86eab6ecf278bf9cc45f4c5b67202066f71d7a8925af773ba",
@@ -1451,11 +1450,11 @@ export const NARRATION_MANIFEST = {
       "characters": 53,
       "han": 48,
       "src": "/audio/narration/c352c12d2ded1ef86eab6ecf278bf9cc45f4c5b67202066f71d7a8925af773ba.mp3",
-      "sha256": "31a096acd0c6a83d67ec1bfc96da9454dd18897f0b2345385ca86dd6353af76f",
-      "seconds": 13.536,
-      "durationMs": 13536,
+      "sha256": "f0f05db1777ab08f402a4645b48e3cb48b399b90524a0feb9b9435d3722931c0",
+      "seconds": 12.816,
+      "durationMs": 12816,
       "sampleRate": 24000,
-      "bytes": 81452
+      "bytes": 102764
     },
     {
       "id": "6135a9d363e31aef2ca20335c923f791123164e5ce3249b00fd42bab499d7be8",
@@ -1465,11 +1464,11 @@ export const NARRATION_MANIFEST = {
       "characters": 49,
       "han": 45,
       "src": "/audio/narration/6135a9d363e31aef2ca20335c923f791123164e5ce3249b00fd42bab499d7be8.mp3",
-      "sha256": "b1c3920a998cab86494bed8cb98e04fb9e9fb61c2a0541faec0397bd6eeada95",
-      "seconds": 12.312,
-      "durationMs": 12312,
+      "sha256": "d8c9ead00beaef61b0d240be1990b392474291466bbc0a3ac9c237ffcee6660e",
+      "seconds": 10.968,
+      "durationMs": 10968,
       "sampleRate": 24000,
-      "bytes": 74108
+      "bytes": 87980
     },
     {
       "id": "ed02a7e535ad5f654f55578edf6949210c74223a4efa5b8ddd7a120d0cefeae0",
@@ -1479,11 +1478,11 @@ export const NARRATION_MANIFEST = {
       "characters": 49,
       "han": 44,
       "src": "/audio/narration/ed02a7e535ad5f654f55578edf6949210c74223a4efa5b8ddd7a120d0cefeae0.mp3",
-      "sha256": "591439560b5acf33ba6d62abe017866751efa9c625f3b2ba4456950f46f46d5d",
-      "seconds": 12.504,
-      "durationMs": 12504,
+      "sha256": "1dd23cfb49de52ab47c3010f34c6b2092bc345a18a7c714abf4d5e3a0a1bc6f6",
+      "seconds": 11.904,
+      "durationMs": 11904,
       "sampleRate": 24000,
-      "bytes": 75260
+      "bytes": 95468
     },
     {
       "id": "d55b44ff01c506d4a52353d771f80594dfad09308d631340824c12a75256d77a",
@@ -1493,11 +1492,11 @@ export const NARRATION_MANIFEST = {
       "characters": 53,
       "han": 48,
       "src": "/audio/narration/d55b44ff01c506d4a52353d771f80594dfad09308d631340824c12a75256d77a.mp3",
-      "sha256": "953e79ee181772c5c8103a7f47c854874da8b9d59a7ec5857282618015bd6a5d",
-      "seconds": 13.776,
-      "durationMs": 13776,
+      "sha256": "41b4c7f498fe3f316a3b0e160f32f471c15c869cc03daeb4e3185306fa017a90",
+      "seconds": 12.432,
+      "durationMs": 12432,
       "sampleRate": 24000,
-      "bytes": 82892
+      "bytes": 99692
     },
     {
       "id": "a369c7a800998f178479bdb1f5b3c6ed46791c2e0dea147d27d694b47ac7b9ac",
@@ -1507,11 +1506,11 @@ export const NARRATION_MANIFEST = {
       "characters": 57,
       "han": 52,
       "src": "/audio/narration/a369c7a800998f178479bdb1f5b3c6ed46791c2e0dea147d27d694b47ac7b9ac.mp3",
-      "sha256": "713b93b083e460310469101d21a7919d631f8abdbae372e41c01d0e88aba4e80",
-      "seconds": 14.184,
-      "durationMs": 14184,
+      "sha256": "7fc83dc643c683d2dd40dbf6c8db4387e25ddd913e7fc6e9cfebcf3ced36aabb",
+      "seconds": 13.824,
+      "durationMs": 13824,
       "sampleRate": 24000,
-      "bytes": 85340
+      "bytes": 110828
     },
     {
       "id": "2fa1de494e5ae43bf0396dcb9a093e57f21cb42d98b2bc5ffefa291725c524e3",
@@ -1521,11 +1520,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 44,
       "src": "/audio/narration/2fa1de494e5ae43bf0396dcb9a093e57f21cb42d98b2bc5ffefa291725c524e3.mp3",
-      "sha256": "1b7d9d07aaacfafb323075cea4da87b0688cf164616df6364a5d966a05974613",
-      "seconds": 13.416,
-      "durationMs": 13416,
+      "sha256": "582edfd1fc2f8deebbff7f74112a4fd53325a1099c9a971d64fdf67e7632f514",
+      "seconds": 12.864,
+      "durationMs": 12864,
       "sampleRate": 24000,
-      "bytes": 80732
+      "bytes": 103148
     },
     {
       "id": "c9c55dc5d30da50b94373620d11b0449238d2a01ab3b668cf229d12b6f43ab73",
@@ -1535,11 +1534,11 @@ export const NARRATION_MANIFEST = {
       "characters": 46,
       "han": 41,
       "src": "/audio/narration/c9c55dc5d30da50b94373620d11b0449238d2a01ab3b668cf229d12b6f43ab73.mp3",
-      "sha256": "5c8634ae7277370b8fa0212645cd9c3d8444d5724f375a3d0fe284c32eb7438e",
-      "seconds": 11.712,
-      "durationMs": 11712,
+      "sha256": "bc0b1469c7a108c340e54b50c87492d123b21ff31275d4897c77dd299b44d5ad",
+      "seconds": 10.488,
+      "durationMs": 10488,
       "sampleRate": 24000,
-      "bytes": 70508
+      "bytes": 84140
     },
     {
       "id": "a670f0824cd5f515e26434869d4e140b17a5aad0c4a266e9116fdcbd235b1b9d",
@@ -1549,11 +1548,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 48,
       "src": "/audio/narration/a670f0824cd5f515e26434869d4e140b17a5aad0c4a266e9116fdcbd235b1b9d.mp3",
-      "sha256": "eb7b0bab958fac9cf64f205cbf528c2e93abc0878bdfbdd4453b71840d089f36",
-      "seconds": 13.392,
-      "durationMs": 13392,
+      "sha256": "9cf3b76763ce83c4a1a4c6285d124902310a4d9ffbabd2546c984ad4f94704a5",
+      "seconds": 12.336,
+      "durationMs": 12336,
       "sampleRate": 24000,
-      "bytes": 80588
+      "bytes": 98924
     },
     {
       "id": "374ba210c6b8b1965209cdb40c7f602630312c4632f2f52642a5705457f3eff7",
@@ -1563,11 +1562,11 @@ export const NARRATION_MANIFEST = {
       "characters": 56,
       "han": 51,
       "src": "/audio/narration/374ba210c6b8b1965209cdb40c7f602630312c4632f2f52642a5705457f3eff7.mp3",
-      "sha256": "bf822a36425933f0b2093711bf4c276686f37f8706881f36a9286bfb10126986",
-      "seconds": 14.04,
-      "durationMs": 14040,
+      "sha256": "afbfa45583aa861e7febb148c5149a1b1b050d2cc4be17ffdc859ee1b157c695",
+      "seconds": 15.144,
+      "durationMs": 15144,
       "sampleRate": 24000,
-      "bytes": 84476
+      "bytes": 121388
     },
     {
       "id": "8de2f0def64c63bd47bbfa08408f149cd373fb8afb9d895779909f9bb8ae0c87",
@@ -1577,11 +1576,11 @@ export const NARRATION_MANIFEST = {
       "characters": 56,
       "han": 51,
       "src": "/audio/narration/8de2f0def64c63bd47bbfa08408f149cd373fb8afb9d895779909f9bb8ae0c87.mp3",
-      "sha256": "a808198169e0d9d6a6a4bf57db961115a064f5ba43ad2d63f7d24436b746273b",
-      "seconds": 13.8,
-      "durationMs": 13800,
+      "sha256": "1e1e3c12a96777e372217351dbab44c165b40cb690954ef3fd39adc87e3150b6",
+      "seconds": 13.32,
+      "durationMs": 13320,
       "sampleRate": 24000,
-      "bytes": 83036
+      "bytes": 106796
     },
     {
       "id": "02786670d2eb9e25475558908e70e8a20b239a0bec974499aedafb59965d75c8",
@@ -1591,11 +1590,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 46,
       "src": "/audio/narration/02786670d2eb9e25475558908e70e8a20b239a0bec974499aedafb59965d75c8.mp3",
-      "sha256": "3a0b4576c66aa30d0cf8a2bada9b35825cc8d3316e22ff432f9711eeff7a541a",
-      "seconds": 12.912,
-      "durationMs": 12912,
+      "sha256": "5fdeeee57b7b62a616464aa0b47b652b81f46d4affe8d4ffb5e68e40c1c13a28",
+      "seconds": 11.76,
+      "durationMs": 11760,
       "sampleRate": 24000,
-      "bytes": 77708
+      "bytes": 94316
     },
     {
       "id": "47a10f3501f30300b433c6d235aa852645896899043a724fd32339349366d520",
@@ -1605,11 +1604,11 @@ export const NARRATION_MANIFEST = {
       "characters": 62,
       "han": 55,
       "src": "/audio/narration/47a10f3501f30300b433c6d235aa852645896899043a724fd32339349366d520.mp3",
-      "sha256": "981263003c0bbf09c1dd3a66e38b02c0879b1668424adb9ff8490b759ae1e274",
-      "seconds": 16.296,
-      "durationMs": 16296,
+      "sha256": "52f5e08eede594123c70a5791e90daa5c3124cafdec5207b750c9c60fd01ed6b",
+      "seconds": 13.944,
+      "durationMs": 13944,
       "sampleRate": 24000,
-      "bytes": 98012
+      "bytes": 111788
     },
     {
       "id": "6ef2535525588d1d1381e0caf839191f6f534ee8f1092ea27b50bb68a3f28d7d",
@@ -1619,11 +1618,11 @@ export const NARRATION_MANIFEST = {
       "characters": 58,
       "han": 53,
       "src": "/audio/narration/6ef2535525588d1d1381e0caf839191f6f534ee8f1092ea27b50bb68a3f28d7d.mp3",
-      "sha256": "492105581b6bb68e0796827009f3c78c66666716f2ba2f399138d7c656bc7844",
-      "seconds": 14.472,
-      "durationMs": 14472,
+      "sha256": "7ecb8b6015a1ca6b98f2dde4180d22c8cc4e771cdfd0fe60b01446d4419da5dd",
+      "seconds": 13.032,
+      "durationMs": 13032,
       "sampleRate": 24000,
-      "bytes": 87068
+      "bytes": 104492
     },
     {
       "id": "720dc52cbf4577c1d7ae19d6d4732357c8c0696ef3c60d7d2aa58c7c5f00003c",
@@ -1633,11 +1632,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 48,
       "src": "/audio/narration/720dc52cbf4577c1d7ae19d6d4732357c8c0696ef3c60d7d2aa58c7c5f00003c.mp3",
-      "sha256": "3307e2a91302d12d11a642a8903c513759aa1fb49084a99d3fcf74ce0a45a728",
-      "seconds": 14.136,
-      "durationMs": 14136,
+      "sha256": "6910824a69499f0ae24b97bad5a7493265f7ca5e4c51ec8b30510752fd1fc311",
+      "seconds": 12.888,
+      "durationMs": 12888,
       "sampleRate": 24000,
-      "bytes": 85052
+      "bytes": 103340
     },
     {
       "id": "809f45ce5c7031e0769e03b26e1c94e9461294aeaa92898d91e8876f1ff12a84",
@@ -1647,11 +1646,11 @@ export const NARRATION_MANIFEST = {
       "characters": 60,
       "han": 54,
       "src": "/audio/narration/809f45ce5c7031e0769e03b26e1c94e9461294aeaa92898d91e8876f1ff12a84.mp3",
-      "sha256": "65dc24edfc23d37557a9f437b64170ff7178edc7d4582e8a9d636fda5f27c0ff",
-      "seconds": 15.048,
-      "durationMs": 15048,
+      "sha256": "bd47bdd0cc76e956a2d665d2cd0a8ea0799609eb05ffeefd645004f4201fbd35",
+      "seconds": 14.352,
+      "durationMs": 14352,
       "sampleRate": 24000,
-      "bytes": 90524
+      "bytes": 115052
     },
     {
       "id": "2fc37c82fb98d6688716a70e5637fa3abe1a8c252b8febc5c3f61ada3fd9f52b",
@@ -1661,11 +1660,11 @@ export const NARRATION_MANIFEST = {
       "characters": 48,
       "han": 43,
       "src": "/audio/narration/2fc37c82fb98d6688716a70e5637fa3abe1a8c252b8febc5c3f61ada3fd9f52b.mp3",
-      "sha256": "7bc71d9017b621d4c9f4fe808d6efeef62ed4bd0973620b903459d2891cd43f9",
-      "seconds": 12.48,
-      "durationMs": 12480,
+      "sha256": "5142e87b8cf79d3c9af8169f09995d7bd997a84b44c03962f8dd0d0003a75751",
+      "seconds": 10.776,
+      "durationMs": 10776,
       "sampleRate": 24000,
-      "bytes": 75116
+      "bytes": 86444
     },
     {
       "id": "68da7d69a16b2161a044c0d1c8fd6fe9367e6a2597d1471a119b57c5a887a835",
@@ -1675,11 +1674,11 @@ export const NARRATION_MANIFEST = {
       "characters": 56,
       "han": 51,
       "src": "/audio/narration/68da7d69a16b2161a044c0d1c8fd6fe9367e6a2597d1471a119b57c5a887a835.mp3",
-      "sha256": "c63815d798b0f3b915cee2bce45b369fc83d68f73620ad252e91bb3368112860",
-      "seconds": 13.776,
-      "durationMs": 13776,
+      "sha256": "97c7b6d72bf28774186ecf3512a7d78e1d7e981db06b3a6485d2a3f48fba584f",
+      "seconds": 12.984,
+      "durationMs": 12984,
       "sampleRate": 24000,
-      "bytes": 82892
+      "bytes": 104108
     },
     {
       "id": "6fe6365b3aa75d6c2c269644303533d60905b860417d22f51de83b3c911670ec",
@@ -1689,11 +1688,11 @@ export const NARRATION_MANIFEST = {
       "characters": 55,
       "han": 48,
       "src": "/audio/narration/6fe6365b3aa75d6c2c269644303533d60905b860417d22f51de83b3c911670ec.mp3",
-      "sha256": "ac07e98f5e82e5873b1771d601813c344263a7156a4c2c58d4a2f55f19259c84",
-      "seconds": 14.04,
-      "durationMs": 14040,
+      "sha256": "4a8862ec306610cd6cd788ae9f8b0b06a0abb0ee7eb1df8c589d3701e05790aa",
+      "seconds": 12.144,
+      "durationMs": 12144,
       "sampleRate": 24000,
-      "bytes": 84476
+      "bytes": 97388
     },
     {
       "id": "a71df43c04988f9758625e5e4b495ec4522b807787382f7af983ff6ca089118e",
@@ -1703,11 +1702,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 47,
       "src": "/audio/narration/a71df43c04988f9758625e5e4b495ec4522b807787382f7af983ff6ca089118e.mp3",
-      "sha256": "8cdb37ea6559742cf40c35f536d761ac5e8b0c4d32abbc1929315bb600126028",
-      "seconds": 14.64,
-      "durationMs": 14640,
+      "sha256": "71694e98d3140e6e74c35adb3625b18a507795d8f6371831ab8504c14e97f10e",
+      "seconds": 12.336,
+      "durationMs": 12336,
       "sampleRate": 24000,
-      "bytes": 88076
+      "bytes": 98924
     },
     {
       "id": "f67c5988c45b2c39fe0fbc486327baa846dc41053ba3594fa86328cb4aefc774",
@@ -1717,11 +1716,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 45,
       "src": "/audio/narration/f67c5988c45b2c39fe0fbc486327baa846dc41053ba3594fa86328cb4aefc774.mp3",
-      "sha256": "b8d52dea4ac6227e6c0592484ce26fbdd67d48a6aab84603c6155a34be4c776f",
-      "seconds": 13.368,
-      "durationMs": 13368,
+      "sha256": "a0aa81bc68869de8bfa825d1e06d95e40fd8fc745039300e9f8116462c6bcab5",
+      "seconds": 11.976,
+      "durationMs": 11976,
       "sampleRate": 24000,
-      "bytes": 80444
+      "bytes": 96044
     },
     {
       "id": "3db75ae9f48ff59cfb15c03543808fa3f670a5030035b5062bb5dbf69c0ab163",
@@ -1731,11 +1730,11 @@ export const NARRATION_MANIFEST = {
       "characters": 57,
       "han": 52,
       "src": "/audio/narration/3db75ae9f48ff59cfb15c03543808fa3f670a5030035b5062bb5dbf69c0ab163.mp3",
-      "sha256": "9a912a16240476f28cad0cc2d4b71251089161cbfde7f42a6f666334bf0299b7",
-      "seconds": 14.448,
-      "durationMs": 14448,
+      "sha256": "11be005a4c5f87d491c019fe818e8ed7b0b354af51cc09db1657697ca7d373b6",
+      "seconds": 13.344,
+      "durationMs": 13344,
       "sampleRate": 24000,
-      "bytes": 86924
+      "bytes": 106988
     },
     {
       "id": "bdf7795f0b937f3607a19bc6be9cf39e55479120402619101c311b5b0479144a",
@@ -1745,11 +1744,11 @@ export const NARRATION_MANIFEST = {
       "characters": 57,
       "han": 52,
       "src": "/audio/narration/bdf7795f0b937f3607a19bc6be9cf39e55479120402619101c311b5b0479144a.mp3",
-      "sha256": "14c323105cc00f87b6a12281023841046b4a00e618a1a0be35092356cba726dd",
-      "seconds": 14.16,
-      "durationMs": 14160,
+      "sha256": "b71fd3ea1caac893d9b79d32a0cdcf45c8cecc8dc8f09ad82ac881d56f4a413a",
+      "seconds": 13.968,
+      "durationMs": 13968,
       "sampleRate": 24000,
-      "bytes": 85196
+      "bytes": 111980
     },
     {
       "id": "98525ba11a7a840ee824608f64fa7d573421db18741fb41e720b5b3699fca275",
@@ -1759,11 +1758,11 @@ export const NARRATION_MANIFEST = {
       "characters": 43,
       "han": 38,
       "src": "/audio/narration/98525ba11a7a840ee824608f64fa7d573421db18741fb41e720b5b3699fca275.mp3",
-      "sha256": "99d7d92cc4d9c8ba5f46afd80463e36cdf244cb119cd5f6eb99f15d90fccbbfb",
-      "seconds": 11.424,
-      "durationMs": 11424,
+      "sha256": "9c518d0df907999aca7e7e9987a88e1717343ba3cd213934c46bedd8ade28e54",
+      "seconds": 9.792,
+      "durationMs": 9792,
       "sampleRate": 24000,
-      "bytes": 68780
+      "bytes": 78572
     },
     {
       "id": "8a131ea828177aaf703fde22fb8fb57a5ea201c40609705aa09b1bb2e2a68841",
@@ -1773,11 +1772,11 @@ export const NARRATION_MANIFEST = {
       "characters": 55,
       "han": 50,
       "src": "/audio/narration/8a131ea828177aaf703fde22fb8fb57a5ea201c40609705aa09b1bb2e2a68841.mp3",
-      "sha256": "40113400838f62dad8ed6713920ba2aa66d377a90eb80d09c26c564ac93cd2e0",
-      "seconds": 13.896,
-      "durationMs": 13896,
+      "sha256": "ea5c6c7919bc2eedfd7cb2da785b3d82334af85c54bfbee63e0db9c8a25a2496",
+      "seconds": 13.44,
+      "durationMs": 13440,
       "sampleRate": 24000,
-      "bytes": 83612
+      "bytes": 107756
     },
     {
       "id": "c21c8e0d20545da90eeb01e877684e48b24cdcb594b0671e40d29038cd43702b",
@@ -1787,11 +1786,11 @@ export const NARRATION_MANIFEST = {
       "characters": 55,
       "han": 50,
       "src": "/audio/narration/c21c8e0d20545da90eeb01e877684e48b24cdcb594b0671e40d29038cd43702b.mp3",
-      "sha256": "d11205b02876c4576732ed0c250df3393e3d0187eb0c15f6ab8f360715546323",
-      "seconds": 13.92,
-      "durationMs": 13920,
+      "sha256": "f5a1308b70fb31be1f993543067b72cd9ea5b01cad4af892aad6ee8b2f33d3a6",
+      "seconds": 13.848,
+      "durationMs": 13848,
       "sampleRate": 24000,
-      "bytes": 83756
+      "bytes": 111020
     },
     {
       "id": "e3a1be881fd1902b64c6abc43a308f05938a21f557aae3f76ab495ae25c64fa0",
@@ -1801,11 +1800,11 @@ export const NARRATION_MANIFEST = {
       "characters": 46,
       "han": 41,
       "src": "/audio/narration/e3a1be881fd1902b64c6abc43a308f05938a21f557aae3f76ab495ae25c64fa0.mp3",
-      "sha256": "561e2d672cc771a1302a534d0dd22d2dccabb8a1db5230729348f0344d0c3b37",
-      "seconds": 11.688,
-      "durationMs": 11688,
+      "sha256": "88e6110c6b9d3864be0a9552485319a3ce8f82a6932b0566537ab765eed6b42e",
+      "seconds": 10.104,
+      "durationMs": 10104,
       "sampleRate": 24000,
-      "bytes": 70364
+      "bytes": 81068
     },
     {
       "id": "a0ddd653cb27b5a192c337d0c32c32462b9931c06a3674c0468772a5bb307c9a",
@@ -1815,11 +1814,11 @@ export const NARRATION_MANIFEST = {
       "characters": 46,
       "han": 41,
       "src": "/audio/narration/a0ddd653cb27b5a192c337d0c32c32462b9931c06a3674c0468772a5bb307c9a.mp3",
-      "sha256": "8ce46e708f0daf19be0d187706c5cff3b054c0a58f12aacf1cb0037cf05e87a4",
-      "seconds": 11.88,
-      "durationMs": 11880,
+      "sha256": "4877c4930bfd72eef87dd42e0437028b3ed0975c981c332fa3585113842d2108",
+      "seconds": 10.104,
+      "durationMs": 10104,
       "sampleRate": 24000,
-      "bytes": 71516
+      "bytes": 81068
     },
     {
       "id": "53b580f60743f950e57cf81f8e991c11eb89e5ca309c2e6be5f98e96fe95aad2",
@@ -1829,11 +1828,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 46,
       "src": "/audio/narration/53b580f60743f950e57cf81f8e991c11eb89e5ca309c2e6be5f98e96fe95aad2.mp3",
-      "sha256": "c5c76287e280323c34cab335be0028902f5465846fc270e35e762120106d2bc4",
-      "seconds": 13.296,
-      "durationMs": 13296,
+      "sha256": "d920826e0526d7b371aae81d233258dba4882812ad3fab79402d44e0e961255a",
+      "seconds": 11.976,
+      "durationMs": 11976,
       "sampleRate": 24000,
-      "bytes": 80012
+      "bytes": 96044
     },
     {
       "id": "a1fe9eca349cdcc9601cbb1568e68193d531d43d595c3693bb99019e3994956c",
@@ -1843,11 +1842,11 @@ export const NARRATION_MANIFEST = {
       "characters": 60,
       "han": 54,
       "src": "/audio/narration/a1fe9eca349cdcc9601cbb1568e68193d531d43d595c3693bb99019e3994956c.mp3",
-      "sha256": "d0010d6a36e0eb4cb8cf57ef8327bda523b533222cc89ddec8a202fcdd6a4e3a",
-      "seconds": 15.24,
-      "durationMs": 15240,
+      "sha256": "fe32db87e75dbb0ba4f7cf62ddea92b6f5b8381946e1405042eb642648dc28d9",
+      "seconds": 13.656,
+      "durationMs": 13656,
       "sampleRate": 24000,
-      "bytes": 91676
+      "bytes": 109484
     },
     {
       "id": "50b2128af38a335caadf961d7db48b7af24fe97c8c4443e053e75dcf36085299",
@@ -1857,11 +1856,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 45,
       "src": "/audio/narration/50b2128af38a335caadf961d7db48b7af24fe97c8c4443e053e75dcf36085299.mp3",
-      "sha256": "6cd69c4892746f834ecd935fbe790cc0934d21565fb193621f6d555683c1d2dc",
-      "seconds": 12.648,
-      "durationMs": 12648,
+      "sha256": "8d22386b1acdeeee4d9943fc105eefec125c51487536c2c79787cc5bc8d9f895",
+      "seconds": 12.12,
+      "durationMs": 12120,
       "sampleRate": 24000,
-      "bytes": 76124
+      "bytes": 97196
     },
     {
       "id": "4211ae3e60e813eebe53ada3a8e88dafc0094b9e091ce21bb860bca65d8e33ea",
@@ -1871,11 +1870,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 46,
       "src": "/audio/narration/4211ae3e60e813eebe53ada3a8e88dafc0094b9e091ce21bb860bca65d8e33ea.mp3",
-      "sha256": "93a4e9ebefa1cf223d3bb8f49e664ad8a3f9e2f67c67d237ee2e206340c27cb4",
-      "seconds": 12.936,
-      "durationMs": 12936,
+      "sha256": "5bf26970a2892a09d420eea8e5ad0c06d17bda549093b77c32293b277beaf0dd",
+      "seconds": 11.592,
+      "durationMs": 11592,
       "sampleRate": 24000,
-      "bytes": 77852
+      "bytes": 92972
     },
     {
       "id": "40ffa377e5ad1ffe86626e74b4faed2d38f7e3c3c8e815b967b7413b11686e46",
@@ -1885,11 +1884,11 @@ export const NARRATION_MANIFEST = {
       "characters": 58,
       "han": 52,
       "src": "/audio/narration/40ffa377e5ad1ffe86626e74b4faed2d38f7e3c3c8e815b967b7413b11686e46.mp3",
-      "sha256": "d008c2650ae3aecb5d285994ba4d90791ed8a095b04a498b566cdb2202515ef8",
-      "seconds": 14.904,
-      "durationMs": 14904,
+      "sha256": "c05c14caa40b4c5d152bd89960954c87b1aea76f944f3077b587acafcb78a4be",
+      "seconds": 13.368,
+      "durationMs": 13368,
       "sampleRate": 24000,
-      "bytes": 89660
+      "bytes": 107180
     },
     {
       "id": "c763894b7a8eb08012a9eb3becebfde752531e5f4939b7f14a6e8a8d599085b0",
@@ -1899,11 +1898,11 @@ export const NARRATION_MANIFEST = {
       "characters": 58,
       "han": 53,
       "src": "/audio/narration/c763894b7a8eb08012a9eb3becebfde752531e5f4939b7f14a6e8a8d599085b0.mp3",
-      "sha256": "45cf08e46330d0310ab4fba7046530a0d011706e2116040dcecc442eed9d3dbc",
-      "seconds": 14.304,
-      "durationMs": 14304,
+      "sha256": "f3e7c8ae354f563115b2d20a12430ea970fab51b5459e99fb139a6abff894c14",
+      "seconds": 14.52,
+      "durationMs": 14520,
       "sampleRate": 24000,
-      "bytes": 86060
+      "bytes": 116396
     },
     {
       "id": "2733b9749c5f2203a3e093cc9128b251ff5fb72a2e3f488e4d022b050ebd3b4e",
@@ -1913,11 +1912,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 46,
       "src": "/audio/narration/2733b9749c5f2203a3e093cc9128b251ff5fb72a2e3f488e4d022b050ebd3b4e.mp3",
-      "sha256": "5c2a2c1e924915a1b7bd8bfca5c0c2b63c8e300d08eb77557aabd6398581c337",
-      "seconds": 12.888,
-      "durationMs": 12888,
+      "sha256": "c4c6701f4487bb4942b927de6a56c39b6f13dfefcc6822d44ee5ecacc7153057",
+      "seconds": 12.336,
+      "durationMs": 12336,
       "sampleRate": 24000,
-      "bytes": 77564
+      "bytes": 98924
     },
     {
       "id": "7b6df39bf0f84b269caab8e6efa72e26de29cc59aab4f1b423da5228fd0f8b04",
@@ -1927,11 +1926,11 @@ export const NARRATION_MANIFEST = {
       "characters": 49,
       "han": 44,
       "src": "/audio/narration/7b6df39bf0f84b269caab8e6efa72e26de29cc59aab4f1b423da5228fd0f8b04.mp3",
-      "sha256": "9d9c660f96b54f597203e88604e6b145a7cb4d9c402388f1758d9103d4f12ce7",
-      "seconds": 12.312,
-      "durationMs": 12312,
+      "sha256": "f54664509ed56f7fa477905fc7b7d10d69f526eeaa4cb8ea06503db240a6ca42",
+      "seconds": 10.68,
+      "durationMs": 10680,
       "sampleRate": 24000,
-      "bytes": 74108
+      "bytes": 85676
     },
     {
       "id": "963475ff790b37d0b634124110c8ef29a2edcd0103f1d305f7875145e8708683",
@@ -1941,11 +1940,11 @@ export const NARRATION_MANIFEST = {
       "characters": 53,
       "han": 48,
       "src": "/audio/narration/963475ff790b37d0b634124110c8ef29a2edcd0103f1d305f7875145e8708683.mp3",
-      "sha256": "b5af096ddafabf8c98454de8b9feff015877441fc23d5995ed00bd9953bc6bfa",
-      "seconds": 12.96,
-      "durationMs": 12960,
+      "sha256": "a926b291d36636c246fa714b8682c76b38fd71776d8cf3f3ca5fb5bd0f6481de",
+      "seconds": 11.88,
+      "durationMs": 11880,
       "sampleRate": 24000,
-      "bytes": 77996
+      "bytes": 95276
     },
     {
       "id": "32c04a3b0dd59691ebf4f00d84c0652cec564966701952959c09311d737842b8",
@@ -1955,11 +1954,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 45,
       "src": "/audio/narration/32c04a3b0dd59691ebf4f00d84c0652cec564966701952959c09311d737842b8.mp3",
-      "sha256": "09ac927c2b4195b1fdad6523eb37aeca8fb5e2ec4d09c40e0d3652c749342988",
-      "seconds": 12.96,
-      "durationMs": 12960,
+      "sha256": "e8702732e6ab2e0e3214aa2d32a91c08434a613db7e0f81123011ddde36d077e",
+      "seconds": 11.592,
+      "durationMs": 11592,
       "sampleRate": 24000,
-      "bytes": 77996
+      "bytes": 92972
     },
     {
       "id": "5d5f0173f04569100fbaae23850223fc1373cddb0ac57923643c7f0b35428285",
@@ -1969,11 +1968,11 @@ export const NARRATION_MANIFEST = {
       "characters": 58,
       "han": 49,
       "src": "/audio/narration/5d5f0173f04569100fbaae23850223fc1373cddb0ac57923643c7f0b35428285.mp3",
-      "sha256": "75afb47c9913fe4af0d99ffc3d4190a5f45fe186820ef1946f1c9e8f7b2e036f",
-      "seconds": 14.544,
-      "durationMs": 14544,
+      "sha256": "0cf01f9fdba8d55620b1e13e3779407dbcf3bb02605cb72d99869078483cfd40",
+      "seconds": 12.216,
+      "durationMs": 12216,
       "sampleRate": 24000,
-      "bytes": 87500
+      "bytes": 97964
     },
     {
       "id": "7060273964242d2f841c3724a57d5b3bbbfb18d11083bcaec2cce6790fcfa054",
@@ -1983,11 +1982,11 @@ export const NARRATION_MANIFEST = {
       "characters": 47,
       "han": 42,
       "src": "/audio/narration/7060273964242d2f841c3724a57d5b3bbbfb18d11083bcaec2cce6790fcfa054.mp3",
-      "sha256": "65f2beb260a94232efd3211a8382e8ad6d05aba15fd21391b1e8958b7601514b",
-      "seconds": 12.12,
-      "durationMs": 12120,
+      "sha256": "fc4e0ee43902bc612193e6865896b62ebe149ac172b942997ac67bee7aff8fbb",
+      "seconds": 10.68,
+      "durationMs": 10680,
       "sampleRate": 24000,
-      "bytes": 72956
+      "bytes": 85676
     },
     {
       "id": "1b943a4af8ae2ff935a752e2e66c71574b154f392e7864432965323d62c12be0",
@@ -1997,11 +1996,11 @@ export const NARRATION_MANIFEST = {
       "characters": 57,
       "han": 50,
       "src": "/audio/narration/1b943a4af8ae2ff935a752e2e66c71574b154f392e7864432965323d62c12be0.mp3",
-      "sha256": "cefd357d83768f0f75dd8269e405f3b888ac75fa694c2639ee0168d750faf8e1",
-      "seconds": 14.76,
-      "durationMs": 14760,
+      "sha256": "31f86da3e94b2edbec2b43a9aeb4e27bb6690cdcd2a4397b54a695736b781e87",
+      "seconds": 13.464,
+      "durationMs": 13464,
       "sampleRate": 24000,
-      "bytes": 88796
+      "bytes": 107948
     },
     {
       "id": "2923bbe201434cfdf35607b76223a3fff98d6c6f70f60ebe7550e693e1e57b1c",
@@ -2011,11 +2010,11 @@ export const NARRATION_MANIFEST = {
       "characters": 48,
       "han": 43,
       "src": "/audio/narration/2923bbe201434cfdf35607b76223a3fff98d6c6f70f60ebe7550e693e1e57b1c.mp3",
-      "sha256": "c9e344b6e742a162cad2b823deaca3ca840bd08c220538c183757aaecd127d18",
-      "seconds": 12.12,
-      "durationMs": 12120,
+      "sha256": "925c4939db97bf41c6bc618390f4d3b1544a93c1aec13ffc32ed5d043581137a",
+      "seconds": 10.872,
+      "durationMs": 10872,
       "sampleRate": 24000,
-      "bytes": 72956
+      "bytes": 87212
     },
     {
       "id": "675da647d6405565fdf39fcd56ceb5c999a53ff8c3838531abc776cb165ce1fa",
@@ -2025,11 +2024,11 @@ export const NARRATION_MANIFEST = {
       "characters": 53,
       "han": 48,
       "src": "/audio/narration/675da647d6405565fdf39fcd56ceb5c999a53ff8c3838531abc776cb165ce1fa.mp3",
-      "sha256": "94c02cadf9cb3bc8f23706764926d6b8b9b23064bc8537e03a875f7fd8122d52",
-      "seconds": 12.984,
-      "durationMs": 12984,
+      "sha256": "5156de76bacb3796542c355e41f6f27d36ea5a941f85f7d6afd6e3b0f82974a1",
+      "seconds": 12.264,
+      "durationMs": 12264,
       "sampleRate": 24000,
-      "bytes": 78140
+      "bytes": 98348
     },
     {
       "id": "d2cafbf98137f86061991b42fe760e59e2a14d377c14b35962046d2bee67a760",
@@ -2039,11 +2038,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 45,
       "src": "/audio/narration/d2cafbf98137f86061991b42fe760e59e2a14d377c14b35962046d2bee67a760.mp3",
-      "sha256": "4cebc3dc82fafbd18a8dbe73aefa85ef341e27ee045b1887383d1f4fc9fed3f6",
-      "seconds": 12.552,
-      "durationMs": 12552,
+      "sha256": "dd20af4c06d50e4534aae231abac9c4eb52273c56a24beed8847065bb801b75e",
+      "seconds": 12.456,
+      "durationMs": 12456,
       "sampleRate": 24000,
-      "bytes": 75548
+      "bytes": 99884
     },
     {
       "id": "b0cab3ea932ec2010eacffb03ab9cb6b52ab89a3e62f9c472a10352734fd4420",
@@ -2053,11 +2052,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 50,
       "src": "/audio/narration/b0cab3ea932ec2010eacffb03ab9cb6b52ab89a3e62f9c472a10352734fd4420.mp3",
-      "sha256": "da5f304c04c3f0fc01af64c13600b0abdaae8268cbb07bad31ef423f35adb944",
-      "seconds": 13.08,
-      "durationMs": 13080,
+      "sha256": "fd861913d7957c0e00f16e3d25c717dd7dcec6e93e7e213549263ac7529e0603",
+      "seconds": 12.648,
+      "durationMs": 12648,
       "sampleRate": 24000,
-      "bytes": 78716
+      "bytes": 101420
     },
     {
       "id": "9609ddd215a816a5599224e1c880a6019075841e61e96d8c8b79f6ad28d4cb05",
@@ -2067,11 +2066,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 46,
       "src": "/audio/narration/9609ddd215a816a5599224e1c880a6019075841e61e96d8c8b79f6ad28d4cb05.mp3",
-      "sha256": "0518f4f52cdf5f31f7a4cf9927abf967f70b4ad5c839c652c629866328e509d6",
-      "seconds": 12.552,
-      "durationMs": 12552,
+      "sha256": "891177196c405285207c0bcd5d397f8b53d1bb23443079a7d87a3693194aea42",
+      "seconds": 11.088,
+      "durationMs": 11088,
       "sampleRate": 24000,
-      "bytes": 75548
+      "bytes": 88940
     },
     {
       "id": "90911c359d31ae1bd57c0fcdf2bb8ac8355c0ca5365fe2a553446cb6ba265ec7",
@@ -2081,11 +2080,11 @@ export const NARRATION_MANIFEST = {
       "characters": 53,
       "han": 48,
       "src": "/audio/narration/90911c359d31ae1bd57c0fcdf2bb8ac8355c0ca5365fe2a553446cb6ba265ec7.mp3",
-      "sha256": "5dc1aeb30d9f1d07b65a373d1b2770e893d54da0c286533a5f8b539c9a527db7",
-      "seconds": 13.512,
-      "durationMs": 13512,
+      "sha256": "2be7e4e0f30ec2402a8a4d5373b9deeb5bd5e1e36b7a227e07c5dd83c39bc79d",
+      "seconds": 11.952,
+      "durationMs": 11952,
       "sampleRate": 24000,
-      "bytes": 81308
+      "bytes": 95852
     },
     {
       "id": "33b010e16eeba4447e0b98e0ee3c49fc8e1704005d115f922b3a0e68a26e931e",
@@ -2095,11 +2094,11 @@ export const NARRATION_MANIFEST = {
       "characters": 52,
       "han": 46,
       "src": "/audio/narration/33b010e16eeba4447e0b98e0ee3c49fc8e1704005d115f922b3a0e68a26e931e.mp3",
-      "sha256": "ff57180db54e4da28f09450024f74619568313c735a706e15fa00605a068898e",
-      "seconds": 13.704,
-      "durationMs": 13704,
+      "sha256": "98520f4afa2874df9d10282e8669f9723bc860a7a15c618b721fbd2c73ab04f9",
+      "seconds": 11.736,
+      "durationMs": 11736,
       "sampleRate": 24000,
-      "bytes": 82460
+      "bytes": 94124
     },
     {
       "id": "11d269e309246a2094f35e92982e51b3b612afc0c8252f5008e3834916c1ca41",
@@ -2109,11 +2108,11 @@ export const NARRATION_MANIFEST = {
       "characters": 55,
       "han": 50,
       "src": "/audio/narration/11d269e309246a2094f35e92982e51b3b612afc0c8252f5008e3834916c1ca41.mp3",
-      "sha256": "94dc03a4e32a3c495b81de0e8a457639d5552841d83ac86a88ae4bb05ce0cb72",
-      "seconds": 13.776,
-      "durationMs": 13776,
+      "sha256": "8b64a54af837f8facc5ad3acd331d4689f3cf6be28f1aa0958b548ff863eeb8d",
+      "seconds": 13.32,
+      "durationMs": 13320,
       "sampleRate": 24000,
-      "bytes": 82892
+      "bytes": 106796
     },
     {
       "id": "f68ff7c02fa710eed50fed80e913dc00cfb822f6aae900accae78790291ece73",
@@ -2123,11 +2122,11 @@ export const NARRATION_MANIFEST = {
       "characters": 51,
       "han": 46,
       "src": "/audio/narration/f68ff7c02fa710eed50fed80e913dc00cfb822f6aae900accae78790291ece73.mp3",
-      "sha256": "5bf8366189d4dfa7ac44cd3b20feccc6ef2ed49299bf833133534820c61bef12",
-      "seconds": 12.648,
-      "durationMs": 12648,
+      "sha256": "e1b9b8008420b406c643b320257af7bed4ad434d3c4cec09710a6311c806febb",
+      "seconds": 11.208,
+      "durationMs": 11208,
       "sampleRate": 24000,
-      "bytes": 76124
+      "bytes": 89900
     },
     {
       "id": "a2dc0dfc5f82c8738f5c0b32f57fc8d2e8fd2ae9f1f9c995bb037aaf6b685cd0",
@@ -2137,11 +2136,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 49,
       "src": "/audio/narration/a2dc0dfc5f82c8738f5c0b32f57fc8d2e8fd2ae9f1f9c995bb037aaf6b685cd0.mp3",
-      "sha256": "1dfd5c4b8b2957752cb408122ef7fd0489119320f21354a4bf58bd9770eb02cc",
+      "sha256": "99df50fdf4fc1a092858a6fc99ef40888ec9c18ec8fcb648f31db492546cb369",
       "seconds": 13.416,
       "durationMs": 13416,
       "sampleRate": 24000,
-      "bytes": 80732
+      "bytes": 107564
     },
     {
       "id": "7b62e24be34be22369ed406b8052d9ecaa0df8a3d378a5cb8855ed17195681d8",
@@ -2151,11 +2150,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 48,
       "src": "/audio/narration/7b62e24be34be22369ed406b8052d9ecaa0df8a3d378a5cb8855ed17195681d8.mp3",
-      "sha256": "9d32d3a8238b195831cb7650626c3e796f002db087ae8209bc5eb4c5c433f007",
-      "seconds": 13.992,
-      "durationMs": 13992,
+      "sha256": "7663c4d3cda342f946ec25ad4ce1ad274a269f67e2df4aedcdfb54893177f584",
+      "seconds": 11.784,
+      "durationMs": 11784,
       "sampleRate": 24000,
-      "bytes": 84188
+      "bytes": 94508
     },
     {
       "id": "2783b324066a2b56143fb9b99bb1aae4bbd8807af1ed5ff497ddb99ba4afa452",
@@ -2165,11 +2164,11 @@ export const NARRATION_MANIFEST = {
       "characters": 59,
       "han": 53,
       "src": "/audio/narration/2783b324066a2b56143fb9b99bb1aae4bbd8807af1ed5ff497ddb99ba4afa452.mp3",
-      "sha256": "8d72445fd4a3b4bc21f5e0021ed5d504512d53d64767648c5519698b87dc5aa7",
-      "seconds": 14.424,
-      "durationMs": 14424,
+      "sha256": "c08f6f7af3345e34a3943eb86c06524385fce85dddf71a266bd7aada02fe6957",
+      "seconds": 12.696,
+      "durationMs": 12696,
       "sampleRate": 24000,
-      "bytes": 86780
+      "bytes": 101804
     },
     {
       "id": "48b9580f29bc0231ef8ab6cd9998071b6ccc01a6fabcb13f485dea70be1bb4a0",
@@ -2179,11 +2178,11 @@ export const NARRATION_MANIFEST = {
       "characters": 55,
       "han": 49,
       "src": "/audio/narration/48b9580f29bc0231ef8ab6cd9998071b6ccc01a6fabcb13f485dea70be1bb4a0.mp3",
-      "sha256": "91e74b509a1fdef49e81d1dc8d92d95345ca473a389b19df1ef79b0084a70f54",
-      "seconds": 14.28,
-      "durationMs": 14280,
+      "sha256": "b9700a7515633240f332ca1cf4adeece9cb2f224d317c9c0f459febe62fc378e",
+      "seconds": 12.672,
+      "durationMs": 12672,
       "sampleRate": 24000,
-      "bytes": 85916
+      "bytes": 101612
     },
     {
       "id": "bc68fcfa1c84636f3355f70900b1f1f8d94426f7b3864de6280604eefbf2df77",
@@ -2193,11 +2192,11 @@ export const NARRATION_MANIFEST = {
       "characters": 50,
       "han": 42,
       "src": "/audio/narration/bc68fcfa1c84636f3355f70900b1f1f8d94426f7b3864de6280604eefbf2df77.mp3",
-      "sha256": "1249aaf4cf9eaa272a8688ef4eefe03f6c1a44a782ec917b5eaa3f2de03fba4e",
-      "seconds": 13.368,
-      "durationMs": 13368,
+      "sha256": "dc25040945b7b6dda2ea0a6ebbcc3c14ff6e0fd325dd58f5f0b7192e3c46afe9",
+      "seconds": 11.712,
+      "durationMs": 11712,
       "sampleRate": 24000,
-      "bytes": 80444
+      "bytes": 93932
     },
     {
       "id": "39a1fb5317c995b78265eb12cfbbf02bc95ff38f21b2fc10150b0311651731df",
@@ -2207,11 +2206,11 @@ export const NARRATION_MANIFEST = {
       "characters": 54,
       "han": 48,
       "src": "/audio/narration/39a1fb5317c995b78265eb12cfbbf02bc95ff38f21b2fc10150b0311651731df.mp3",
-      "sha256": "4fd17add833172eba9f650d95f9eaa9ded14ce173d24fd6c9605cec5fdd3d598",
-      "seconds": 13.584,
-      "durationMs": 13584,
+      "sha256": "3a72254e4e6ecc595f248205f607215767c56bd9ef086eacfa9b1dbb52ac2cd2",
+      "seconds": 12.864,
+      "durationMs": 12864,
       "sampleRate": 24000,
-      "bytes": 81740
+      "bytes": 103148
     },
     {
       "id": "999097a16a5b01d794ef14f1483b036f5453fce4e42de99007f1af8a8b149d72",
@@ -2221,11 +2220,11 @@ export const NARRATION_MANIFEST = {
       "characters": 35,
       "han": 31,
       "src": "/audio/narration/999097a16a5b01d794ef14f1483b036f5453fce4e42de99007f1af8a8b149d72.mp3",
-      "sha256": "9dfd4263314b0af35c9305909293fb61700961ab1053cee19039dfd81ecc3965",
-      "seconds": 9.072,
-      "durationMs": 9072,
+      "sha256": "46dae299de07f722a06743cd4f4b9226968fd8fb0137d20dd14c330635305dfe",
+      "seconds": 7.824,
+      "durationMs": 7824,
       "sampleRate": 24000,
-      "bytes": 54668
+      "bytes": 62828
     },
     {
       "id": "6d492331fc0662ee15dae3c40488c64ce6917bff19f5c44d51fc51709207868b",
@@ -2235,11 +2234,11 @@ export const NARRATION_MANIFEST = {
       "characters": 41,
       "han": 37,
       "src": "/audio/narration/6d492331fc0662ee15dae3c40488c64ce6917bff19f5c44d51fc51709207868b.mp3",
-      "sha256": "77b12b1888096b5e3b0273911a71036c74864dfd76751916d3c24a0058313733",
-      "seconds": 10.776,
-      "durationMs": 10776,
+      "sha256": "2bfefb2f064e42e62653ae0bdaaaa5343fac52c8711718b5c13e426a2a672b0e",
+      "seconds": 10.056,
+      "durationMs": 10056,
       "sampleRate": 24000,
-      "bytes": 64892
+      "bytes": 80684
     },
     {
       "id": "dc13efdbe61fb3304014cbd19cae0ed8a9d44f069408eb7b97d1ba1029ba90c3",
@@ -2249,11 +2248,11 @@ export const NARRATION_MANIFEST = {
       "characters": 36,
       "han": 32,
       "src": "/audio/narration/dc13efdbe61fb3304014cbd19cae0ed8a9d44f069408eb7b97d1ba1029ba90c3.mp3",
-      "sha256": "9526cd21fa527696ffc61dd83a1bbe05462f3344436e9d45f72fbf10abe429ac",
-      "seconds": 9.528,
-      "durationMs": 9528,
+      "sha256": "96a8d65332daca42e4be884dac52b28159fc0a0f138a3133afb0b22242a43a57",
+      "seconds": 8.664,
+      "durationMs": 8664,
       "sampleRate": 24000,
-      "bytes": 57404
+      "bytes": 69548
     },
     {
       "id": "83c2c5b430a8c0e526d89099f7832cc1799758ea356e12a1716838e1d91678a4",
@@ -2263,11 +2262,11 @@ export const NARRATION_MANIFEST = {
       "characters": 84,
       "han": 77,
       "src": "/audio/narration/83c2c5b430a8c0e526d89099f7832cc1799758ea356e12a1716838e1d91678a4.mp3",
-      "sha256": "8f1a8f748d2536ab9de56b3ae0167749e9ec842aa18242a45285d4409ef44c18",
-      "seconds": 21.024,
-      "durationMs": 21024,
+      "sha256": "812a52e1c9c7817bbb83fd0270603da37c2ce4efa542cbd72456f22717e3551b",
+      "seconds": 20.256,
+      "durationMs": 20256,
       "sampleRate": 24000,
-      "bytes": 126380
+      "bytes": 162284
     },
     {
       "id": "e97ad2a9ffd96892b69098782c3c5982b43e05b479e602f5534aeee90ea85124",
@@ -2277,11 +2276,11 @@ export const NARRATION_MANIFEST = {
       "characters": 42,
       "han": 38,
       "src": "/audio/narration/e97ad2a9ffd96892b69098782c3c5982b43e05b479e602f5534aeee90ea85124.mp3",
-      "sha256": "c49022e1550a0162e53df3718970ad00c3540cb14caec71d6b678bb670c2e90d",
-      "seconds": 10.056,
-      "durationMs": 10056,
+      "sha256": "7af6260e937b5832de55c662a771a216d4b94f215c83fa3502cba2611d0187f8",
+      "seconds": 9.984,
+      "durationMs": 9984,
       "sampleRate": 24000,
-      "bytes": 60572
+      "bytes": 80108
     },
     {
       "id": "4a477514ea8fcf484a580aaa48f38c01df074c5310c86fb13d95ff968e72fbf4",
@@ -2291,11 +2290,11 @@ export const NARRATION_MANIFEST = {
       "characters": 77,
       "han": 70,
       "src": "/audio/narration/4a477514ea8fcf484a580aaa48f38c01df074c5310c86fb13d95ff968e72fbf4.mp3",
-      "sha256": "662e2169e9d1042cd3733c13d5c29d6c2476550cef4f960a3f0f5d33dc8c129a",
-      "seconds": 19.344,
-      "durationMs": 19344,
+      "sha256": "059f774bd8e2c303c1c0051be655d25c2a521e81a57f266874a0db5c6bc25ba8",
+      "seconds": 18.552,
+      "durationMs": 18552,
       "sampleRate": 24000,
-      "bytes": 116300
+      "bytes": 148652
     },
     {
       "id": "4319791836efd1d7dfeb854d0aec2f8678c82fab70cc6ddcd1d0f8ba6fde74c4",
@@ -2305,11 +2304,11 @@ export const NARRATION_MANIFEST = {
       "characters": 78,
       "han": 71,
       "src": "/audio/narration/4319791836efd1d7dfeb854d0aec2f8678c82fab70cc6ddcd1d0f8ba6fde74c4.mp3",
-      "sha256": "222ff8d83584ded432506bf3fefaff689db00a6cf8087484e5d0afa6fb501af0",
-      "seconds": 19.56,
-      "durationMs": 19560,
+      "sha256": "b8634d0009faf789c6c834e992e15951498e05e222ef0728d727166f2c1980c5",
+      "seconds": 18.36,
+      "durationMs": 18360,
       "sampleRate": 24000,
-      "bytes": 117596
+      "bytes": 147116
     },
     {
       "id": "6aa6d12e361735aab8a3c045c241f84e8f7b2aa45ffb226dc806b1bf6dceb3fb",
@@ -2319,11 +2318,11 @@ export const NARRATION_MANIFEST = {
       "characters": 32,
       "han": 28,
       "src": "/audio/narration/6aa6d12e361735aab8a3c045c241f84e8f7b2aa45ffb226dc806b1bf6dceb3fb.mp3",
-      "sha256": "e4b01c7f93586d1bff69268f7209f21d72702733c5d1643f8df09cc3e22e0082",
-      "seconds": 7.992,
-      "durationMs": 7992,
+      "sha256": "127f98c4fec8f8e6dd73cf5a3f1d0195ae2dee3fca748005c5e2b742f2a944eb",
+      "seconds": 7.272,
+      "durationMs": 7272,
       "sampleRate": 24000,
-      "bytes": 48188
+      "bytes": 58412
     },
     {
       "id": "47295d22ccff4960647852a828cc1e8871d855a5e6ff569e8ce023f6669cd060",
@@ -2333,11 +2332,11 @@ export const NARRATION_MANIFEST = {
       "characters": 76,
       "han": 68,
       "src": "/audio/narration/47295d22ccff4960647852a828cc1e8871d855a5e6ff569e8ce023f6669cd060.mp3",
-      "sha256": "d798f220848a8154cd546f2fbb0fc09f67dd524faa2cac176ad5f66c779d3ff9",
-      "seconds": 19.824,
-      "durationMs": 19824,
+      "sha256": "db211bb3dd8a7a51a1d57da64a68e9610e9b4ef71fdea59ad50c88fd94d4a898",
+      "seconds": 17.832,
+      "durationMs": 17832,
       "sampleRate": 24000,
-      "bytes": 119180
+      "bytes": 142892
     },
     {
       "id": "cb8f4468c0932a8c72314b2bbc9181dbde79c95bee84d01e872b7a8e291b94ed",
@@ -2347,11 +2346,11 @@ export const NARRATION_MANIFEST = {
       "characters": 68,
       "han": 62,
       "src": "/audio/narration/cb8f4468c0932a8c72314b2bbc9181dbde79c95bee84d01e872b7a8e291b94ed.mp3",
-      "sha256": "08765be79792faad48b72a83a61df8f4a595488d57e40ad5c114256d0c799aed",
-      "seconds": 17.232,
-      "durationMs": 17232,
+      "sha256": "1f46a363d4b40476f59b6e0434e91e8cc19f6d301ef904f81359dc2dc3f9ef05",
+      "seconds": 15.648,
+      "durationMs": 15648,
       "sampleRate": 24000,
-      "bytes": 103628
+      "bytes": 125420
     },
     {
       "id": "11ebb07d586f0cdcb8e43a386691f831b76043d17b3df165b3b2f3b716802026",
@@ -2361,11 +2360,11 @@ export const NARRATION_MANIFEST = {
       "characters": 39,
       "han": 35,
       "src": "/audio/narration/11ebb07d586f0cdcb8e43a386691f831b76043d17b3df165b3b2f3b716802026.mp3",
-      "sha256": "ba0d0f4d53d15fdf9c6fe46e1bec7fb36f601ab99d3c3c859a0e8c4c3aea9c01",
-      "seconds": 10.488,
-      "durationMs": 10488,
+      "sha256": "40cb82ec56895b055d9951d6c020c58176ddf18060d9975adb06cbfaae514a01",
+      "seconds": 9.624,
+      "durationMs": 9624,
       "sampleRate": 24000,
-      "bytes": 63164
+      "bytes": 77228
     },
     {
       "id": "cbffed3761cb756e157f2a286d2af94552bb7bb116b4a1c7722c3f82aa3c224b",
@@ -2375,11 +2374,11 @@ export const NARRATION_MANIFEST = {
       "characters": 75,
       "han": 68,
       "src": "/audio/narration/cbffed3761cb756e157f2a286d2af94552bb7bb116b4a1c7722c3f82aa3c224b.mp3",
-      "sha256": "56e06386591b38a31112e46eaa02b33d909c1dbb6fd6a6b483a6e2427bcbe238",
-      "seconds": 19.32,
-      "durationMs": 19320,
+      "sha256": "f89726b62e32f9a08b101a58d0b83678223ef4b0867cb46a41e3749fe961dfa8",
+      "seconds": 17.376,
+      "durationMs": 17376,
       "sampleRate": 24000,
-      "bytes": 116156
+      "bytes": 139244
     },
     {
       "id": "c108f285c163ef8b23af7b32ebc80006904496eed13f7b778f4199e02a968683",
@@ -2389,11 +2388,11 @@ export const NARRATION_MANIFEST = {
       "characters": 39,
       "han": 36,
       "src": "/audio/narration/c108f285c163ef8b23af7b32ebc80006904496eed13f7b778f4199e02a968683.mp3",
-      "sha256": "01578314ffe6bf1cb9bd27f3b7750be9864f8e455eed0763d3674b2a7bd3ee38",
-      "seconds": 9.288,
-      "durationMs": 9288,
+      "sha256": "5ca58af0211f13a8e3ad58f5d8865c9a1148edb7a6c47cda7f80f16705f08579",
+      "seconds": 9.816,
+      "durationMs": 9816,
       "sampleRate": 24000,
-      "bytes": 55964
+      "bytes": 78764
     },
     {
       "id": "ff5737aa9dc7bef822acfab043a04f0e3af39d7fe09869db6a0335068e2a8bfd",
@@ -2403,11 +2402,11 @@ export const NARRATION_MANIFEST = {
       "characters": 75,
       "han": 68,
       "src": "/audio/narration/ff5737aa9dc7bef822acfab043a04f0e3af39d7fe09869db6a0335068e2a8bfd.mp3",
-      "sha256": "f6b58ce4ab2d32be6054b4f4436a4801d14968289fd94d2de835f1e3f5027831",
-      "seconds": 18.96,
-      "durationMs": 18960,
+      "sha256": "4d309524e6913e31d2a05dd1b2d072f3be270b40fe9eb712e0225442fabfd8eb",
+      "seconds": 18.624,
+      "durationMs": 18624,
       "sampleRate": 24000,
-      "bytes": 113996
+      "bytes": 149228
     },
     {
       "id": "9ce34c7833262ecdd99d47ec579c80853cf31dee1bb45db0fd3fddc19720373f",
@@ -2417,11 +2416,11 @@ export const NARRATION_MANIFEST = {
       "characters": 34,
       "han": 30,
       "src": "/audio/narration/9ce34c7833262ecdd99d47ec579c80853cf31dee1bb45db0fd3fddc19720373f.mp3",
-      "sha256": "2615b690195151d8d58f630fe4f812453775f4c3ae3c71858aafda535369ebd4",
-      "seconds": 8.976,
-      "durationMs": 8976,
+      "sha256": "89b7a968af60ce18233dc2a179629ae323d1e48214be7efc20cffcc413a954a1",
+      "seconds": 7.944,
+      "durationMs": 7944,
       "sampleRate": 24000,
-      "bytes": 54092
+      "bytes": 63788
     },
     {
       "id": "0fac5b959beb234d47880b372cf7af75d902183159a09b086398393b6b34e069",
@@ -2431,11 +2430,11 @@ export const NARRATION_MANIFEST = {
       "characters": 75,
       "han": 69,
       "src": "/audio/narration/0fac5b959beb234d47880b372cf7af75d902183159a09b086398393b6b34e069.mp3",
-      "sha256": "5eafbecf4439909e101de232867a147a1f3fa1ddd63957846b87e0ea58b12c24",
-      "seconds": 18.12,
-      "durationMs": 18120,
+      "sha256": "2482712d7a9947826d8aea8569aed1934529697b2e3591cfa7e1650b180c6d61",
+      "seconds": 17.952,
+      "durationMs": 17952,
       "sampleRate": 24000,
-      "bytes": 108956
+      "bytes": 143852
     },
     {
       "id": "73383d61a422e0b02141c936e5b0a9c4e9e36ab01df6efdfad7c22995ffa1c06",
@@ -2445,11 +2444,11 @@ export const NARRATION_MANIFEST = {
       "characters": 67,
       "han": 60,
       "src": "/audio/narration/73383d61a422e0b02141c936e5b0a9c4e9e36ab01df6efdfad7c22995ffa1c06.mp3",
-      "sha256": "4fd895450e4b8dd2ccaef69770e20e74cd5ec76444a3f3128e1d478f3d35309a",
-      "seconds": 17.232,
-      "durationMs": 17232,
+      "sha256": "e020fa03370a73fab2c3e9ce1045dd36169d7e9e81c16ea28940f95fe1e26fbf",
+      "seconds": 15.864,
+      "durationMs": 15864,
       "sampleRate": 24000,
-      "bytes": 103628
+      "bytes": 127148
     },
     {
       "id": "9233fcb58335000d4c8ba5334f25036f5e47908da85fa17e5d4419c6e6c61dfc",
@@ -2459,11 +2458,11 @@ export const NARRATION_MANIFEST = {
       "characters": 47,
       "han": 43,
       "src": "/audio/narration/9233fcb58335000d4c8ba5334f25036f5e47908da85fa17e5d4419c6e6c61dfc.mp3",
-      "sha256": "3d8951996900d5bcadf395fa7061a2823ea99159c03a9ace9b126a3fb1602637",
-      "seconds": 12.072,
-      "durationMs": 12072,
+      "sha256": "b75f700104a5eaf1dc704de9f9182efa798199d43ad5e1fe2cd4aebfee2b8494",
+      "seconds": 11.616,
+      "durationMs": 11616,
       "sampleRate": 24000,
-      "bytes": 72668
+      "bytes": 93164
     },
     {
       "id": "d1404098b3b3714ccecabdd25b1ddd0cf4041b96ea8de4077970e61c20ce1175",
@@ -2473,11 +2472,11 @@ export const NARRATION_MANIFEST = {
       "characters": 80,
       "han": 71,
       "src": "/audio/narration/d1404098b3b3714ccecabdd25b1ddd0cf4041b96ea8de4077970e61c20ce1175.mp3",
-      "sha256": "0281f19a9674e797f3678cf562d3a782ae1a18333dd8b3b4192c4bfabed914bd",
-      "seconds": 19.632,
-      "durationMs": 19632,
+      "sha256": "40453a99a29c4097bcb934f17108cf2fccc89fab170d0a119daea05a394c60a7",
+      "seconds": 18.648,
+      "durationMs": 18648,
       "sampleRate": 24000,
-      "bytes": 118028
+      "bytes": 149420
     },
     {
       "id": "d7491d2554c5a7cc92d6a37200815176021f1947ab30ab84d592842ff8cd3c11",
@@ -2487,11 +2486,11 @@ export const NARRATION_MANIFEST = {
       "characters": 37,
       "han": 32,
       "src": "/audio/narration/d7491d2554c5a7cc92d6a37200815176021f1947ab30ab84d592842ff8cd3c11.mp3",
-      "sha256": "81205ae442afac9ca95c4d1a590f56211111cceacaa7340da349b0220e1a79de",
-      "seconds": 10.224,
-      "durationMs": 10224,
+      "sha256": "29caa05c741667cd56bd8397876b06008714b6a420726b6b6634c3e37592d582",
+      "seconds": 8.136,
+      "durationMs": 8136,
       "sampleRate": 24000,
-      "bytes": 61580
+      "bytes": 65324
     },
     {
       "id": "8d1c377c64fe57c09a5121dfac7e60c5341251a18f042fe968e4449866a005de",
@@ -2501,11 +2500,11 @@ export const NARRATION_MANIFEST = {
       "characters": 38,
       "han": 35,
       "src": "/audio/narration/8d1c377c64fe57c09a5121dfac7e60c5341251a18f042fe968e4449866a005de.mp3",
-      "sha256": "8643bda694ecb04efa86e1a5a04054445890c973c2a3e8f2be7f647a46e82fa9",
-      "seconds": 9.216,
-      "durationMs": 9216,
+      "sha256": "54305ba37587bc2b6282c63a60cdf2e9be5a8fac9060d9e9fa90c36b23304961",
+      "seconds": 8.856,
+      "durationMs": 8856,
       "sampleRate": 24000,
-      "bytes": 55532
+      "bytes": 71084
     },
     {
       "id": "c56e85857b48b162e7bb0947d7e33c3670d74e1b938453379b94fce8746a1e30",
@@ -2515,11 +2514,11 @@ export const NARRATION_MANIFEST = {
       "characters": 78,
       "han": 70,
       "src": "/audio/narration/c56e85857b48b162e7bb0947d7e33c3670d74e1b938453379b94fce8746a1e30.mp3",
-      "sha256": "6608a418613497bb5137c8f8031321147527bf45c42fbd69e1bc5db5797f9fde",
-      "seconds": 19.464,
-      "durationMs": 19464,
+      "sha256": "d49a9fb34d25d4805f077648f8412f14a3ca851fb544f9b45d7021cb887a20fe",
+      "seconds": 18.48,
+      "durationMs": 18480,
       "sampleRate": 24000,
-      "bytes": 117020
+      "bytes": 148076
     },
     {
       "id": "9fd63d17cdad51cd45539dfec0d2edfa5a06f423dfa72aa6580a1c1f9473293c",
@@ -2529,11 +2528,11 @@ export const NARRATION_MANIFEST = {
       "characters": 77,
       "han": 70,
       "src": "/audio/narration/9fd63d17cdad51cd45539dfec0d2edfa5a06f423dfa72aa6580a1c1f9473293c.mp3",
-      "sha256": "99aed5f618f56135c354bb2e986b9c7837710a42b08a9d10f3c878f3fe47f40e",
-      "seconds": 19.344,
-      "durationMs": 19344,
+      "sha256": "48d65ffe62e5dcd406c0da5db12bcf53c2970fe193fc9ef7b3cfc0eced379034",
+      "seconds": 18.24,
+      "durationMs": 18240,
       "sampleRate": 24000,
-      "bytes": 116300
+      "bytes": 146156
     },
     {
       "id": "7ea97413261e95809edee2a0799db023aba15f7ec83ccf2167fdf360cba15f3c",
@@ -2543,11 +2542,11 @@ export const NARRATION_MANIFEST = {
       "characters": 31,
       "han": 28,
       "src": "/audio/narration/7ea97413261e95809edee2a0799db023aba15f7ec83ccf2167fdf360cba15f3c.mp3",
-      "sha256": "0e71d719a1a979015bec02bd2c1dec94e33d6e124d5c987a78bdc5c0d307efd9",
-      "seconds": 7.728,
-      "durationMs": 7728,
+      "sha256": "73dd81593149b7532241cfa62ba19ca3ee2f28bb418c66e0b745074414a1bb6b",
+      "seconds": 7.464,
+      "durationMs": 7464,
       "sampleRate": 24000,
-      "bytes": 46604
+      "bytes": 59948
     },
     {
       "id": "d8bc982d886c0f33a65c3602c3d14127520887178fbb0a02db1cabae83403692",
@@ -2557,11 +2556,11 @@ export const NARRATION_MANIFEST = {
       "characters": 73,
       "han": 65,
       "src": "/audio/narration/d8bc982d886c0f33a65c3602c3d14127520887178fbb0a02db1cabae83403692.mp3",
-      "sha256": "b253f430a77891dc64694e5cf638bba5efb237a76c6fe11ce2af899ba54244f9",
-      "seconds": 19.128,
-      "durationMs": 19128,
+      "sha256": "0752e9aac646be26d3c9b6aa697d4f33cc58143006236972ca8d8d0730220e92",
+      "seconds": 17.832,
+      "durationMs": 17832,
       "sampleRate": 24000,
-      "bytes": 115004
+      "bytes": 142892
     },
     {
       "id": "f2135e3aa4cb3c130b13c126426962edb584f0092c7b2a403708b55656cee13d",
@@ -2571,11 +2570,11 @@ export const NARRATION_MANIFEST = {
       "characters": 83,
       "han": 74,
       "src": "/audio/narration/f2135e3aa4cb3c130b13c126426962edb584f0092c7b2a403708b55656cee13d.mp3",
-      "sha256": "caa1589e699a8f7f4c754526adfe269bb9d1b5c55dd76098d3cacfe1ef62144a",
-      "seconds": 21.36,
-      "durationMs": 21360,
+      "sha256": "1d88f2e2eb56649e5d96b8a3fb5217ad329044fcb33cf75b5b03f706f5db39e1",
+      "seconds": 18.576,
+      "durationMs": 18576,
       "sampleRate": 24000,
-      "bytes": 128396
+      "bytes": 148844
     },
     {
       "id": "d0b882b9015b55388e834c58f58d411bc9606f7ae09ddb57b57eb8dea62b91c3",
@@ -2585,11 +2584,11 @@ export const NARRATION_MANIFEST = {
       "characters": 41,
       "han": 37,
       "src": "/audio/narration/d0b882b9015b55388e834c58f58d411bc9606f7ae09ddb57b57eb8dea62b91c3.mp3",
-      "sha256": "4273dfef816d91688ef87012c2ac379d1f45b3e2126bb19e47d7b77a46ca01b6",
-      "seconds": 10.248,
-      "durationMs": 10248,
+      "sha256": "11741e9d9fea083989116240834838a307596da598b6ef53bfffcd3c67898d9e",
+      "seconds": 9.408,
+      "durationMs": 9408,
       "sampleRate": 24000,
-      "bytes": 61724
+      "bytes": 75500
     },
     {
       "id": "7d3a7c4a17c4bfa15340e8fd03dcd28d58f40c9860ce2477d195e83fbc937290",
@@ -2599,11 +2598,11 @@ export const NARRATION_MANIFEST = {
       "characters": 80,
       "han": 73,
       "src": "/audio/narration/7d3a7c4a17c4bfa15340e8fd03dcd28d58f40c9860ce2477d195e83fbc937290.mp3",
-      "sha256": "aa0b1c09c69c2411efdd217a3cbb91ebeb7b75959e83e82e4264f253ce7bba97",
-      "seconds": 20.04,
-      "durationMs": 20040,
+      "sha256": "d1aa0a8875ac63fe3d2b6f901d114e3a6f8c1e55bb9fefe1a8975b5b634a26e1",
+      "seconds": 18.792,
+      "durationMs": 18792,
       "sampleRate": 24000,
-      "bytes": 120476
+      "bytes": 150572
     },
     {
       "id": "ab2fd669f542cc7a6801938cde9e365fef70c3f9639fecd9d63fde444f9e7f79",
@@ -2613,11 +2612,11 @@ export const NARRATION_MANIFEST = {
       "characters": 41,
       "han": 36,
       "src": "/audio/narration/ab2fd669f542cc7a6801938cde9e365fef70c3f9639fecd9d63fde444f9e7f79.mp3",
-      "sha256": "73daf85eedd0f0122931736b2f52ad8868bfce31deb9cb21080431fdc5f18ba3",
-      "seconds": 11.136,
-      "durationMs": 11136,
+      "sha256": "c6f11b14e80570147ba06e496194d2e3d4ee5c7878ac31ad81d190d3448dcdf8",
+      "seconds": 10.008,
+      "durationMs": 10008,
       "sampleRate": 24000,
-      "bytes": 67052
+      "bytes": 80300
     },
     {
       "id": "fd2c43f47222b479ead374a124c679addbd8b2f58b6e2e281ca5bcdd864e7188",
@@ -2627,11 +2626,11 @@ export const NARRATION_MANIFEST = {
       "characters": 80,
       "han": 73,
       "src": "/audio/narration/fd2c43f47222b479ead374a124c679addbd8b2f58b6e2e281ca5bcdd864e7188.mp3",
-      "sha256": "2274e60656f14e416c62260464ec87da4eb9506147d476823e38809a7bdbe208",
-      "seconds": 20.52,
-      "durationMs": 20520,
+      "sha256": "2932a99ec549aeeb79b59bcb39c8d93842bf632831a9bc5d07ddd68cb1bb22aa",
+      "seconds": 19.392,
+      "durationMs": 19392,
       "sampleRate": 24000,
-      "bytes": 123356
+      "bytes": 155372
     },
     {
       "id": "52e470b72a12bc0180402fdeb123fa94fa3d4308a54f107e749b3c3351153822",
@@ -2641,11 +2640,11 @@ export const NARRATION_MANIFEST = {
       "characters": 42,
       "han": 39,
       "src": "/audio/narration/52e470b72a12bc0180402fdeb123fa94fa3d4308a54f107e749b3c3351153822.mp3",
-      "sha256": "00ebb5651b86699ee1041a382aaa6450e238d3786466d40facf41df00d5d31a4",
-      "seconds": 9.888,
-      "durationMs": 9888,
+      "sha256": "1b08247d90b05de7dffa867f03390fdfaf2ec92f2aad66723368e74e582681fd",
+      "seconds": 10.848,
+      "durationMs": 10848,
       "sampleRate": 24000,
-      "bytes": 59564
+      "bytes": 87020
     },
     {
       "id": "b55e4253844e05c85e4012cd7333f621fa2fbe22256f0075cc6a761270884cf3",
@@ -2655,11 +2654,11 @@ export const NARRATION_MANIFEST = {
       "characters": 74,
       "han": 67,
       "src": "/audio/narration/b55e4253844e05c85e4012cd7333f621fa2fbe22256f0075cc6a761270884cf3.mp3",
-      "sha256": "96b370d79804e7ffe129836c121bbe46b55492fef8f2c91eb3b0337db2a3706f",
-      "seconds": 18.672,
-      "durationMs": 18672,
+      "sha256": "89445c994d2fb4b3ff2dfe21dd4097340869bc5439fc049bbc34c9d35e03ab77",
+      "seconds": 17.688,
+      "durationMs": 17688,
       "sampleRate": 24000,
-      "bytes": 112268
+      "bytes": 141740
     },
     {
       "id": "43d42179adcaf8fbb4c03fd484b992ed5fd34fd7adae8f092a6ae03d09a7cc45",
@@ -2669,11 +2668,11 @@ export const NARRATION_MANIFEST = {
       "characters": 32,
       "han": 29,
       "src": "/audio/narration/43d42179adcaf8fbb4c03fd484b992ed5fd34fd7adae8f092a6ae03d09a7cc45.mp3",
-      "sha256": "9ae973b9b749cd66c10c70a79c2def3a14242810c68ee49325af8067aec95647",
-      "seconds": 7.968,
-      "durationMs": 7968,
+      "sha256": "518ad9abb385a462c311b6f6baf16587bb05c0b7ea000ba2fa13f573d9fd6c7a",
+      "seconds": 7.392,
+      "durationMs": 7392,
       "sampleRate": 24000,
-      "bytes": 48044
+      "bytes": 59372
     },
     {
       "id": "61cb1d20b16e335343632cbef87354a302bc7560d947f0ad0c390b31805ef834",
@@ -2683,11 +2682,11 @@ export const NARRATION_MANIFEST = {
       "characters": 41,
       "han": 37,
       "src": "/audio/narration/61cb1d20b16e335343632cbef87354a302bc7560d947f0ad0c390b31805ef834.mp3",
-      "sha256": "75672bd0ec530e8d3fb7903fa73667636d4b4d93e452be9fd907a90432401cf3",
-      "seconds": 9.84,
-      "durationMs": 9840,
+      "sha256": "b369d73312f734d8b428de72851f6d5db033f12ede0c5f7459b4285abd21abcc",
+      "seconds": 9.792,
+      "durationMs": 9792,
       "sampleRate": 24000,
-      "bytes": 59276
+      "bytes": 78572
     },
     {
       "id": "d883a88669aa4497e88e72b84304eeb540fe3a72e0e32e2b4e62bd16e5687baf",
@@ -2697,11 +2696,11 @@ export const NARRATION_MANIFEST = {
       "characters": 33,
       "han": 30,
       "src": "/audio/narration/d883a88669aa4497e88e72b84304eeb540fe3a72e0e32e2b4e62bd16e5687baf.mp3",
-      "sha256": "7bb62af1f388f8050f78355c7986f6eeaeb80921abb42d1438fa4c7874010d2a",
-      "seconds": 8.52,
-      "durationMs": 8520,
+      "sha256": "f37beaaff8672502509d639c4e9213d06ce18a9eba05b696216850daadde577f",
+      "seconds": 8.424,
+      "durationMs": 8424,
       "sampleRate": 24000,
-      "bytes": 51356
+      "bytes": 67628
     },
     {
       "id": "980466ddfa2b9b5b29faf35f88e0105fc5fb106e63ff41e2fda84909fb29e2b2",
@@ -2711,11 +2710,11 @@ export const NARRATION_MANIFEST = {
       "characters": 36,
       "han": 32,
       "src": "/audio/narration/980466ddfa2b9b5b29faf35f88e0105fc5fb106e63ff41e2fda84909fb29e2b2.mp3",
-      "sha256": "61593f9e2b947399a475d2716c581bacf04f01310aa6f7563753b0593955324c",
-      "seconds": 9.552,
-      "durationMs": 9552,
+      "sha256": "e4df03e4514a6fd106bd45488da903949a36778c8961dcc4710dcc977ef7a2a1",
+      "seconds": 8.376,
+      "durationMs": 8376,
       "sampleRate": 24000,
-      "bytes": 57548
+      "bytes": 67244
     },
     {
       "id": "d19535065c4157085696d1fd87d8c184633313604276cb603bb1fb15e15ce6b3",
@@ -2725,11 +2724,11 @@ export const NARRATION_MANIFEST = {
       "characters": 40,
       "han": 36,
       "src": "/audio/narration/d19535065c4157085696d1fd87d8c184633313604276cb603bb1fb15e15ce6b3.mp3",
-      "sha256": "d33903a76ef1f7ccbf01e9d5c8a3e1148da793f43947417f95f9372c613b0625",
-      "seconds": 10.152,
-      "durationMs": 10152,
+      "sha256": "4c3b99fdfbecd5b0109ca5c6154f7db9d9d961fe4d27799016aff5671e0a7f6f",
+      "seconds": 8.856,
+      "durationMs": 8856,
       "sampleRate": 24000,
-      "bytes": 61148
+      "bytes": 71084
     },
     {
       "id": "c8c0352362a0071a831382713f79ce145bd1a50798123d5b907cd097bf4becac",
@@ -2739,11 +2738,11 @@ export const NARRATION_MANIFEST = {
       "characters": 39,
       "han": 36,
       "src": "/audio/narration/c8c0352362a0071a831382713f79ce145bd1a50798123d5b907cd097bf4becac.mp3",
-      "sha256": "40845a9b2d8ed0f506b6bae56d0460bd45c1c1b893ef8f20c81030bb945ab983",
-      "seconds": 9.912,
-      "durationMs": 9912,
+      "sha256": "cbda4763922839e0709f62d48583002704f2c82eabf0fb37b9d08ac0f61b7d0d",
+      "seconds": 9.456,
+      "durationMs": 9456,
       "sampleRate": 24000,
-      "bytes": 59708
+      "bytes": 75884
     },
     {
       "id": "50fc93b150809c0a257ed29e47f3a953fc3c1a54ab912c79bca94ecb842161ad",
@@ -2753,11 +2752,11 @@ export const NARRATION_MANIFEST = {
       "characters": 41,
       "han": 38,
       "src": "/audio/narration/50fc93b150809c0a257ed29e47f3a953fc3c1a54ab912c79bca94ecb842161ad.mp3",
-      "sha256": "3af38e474a2fecc74715434923c7b0e11996403045cb82d902965b018b070a12",
-      "seconds": 9.648,
-      "durationMs": 9648,
+      "sha256": "5b2460c87fe0e3e48b7b9a298603eaab77d83171057864a51645dba0b46a0da2",
+      "seconds": 9.936,
+      "durationMs": 9936,
       "sampleRate": 24000,
-      "bytes": 58124
+      "bytes": 79724
     },
     {
       "id": "db50b908e2db092840b0ce6f63e25bae44c5b6e8784ecd09701c140390e95243",
@@ -2767,11 +2766,11 @@ export const NARRATION_MANIFEST = {
       "characters": 36,
       "han": 33,
       "src": "/audio/narration/db50b908e2db092840b0ce6f63e25bae44c5b6e8784ecd09701c140390e95243.mp3",
-      "sha256": "c225189f7408902846d157af0d92e764c2abb237abf8b1e8a87782b030eba9d2",
-      "seconds": 8.832,
-      "durationMs": 8832,
+      "sha256": "a53e99b624db46b598395c17a2263af06e87090fa3c705ff83f52ead9a19661b",
+      "seconds": 9.096,
+      "durationMs": 9096,
       "sampleRate": 24000,
-      "bytes": 53228
+      "bytes": 73004
     },
     {
       "id": "44a478ec484d6b104345627bb2317bb8db86820e9e1bd260181b73352eae6cc2",
@@ -2781,11 +2780,11 @@ export const NARRATION_MANIFEST = {
       "characters": 47,
       "han": 42,
       "src": "/audio/narration/44a478ec484d6b104345627bb2317bb8db86820e9e1bd260181b73352eae6cc2.mp3",
-      "sha256": "e5bcbf69ac9b4b90d1eb7cc7b067931ea1c91bb510662efabd9202a29e208110",
-      "seconds": 11.88,
-      "durationMs": 11880,
+      "sha256": "b343e1f099af43d2dde30431c1726914c51c0330088a888b637ae06691b803fd",
+      "seconds": 11.448,
+      "durationMs": 11448,
       "sampleRate": 24000,
-      "bytes": 71516
+      "bytes": 91820
     },
     {
       "id": "7f796d2e1f617f5809df4540514f29fdb94c2fdeab166f9d8a2516d2bee64b1d",
@@ -2795,11 +2794,11 @@ export const NARRATION_MANIFEST = {
       "characters": 35,
       "han": 32,
       "src": "/audio/narration/7f796d2e1f617f5809df4540514f29fdb94c2fdeab166f9d8a2516d2bee64b1d.mp3",
-      "sha256": "afd3f2ac31efb3a7545bec19b15f9692bb0d4af0c0f75d3dd19938af64e5c3b7",
-      "seconds": 8.688,
-      "durationMs": 8688,
+      "sha256": "c59e0ade0cd7b9edca871ebe595c90147fe01071fd45c17172104ad268964c7a",
+      "seconds": 8.952,
+      "durationMs": 8952,
       "sampleRate": 24000,
-      "bytes": 52364
+      "bytes": 71852
     },
     {
       "id": "de27cc99480b6942d4fa71d56e518cfddf08f6de98a1d0e4e1ca85f3ceb3b174",
@@ -2809,11 +2808,11 @@ export const NARRATION_MANIFEST = {
       "characters": 39,
       "han": 35,
       "src": "/audio/narration/de27cc99480b6942d4fa71d56e518cfddf08f6de98a1d0e4e1ca85f3ceb3b174.mp3",
-      "sha256": "9263cbc2894f39a54f80514460e1d52f10bd18c6ee8306030ca74bc3f7ec688f",
-      "seconds": 9.888,
-      "durationMs": 9888,
+      "sha256": "d35056bc66fb7d2b2f68eaac95b17e69a15bd0d8e55330762035fa14b5333e97",
+      "seconds": 9.384,
+      "durationMs": 9384,
       "sampleRate": 24000,
-      "bytes": 59564
+      "bytes": 75308
     },
     {
       "id": "9774a62edeaf349f1f8a570dfc07c81f1de3d241e46c39f75ba0a0ea8a7a66e0",
@@ -2823,11 +2822,11 @@ export const NARRATION_MANIFEST = {
       "characters": 42,
       "han": 39,
       "src": "/audio/narration/9774a62edeaf349f1f8a570dfc07c81f1de3d241e46c39f75ba0a0ea8a7a66e0.mp3",
-      "sha256": "086329bd3551edf6297bef60390dca7fd522e6f3c69d7b12e8a923974d918206",
-      "seconds": 9.816,
-      "durationMs": 9816,
+      "sha256": "5d8a03d5463fe3803bd2024dafb361df1863ceb82a0c66a7cbc9b577900900cc",
+      "seconds": 9.24,
+      "durationMs": 9240,
       "sampleRate": 24000,
-      "bytes": 59132
+      "bytes": 74156
     },
     {
       "id": "ea2476f0f6d297a4cf0e4c1a05b2e8f6795f2dad4e75a1d099af17011f3767a4",
@@ -2837,11 +2836,11 @@ export const NARRATION_MANIFEST = {
       "characters": 80,
       "han": 73,
       "src": "/audio/narration/ea2476f0f6d297a4cf0e4c1a05b2e8f6795f2dad4e75a1d099af17011f3767a4.mp3",
-      "sha256": "8c3335fadb2c3ae022d0f179b9c2e5ae72df0c4bd4d2bd86ea63133861c9e7cc",
-      "seconds": 19.8,
-      "durationMs": 19800,
+      "sha256": "f16b06ff4554178856fabdccc0f1bf8102a50e16fd6b0e326dc75d30d8765787",
+      "seconds": 18.24,
+      "durationMs": 18240,
       "sampleRate": 24000,
-      "bytes": 119036
+      "bytes": 146156
     },
     {
       "id": "87290bd753008ec87566ff505b5fc6e8ce898ff8a1a08bf6ff591002022baaee",
@@ -2851,11 +2850,11 @@ export const NARRATION_MANIFEST = {
       "characters": 39,
       "han": 35,
       "src": "/audio/narration/87290bd753008ec87566ff505b5fc6e8ce898ff8a1a08bf6ff591002022baaee.mp3",
-      "sha256": "dfbfab124132588a4e67fe04f448f952ca202496def2b6171c31d70a2e3a4562",
-      "seconds": 10.176,
-      "durationMs": 10176,
+      "sha256": "a836070e0e23fca0b3b4ad2ef1c38bc90dd3376c4030263780762fae8427d3f1",
+      "seconds": 9.312,
+      "durationMs": 9312,
       "sampleRate": 24000,
-      "bytes": 61292
+      "bytes": 74732
     },
     {
       "id": "017893e67e393999faaf326d68ae76d2b78cd4d477bf37a6c8fa444884a5b46d",
@@ -2865,11 +2864,11 @@ export const NARRATION_MANIFEST = {
       "characters": 75,
       "han": 67,
       "src": "/audio/narration/017893e67e393999faaf326d68ae76d2b78cd4d477bf37a6c8fa444884a5b46d.mp3",
-      "sha256": "80531815e1cec16f6cab5ea5d190181f086245e51b799b08773bc1dcf7f61fe3",
-      "seconds": 19.68,
-      "durationMs": 19680,
+      "sha256": "3b0b2f301ce910cf20c2de5ba0c552cd5deb7ddbfd6387ec2c250d49757dee6e",
+      "seconds": 17.112,
+      "durationMs": 17112,
       "sampleRate": 24000,
-      "bytes": 118316
+      "bytes": 137132
     },
     {
       "id": "c3a294748f9d492ddc9d6065d6b0065528eb6e2aa22f8e0597c3916062bcf896",
@@ -2879,11 +2878,11 @@ export const NARRATION_MANIFEST = {
       "characters": 34,
       "han": 31,
       "src": "/audio/narration/c3a294748f9d492ddc9d6065d6b0065528eb6e2aa22f8e0597c3916062bcf896.mp3",
-      "sha256": "53ce7712ce5b97c50c4598aad7858e528628b9ddfec0ea20643baa284571b1de",
-      "seconds": 8.496,
-      "durationMs": 8496,
+      "sha256": "a4f2b26f6ded0315d8d652dc3e7c18ff8abbe6f886675f20935af8ad94ffa30d",
+      "seconds": 7.824,
+      "durationMs": 7824,
       "sampleRate": 24000,
-      "bytes": 51212
+      "bytes": 62828
     },
     {
       "id": "1865f8d9d483fd283b9e0fc2731bca78945b20638e95398dcbea0729beb0b0d8",
@@ -2893,11 +2892,11 @@ export const NARRATION_MANIFEST = {
       "characters": 34,
       "han": 31,
       "src": "/audio/narration/1865f8d9d483fd283b9e0fc2731bca78945b20638e95398dcbea0729beb0b0d8.mp3",
-      "sha256": "570b5b67a3ba243fd5145f7971a578decdc029d17be3ad7c9ec0873b7a306b95",
-      "seconds": 8.184,
-      "durationMs": 8184,
+      "sha256": "3855f70ab718338dc2776a40501d01625fa525b60ff920fc914a6e2d69825160",
+      "seconds": 8.4,
+      "durationMs": 8400,
       "sampleRate": 24000,
-      "bytes": 49340
+      "bytes": 67436
     },
     {
       "id": "65d1bd9c7d67ffde5f3154cfa3649508eab86ac3842e28fd45f8bbf7d22e8d51",
@@ -2907,11 +2906,11 @@ export const NARRATION_MANIFEST = {
       "characters": 39,
       "han": 35,
       "src": "/audio/narration/65d1bd9c7d67ffde5f3154cfa3649508eab86ac3842e28fd45f8bbf7d22e8d51.mp3",
-      "sha256": "b0d77e366333814381a54bc2687e4d079047fbcf0d02c1f3cc0d8a4f51f2d247",
-      "seconds": 10.2,
-      "durationMs": 10200,
+      "sha256": "0651fb29b5cd2a604b07739e08ab39a07963736d7a9509d13d1002509e718246",
+      "seconds": 9.528,
+      "durationMs": 9528,
       "sampleRate": 24000,
-      "bytes": 61436
+      "bytes": 76460
     },
     {
       "id": "74b6575ebc75833c69cc97b47df1e16a84e8e51d4fdb2784a1e9c2b37553267f",
@@ -2921,11 +2920,11 @@ export const NARRATION_MANIFEST = {
       "characters": 38,
       "han": 33,
       "src": "/audio/narration/74b6575ebc75833c69cc97b47df1e16a84e8e51d4fdb2784a1e9c2b37553267f.mp3",
-      "sha256": "c1ef9e2f55171d8b1535775fcdeaee6e85c62e4cdae990dcd032b1d21cb863b1",
-      "seconds": 9.648,
-      "durationMs": 9648,
+      "sha256": "ec86fa3bd547edd24bfa0e5da8ca66b79bd1625ce25f622fa9c207972d730804",
+      "seconds": 8.616,
+      "durationMs": 8616,
       "sampleRate": 24000,
-      "bytes": 58124
+      "bytes": 69164
     },
     {
       "id": "fbde7c7e2ff0b6f78870d4c7e0caec43c4e1c96d99430bd9b7193f24764e78dd",
@@ -2935,11 +2934,11 @@ export const NARRATION_MANIFEST = {
       "characters": 39,
       "han": 36,
       "src": "/audio/narration/fbde7c7e2ff0b6f78870d4c7e0caec43c4e1c96d99430bd9b7193f24764e78dd.mp3",
-      "sha256": "2bcd90a866a267e176d23aeb057b71ea69a555a08f90ae7036bc21aee2e66806",
-      "seconds": 9.312,
-      "durationMs": 9312,
+      "sha256": "f423036402f58065486baa14c9ab765b890950aaf03dbf02b36a603d3687f495",
+      "seconds": 9.24,
+      "durationMs": 9240,
       "sampleRate": 24000,
-      "bytes": 56108
+      "bytes": 74156
     },
     {
       "id": "c1b11b0b535454b86d37194d0e38a3fa1eef0480db02abf7944e7d34c74d0cf8",
@@ -2949,11 +2948,11 @@ export const NARRATION_MANIFEST = {
       "characters": 43,
       "han": 39,
       "src": "/audio/narration/c1b11b0b535454b86d37194d0e38a3fa1eef0480db02abf7944e7d34c74d0cf8.mp3",
-      "sha256": "74d90f883146a07fe1fba6ad3868b7a219144ec1cc205eeabe6951ea5fdf0c4a",
-      "seconds": 10.32,
-      "durationMs": 10320,
+      "sha256": "b843cf5ab8155ec2565a19eec798aa0100b3344e6ba0df36b7ad9f29a00f5ae8",
+      "seconds": 9.816,
+      "durationMs": 9816,
       "sampleRate": 24000,
-      "bytes": 62156
+      "bytes": 78764
     },
     {
       "id": "f35ac2d5aaf86434c3e81040a68e978c811ac5f2b9dcd6e674c97e0041c31d13",
@@ -2963,11 +2962,11 @@ export const NARRATION_MANIFEST = {
       "characters": 38,
       "han": 35,
       "src": "/audio/narration/f35ac2d5aaf86434c3e81040a68e978c811ac5f2b9dcd6e674c97e0041c31d13.mp3",
-      "sha256": "6bea30b0d2e96132c437d403626601aac7bac291f14e522eb118422d8d5d2cb5",
-      "seconds": 9.12,
-      "durationMs": 9120,
+      "sha256": "73bbd0666ad3617956fa6be68f1fc3502a132c2e5389f7c403d558fc0c7f2fcf",
+      "seconds": 9.192,
+      "durationMs": 9192,
       "sampleRate": 24000,
-      "bytes": 54956
+      "bytes": 73772
     },
     {
       "id": "27ae66195c43d7eec94c93c1337482870991514d2d62f6f8baa1594e0fe8affb",
@@ -2977,11 +2976,11 @@ export const NARRATION_MANIFEST = {
       "characters": 35,
       "han": 32,
       "src": "/audio/narration/27ae66195c43d7eec94c93c1337482870991514d2d62f6f8baa1594e0fe8affb.mp3",
-      "sha256": "c7b98f9867e2f4fc032f2f3a4f494c1e7af878926451f4280912c4387a925942",
-      "seconds": 8.76,
-      "durationMs": 8760,
+      "sha256": "90a101b33bb299498d49e4f2975b1a8edf963dee522c8295c60d2a4187403254",
+      "seconds": 8.16,
+      "durationMs": 8160,
       "sampleRate": 24000,
-      "bytes": 52796
+      "bytes": 65516
     },
     {
       "id": "706b2e6aa3bd64438adcaa1348ceea69a77dac62e2385e54827c017568a44c8e",
@@ -2991,11 +2990,11 @@ export const NARRATION_MANIFEST = {
       "characters": 32,
       "han": 28,
       "src": "/audio/narration/706b2e6aa3bd64438adcaa1348ceea69a77dac62e2385e54827c017568a44c8e.mp3",
-      "sha256": "142cbba8b49053eca225d3a0078624d77345651de8b0f497625161130f33bdb3",
-      "seconds": 8.016,
-      "durationMs": 8016,
+      "sha256": "959daae90e7c3592ebe096d3757316c268476d8021d6a3ddc97dd2724328f2b2",
+      "seconds": 7.464,
+      "durationMs": 7464,
       "sampleRate": 24000,
-      "bytes": 48332
+      "bytes": 59948
     },
     {
       "id": "d334c33967898188afb1d742865cb8f4bdf7453ce9346a3d407663b801d11fe8",
@@ -3005,11 +3004,11 @@ export const NARRATION_MANIFEST = {
       "characters": 40,
       "han": 36,
       "src": "/audio/narration/d334c33967898188afb1d742865cb8f4bdf7453ce9346a3d407663b801d11fe8.mp3",
-      "sha256": "bcedcc1e9d17d0d694bdf6c3d38e81f26df9a166de3e60379fab022cbe0bed9e",
-      "seconds": 10.128,
-      "durationMs": 10128,
+      "sha256": "5a188d8115e79850e5125ebef97ce886bd8bcc7282c138f536f6f27f5cc68333",
+      "seconds": 9.336,
+      "durationMs": 9336,
       "sampleRate": 24000,
-      "bytes": 61004
+      "bytes": 74924
     },
     {
       "id": "8c47f7c397f1f9e1eae2247b97e7106cf52104b494711c6d458a5613dba817b4",
@@ -3019,11 +3018,11 @@ export const NARRATION_MANIFEST = {
       "characters": 36,
       "han": 33,
       "src": "/audio/narration/8c47f7c397f1f9e1eae2247b97e7106cf52104b494711c6d458a5613dba817b4.mp3",
-      "sha256": "4d5284d584656196cfdc59d03fa827573b47ed3da49627502cccb3595f599018",
-      "seconds": 8.88,
-      "durationMs": 8880,
+      "sha256": "e4617aab17764c19c6f3e524ced3f037d2e5239c328b23ef576dd305022c1b6b",
+      "seconds": 8.784,
+      "durationMs": 8784,
       "sampleRate": 24000,
-      "bytes": 53516
+      "bytes": 70508
     },
     {
       "id": "c664b32ea5a8d70ca683108d6763d97ab042971e0fc2b4840b1bf804ca027b98",
@@ -3033,11 +3032,11 @@ export const NARRATION_MANIFEST = {
       "characters": 25,
       "han": 22,
       "src": "/audio/narration/c664b32ea5a8d70ca683108d6763d97ab042971e0fc2b4840b1bf804ca027b98.mp3",
-      "sha256": "33951109ced0f40498c306705b6b16624454a9b00e58bc88c217f85ebaa016ba",
-      "seconds": 6.384,
-      "durationMs": 6384,
+      "sha256": "cf79ba29159c55b782acbc937f3035f45a0d578d97640d5d98d42c1880a7638f",
+      "seconds": 5.544,
+      "durationMs": 5544,
       "sampleRate": 24000,
-      "bytes": 38540
+      "bytes": 44588
     }
   ],
   "entries": [

@@ -1,0 +1,79 @@
+{
+  "checks": [
+    {
+      "name": "every referenced web file has the expected SHA-256 at the project path",
+      "status": "pass",
+      "details": {
+        "files": 256,
+        "bytes": 51327577,
+        "indexBytes": 847,
+        "sourcePaintingsExcluded": true
+      }
+    },
+    {
+      "name": "title renders with native film while the site loads media on demand",
+      "status": "pass",
+      "details": {
+        "initialRequests": 7,
+        "requestedFileSizes": 4061835,
+        "indexBytes": 847,
+        "siteTotalBytes": 51327577
+      }
+    },
+    {
+      "name": "new voice edition defaults to recorded narration without changing the saved journey",
+      "status": "pass",
+      "details": {
+        "edition": "358365d3aa946c0e80c943259352d9a05d9b16bee9583e7fa47f69ee690cc8bd",
+        "mode": "recorded",
+        "sceneId": "arrival",
+        "namePreserved": true
+      }
+    },
+    {
+      "name": "recorded MP3 actually plays from its content-revised project URL",
+      "status": "pass",
+      "details": {
+        "url": "http://127.0.0.1:4173/hwh/audio/narration/1c9a5c2cd357d71486be5e588d296f876ebc8bc9bcb722a59ce1b8cfba8676f0.mp3?v=0f9d4f91770e",
+        "duration": 11.31625,
+        "time": 0.250056,
+        "error": null
+      }
+    },
+    {
+      "name": "field recordings load and produce real browser output through project URLs",
+      "status": "pass",
+      "details": {
+        "contexts": [
+          "running"
+        ],
+        "rms": [
+          0.009543488570103854
+        ],
+        "requests": [
+          "http://127.0.0.1:4173/hwh/audio/ambience/pour.ogg?v=3528f6bbdf17",
+          "http://127.0.0.1:4173/hwh/audio/ambience/rain.ogg?v=2d30a7ef873c"
+        ]
+      }
+    },
+    {
+      "name": "web video can be photographed into a real saved JPEG without a tainted canvas",
+      "status": "pass",
+      "details": {
+        "jpegChars": 59115,
+        "scene": "arrival"
+      }
+    },
+    {
+      "name": "an explicitly chosen system voice persists on the same edition and a saved photo survives reload",
+      "status": "pass",
+      "details": {
+        "selected": "测试本机音色 · 系统本机",
+        "shots": 1,
+        "restoredToRecorded": true
+      }
+    }
+  ],
+  "voiceConfigHash": "358365d3aa946c0e80c943259352d9a05d9b16bee9583e7fa47f69ee690cc8bd",
+  "errors": []
+}

@@ -1,0 +1,269 @@
+// Generated from verified field recordings and foley.
+export const SOUND_RECORDINGS = {
+  "sea": {
+    "key": "sea",
+    "src": "/audio/ambience/sea.ogg",
+    "bytes": 356648,
+    "sha256": "7e3abe5459c2800896d528f0adc94ac5e79e6f1f8eeee2212d8abfecf50f8136",
+    "seconds": 46.0,
+    "sampleRate": 24000,
+    "channels": 2,
+    "rms": 0.03408,
+    "peak": 0.641238,
+    "sources": [
+      "sea"
+    ],
+    "changes": "shore waves; excerpt from 18 s; bandpass, equal-power overlap, gain"
+  },
+  "rain": {
+    "key": "rain",
+    "src": "/audio/ambience/rain.ogg",
+    "bytes": 244615,
+    "sha256": "2d30a7ef873c631cc8b5cfd7756918aae622b0cb4e039bcd1dca00c7740953fa",
+    "seconds": 39.0,
+    "sampleRate": 24000,
+    "channels": 2,
+    "rms": 0.042325,
+    "peak": 0.21692,
+    "sources": [
+      "rain"
+    ],
+    "changes": "rain excerpt from 2 s; bandpass, equal-power overlap, gain"
+  },
+  "garden": {
+    "key": "garden",
+    "src": "/audio/ambience/garden.ogg",
+    "bytes": 276788,
+    "sha256": "db5491d6b159fa33e40d913e07e87cef9375604abb11dd4d255f7a459f0fb992",
+    "seconds": 41.5,
+    "sampleRate": 24000,
+    "channels": 2,
+    "rms": 0.042142,
+    "peak": 0.523433,
+    "sources": [
+      "garden",
+      "leaves"
+    ],
+    "changes": "garden birds with quiet rustling leaves; layered, bandpass, seamless overlap, gain"
+  },
+  "interior": {
+    "key": "interior",
+    "src": "/audio/ambience/interior.ogg",
+    "bytes": 242348,
+    "sha256": "450fd916d7e5360744a4b3a6ecbfe1a0222f228f9310c6217d7ffb1d02346396",
+    "seconds": 36.0,
+    "sampleRate": 24000,
+    "channels": 2,
+    "rms": 0.023327,
+    "peak": 0.703977,
+    "sources": [
+      "leaves",
+      "garden"
+    ],
+    "changes": "window-side air made from attenuated outdoor recordings; lowpass, seamless overlap, gain; not an indoor field recording"
+  },
+  "bakery": {
+    "key": "bakery",
+    "src": "/audio/ambience/bakery.ogg",
+    "bytes": 303161,
+    "sha256": "0a64cbba59e4dd5a95ca2b5a26f2d7b508f21d5481e9fa0a05ddd11d329700e2",
+    "seconds": 37.2,
+    "sampleRate": 24000,
+    "channels": 2,
+    "rms": 0.00732,
+    "peak": 0.732543,
+    "sources": [
+      "fire",
+      "leaves"
+    ],
+    "changes": "quiet hearth texture and distant leaves; layered, bandpass, seamless overlap, gain"
+  },
+  "workshop": {
+    "key": "workshop",
+    "src": "/audio/ambience/workshop.ogg",
+    "bytes": 225339,
+    "sha256": "425be5f680390bcce0deabf35848ff70472a2e13d5a98bc2006f94cc5e4b3e36",
+    "seconds": 33.5,
+    "sampleRate": 24000,
+    "channels": 2,
+    "rms": 0.026871,
+    "peak": 0.736395,
+    "sources": [
+      "leaves",
+      "garden"
+    ],
+    "changes": "quiet window-side outdoor texture; lowpass, seamless overlap, gain"
+  },
+  "wood": {
+    "key": "wood",
+    "src": "/audio/ambience/wood.ogg",
+    "bytes": 3743,
+    "sha256": "607bb0b8bcfef925f283b08c6580c3c8dde8af32f928f716ac3f62daba7200c0",
+    "seconds": 0.48,
+    "sampleRate": 24000,
+    "channels": 2,
+    "rms": 0.046088,
+    "peak": 0.629429,
+    "sources": [
+      "wood"
+    ],
+    "changes": "wood touch excerpt from 0.720 s; bandpass and short edge fades"
+  },
+  "touch": {
+    "key": "touch",
+    "src": "/audio/ambience/touch.ogg",
+    "bytes": 2981,
+    "sha256": "392c918a005c7a509a63ef2f5604e7baf26819db46045d373f65490f07891ccf",
+    "seconds": 0.36,
+    "sampleRate": 24000,
+    "channels": 2,
+    "rms": 0.038365,
+    "peak": 0.70491,
+    "sources": [
+      "paper"
+    ],
+    "changes": "paper surface excerpt from 4.360 s; bandpass and short edge fades"
+  },
+  "page": {
+    "key": "page",
+    "src": "/audio/ambience/page.ogg",
+    "bytes": 9473,
+    "sha256": "ab06015d9056aacce6281324fba6811b6415f59187ac726429fec5bb95e16b70",
+    "seconds": 1.1,
+    "sampleRate": 24000,
+    "channels": 2,
+    "rms": 0.01774,
+    "peak": 0.728447,
+    "sources": [
+      "paper"
+    ],
+    "changes": "book/paper excerpt from 13.800 s; bandpass and short edge fades"
+  },
+  "water": {
+    "key": "water",
+    "src": "/audio/ambience/water.ogg",
+    "bytes": 30680,
+    "sha256": "0acd04cfbbd1ed747ce820acede37e715407b9eb6a6f1f05daeaaec9a0e8dbd7",
+    "seconds": 3.55,
+    "sampleRate": 24000,
+    "channels": 2,
+    "rms": 0.045974,
+    "peak": 0.681492,
+    "sources": [
+      "water"
+    ],
+    "changes": "real water into a mug excerpt from 4 s; bandpass, seamless overlap, gain"
+  },
+  "pour": {
+    "key": "pour",
+    "src": "/audio/ambience/pour.ogg",
+    "bytes": 44866,
+    "sha256": "3528f6bbdf178612a8ad68073499b474ad7c8e507cef8cf02a942fdff9fe1fb7",
+    "seconds": 5.2,
+    "sampleRate": 24000,
+    "channels": 2,
+    "rms": 0.045981,
+    "peak": 0.63656,
+    "sources": [
+      "water"
+    ],
+    "changes": "real water into a mug excerpt from 3.5 s; bandpass, seamless overlap, gain"
+  },
+  "complete": {
+    "key": "complete",
+    "src": "/audio/ambience/complete.ogg",
+    "bytes": 7661,
+    "sha256": "3035d89fd84dcbb734aab8e173a1a54f5e5472aab7629c457c79d16dec1610ef",
+    "seconds": 1.08,
+    "sampleRate": 24000,
+    "channels": 2,
+    "rms": 0.041378,
+    "peak": 0.73997,
+    "sources": [
+      "wood"
+    ],
+    "changes": "two attenuated wooden taps; splice and gain; no electronic completion tone"
+  }
+};
+export const SOUND_ATTRIBUTIONS = [
+  {
+    "key": "sea",
+    "title": "File:Oceanwavescrushing.ogg",
+    "artist": "Luftrum",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Oceanwavescrushing.ogg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/f/f1/Oceanwavescrushing.ogg",
+    "sourceSha256": "2a56648817264b6caa30426baa2245a03041b1febe9faa7b9235d7cc539aa9ca"
+  },
+  {
+    "key": "rain",
+    "title": "File:Rain (1).ogg",
+    "artist": "ezwa",
+    "license": "Public domain",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://commons.wikimedia.org/wiki/File:Rain_(1).ogg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Rain_%281%29.ogg",
+    "sourceSha256": "31efcbe952a3989a9276774e2d7be61a2dc98fdd785a94d1435fc19cda9a84d1"
+  },
+  {
+    "key": "garden",
+    "title": "File:Birds singing in garden.ogg",
+    "artist": "ezwa",
+    "license": "Public domain",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://commons.wikimedia.org/wiki/File:Birds_singing_in_garden.ogg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/8/80/Birds_singing_in_garden.ogg",
+    "sourceSha256": "c3a9cbbecb313810e6ca9a0c38743a7548749a0c18fda5659f9d5dc7060bddd8"
+  },
+  {
+    "key": "leaves",
+    "title": "File:Rustling leaves (Gravity Sound).wav",
+    "artist": "Gravity Sound",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Rustling_leaves_(Gravity_Sound).wav",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/db/Rustling_leaves_%28Gravity_Sound%29.wav",
+    "sourceSha256": "b801edd2e049ba2084e8fa3f90374c2cbae16032965df6db5d32d4850d4afdb3"
+  },
+  {
+    "key": "water",
+    "title": "File:Boiling water being poured into a mug for tea.ogg",
+    "artist": "cori",
+    "license": "Public domain",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://commons.wikimedia.org/wiki/File:Boiling_water_being_poured_into_a_mug_for_tea.ogg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/6/69/Boiling_water_being_poured_into_a_mug_for_tea.ogg",
+    "sourceSha256": "5580d3f8f6bde68b5215a99c7a8180536eb89be3a47b49e21da73e4e17e0906f"
+  },
+  {
+    "key": "wood",
+    "title": "File:Knocking on wood or door.ogg",
+    "artist": "stephan",
+    "license": "Public domain",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://commons.wikimedia.org/wiki/File:Knocking_on_wood_or_door.ogg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Knocking_on_wood_or_door.ogg",
+    "sourceSha256": "f65a210f76fd6e76757ac632585b1bbf9ffeaf35b9c3aa1466eb9dd6c7ca9590"
+  },
+  {
+    "key": "fire",
+    "title": "File:WWS Fireoftheforge.ogg",
+    "artist": "Work With Sounds / La Fonderie",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:WWS_Fireoftheforge.ogg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/01/WWS_Fireoftheforge.ogg",
+    "sourceSha256": "2a417865af90e546d6dd2e6aefa374f7082d5e6a90f067830a915b0a9f4a5d68"
+  },
+  {
+    "key": "paper",
+    "title": "File:Book paper pages assorted.ogg",
+    "artist": "stephan",
+    "license": "Public domain",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "page": "https://commons.wikimedia.org/wiki/File:Book_paper_pages_assorted.ogg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Book_paper_pages_assorted.ogg",
+    "sourceSha256": "7725928b65296676cff33f2d2c6f1489e810acf27c1a48a9c452263c26fd2a08"
+  }
+];

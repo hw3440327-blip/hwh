@@ -16,12 +16,16 @@ const requiredAssets = [
   '/art/play-tea-table.webp', '/art/play-tea-pot.webp', '/art/play-tea-cup.webp', '/art/play-shell-shore.webp',
   '/films/arrival.mp4', '/films/bakery.mp4', '/films/bookshop.mp4', '/films/workshop.mp4',
   '/films/kitchen.mp4', '/films/garden.mp4', '/films/shore.mp4', '/films/night.mp4',
+  '/audio/ambience/sea.ogg', '/audio/ambience/rain.ogg', '/audio/ambience/garden.ogg',
+  '/audio/ambience/interior.ogg', '/audio/ambience/bakery.ogg', '/audio/ambience/workshop.ogg',
+  '/audio/ambience/touch.ogg', '/audio/ambience/wood.ogg', '/audio/ambience/page.ogg',
+  '/audio/ambience/water.ogg', '/audio/ambience/pour.ogg', '/audio/ambience/complete.ogg',
   '/fonts/spring-serif.woff', '/favicon.svg',
 ];
 const mimeTypes = {
   '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
   '.webp': 'image/webp', '.svg': 'image/svg+xml', '.woff': 'font/woff',
-  '.woff2': 'font/woff2', '.avif': 'image/avif', '.mp3': 'audio/mpeg', '.mp4': 'video/mp4',
+  '.woff2': 'font/woff2', '.avif': 'image/avif', '.mp3': 'audio/mpeg', '.mp4': 'video/mp4', '.ogg': 'audio/ogg',
 };
 const dataURLs = new Map();
 

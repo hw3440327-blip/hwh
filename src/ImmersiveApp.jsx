@@ -118,7 +118,8 @@ export default function ImmersiveApp() {
   function closeDiscovery() { setDiscoveryId(null); requestAnimationFrame(() => activityTrigger.current?.isConnected && activityTrigger.current.focus()); }
   function actOnDiscovery(action) {
     setGame(current => performDiscovery(current, discoveryId, action));
-    if (!['pour', 'place'].includes(action.type)) sound.playCue?.(action.type === 'steep' ? 'water' : action.type === 'capture' ? 'wood' : 'touch');
+    if (action.type === 'pour' && action.manual) sound.playCue?.('water');
+    else if (!['pour', 'place'].includes(action.type)) sound.playCue?.(action.type === 'capture' ? 'wood' : 'touch');
   }
   function openActivity(activity = sceneActivity) {
     if (!activity) return;
@@ -201,7 +202,7 @@ export default function ImmersiveApp() {
         activity={sceneActivity} activityDone={Boolean(sceneActivity && activityProgress(game, sceneActivity.id).completed)} onActivity={() => openActivity()}
       />}
     </div>
-    {activeDiscovery && <DiscoveryScene game={game} scene={scene} discovery={activeDiscovery} onAction={actOnDiscovery} onClose={closeDiscovery} quiet={preferences.quietMotion || !preferences.filmMotion} />}
+    {activeDiscovery && <DiscoveryScene onPouringChange={sound.setPouring} game={game} scene={scene} discovery={activeDiscovery} onAction={actOnDiscovery} onClose={closeDiscovery} quiet={preferences.quietMotion || !preferences.filmMotion} />}
     {activeActivity && <LifeActivity game={game} activity={activeActivity} onAction={action => actOnMoment(activeActivity.id, action)} onClose={closeActivity} quietMotion={preferences.quietMotion} />}
     {menu && <JourneyDialog onClose={closeMenu}>
       <header className="journey-header"><div><Sprout size={23} strokeWidth={1.2} /><div><span className="eyebrow">LET THE STORY REST A MOMENT</span><h2>旅程手记</h2></div></div><button className="journey-close" onClick={closeMenu} aria-label="返回故事"><X size={23} strokeWidth={1.3} /></button></header>
