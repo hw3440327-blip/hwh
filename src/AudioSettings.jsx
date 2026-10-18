@@ -33,7 +33,7 @@ export default function AudioSettings({ music, sound, narration, autoNarration, 
     </div>
 
     <div className="audio-setting-card">
-      <div className="audio-card-heading"><Waves size={22} strokeWidth={1.2} aria-hidden="true" /><div><strong>身边的声音</strong><small>跟着天气和地点变化的海风、细雨与屋内轻响</small></div><Switch label="环境声音" checked={sound.enabled} onChange={sound.toggle} /></div>
+      <div className="audio-card-heading"><Waves size={22} strokeWidth={1.2} aria-hidden="true" /><div><strong>身边的声音</strong><small>慢慢涨落的潮声、细雨、树叶与屋内轻响</small></div><Switch label="环境声音" checked={sound.enabled} onChange={sound.toggle} /></div>
       <Volume label="环境音量" value={sound.volume} onChange={sound.setVolume} />
     </div>
 

@@ -15,6 +15,9 @@ const requiredAssets = [
   '/art/immersive-garden.png', '/fonts/spring-serif.woff', '/favicon.svg',
   '/art/immersive-bookshop.webp', '/art/immersive-market.webp',
   '/art/immersive-courtyard.webp', '/art/immersive-shore.webp',
+  '/art/immersive-community.png', '/art/immersive-kitchen.png',
+  '/art/immersive-winter-courtyard.png', '/art/immersive-vegetable-garden.png',
+  '/art/traveler-young.png', '/art/traveler-older.png',
 ];
 const mimeTypes = {
   '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',

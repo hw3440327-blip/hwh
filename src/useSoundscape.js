@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { createNaturalBed } from './naturalAmbience.js';
 
 const VOLUME_KEY = 'next-spring-volume-v2';
 const DEFAULT_VOLUME = 0.32;
@@ -16,9 +17,10 @@ function soundKind(scene) {
   const image = String(scene?.image || '').toLowerCase();
   const weather = String(scene?.weather || '');
   const time = String(scene?.time || '');
-  if (/雨/.test(weather) && !/雨(?:已经|已)?停|雨过|雨后|停雨|无雨|放晴/.test(weather)) return 'rain';
+  if (/雨/.test(weather) && !/雨(?:已经|已)?停|雨过|雨后|停雨|无雨|放晴|雨初歇/.test(weather)) return 'rain';
   if (/workshop/.test(image)) return 'workshop';
   if (/bakery/.test(image)) return 'bakery';
+  if (/garden|courtyard|market/.test(image)) return 'garden';
   if (/room|letters|interior|bookshop|\bday\b|\bnight\b/.test(image)) return 'interior';
   if (/arrival|station|spring|garden|站台/.test(image)) return 'sea';
   return /夜晚|深夜|凌晨/.test(time) ? 'interior' : 'sea';
@@ -67,6 +69,7 @@ function destroySession(session) {
   for (const layer of [...session.layers]) destroyLayer(layer);
   disconnect(session.master);
   disconnect(session.limiter);
+  session.naturalBuffers?.clear();
   try {
     if (session.context.state !== 'closed') Promise.resolve(session.context.close()).catch(() => {});
   } catch { /* Cleanup must remain safe after a device disconnect. */ }
@@ -100,51 +103,40 @@ function addNode(layer, node, source = false) {
   return node;
 }
 
-function playTone(layer, frequency, offset, duration, level, bird = false) {
-  const { context } = layer.session;
-  const start = context.currentTime + offset;
-  const oscillator = addNode(layer, context.createOscillator(), true);
-  const envelope = addNode(layer, context.createGain());
-  oscillator.type = 'sine';
-  oscillator.frequency.setValueAtTime(frequency, start);
-  if (bird) {
-    oscillator.frequency.exponentialRampToValueAtTime(frequency * 1.27, start + duration * 0.28);
-    oscillator.frequency.exponentialRampToValueAtTime(frequency * 0.93, start + duration * 0.8);
-  }
-  envelope.gain.setValueAtTime(0, start);
-  envelope.gain.linearRampToValueAtTime(level, start + (bird ? 0.035 : 0.025));
-  envelope.gain.exponentialRampToValueAtTime(0.00001, start + duration);
-  oscillator.connect(envelope).connect(layer.gain);
-  oscillator.onended = () => {
-    disconnect(oscillator);
-    disconnect(envelope);
-    layer.sources.delete(oscillator);
-    layer.nodes.delete(oscillator);
-    layer.nodes.delete(envelope);
-  };
-  oscillator.start(start);
-  oscillator.stop(start + duration + 0.05);
-}
-
 function scheduleAccent(layer, first = false) {
-  const delay = first ? 14000 + Math.random() * 11000 : 26000 + Math.random() * 22000;
+  const delay = first ? 3500 + Math.random() * 6000 : 6500 + Math.random() * 15000;
   const timer = setTimeout(() => {
     layer.timers.delete(timer);
     if (!layer.active || !layer.session.active) return;
     const { session } = layer;
     if (session.context.state === 'running' && !document.hidden) {
       try {
-        const night = /夜|凌晨/.test(String(session.sceneRef.current?.time || ''));
-        if (layer.kind === 'sea' && !night && Math.random() > 0.3) {
-          const pitch = 1800 + Math.random() * 550;
-          playTone(layer, pitch, 0, 0.19, 0.009, true);
-          playTone(layer, pitch * 1.04, 0.26, 0.14, 0.006, true);
-        }
+        // Surface noises replace the former repeating sine-wave bird beeps.
+        playSurfaceAccent(layer);
       } catch { session.onFailure(); return; }
     }
     scheduleAccent(layer);
   }, delay);
   layer.timers.add(timer);
+}
+
+function playSurfaceAccent(layer) {
+  const { context, buffers } = layer.session;
+  const source = addNode(layer, context.createBufferSource(), true);
+  source.buffer = buffers.brown;
+  const filter = addNode(layer, context.createBiquadFilter());
+  filter.type = 'bandpass'; filter.frequency.value = layer.kind === 'rain' ? 1400 : layer.kind === 'sea' ? 530 : 380 + Math.random() * 550;
+  filter.Q.value = .6;
+  const gain = addNode(layer, context.createGain());
+  const pan = addNode(layer, context.createStereoPanner());
+  pan.pan.value = (Math.random() * 2 - 1) * .55;
+  const now = context.currentTime;
+  const duration = layer.kind === 'sea' ? 1.6 + Math.random() * 1.8 : .12 + Math.random() * .45;
+  const level = layer.kind === 'rain' ? .055 : layer.kind === 'sea' ? .10 : .018;
+  gain.gain.setValueAtTime(0, now); gain.gain.linearRampToValueAtTime(level, now + duration * .3); gain.gain.exponentialRampToValueAtTime(.00001, now + duration);
+  source.connect(filter).connect(gain).connect(pan).connect(layer.gain);
+  source.onended = () => { for (const node of [source, filter, gain, pan]) { disconnect(node); layer.nodes.delete(node); } layer.sources.delete(source); };
+  source.start(now, Math.random() * 2, duration); source.stop(now + duration + .02);
 }
 
 function cueLayer(session) {
@@ -222,15 +214,18 @@ function createLayer(session, kind) {
   session.layers.add(layer);
   try {
     const profiles = {
-      rain: { fine: true, high: 240, low: 3800, level: 0.17, swell: 0.013, speed: 0.09 },
-      sea: { high: 75, low: 720, level: 0.23, swell: 0.07, speed: 0.075 },
-      interior: { high: 90, low: 410, level: 0.038, swell: 0.008, speed: 0.11 },
-      bakery: { high: 100, low: 550, level: 0.052, swell: 0.009, speed: 0.085 },
-      workshop: { high: 110, low: 680, level: 0.058, swell: 0.012, speed: 0.065 },
+      rain: { high: 180, low: 4700, level: 0.24 },
+      sea: { high: 65, low: 2100, level: 0.29 },
+      garden: { high: 160, low: 2400, level: 0.16 },
+      interior: { high: 90, low: 710, level: 0.065 },
+      bakery: { high: 120, low: 950, level: 0.085 },
+      workshop: { high: 130, low: 1300, level: 0.09 },
     };
     const profile = profiles[kind] || profiles.sea;
     const source = addNode(layer, context.createBufferSource(), true);
-    source.buffer = session.buffers[profile.fine ? 'white' : 'brown'];
+    session.naturalBuffers ||= new Map();
+    if (!session.naturalBuffers.has(kind)) session.naturalBuffers.set(kind, createNaturalBed(context, kind));
+    source.buffer = session.naturalBuffers.get(kind);
     source.loop = true;
     const highpass = addNode(layer, context.createBiquadFilter());
     highpass.type = 'highpass'; highpass.frequency.value = profile.high; highpass.Q.value = 0.45;
@@ -241,13 +236,8 @@ function createLayer(session, kind) {
     layer.gain = addNode(layer, context.createGain());
     layer.gain.gain.setValueAtTime(0, context.currentTime);
     layer.gain.gain.linearRampToValueAtTime(1, context.currentTime + FADE_TIME);
-    const tide = addNode(layer, context.createOscillator(), true);
-    const swell = addNode(layer, context.createGain());
-    tide.type = 'sine'; tide.frequency.value = profile.speed;
-    swell.gain.value = profile.swell;
-    tide.connect(swell).connect(air.gain);
     source.connect(highpass).connect(lowpass).connect(air).connect(layer.gain).connect(session.master);
-    source.start(); tide.start();
+    source.start(0, .03 + Math.random() * 4);
     scheduleAccent(layer, true);
     return layer;
   } catch (error) { destroyLayer(layer); throw error; }

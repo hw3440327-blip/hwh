@@ -1,0 +1,77 @@
+{
+  "checks": [
+    {
+      "name": "moving traveler and atmosphere",
+      "status": "pass",
+      "details": {
+        "age": 22,
+        "motion": true
+      }
+    },
+    {
+      "name": "landscape gesture and closeup ripple",
+      "status": "pass",
+      "details": {
+        "ripple": true
+      }
+    },
+    {
+      "name": "natural ambience real output, no tonal ambient oscillators, mute cleanup",
+      "status": "pass",
+      "details": {
+        "contexts": [
+          "running"
+        ],
+        "oscillators": 0,
+        "rms": [
+          0.005957715459587846
+        ]
+      }
+    },
+    {
+      "name": "new illustrated chapters and older traveler",
+      "status": "pass",
+      "details": [
+        "winter",
+        "life_bridge",
+        "life_change",
+        "life_garden"
+      ]
+    },
+    {
+      "name": "bread drag knead, keyboard, effects, completion and no duplicate reward",
+      "status": "pass",
+      "details": {
+        "dragKneads": 1,
+        "completed": true
+      }
+    },
+    {
+      "name": "repair direct SVG mouse/keyboard rotations and completion",
+      "status": "pass",
+      "details": {
+        "svgKeyboard": true,
+        "completed": true
+      }
+    },
+    {
+      "name": "plant growth, water particles, window light and bloom",
+      "status": "pass",
+      "details": {
+        "completed": true
+      }
+    },
+    {
+      "name": "mobile touch target, layout and motion setting",
+      "status": "pass",
+      "details": {
+        "scroll": 390,
+        "width": 390
+      }
+    }
+  ],
+  "errors": [],
+  "passed": 8,
+  "failed": 0,
+  "browserErrors": 0
+}

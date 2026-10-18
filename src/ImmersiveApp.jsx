@@ -46,7 +46,7 @@ export default function ImmersiveApp() {
   const [narrationCompleted, setNarrationCompleted] = useState({ utteranceKey: '', sequence: 0 });
   const [preferences, setPreferences] = useState(() => {
     const saved = parse(PREF_KEY, {});
-    return { largeText: saved.largeText === true, quietMotion: saved.quietMotion === true,
+    return { largeText: saved.largeText === true, quietMotion: saved.quietMotion === true, showTraveler: saved.showTraveler !== false,
       autoNarration: saved.autoNarration !== false,
       textSpeed: [0, 18, 30].includes(saved.textSpeed) ? saved.textSpeed : 18,
       cycles: Number.isSafeInteger(saved.cycles) && saved.cycles > 0 ? saved.cycles : 1 };
@@ -226,6 +226,7 @@ export default function ImmersiveApp() {
           {menu === 'life' && <><PanelHeading eyebrow="A LIFE, ONE DAY AT A TIME" title="原来，已经走了这么远。" subtitle="起点、相遇和选择，慢慢成为了你。" /><LifeReview game={game} onContinue={closeMenu} onRecall={index => setDetail({ type: 'chapter', index })} /></>}
           {menu === 'settings' && <><PanelHeading eyebrow="MAKE YOURSELF COMFORTABLE" title="找一个，舒服的节奏。" subtitle="把声音和阅读，调成自己喜欢的样子。" />
             <AudioSettings music={music} sound={sound} narration={{ ...narration, toggle: toggleNarration }} autoNarration={preferences.autoNarration} onAutoNarration={() => setPreferences(p => ({ ...p, autoNarration: !p.autoNarration }))} />
+            <div className="quiet-setting"><div><strong>主人公入镜</strong><small>让旅途中的自己，也留在小镇的风景里</small></div><Toggle label="主人公入镜" checked={preferences.showTraveler} onChange={() => setPreferences(p => ({ ...p, showTraveler: !p.showTraveler }))} /></div>
             <div className="quiet-setting"><div><strong>文字出现的速度</strong><small>也可以轻点一句，立即读完整段</small></div><select aria-label="文字出现的速度" value={preferences.textSpeed} onChange={event => setPreferences(p => ({ ...p, textSpeed: Number(event.target.value) }))}><option value={30}>慢慢说</option><option value={18}>自然地说</option><option value={0}>整句出现</option></select></div><div className="quiet-setting"><div><strong>大一点的故事文字</strong><small>给眼睛多一点余裕</small></div><Toggle label="故事文字放大" checked={preferences.largeText} onChange={() => setPreferences(p => ({ ...p, largeText: !p.largeText }))} /></div><div className="quiet-setting"><div><strong>减少动态</strong><small>让画面停在安静的时刻</small></div><Toggle label="减少动态" checked={preferences.quietMotion} onChange={() => setPreferences(p => ({ ...p, quietMotion: !p.quietMotion }))} /></div><div className="quiet-setting-actions"><button onClick={returnToTitle}><BookOpen size={16} />回到标题画面</button><button onClick={() => setDetail({ type: 'reset' })}><RotateCcw size={15} />开始新的生活</button></div></>}
         </>}
       </div>

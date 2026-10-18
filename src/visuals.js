@@ -7,6 +7,8 @@ export const artwork = {
   letters: '/art/immersive-letters.png', garden: '/art/immersive-garden.png',
   bookshop: '/art/immersive-bookshop.webp', market: '/art/immersive-market.webp',
   courtyard: '/art/immersive-courtyard.webp', shore: '/art/immersive-shore.webp',
+  community: '/art/immersive-community.png', kitchen: '/art/immersive-kitchen.png',
+  'winter-courtyard': '/art/immersive-winter-courtyard.png', 'vegetable-garden': '/art/immersive-vegetable-garden.png',
 };
 const sceneOverrides = {
   bookshop: 'bookshop', ending_bookshop: 'bookshop', farewell_bookshop: 'bookshop',
@@ -28,7 +30,13 @@ export function sceneArtKey(scene) {
   if (scene.image === 'room' && isNight) return 'room-night';
   return Object.hasOwn(artwork, scene.image) ? scene.image : 'arrival';
 }
-export const getSceneArt = scene => artwork[sceneArtKey(scene)];
+const paintedMoments = {
+  winter: 'winter-courtyard', life_bridge: 'kitchen', life_companion: 'kitchen',
+  life_change: 'community', life_teaching: 'community', farewell_workshop: 'community', life_garden: 'vegetable-garden',
+};
+// The underlying place remains stable for narration and observations, while
+// these chapters receive their own painted time of life.
+export const getSceneArt = scene => artwork[paintedMoments[scene?.id] || sceneArtKey(scene)];
 export function memoryArt(memory) {
   const momentImage = { moment_bread: 'bakery', moment_repair: 'workshop', moment_plant: 'room' }[memory.id];
   if (momentImage) return artwork[momentImage];
@@ -36,6 +44,13 @@ export function memoryArt(memory) {
   return getSceneArt(scene);
 }
 export function sceneDescription(scene) {
+  const moment = paintedMoments[scene?.id];
+  if (moment) return ({
+    community: '春光穿过社区手作室的木窗，修补中的木盒、旧工具和长桌陪着后来的人慢慢学习',
+    kitchen: '海湾入夜，一盏暖灯照着朴素的厨房餐桌，碗筷、茶壶和本子留下认真生活的痕迹',
+    'winter-courtyard': '初冬的后街小院，蓝色旧门、晾衣绳和柿子树留在清冷的天光与温暖的窗灯之间',
+    'vegetable-garden': '清晨的社区菜畦带着露水，旧长椅、绣球与一排新绿望向远处的海湾',
+  })[moment];
   return ({
     arrival: '手绘动画中的海边木造车站，雨后站台通向蓝色海湾，远山和小镇浸在柔光里',
     spring: '清透的手绘海边小镇，木造站房、海风与远处的山',
@@ -139,6 +154,8 @@ export function sceneDetails(scene) {
   const key = sceneArtKey(scene);
   return (details[key === 'spring' ? 'arrival' : key] || details.arrival).map(detail => ({
     ...detail,
+    ...(scene?.id === 'winter' ? (detail.id === 'blue-door' ? { x: 34, y: 40 } : { x: 67, y: 31 }) : {}),
+    ...(scene?.id === 'life_companion' ? (detail.id === 'curtain' ? { x: 17, y: 37 } : { x: 43, y: 75 }) : {}),
     connection: sceneConnections[scene?.id] || `在${scene?.location || '栖屿镇'}，这些普通的物件陪你停一会儿，再回到今天的故事。`,
   }));
 }

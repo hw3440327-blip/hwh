@@ -3,7 +3,8 @@ import {
   ArrowLeft, ArrowRight, BookOpen, ChevronRight, Eye, Leaf, MapPin,
   HandHeart, Headphones, RotateCcw, Sprout, Volume2, VolumeX, X,
 } from 'lucide-react';
-import { getSceneArt, sceneDescription, sceneDetails } from './visuals.js';
+import { getSceneArt, sceneDescription, sceneDetails, sceneArtKey } from './visuals.js';
+import SceneAtmosphere, { SceneTraveler, atmosphereKind } from './SceneAtmosphere.jsx';
 import './cinematic-scene.css';
 
 const chapterNumbers = ['一', '二', '三', '四', '五', '六', '七', '八'];
@@ -44,6 +45,10 @@ export default function CinematicScene({
   const [observing, setObserving] = useState(null);
   const [ageTransition, setAgeTransition] = useState(null);
   const [previousArt, setPreviousArt] = useState(null);
+  const [travelerMoment, setTravelerMoment] = useState(false);
+  const travelerTimer = useRef(null);
+  useEffect(() => () => clearTimeout(travelerTimer.current), []);
+  useEffect(() => { setTravelerMoment(false); clearTimeout(travelerTimer.current); }, [scene.id]);
   const currentArt = getSceneArt(scene);
   const artRef = useRef(currentArt);
   const ageRef = useRef(scene.age || 22);
@@ -73,6 +78,7 @@ export default function CinematicScene({
   const narrationText = observing ? `${observing.label}。${observing.text}${observing.connection}` : landscape ? '' : paragraph;
   const narrationKey = observing ? `detail:${scene.id}:${observing.id}` : landscape ? '' : storyUtteranceKey;
   const narrationPaused = Boolean(paused || ageTransition || (landscape && !observing));
+  const travelerVisible = preferences.showTraveler !== false && !['life_slow', 'life_farewell'].includes(scene.id);
 
   useEffect(() => {
     narrationRef.current?.({ text: narrationText, utteranceKey: narrationKey, paused: narrationPaused });
@@ -215,15 +221,21 @@ export default function CinematicScene({
       <div className="cm-world" aria-hidden="true">
         <img key={currentArt} className="cm-world-image" src={currentArt} alt="" />
         {previousArt && <img className="cm-world-image cm-world-previous" src={previousArt} alt="" />}
+        <SceneAtmosphere scene={scene} />
         <div className="cm-world-shade" />
         <div className="cm-world-grain" />
-        {rainy ? <div className="cm-rain">{Array.from({ length: 16 }, (_, index) => (
+        {rainy && ['coast', 'garden'].includes(atmosphereKind(scene)) ? <div className="cm-rain">{Array.from({ length: 16 }, (_, index) => (
           <i key={index} style={{ '--i': index }} />
-        ))}</div> : <div className="cm-leaves">{Array.from({ length: 5 }, (_, index) => (
+        ))}</div> : ['coast', 'garden'].includes(atmosphereKind(scene)) && <div className="cm-leaves">{Array.from({ length: 5 }, (_, index) => (
           <i key={index} style={{ '--i': index }} />
         ))}</div>}
       </div>
+      {travelerVisible && <SceneTraveler place={sceneArtKey(scene)} age={scene.age || 22} name={game.name} active={travelerMoment} landscape={landscape} />}
       <p className="cm-accessible-text">{sceneDescription(scene)}</p>
+      {landscape && !observing && travelerVisible && <button className="sa-traveler-control" disabled={paused} onClick={() => {
+        setTravelerMoment(true); clearTimeout(travelerTimer.current);
+        travelerTimer.current = setTimeout(() => setTravelerMoment(false), 2300);
+      }} aria-label="陪主人公伸个懒腰"><HandHeart size={14} aria-hidden="true" />伸个懒腰{travelerMoment && <small role="status">肩膀，好像轻了一点。</small>}</button>}
 
       <header className="cm-header" inert={Boolean(observing)} aria-hidden={Boolean(observing)}>
         <div className="cm-brand"><Sprout size={24} strokeWidth={1.25} aria-hidden="true" />
@@ -402,6 +414,8 @@ function ObservationDialog({ detail, scene, art, onClose, returnTo, paused, onRe
           onLoad={event => setImageSize({ width: event.currentTarget.naturalWidth, height: event.currentTarget.naturalHeight })}
           style={{ width: imageWidth, height: imageHeight, left, top }} />
         <div className="cm-closeup-vignette" />
+        <SceneAtmosphere scene={scene} closeup detailId={detail.id} interactive />
+        <span className="cm-closeup-touch-hint" aria-hidden="true">轻触画面，让这一刻动起来</span>
         <span className="cm-closeup-location"><MapPin size={12} strokeWidth={1.4} aria-hidden="true" />{scene.location}</span>
         <button className="cm-closeup-close" onClick={onClose} disabled={paused} aria-label="关闭细节特写"><X size={21} strokeWidth={1.4} aria-hidden="true" /></button>
       </div>

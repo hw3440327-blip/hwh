@@ -1,0 +1,307 @@
+{
+  "artifact": {
+    "file": "/workspace/hwh/release/下一次春天-声景故事版.html",
+    "bytes": 72199647,
+    "sha256": "0aa5f7a3b2ddea7ecea3b72e9d061c3cffbe30b9f98a41779855f244df0479e6"
+  },
+  "checks": [
+    {
+      "name": "default has builtin voice and creates no audio before user action",
+      "status": "pass",
+      "details": {
+        "nativeVoices": 0,
+        "default": "spring-recorded-v1"
+      }
+    },
+    {
+      "name": "15 backgrounds and two protagonist ages decode from embedded images",
+      "status": "pass",
+      "details": {
+        "count": 17,
+        "sizes": [
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1672,
+            941
+          ],
+          [
+            1536,
+            1024
+          ],
+          [
+            1536,
+            1024
+          ],
+          [
+            1536,
+            1024
+          ],
+          [
+            1536,
+            1024
+          ],
+          [
+            1024,
+            1536
+          ],
+          [
+            1024,
+            1536
+          ]
+        ]
+      }
+    },
+    {
+      "name": "actual embedded preview plays while narration remains off",
+      "status": "pass",
+      "details": {
+        "time": 0.136665,
+        "duration": 6.313958,
+        "srcIsEmbedded": true,
+        "native": true
+      }
+    },
+    {
+      "name": "actual story playback and menu stop/restart use one native element",
+      "status": "pass",
+      "details": {
+        "time": 0.137468,
+        "duration": 12.52425,
+        "srcIsEmbedded": true,
+        "native": true
+      }
+    },
+    {
+      "name": "real ended events continue paragraphs but never choose for player",
+      "status": "pass",
+      "details": {
+        "paragraphs": 4,
+        "automaticChoices": 0
+      }
+    },
+    {
+      "name": "actual scenery explanation plays two exact clips in order",
+      "status": "pass",
+      "details": {
+        "first": {
+          "time": 0.125202,
+          "duration": 9.01725,
+          "srcIsEmbedded": true,
+          "native": true
+        },
+        "second": {
+          "time": 0.136742,
+          "duration": 10.712417,
+          "srcIsEmbedded": true,
+          "native": true
+        },
+        "storyParagraph": 3
+      }
+    },
+    {
+      "name": "mobile settings remain usable",
+      "status": "pass",
+      "details": {
+        "scroll": 390,
+        "client": 390
+      }
+    },
+    {
+      "name": "offline package uses no external resources or system speech",
+      "status": "pass",
+      "details": {
+        "requests": 0,
+        "errors": 0,
+        "systemCalls": 0
+      }
+    }
+  ],
+  "requests": [],
+  "errors": [],
+  "limits": [
+    "Chromium native MP3 decoding/playback validated; subjective voice quality was not assessed by this automated test.",
+    "Audio is sought near its natural end to check sequence completion without waiting through the entire narration.",
+    "Offline context fulfills only the initial HTTPS document from the exact packaged HTML; file:// access is not used."
+  ],
+  "audioEvents": [
+    {
+      "type": "playing",
+      "currentTime": 0,
+      "duration": 6.313958,
+      "srcLength": 51411
+    },
+    {
+      "type": "playing",
+      "currentTime": 0,
+      "duration": 12.52425,
+      "srcLength": 100947
+    },
+    {
+      "type": "playing",
+      "currentTime": 0,
+      "duration": 12.52425,
+      "srcLength": 100947
+    },
+    {
+      "type": "playing",
+      "currentTime": 12.44425,
+      "duration": 12.52425,
+      "srcLength": 100947
+    },
+    {
+      "type": "ended",
+      "currentTime": 12.52425,
+      "duration": 12.52425,
+      "srcLength": 100947
+    },
+    {
+      "type": "playing",
+      "currentTime": 0,
+      "duration": 12.6625,
+      "srcLength": 102099
+    },
+    {
+      "type": "playing",
+      "currentTime": 12.5825,
+      "duration": 12.6625,
+      "srcLength": 102099
+    },
+    {
+      "type": "ended",
+      "currentTime": 12.6625,
+      "duration": 12.6625,
+      "srcLength": 102099
+    },
+    {
+      "type": "playing",
+      "currentTime": 0,
+      "duration": 15.060167,
+      "srcLength": 121299
+    },
+    {
+      "type": "playing",
+      "currentTime": 14.980167,
+      "duration": 15.060167,
+      "srcLength": 121299
+    },
+    {
+      "type": "ended",
+      "currentTime": 15.060167,
+      "duration": 15.060167,
+      "srcLength": 121299
+    },
+    {
+      "type": "playing",
+      "currentTime": 0,
+      "duration": 10.021542,
+      "srcLength": 80979
+    },
+    {
+      "type": "playing",
+      "currentTime": 9.941542,
+      "duration": 10.021542,
+      "srcLength": 80979
+    },
+    {
+      "type": "ended",
+      "currentTime": 10.021542,
+      "duration": 10.021542,
+      "srcLength": 80979
+    },
+    {
+      "type": "playing",
+      "currentTime": 0,
+      "duration": 9.01725,
+      "srcLength": 72915
+    },
+    {
+      "type": "playing",
+      "currentTime": 8.93725,
+      "duration": 9.01725,
+      "srcLength": 72915
+    },
+    {
+      "type": "ended",
+      "currentTime": 9.01725,
+      "duration": 9.01725,
+      "srcLength": 72915
+    },
+    {
+      "type": "playing",
+      "currentTime": 0,
+      "duration": 10.712417,
+      "srcLength": 86547
+    },
+    {
+      "type": "playing",
+      "currentTime": 10.632417,
+      "duration": 10.712417,
+      "srcLength": 86547
+    },
+    {
+      "type": "ended",
+      "currentTime": 10.712417,
+      "duration": 10.712417,
+      "srcLength": 86547
+    },
+    {
+      "type": "playing",
+      "currentTime": 0,
+      "duration": 10.021542,
+      "srcLength": 80979
+    },
+    {
+      "type": "playing",
+      "currentTime": 0,
+      "duration": 10.021542,
+      "srcLength": 80979
+    },
+    {
+      "type": "playing",
+      "currentTime": 0,
+      "duration": 10.021542,
+      "srcLength": 80979
+    }
+  ],
+  "passed": 8,
+  "failed": 0
+}

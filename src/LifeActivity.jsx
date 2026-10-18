@@ -1,6 +1,7 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, Droplets, Flame, Flower2, Hand, Leaf, RotateCw, Sparkles, Sun, Wheat, Wind, X } from 'lucide-react';
 import { activityProgress } from './activities.js';
+import { artwork } from './visuals.js';
 import './life-activity.css';
 
 const activityCopy = {
@@ -11,7 +12,7 @@ const activityCopy = {
     stages: { ingredients: 0, knead: 1, bake: 2, done: 3 },
     hints: {
       ingredients: '先把面粉和温水放进木碗。手边的东西，都是刚刚好的。',
-      knead: '掌心往前，轻轻推开，再把面团收回来。慢慢来，三次就好。',
+      knead: '轻按面团，或用手指慢慢推开、收回来。慢慢来，三次就好。',
       bake: '把炉火调到温暖的金色区间。这里没有赶时间的人。',
       done: '你看，原来一双手，也可以把普通的一天变得香喷喷的。',
     },
@@ -57,7 +58,7 @@ function DoughArt({ progress, baked = false, id }) {
       {!baked && <><path d="M63 152 Q74 253 200 254 Q325 253 337 152Z" fill={'url(#' + id + '-bowl)'} stroke="#82664d" strokeWidth="2" /><path d="M82 186 Q200 220 319 186M98 219 Q199 245 302 218" fill="none" stroke="#ebc294" opacity=".28" strokeWidth="2" /><ellipse cx="200" cy="150" rx="137" ry="39" fill="#d1b389" stroke="#88694d" strokeWidth="3" /><ellipse cx="200" cy="150" rx="121" ry="28" fill="#85654b" /> </>}
       {flour && !water && <><path d="M110 154 Q143 147 159 112 Q172 98 187 121 Q201 131 213 113 Q237 123 256 141 L287 159 Q202 185 110 154Z" fill="#f8efd8" /><path d="M164 139 Q180 132 196 143 M214 148 L233 144" stroke="#d6c7a6" strokeWidth="2" fill="none" strokeLinecap="round" /></>}
       {water && !flour && <ellipse cx="200" cy="153" rx="114" ry="21" fill="#9ab5ac" opacity=".8" />}
-      {flour && water && <g style={{ transformOrigin: '200px 162px', transform: !baked && kneads === 1 ? 'scale(1.08, .9)' : !baked && kneads === 2 ? 'scale(.95, 1.05)' : 'scale(1)' }} className="la-dough-shape"><path d={baked ? 'M105 202 C101 125 137 74 204 76 C270 73 305 127 299 201 C275 236 137 239 105 202Z' : 'M104 157 C111 107 152 91 204 98 C259 92 294 119 298 156 C276 187 138 188 104 157Z'} fill={'url(#' + id + '-dough)'} stroke={baked ? '#9e6f43' : '#c4ac7c'} strokeWidth="2" />
+      {flour && water && <g key={kneads} style={{ transformOrigin: '200px 162px', transform: !baked && kneads === 1 ? 'scale(1.08, .9)' : !baked && kneads === 2 ? 'scale(.95, 1.05)' : 'scale(1)' }} className="la-dough-shape"><path d={baked ? 'M105 202 C101 125 137 74 204 76 C270 73 305 127 299 201 C275 236 137 239 105 202Z' : 'M104 157 C111 107 152 91 204 98 C259 92 294 119 298 156 C276 187 138 188 104 157Z'} fill={'url(#' + id + '-dough)'} stroke={baked ? '#9e6f43' : '#c4ac7c'} strokeWidth="2" />
         {baked ? <><path d="M155 116 Q196 138 218 163 M200 100 Q244 120 265 153 M130 148 Q166 161 188 185" stroke="#f8d591" strokeWidth="10" strokeLinecap="round" /><path d="M157 115 Q194 135 216 160 M202 99 Q243 117 263 149 M132 146 Q166 158 185 181" stroke="#966039" strokeWidth="2" strokeLinecap="round" /><path d="M126 203 Q200 228 278 201" fill="none" stroke="#e8bb78" strokeWidth="3" /></> : <><path d={kneads > 1 ? 'M142 144 Q175 124 209 143 Q232 153 259 139' : 'M135 147 Q165 134 191 145 M219 133 Q240 139 256 151'} stroke="#c5ad7e" strokeWidth="3" fill="none" opacity=".65" strokeLinecap="round" /><path d="M154 118 Q174 109 196 111" stroke="#fff9e8" strokeWidth="4" fill="none" opacity=".7" strokeLinecap="round" /></>}
       </g>}
     </g>
@@ -66,17 +67,17 @@ function DoughArt({ progress, baked = false, id }) {
   </svg>;
 }
 
-function RepairArt({ progress, completed = false, id }) {
+function RepairArt({ progress, completed = false, id, onRotate }) {
   const pieces = [
     { path: 'M82 76 Q82 63 96 63 H200 V153 L116 190 H82Z', cx: 144, cy: 132, leaf: <><path d="M145 174 Q166 130 185 85" /><path d="M162 135 Q122 136 134 100 Q160 99 162 135Z" /><path d="M174 109 Q205 110 200 82 Q178 82 174 109Z" /></> },
     { path: 'M200 63 H304 Q318 63 318 76 V190 H284 L200 153Z', cx: 253, cy: 131, leaf: <><path d="M208 163 Q245 127 291 101" /><path d="M249 128 Q224 101 250 85 Q269 103 249 128Z" /><path d="M273 112 Q303 131 308 103 Q291 90 273 112Z" /></> },
     { path: 'M82 190 H116 L200 153 L284 190 H318 V223 Q318 236 304 236 H96 Q82 236 82 223Z', cx: 200, cy: 207, leaf: <><path d="M201 238 L201 188" /><path d="M201 219 Q168 215 174 192 Q196 193 201 219Z" /><path d="M201 205 Q225 207 234 186 Q211 179 201 205Z" /></> },
   ];
-  return <svg className="la-repair-art" viewBox="0 0 400 284" role="img" aria-label={completed ? '修复完好的旧木盒，木片之间留着细细的接缝' : '旧木盒盖分成三块木片，旋转叶纹，让每块的叶子都朝上'}>
+  return <svg className="la-repair-art" viewBox="0 0 400 284" role={onRotate ? 'group' : 'img'} aria-label={completed ? '修复完好的旧木盒，木片之间留着细细的接缝' : '旧木盒盖分成三块木片，旋转叶纹，让每块的叶子都朝上'}>
     <defs><linearGradient id={id + '-wood'} x1="0" y1="0" x2=".6" y2="1"><stop stopColor="#d6b88d" /><stop offset="1" stopColor="#b28d65" /></linearGradient>{pieces.map((piece, index) => <clipPath key={index} id={id + '-piece-' + index}><path d={piece.path} /></clipPath>)}</defs>
     <ellipse cx="200" cy="257" rx="123" ry="12" fill="#596e51" opacity=".12" />
     <path d="M82 218 L82 242 Q200 269 318 242 L318 218Z" fill="#93734f" stroke="#866748" strokeWidth="2" /><path d="M95 243 Q200 263 306 243" stroke="#b08c62" fill="none" strokeWidth="2" />
-    {pieces.map((piece, index) => <g key={index} className={'la-wood-piece' + (progress.rotations[index] === 0 ? ' is-aligned' : '')}>
+    {pieces.map((piece, index) => <g key={index} className={'la-wood-piece' + (progress.rotations[index] === 0 ? ' is-aligned' : '')} role={onRotate ? 'button' : undefined} tabIndex={onRotate ? 0 : undefined} aria-label={onRotate ? `转动第${index + 1}块木片` : undefined} onClick={onRotate ? () => onRotate(index) : undefined} onKeyDown={onRotate ? event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onRotate(index); } } : undefined}>
       <path d={piece.path} fill={'url(#' + id + '-wood)'} stroke={completed ? '#a1845e' : '#91724c'} strokeWidth={completed ? '3.5' : '2'} strokeLinejoin="round" />
       <g clipPath={'url(#' + id + '-piece-' + index + ')'}><path d={index === 0 ? 'M97 84 Q136 78 181 86 M93 97 Q134 91 183 97 M95 164 Q118 160 134 163' : index === 1 ? 'M217 78 Q260 88 304 80 M218 92 Q264 102 305 94 M280 169 Q294 173 307 170' : 'M101 214 Q137 221 165 213 M239 214 Q266 222 303 214 M101 225 Q140 232 175 223'} fill="none" stroke="#8d6f4b" strokeWidth="1.2" opacity=".35" /><g className="la-piece-pattern" style={{ transform: `rotate(${(completed ? 0 : progress.rotations[index]) * 90}deg)`, transformOrigin: `${piece.cx}px ${piece.cy}px` }} fill="#73906a" fillOpacity=".5" stroke="#647e5e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{piece.leaf}</g></g>
       {!completed && <circle cx={piece.cx} cy={piece.cy} r="28" fill="#fffef4" opacity=".06" />}
@@ -106,6 +107,29 @@ function PlantArt({ progress, id }) {
   </svg>;
 }
 
+function KneadObject({ progress, onAction, id }) {
+  const pointer = useRef(null);
+  const suppressClick = useRef(false);
+  function release(event, cancelled = false) {
+    const drag = pointer.current;
+    pointer.current = null;
+    event.currentTarget.style.setProperty('--knead-push', '0px');
+    event.currentTarget.removeAttribute('data-dragging');
+    if (drag && !cancelled && drag.distance >= 22) {
+      suppressClick.current = true;
+      onAction({ type: 'knead' });
+    }
+  }
+  return <button type="button" className="la-touch-object la-knead-object"
+    aria-label={`轻轻揉一下面团，已经揉了${progress.kneads}次，还需要${3 - progress.kneads}次`}
+    onPointerDown={event => { if (!event.isPrimary || event.button !== 0) return; suppressClick.current = false; pointer.current = { x: event.clientX, y: event.clientY, distance: 0 }; event.currentTarget.setPointerCapture(event.pointerId); event.currentTarget.dataset.dragging = 'true'; }}
+    onPointerMove={event => { const drag = pointer.current; if (!drag) return; drag.distance = Math.max(drag.distance, Math.hypot(event.clientX - drag.x, event.clientY - drag.y)); event.currentTarget.style.setProperty('--knead-push', `${Math.max(-18, Math.min(18, (event.clientY - drag.y) * .25))}px`); }}
+    onPointerUp={event => release(event)} onPointerCancel={event => release(event, true)}
+    onClick={event => { if (event.detail > 0 && suppressClick.current) { suppressClick.current = false; return; } suppressClick.current = false; onAction({ type: 'knead' }); }}>
+    <DoughArt progress={progress} id={id} /><span className="la-object-invitation"><Hand size={15} aria-hidden="true" />轻按或拖动，慢慢揉一揉</span>
+  </button>;
+}
+
 function BreadActivity({ progress, onAction, id, setFeedback }) {
   const atTemperature = progress.temperature >= 170 && progress.temperature <= 190;
   function bake() {
@@ -117,7 +141,7 @@ function BreadActivity({ progress, onAction, id, setFeedback }) {
   }
   return <div className={'la-workbench la-bread-workbench la-stage-' + progress.stage}>
     <div className="la-stage-art">
-      {progress.stage === 'knead' ? <button type="button" className="la-touch-object la-knead-object" onClick={() => onAction({ type: 'knead' })} aria-label={`轻轻揉一下面团，已经揉了${progress.kneads}次，还需要${3 - progress.kneads}次`}><DoughArt progress={progress} id={id} /><span className="la-object-invitation"><Hand size={15} aria-hidden="true" />用掌心轻轻揉一揉</span></button> : <DoughArt progress={progress} baked={progress.completed} id={id} />}
+      {progress.stage === 'knead' ? <KneadObject progress={progress} id={id} onAction={onAction} /> : <DoughArt progress={progress} baked={progress.completed} id={id} />}
       {progress.stage === 'knead' && <div className="la-knead-marks" aria-label={`已揉${progress.kneads}次，共3次`}>{[0, 1, 2].map(index => <span key={index} className={progress.kneads > index ? 'is-done' : ''}>{progress.kneads > index ? <Check size={13} /> : <i />}</span>)}</div>}
     </div>
     {progress.stage === 'ingredients' && <div className="la-ingredient-tray" aria-label="面团原料"><button type="button" className={'la-ingredient' + (progress.ingredients.includes('flour') ? ' is-added' : '')} disabled={progress.ingredients.includes('flour')} onClick={() => onAction({ type: 'flour' })}><span className="la-ingredient-icon"><Wheat size={28} strokeWidth={1.3} /></span><strong>一勺面粉</strong><small>{progress.ingredients.includes('flour') ? '已经放进木碗' : '轻点，撒进木碗'}</small>{progress.ingredients.includes('flour') && <Check className="la-added-mark" size={17} />}</button><button type="button" className={'la-ingredient' + (progress.ingredients.includes('water') ? ' is-added' : '')} disabled={progress.ingredients.includes('water')} onClick={() => onAction({ type: 'water' })}><span className="la-ingredient-icon la-water-icon"><Droplets size={28} strokeWidth={1.3} /></span><strong>一杯温水</strong><small>{progress.ingredients.includes('water') ? '已经倒进木碗' : '轻点，倒进木碗'}</small>{progress.ingredients.includes('water') && <Check className="la-added-mark" size={17} />}</button></div>}
@@ -127,7 +151,7 @@ function BreadActivity({ progress, onAction, id, setFeedback }) {
 
 function RepairActivity({ progress, onAction, id }) {
   return <div className={'la-workbench la-repair-workbench la-stage-' + progress.stage}>
-    <div className="la-stage-art la-repair-stage"><RepairArt progress={progress} completed={progress.completed} id={id} />{progress.stage === 'arrange' && <div className="la-piece-controls" aria-label="旋转三块木片">{progress.rotations.map((rotation, index) => <button type="button" key={index} className={'la-piece-button la-piece-' + index + (rotation === 0 ? ' is-aligned' : '')} onClick={() => onAction({ type: 'rotate', index })} aria-label={`旋转第${index + 1}块木片，${rotation === 0 ? '叶纹已经朝上' : '叶纹还没有朝上'}`}>{rotation === 0 ? <Check size={18} aria-hidden="true" /> : <RotateCw size={19} aria-hidden="true" />}<span>第{['一', '二', '三'][index]}片</span></button>)}</div>}</div>
+    <div className="la-stage-art la-repair-stage"><RepairArt progress={progress} completed={progress.completed} id={id} onRotate={progress.stage === 'arrange' ? index => onAction({ type: 'rotate', index }) : undefined} />{progress.stage === 'arrange' && <div className="la-piece-controls" aria-label="旋转三块木片">{progress.rotations.map((rotation, index) => <button type="button" key={index} className={'la-piece-button la-piece-' + index + (rotation === 0 ? ' is-aligned' : '')} onClick={() => onAction({ type: 'rotate', index })} aria-label={`旋转第${index + 1}块木片，${rotation === 0 ? '叶纹已经朝上' : '叶纹还没有朝上'}`}>{rotation === 0 ? <Check size={18} aria-hidden="true" /> : <RotateCw size={19} aria-hidden="true" />}<span>第{['一', '二', '三'][index]}片</span></button>)}</div>}</div>
     {progress.stage === 'arrange' && <div className="la-alignment-note"><Leaf size={15} aria-hidden="true" /><span>{progress.rotations.every(rotation => rotation !== 0) ? '让每片叶子的尖端，都朝向上方。' : `有${['零', '一', '两', '三'][progress.rotations.filter(rotation => rotation === 0).length]}片木片已经找回了方向。`}</span></div>}
     {progress.stage === 'seal' && <button type="button" className="la-primary" onClick={() => onAction({ type: 'mend' })}><Sparkles size={17} aria-hidden="true" />沿着接缝，仔细合拢<ArrowRight size={16} aria-hidden="true" /></button>}
   </div>;
@@ -154,6 +178,9 @@ export default function LifeActivity({ game, activity, onAction, onClose, quietM
   closeRef.current = onClose;
   const previousStage = useRef(progress.stage);
   const [feedback, setFeedback] = useState('');
+  const [gesture, setGesture] = useState(null);
+  const gestureTimer = useRef(null);
+  useEffect(() => () => clearTimeout(gestureTimer.current), []);
   const stageIndex = copy.stages[progress.stage] ?? 0;
   const status = feedback || copy.hints[progress.stage] || '';
   const progressKey = JSON.stringify(progress);
@@ -201,15 +228,21 @@ export default function LifeActivity({ game, activity, onAction, onClose, quietM
 
   function act(action) {
     setFeedback('');
+    if (action.type !== 'set_temperature') {
+      setGesture({ kind: action.type, sequence: Date.now() });
+      clearTimeout(gestureTimer.current); gestureTimer.current = setTimeout(() => setGesture(null), 1800);
+    }
     onAction(action);
   }
 
   return <div className={'la-backdrop' + (quietMotion ? ' la-quiet' : '')} onClick={event => { if (event.target === event.currentTarget) onClose(); }}>
-    <section ref={dialogRef} className={'la-dialog la-kind-' + activity.id + (progress.completed ? ' la-completed' : '')} role="dialog" aria-modal="true" aria-labelledby={id + '-title'} aria-describedby={id + '-intro'}>
+    <section ref={dialogRef} data-gesture={gesture?.kind || ''} className={'la-dialog la-kind-' + activity.id + (progress.completed ? ' la-completed' : '')} role="dialog" aria-modal="true" aria-labelledby={id + '-title'} aria-describedby={id + '-intro'}>
       <header className="la-header"><div className="la-heading"><span className="la-eyebrow"><Leaf size={13} strokeWidth={1.3} aria-hidden="true" />小镇里的慢时光</span><h2 id={id + '-title'}>{activity.title}</h2><p id={id + '-intro'}>{copy.eyebrow}</p></div><button type="button" className="la-close" onClick={onClose} aria-label="收好手边的事，返回故事"><X size={21} strokeWidth={1.4} aria-hidden="true" /></button></header>
       <div className="la-scroll-area">
+        <div className="la-tableau-banner" aria-hidden="true"><img src={artwork[activity.id === 'bread' ? 'bakery' : activity.id === 'repair' ? 'community' : 'vegetable-garden']} alt="" draggable="false" /><span>{activity.id === 'bread' ? '清晨的面包房' : activity.id === 'repair' ? '靠窗的手作桌' : '有阳光的窗边'}</span><i /></div>
         <ol className="la-step-rail" aria-label="这件小事的进度">{copy.steps.map((step, index) => <li key={step} className={stageIndex > index || progress.completed ? 'is-done' : stageIndex === index ? 'is-current' : ''} aria-current={stageIndex === index && !progress.completed ? 'step' : undefined}><span>{stageIndex > index || progress.completed ? <Check size={12} aria-hidden="true" /> : <i />}</span><small>{step}</small></li>)}</ol>
         <div className="la-npc-note"><span className="la-npc-seal" aria-hidden="true">{copy.person[0]}</span><div><span>{activity.id === 'plant' ? '你在心里，轻轻说' : activity.id === 'repair' ? '想起周予的叮嘱' : copy.person + '轻声说'}</span><p role="status" aria-live="polite" aria-atomic="true">{status}</p></div></div>
+        {gesture && <div key={gesture.sequence} className={'la-gesture-effects la-effect-' + gesture.kind} aria-hidden="true">{Array.from({ length: 12 }, (_, i) => <i key={i} style={{ '--n': i }} />)}</div>}
         {activity.id === 'bread' && <BreadActivity progress={progress} onAction={act} setFeedback={setFeedback} id={id} />}
         {activity.id === 'repair' && <RepairActivity progress={progress} onAction={act} id={id} />}
         {activity.id === 'plant' && <PlantActivity progress={progress} onAction={act} id={id} />}
