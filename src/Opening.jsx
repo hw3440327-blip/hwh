@@ -1,12 +1,13 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, Coffee, Compass, Feather, Leaf, Sprout, Upload, Volume2, VolumeX } from 'lucide-react';
 import { origins } from './origins.js';
+import FilmScene from './FilmScene.jsx';
 import './opening.css';
 
 const originIcons = { pause: Coffee, craft: Feather, independent: Compass };
 const motes = [0, 1, 2, 3, 4, 5, 6, 7];
 
-export default function Opening({ game, onBegin, onContinue, onImport, onSound, soundEnabled = false }) {
+export default function Opening({ game, onBegin, onContinue, onImport, onSound, soundEnabled = false, quietMotion = false }) {
   const [settingUp, setSettingUp] = useState(false);
   const [name, setName] = useState(game.name || '旅人');
   const [origin, setOrigin] = useState(game.origin || origins[0].id);
@@ -60,7 +61,7 @@ export default function Opening({ game, onBegin, onContinue, onImport, onSound, 
 
   return (
     <main className={'spring-opening' + (settingUp ? ' is-setting-up' : '')}>
-      <img className="opening-landscape" src="/art/immersive-arrival.png" alt="手绘的海边小镇车站，海风穿过树梢，远处的房屋亮起温暖的灯。" fetchPriority="high" decoding="async" />
+      <FilmScene scene={{id:'arrival'}} className="opening-landscape" quiet={quietMotion} />
       <div className="opening-film-grade" aria-hidden="true" />
       <div className="opening-atmosphere" aria-hidden="true">
         {motes.map(mote => <i key={mote} className={'opening-mote opening-mote-' + mote} />)}

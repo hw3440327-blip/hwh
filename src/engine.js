@@ -2,6 +2,7 @@ import { initialMemory, scenes } from './story.js';
 import { origins } from './origins.js';
 import { unlockedLetters } from './letters.js';
 import { activityDefinitions, normalizeActivities } from './activities.js';
+import { discoveryDefinitions, normalizeDiscoveries } from './discoveries.js';
 
 export const STORAGE_KEY = 'next-spring-save-v1';
 
@@ -33,6 +34,7 @@ export function createGame(name = '旅人', origin = 'pause') {
     introDone: false,
     letterReplies: {},
     activities: {},
+    discoveries: {},
     sceneId: 'arrival',
     energy: 72,
     money: 860,
@@ -195,6 +197,7 @@ export function restoreGame(raw) {
       ),
       ...endingMemories(),
       ...activityDefinitions.map((activity) => [activity.memory.id, activity.memory]),
+      ...discoveryDefinitions.map(item => [item.memory.id, item.memory]),
     ]);
     if (!Array.isArray(saved.memories) || !saved.memories.length) return null;
     if (!saved.memories.every((memory) =>
@@ -225,6 +228,7 @@ export function restoreGame(raw) {
       introDone,
       letterReplies: { ...letterReplies },
       activities: normalizeActivities(saved.activities),
+      discoveries: normalizeDiscoveries(saved.discoveries, saved.visited),
       sceneId: saved.sceneId,
       energy: clamp(saved.energy, 0, 100),
       money: clamp(saved.money, 0),

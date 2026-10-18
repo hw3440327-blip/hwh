@@ -15,8 +15,11 @@ import useSoundscape from './useSoundscape.js';
 import useMusic from './useMusic.js';
 import useNarration from './useStoryNarration.js';
 import AudioSettings from './AudioSettings.jsx';
+import DiscoveryScene, { PhotoCollection } from './DiscoveryScene.jsx';
+import { discoveryDefinitions, discoveryProgress, sceneDiscoveries, performDiscovery } from './discoveries.js';
 import './styles.css';
 import './immersive.css';
+import './cinematic-experience.css';
 
 const PREF_KEY = 'next-spring-preferences-v1';
 const NOTES_KEY = 'next-spring-notes-v1';
@@ -39,6 +42,7 @@ export default function ImmersiveApp() {
   const [sceneSession, setSceneSession] = useState(0);
   const [menu, setMenu] = useState(null);
   const [activityId, setActivityId] = useState(null);
+  const [discoveryId, setDiscoveryId] = useState(null);
   const [detail, setDetail] = useState(null);
   const [note, setNote] = useState(() => read(NOTES_KEY));
   const [reading, setReading] = useState(() => validReading(parse(READING_KEY, null), game));
@@ -46,7 +50,7 @@ export default function ImmersiveApp() {
   const [narrationCompleted, setNarrationCompleted] = useState({ utteranceKey: '', sequence: 0 });
   const [preferences, setPreferences] = useState(() => {
     const saved = parse(PREF_KEY, {});
-    return { largeText: saved.largeText === true, quietMotion: saved.quietMotion === true, showTraveler: saved.showTraveler !== false,
+    return { largeText: saved.largeText === true, quietMotion: saved.quietMotion === true, filmMotion: saved.filmMotion !== false,
       autoNarration: saved.autoNarration !== false,
       textSpeed: [0, 18, 30].includes(saved.textSpeed) ? saved.textSpeed : 18,
       cycles: Number.isSafeInteger(saved.cycles) && saved.cycles > 0 ? saved.cycles : 1 };
@@ -63,7 +67,8 @@ export default function ImmersiveApp() {
   const chapter = chapters[scene.chapter];
   const sceneActivity = getSceneActivity(game);
   const activeActivity = activityDefinitions.find(item => item.id === activityId);
-  const overlayOpen = menu !== null || Boolean(activeActivity);
+  const activeDiscovery = discoveryDefinitions.find(item => item.id === discoveryId);
+  const overlayOpen = menu !== null || Boolean(activeActivity) || Boolean(activeDiscovery);
   const isTitle = showTitle || !game.introDone;
   const handleNarrationEnd = useCallback(({ utteranceKey }) => {
     setNarrationCompleted(previous => ({ utteranceKey, sequence: previous.sequence + 1 }));
@@ -106,6 +111,15 @@ export default function ImmersiveApp() {
   }
   function returnToTitle() { resetNarrationSession(); closeMenu(); setShowTitle(true); }
   function closeMenu() { setMenu(null); setDetail(null); requestAnimationFrame(() => { if (menuTrigger.current?.isConnected) menuTrigger.current.focus(); }); }
+  function openDiscovery(id) {
+    if (!sceneDiscoveries(game).some(d => d.id === id) && !(id !== 'photo' && discoveryProgress(game, id)?.completed)) return;
+    activityTrigger.current = document.activeElement; setMenu(null); setActivityId(null); setDiscoveryId(id);
+  }
+  function closeDiscovery() { setDiscoveryId(null); requestAnimationFrame(() => activityTrigger.current?.isConnected && activityTrigger.current.focus()); }
+  function actOnDiscovery(action) {
+    setGame(current => performDiscovery(current, discoveryId, action));
+    if (!['pour', 'place'].includes(action.type)) sound.playCue?.(action.type === 'steep' ? 'water' : action.type === 'capture' ? 'wood' : 'touch');
+  }
   function openActivity(activity = sceneActivity) {
     if (!activity) return;
     activityTrigger.current = document.activeElement;
@@ -175,7 +189,7 @@ export default function ImmersiveApp() {
 
   return <div className={`immersive-shell ${preferences.largeText ? 'large-text' : ''} ${preferences.quietMotion ? 'quiet-motion' : ''}`}>
     <div className="story-layer" inert={overlayOpen} aria-hidden={overlayOpen}>
-      {isTitle ? <Opening game={game} onBegin={begin} onContinue={() => setShowTitle(false)} onImport={importSave} onSound={toggleSound} soundEnabled={anySound} /> : <CinematicScene key={sceneSession}
+      {isTitle ? <Opening quietMotion={preferences.quietMotion || !preferences.filmMotion} game={game} onBegin={begin} onContinue={() => setShowTitle(false)} onImport={importSave} onSound={toggleSound} soundEnabled={anySound} /> : <CinematicScene key={sceneSession}
         game={game} scene={scene} chapter={chapter} paragraphs={getSceneParagraphs(game).map(personalize)} choices={availableChoices(game)}
         initialParagraphIndex={reading.sceneId === game.sceneId ? reading.paragraphIndex : 0}
         onChoose={makeChoice} onMenu={() => openMenu()} onSound={toggleSound} soundEnabled={anySound}
@@ -183,9 +197,11 @@ export default function ImmersiveApp() {
         narrationEnabled={narration.enabled} narrationSupported={narration.supported}
         narrationSpeaking={narration.speaking} narrationCompleted={narrationCompleted} autoNarration={preferences.autoNarration}
         preferences={{ ...preferences, paused: overlayOpen }} onReincarnate={() => nextLife(true)} onReview={() => openMenu('life')} onProgress={recordProgress}
+        discoveries={sceneDiscoveries(game)} onDiscover={openDiscovery}
         activity={sceneActivity} activityDone={Boolean(sceneActivity && activityProgress(game, sceneActivity.id).completed)} onActivity={() => openActivity()}
       />}
     </div>
+    {activeDiscovery && <DiscoveryScene game={game} scene={scene} discovery={activeDiscovery} onAction={actOnDiscovery} onClose={closeDiscovery} quiet={preferences.quietMotion || !preferences.filmMotion} />}
     {activeActivity && <LifeActivity game={game} activity={activeActivity} onAction={action => actOnMoment(activeActivity.id, action)} onClose={closeActivity} quietMotion={preferences.quietMotion} />}
     {menu && <JourneyDialog onClose={closeMenu}>
       <header className="journey-header"><div><Sprout size={23} strokeWidth={1.2} /><div><span className="eyebrow">LET THE STORY REST A MOMENT</span><h2>旅程手记</h2></div></div><button className="journey-close" onClick={closeMenu} aria-label="返回故事"><X size={23} strokeWidth={1.3} /></button></header>
@@ -207,7 +223,7 @@ export default function ImmersiveApp() {
             <div className="quiet-chapters">{chapters.map((item, i) => <button key={item.id} disabled={!game.history.some(entry => scenes[entry.sceneId].chapter === i)} onClick={() => setDetail({ type: 'chapter', index: i })}><span>{String(i + 1).padStart(2, '0')}</span><div><strong>{item.title}</strong><small>{item.subtitle}</small></div>{i < scene.chapter ? <Check size={15} /> : i === scene.chapter ? <Sprout size={15} /> : <span className="chapter-unwritten" />}</button>)}</div>
             <div className="journey-save-actions"><button onClick={exportSave}><ArrowDownToLine size={16} />收藏这段旅程</button><button onClick={() => setDetail({ type: 'import' })}><ArrowUpFromLine size={16} />从存档继续</button></div><p className={`quiet-save-status ${saveError ? 'warning' : ''}`}><span />{saveError ? '暂时无法自动保存，可以先导出旅程。' : '旅程正在这个浏览器里，安静地替你收好。'}</p>
           </>}
-          {menu === 'album' && <><PanelHeading eyebrow="THE LITTLE THINGS THAT STAY" title="有些温暖，记得就不会走远。" subtitle={`${game.memories.length} 段回忆，都有各自的光。`} /><div className="quiet-album">{game.memories.map((memory, i) => <button key={memory.id} className="quiet-photo" onClick={() => setDetail({ type: 'memory', memory })}><img src={memoryArt(memory)} alt="手绘动画里的生活回忆" loading="lazy" /><div><span>NO. {String(i + 1).padStart(2, '0')}</span><h3>{memory.title}</h3><p>{personalize(memory.description)}</p><small>翻开回忆<ChevronRight size={13} /></small></div></button>)}</div></>}
+          {menu === 'album' && <><PhotoCollection game={game} /><PanelHeading eyebrow="THE LITTLE THINGS THAT STAY" title="有些温暖，记得就不会走远。" subtitle={`${game.memories.length} 段回忆，都有各自的光。`} /><div className="quiet-album">{game.memories.map((memory, i) => <button key={memory.id} className="quiet-photo" onClick={() => setDetail({ type: 'memory', memory })}><img src={memoryArt(memory)} alt="手绘动画里的生活回忆" loading="lazy" /><div><span>NO. {String(i + 1).padStart(2, '0')}</span><h3>{memory.title}</h3><p>{personalize(memory.description)}</p><small>翻开回忆<ChevronRight size={13} /></small></div></button>)}</div></>}
           {menu === 'moments' && <>
             <PanelHeading eyebrow="A DAY HELD IN YOUR HANDS" title="有些日子，要亲手过一过。" subtitle="在面粉、木纹和一盆小花里，慢慢和小镇熟起来。" />
             <p className="moment-collection-count"><HandHeart size={18} strokeWidth={1.3} />留下了 {activityDefinitions.filter(item => activityProgress(game, item.id).completed).length} 件亲手做的小事<span>进度会跟着旅程一起保存</span></p>
@@ -219,6 +235,7 @@ export default function ImmersiveApp() {
                 <div className="moment-card-copy"><h3>{item.title}</h3><p>{item.summary}</p><button disabled={!here && !progress.completed} onClick={() => openActivity(item)}>{progress.completed ? '看看亲手留下的成果' : here ? '就在这里，试着做一做' : `路过${item.place}时，可以试试`}<ChevronRight size={15} /></button></div>
               </article>;
             })}</div>
+            <div className="ds-new-discoveries">{discoveryDefinitions.map(item => { const here = item.sceneIds.includes(game.sceneId); const progress = discoveryProgress(game, item.id); return <button key={item.id} disabled={!here && !progress.completed} onClick={() => openDiscovery(item.id)}><HandHeart size={22} strokeWidth={1.2}/><span><strong>{item.title}</strong><small>{progress.completed ? '翻开亲手留下的这一刻' : here ? item.subtitle : `路过${item.place}时，可以亲手留下一刻。`}{progress.completed ? ' · 已经留下纪念' : ''}</small></span><ChevronRight size={16}/></button>; })}</div>
             <p className="moment-gentle-note"><Leaf size={15} strokeWidth={1.2} />这些小事可以慢慢做，也可以先让故事继续。</p>
           </>}
           {menu === 'letters' && <LettersPanel game={game} onReply={(id, reply) => setGame(replyToLetter(game, id, reply.id))} onNotify={notify} />}
@@ -226,7 +243,7 @@ export default function ImmersiveApp() {
           {menu === 'life' && <><PanelHeading eyebrow="A LIFE, ONE DAY AT A TIME" title="原来，已经走了这么远。" subtitle="起点、相遇和选择，慢慢成为了你。" /><LifeReview game={game} onContinue={closeMenu} onRecall={index => setDetail({ type: 'chapter', index })} /></>}
           {menu === 'settings' && <><PanelHeading eyebrow="MAKE YOURSELF COMFORTABLE" title="找一个，舒服的节奏。" subtitle="把声音和阅读，调成自己喜欢的样子。" />
             <AudioSettings music={music} sound={sound} narration={{ ...narration, toggle: toggleNarration }} autoNarration={preferences.autoNarration} onAutoNarration={() => setPreferences(p => ({ ...p, autoNarration: !p.autoNarration }))} />
-            <div className="quiet-setting"><div><strong>主人公入镜</strong><small>让旅途中的自己，也留在小镇的风景里</small></div><Toggle label="主人公入镜" checked={preferences.showTraveler} onChange={() => setPreferences(p => ({ ...p, showTraveler: !p.showTraveler }))} /></div>
+            <div className="quiet-setting"><div><strong>流动的场景</strong><small>让衣袖、海光和窗边的气息，留在同一段镜头里</small></div><Toggle label="场景动态短片" checked={preferences.filmMotion} onChange={() => setPreferences(p => ({ ...p, filmMotion: !p.filmMotion }))} /></div>
             <div className="quiet-setting"><div><strong>文字出现的速度</strong><small>也可以轻点一句，立即读完整段</small></div><select aria-label="文字出现的速度" value={preferences.textSpeed} onChange={event => setPreferences(p => ({ ...p, textSpeed: Number(event.target.value) }))}><option value={30}>慢慢说</option><option value={18}>自然地说</option><option value={0}>整句出现</option></select></div><div className="quiet-setting"><div><strong>大一点的故事文字</strong><small>给眼睛多一点余裕</small></div><Toggle label="故事文字放大" checked={preferences.largeText} onChange={() => setPreferences(p => ({ ...p, largeText: !p.largeText }))} /></div><div className="quiet-setting"><div><strong>减少动态</strong><small>让画面停在安静的时刻</small></div><Toggle label="减少动态" checked={preferences.quietMotion} onChange={() => setPreferences(p => ({ ...p, quietMotion: !p.quietMotion }))} /></div><div className="quiet-setting-actions"><button onClick={returnToTitle}><BookOpen size={16} />回到标题画面</button><button onClick={() => setDetail({ type: 'reset' })}><RotateCcw size={15} />开始新的生活</button></div></>}
         </>}
       </div>

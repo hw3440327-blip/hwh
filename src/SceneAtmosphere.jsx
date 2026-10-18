@@ -35,12 +35,3 @@ export default function SceneAtmosphere({ scene, closeup = false, detailId = '',
     {touch && <div key={touch.id} className={`sa-touch ${water ? 'sa-ripple' : 'sa-glimmer'}`} style={{ left: `${touch.x}%`, top: `${touch.y}%` }}><i /><i /><i /></div>}
   </div>;
 }
-
-/** A back-view traveler leaves the player's identity open; age follows the save. */
-export function SceneTraveler({ age = 22, name = '旅人', active = false, landscape = false, place = 'room' }) {
-  const old = age >= 65;
-  return <figure className={`sa-traveler sa-at-${place}${active ? ' is-stretching' : ''}${landscape ? ' is-landscape' : ''}${old ? ' is-older' : ''}`} role="img" aria-label={`${name}，${age}岁，站在小镇的风里`}>
-    <span className="sa-ground-shadow" aria-hidden="true" />
-    <img className="sa-person-body" src={old ? '/art/traveler-older.png' : '/art/traveler-young.png'} alt="" draggable="false" />
-  </figure>;
-}

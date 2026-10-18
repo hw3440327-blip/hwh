@@ -7,22 +7,21 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const { version } = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
 const dist = path.join(root, 'dist');
-const destination = path.join(root, 'release', '下一次春天-声景故事版.html');
+const destination = path.join(root, 'release', '下一次春天-电影生活版.html');
 const requiredAssets = [
-  '/art/immersive-arrival.png', '/art/immersive-bakery.png',
-  '/art/immersive-room.png', '/art/immersive-room-night.png',
-  '/art/immersive-workshop.png', '/art/immersive-letters.png',
-  '/art/immersive-garden.png', '/fonts/spring-serif.woff', '/favicon.svg',
-  '/art/immersive-bookshop.webp', '/art/immersive-market.webp',
-  '/art/immersive-courtyard.webp', '/art/immersive-shore.webp',
-  '/art/immersive-community.png', '/art/immersive-kitchen.png',
-  '/art/immersive-winter-courtyard.png', '/art/immersive-vegetable-garden.png',
-  '/art/traveler-young.png', '/art/traveler-older.png',
+  '/art/film-arrival.webp', '/art/film-bakery.webp', '/art/film-bookshop.webp', '/art/film-workshop.webp',
+  '/art/film-kitchen.webp', '/art/film-garden.webp', '/art/film-shore.webp', '/art/film-night.webp',
+  '/art/immersive-room.webp', '/art/immersive-letters.webp', '/art/immersive-community.webp',
+  '/art/immersive-market.webp', '/art/immersive-courtyard.webp', '/art/immersive-winter-courtyard.webp',
+  '/art/play-tea-table.webp', '/art/play-tea-pot.webp', '/art/play-tea-cup.webp', '/art/play-shell-shore.webp',
+  '/films/arrival.mp4', '/films/bakery.mp4', '/films/bookshop.mp4', '/films/workshop.mp4',
+  '/films/kitchen.mp4', '/films/garden.mp4', '/films/shore.mp4', '/films/night.mp4',
+  '/fonts/spring-serif.woff', '/favicon.svg',
 ];
 const mimeTypes = {
   '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
   '.webp': 'image/webp', '.svg': 'image/svg+xml', '.woff': 'font/woff',
-  '.woff2': 'font/woff2', '.avif': 'image/avif', '.mp3': 'audio/mpeg',
+  '.woff2': 'font/woff2', '.avif': 'image/avif', '.mp3': 'audio/mpeg', '.mp4': 'video/mp4',
 };
 const dataURLs = new Map();
 
@@ -71,7 +70,7 @@ if (/\bimport\s*\(/.test(javascript) || /(?:^|[;\n])\s*(?:import\s+(?:["'{*]|[\w
 
 // Store each illustration only once, even when several scenes share it.
 // Replacing complete string literals preserves the original game behavior.
-const jsAssetLiteral = /(["'`])(\/(?:art|fonts|audio)\/[^"'`\\\r\n]+)\1/g;
+const jsAssetLiteral = /(["'`])(\/(?:art|fonts|audio|films)\/[^"'`\\\r\n]+)\1/g;
 const jsAssets = [...new Set([...javascript.matchAll(jsAssetLiteral)].map(match => match[2]))];
 const jsIdentifiers = new Map(jsAssets.map((asset, index) => [asset, `__nextSpringOfflineAsset_${index}`]));
 for (const identifier of jsIdentifiers.values()) {
@@ -80,7 +79,7 @@ for (const identifier of jsIdentifiers.values()) {
 const assetDeclarations = [];
 for (const asset of jsAssets) assetDeclarations.push(`const ${jsIdentifiers.get(asset)}=${JSON.stringify(await asDataURL(asset))};`);
 javascript = javascript.replace(jsAssetLiteral, (_literal, _quote, asset) => jsIdentifiers.get(asset));
-if (/\/(?:art|fonts|audio)\//.test(javascript)) {
+if (/\/(?:art|fonts|audio|films)\//.test(javascript)) {
   throw new Error('A runtime asset path could not be converted to an offline URL.');
 }
 javascript = `${assetDeclarations.join('\n')}\n${javascript}`;
@@ -94,11 +93,11 @@ const stylesheetTags = [...html.matchAll(/<link\b[^>]*>/gi)]
 if (!stylesheetTags.length) throw new Error('The production build has no stylesheet.');
 for (const tag of stylesheetTags) {
   let css = withoutSourceMaps(await readFile(localAsset(attribute(tag, 'href')), 'utf8'));
-  const cssURL = /url\(\s*(["']?)(\/(?:art|fonts|audio)\/[^)"']+)\1\s*\)/gi;
+  const cssURL = /url\(\s*(["']?)(\/(?:art|fonts|audio|films)\/[^)"']+)\1\s*\)/gi;
   const cssAssets = [...new Set([...css.matchAll(cssURL)].map(match => match[2].trim()))];
   for (const asset of cssAssets) await asDataURL(asset);
   css = css.replace(cssURL, (_url, _quote, asset) => `url("${dataURLs.get(asset.trim())}")`);
-  if (/\/(?:art|fonts|audio)\//.test(css) || /@import\b/i.test(css)) {
+  if (/\/(?:art|fonts|audio|films)\//.test(css) || /@import\b/i.test(css)) {
     throw new Error('A stylesheet still requires another local or remote resource.');
   }
   css = css.replace(/<\/style/gi, '<\\/style');
@@ -117,8 +116,8 @@ for (const tag of iconTags) {
   html = html.replace(tag, () => inlineTag);
 }
 
-html = html.replace('</head>', `<!-- Next Spring: Sound and Story Edition ${version}. Original music is synthesized locally. Primary Chinese narration is prerecorded neural audio embedded locally; optional system voices depend on device services. Spring Serif is a subset of Noto Serif SC, licensed under the SIL Open Font License 1.1; see the accompanying OFL-Noto.txt. -->\n  </head>`);
-if (/(?:src|href)\s*=\s*["']\/(?:assets|art|fonts|audio)\//i.test(html) || /<link\b[^>]*rel=["']modulepreload["']/i.test(html)) {
+html = html.replace('</head>', `<!-- Next Spring: Cinematic Life Edition ${version}. Original music is synthesized locally. Primary Chinese narration is prerecorded neural audio embedded locally; optional system voices depend on device services. Spring Serif is a subset of Noto Serif SC, licensed under the SIL Open Font License 1.1; see the accompanying OFL-Noto.txt. -->\n  </head>`);
+if (/(?:src|href)\s*=\s*["']\/(?:assets|art|fonts|audio|films)\//i.test(html) || /<link\b[^>]*rel=["']modulepreload["']/i.test(html)) {
   throw new Error('The HTML still requires a production asset request.');
 }
 await mkdir(path.dirname(destination), { recursive: true });

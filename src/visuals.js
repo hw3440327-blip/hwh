@@ -1,14 +1,15 @@
 import { scenes } from './story.js';
+import { filmForScene } from './films.js';
 
 export const artwork = {
-  arrival: '/art/immersive-arrival.png', spring: '/art/immersive-arrival.png',
-  bakery: '/art/immersive-bakery.png', room: '/art/immersive-room.png',
-  'room-night': '/art/immersive-room-night.png', workshop: '/art/immersive-workshop.png',
-  letters: '/art/immersive-letters.png', garden: '/art/immersive-garden.png',
-  bookshop: '/art/immersive-bookshop.webp', market: '/art/immersive-market.webp',
-  courtyard: '/art/immersive-courtyard.webp', shore: '/art/immersive-shore.webp',
-  community: '/art/immersive-community.png', kitchen: '/art/immersive-kitchen.png',
-  'winter-courtyard': '/art/immersive-winter-courtyard.png', 'vegetable-garden': '/art/immersive-vegetable-garden.png',
+  arrival: '/art/film-arrival.webp', spring: '/art/film-arrival.webp',
+  bakery: '/art/film-bakery.webp', room: '/art/immersive-room.webp',
+  'room-night': '/art/film-night.webp', workshop: '/art/film-workshop.webp',
+  letters: '/art/immersive-letters.webp', garden: '/art/film-garden.webp',
+  bookshop: '/art/film-bookshop.webp', market: '/art/immersive-market.webp',
+  courtyard: '/art/immersive-courtyard.webp', shore: '/art/film-shore.webp',
+  community: '/art/immersive-community.webp', kitchen: '/art/film-kitchen.webp',
+  'winter-courtyard': '/art/immersive-winter-courtyard.webp', 'vegetable-garden': '/art/film-garden.webp',
 };
 const sceneOverrides = {
   bookshop: 'bookshop', ending_bookshop: 'bookshop', farewell_bookshop: 'bookshop',
@@ -36,8 +37,11 @@ const paintedMoments = {
 };
 // The underlying place remains stable for narration and observations, while
 // these chapters receive their own painted time of life.
-export const getSceneArt = scene => artwork[paintedMoments[scene?.id] || sceneArtKey(scene)];
+export const getSceneArt = scene => filmForScene(scene)?.poster || artwork[paintedMoments[scene?.id] || sceneArtKey(scene)];
 export function memoryArt(memory) {
+  if (memory.id === 'discovery_tea') return artwork.kitchen;
+  if (memory.id === 'discovery_shells') return artwork.shore;
+  if (memory.id === 'discovery_photo') return artwork.bookshop;
   const momentImage = { moment_bread: 'bakery', moment_repair: 'workshop', moment_plant: 'room' }[memory.id];
   if (momentImage) return artwork[momentImage];
   const scene = memory.id.startsWith('echo:') ? scenes[memory.id.slice(5)] : Object.values(scenes).find(item => item.choices.some(choice => choice.memory?.id === memory.id));

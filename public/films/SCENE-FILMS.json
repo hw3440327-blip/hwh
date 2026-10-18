@@ -1,0 +1,94 @@
+{
+  "version": "3.0.0",
+  "production": "Painted scenes with integrated protagonist in six locations; local WebGL cinemagraph compositor; not full-body AI action video. All eight silent loops are embedded in the offline game.",
+  "shots": [
+    {
+      "key": "arrival",
+      "width": 1280,
+      "height": 720,
+      "seconds": 8,
+      "fps": 24,
+      "bytes": 2077631,
+      "sha256": "bf966733df93df7e53e3316c6d1bba6acdb20d098466ff88dfccea7d930ba661",
+      "sourceSha256": "18b34cc156f30f2b9239280b719bbf778f09dc6ec52abf1b682389c101c30c14",
+      "method": "Painted integrated character; continuous local UV deformation of cloth/hands/water/foliage; encoded H.264 silent loop, not an AI-generated action video."
+    },
+    {
+      "key": "bakery",
+      "width": 1280,
+      "height": 720,
+      "seconds": 8,
+      "fps": 24,
+      "bytes": 1265430,
+      "sha256": "cdcf357fd4580000d0607088c4df96f5e49dfc16eb06438e514173c97f6eff93",
+      "sourceSha256": "c4d96e34c92c5caf429830d84578ff6ef10368714ba79bce51ef65501c5ee45c",
+      "method": "Painted integrated character; continuous local UV deformation of cloth/hands/water/foliage; encoded H.264 silent loop, not an AI-generated action video."
+    },
+    {
+      "key": "bookshop",
+      "width": 1280,
+      "height": 720,
+      "seconds": 8,
+      "fps": 24,
+      "bytes": 2282509,
+      "sha256": "a24bbb373fbf6977fcfb1124af005bf07ca9661b8bebe322128d6d7d294a640b",
+      "sourceSha256": "eb66305ac711b7c10df2d10bf00038832276f5c2ebb20fe0f5c05a6387cf2fe4",
+      "method": "Painted integrated character; continuous local UV deformation of cloth/hands/water/foliage; encoded H.264 silent loop, not an AI-generated action video."
+    },
+    {
+      "key": "workshop",
+      "width": 1280,
+      "height": 720,
+      "seconds": 8,
+      "fps": 24,
+      "bytes": 1278355,
+      "sha256": "dedb0cb70e7d197318b36bd371b40524d1bb8e72dca075b3c290e54626de849f",
+      "sourceSha256": "9ae2a0df755574d05d75f8d8d61a311091b88323145b1a1a8dd9d7043761a360",
+      "method": "Painted integrated character; continuous local UV deformation of cloth/hands/water/foliage; encoded H.264 silent loop, not an AI-generated action video."
+    },
+    {
+      "key": "kitchen",
+      "width": 1280,
+      "height": 854,
+      "seconds": 8,
+      "fps": 24,
+      "bytes": 1840073,
+      "sha256": "a85d824613e16866e1ac13b45f18c1fdb73dfd35c9266d02f7e3706163609673",
+      "sourceSha256": "5dc17bb989b0366f44645eb442bd5169ed35c6eaf97b6da6195d56bbf374aa1f",
+      "method": "Painted integrated character; continuous local UV deformation of cloth/hands/water/foliage; encoded H.264 silent loop, not an AI-generated action video."
+    },
+    {
+      "key": "garden",
+      "width": 1280,
+      "height": 854,
+      "seconds": 8,
+      "fps": 24,
+      "bytes": 4465492,
+      "sha256": "d89270b6d5d344e36db20c9e1a23f843cb4036a47525fdf750841e36adf66eaa",
+      "sourceSha256": "a7912d4cf5bba2502ca6229af57e881cf556fd6760012a551e95d753d00d163c",
+      "method": "Painted integrated character; continuous local UV deformation of cloth/hands/water/foliage; encoded H.264 silent loop, not an AI-generated action video."
+    },
+    {
+      "key": "shore",
+      "width": 1280,
+      "height": 720,
+      "seconds": 8,
+      "fps": 24,
+      "bytes": 4095624,
+      "sha256": "d0ec5e4fd269f45b3b608417091c4f4ca05f852c8a04a86700988ad66027c303",
+      "sourceSha256": "63bb6890f8b88586337f8ac1f73169cb772a682f1d5461b68f5a8f061b513fa5",
+      "method": "Painted integrated character; continuous local UV deformation of cloth/hands/water/foliage; encoded H.264 silent loop, not an AI-generated action video."
+    },
+    {
+      "key": "night",
+      "width": 1280,
+      "height": 720,
+      "seconds": 8,
+      "fps": 24,
+      "bytes": 1163364,
+      "sha256": "493478292b7d39cf14f67dc2604a8febc8396a2a3b5afd541f26221800a359d0",
+      "sourceSha256": "001d05852a7c48544709ae3cfd27818b15f77339da839a0ba3512b1e29920657",
+      "method": "Painted integrated character; continuous local UV deformation of cloth/hands/water/foliage; encoded H.264 silent loop, not an AI-generated action video."
+    }
+  ]
+}

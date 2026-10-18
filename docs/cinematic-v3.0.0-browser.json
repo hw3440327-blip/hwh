@@ -1,0 +1,198 @@
+{
+  "checks": [
+    {
+      "name": "title and story native film playback, painted protagonist and changing pixels",
+      "status": "pass",
+      "details": {
+        "title": {
+          "w": 1280,
+          "h": 720,
+          "duration": 8,
+          "time": 0.146024,
+          "muted": true
+        },
+        "changedPixels": 3847,
+        "sampledPixels": 9600,
+        "mascot": false
+      }
+    },
+    {
+      "name": "landscape stays open, closeup plays, real lens drag and zoom, resume paragraph",
+      "status": "pass",
+      "details": {
+        "pause": true,
+        "zoom": true,
+        "drag": true,
+        "paragraphPreserved": true
+      }
+    },
+    {
+      "name": "painted tea table, actual pot drag continuous pour, partial save, completion",
+      "status": "pass",
+      "details": {
+        "dragFilled": 45,
+        "completed": true,
+        "partialSave": true
+      }
+    },
+    {
+      "name": "real frame photo, caption, original JPEG download and persistent album",
+      "status": "pass",
+      "details": {
+        "jpegChars": 51463,
+        "dims": [
+          512,
+          384
+        ],
+        "caption": "把今天的阳光，分一点给明天。",
+        "download": true
+      }
+    },
+    {
+      "name": "shell discovery, physical drag, keyboard rotation, completion and reload",
+      "status": "pass",
+      "details": {
+        "found": [
+          0,
+          1,
+          2
+        ],
+        "layout": [
+          {
+            "x": 0.639999977429218,
+            "y": 0.5200000217982701,
+            "angle": -3
+          },
+          {
+            "x": 0.5,
+            "y": 0.43,
+            "angle": 12
+          },
+          {
+            "x": 0.7,
+            "y": 0.54,
+            "angle": -8
+          }
+        ],
+        "completed": true
+      }
+    },
+    {
+      "name": "all eight H264 scene films actually decode",
+      "status": "pass",
+      "details": [
+        {
+          "file": "arrival.mp4",
+          "duration": 8,
+          "width": 1280,
+          "height": 720,
+          "error": null
+        },
+        {
+          "file": "bakery.mp4",
+          "duration": 8,
+          "width": 1280,
+          "height": 720,
+          "error": null
+        },
+        {
+          "file": "bookshop.mp4",
+          "duration": 8,
+          "width": 1280,
+          "height": 720,
+          "error": null
+        },
+        {
+          "file": "workshop.mp4",
+          "duration": 8,
+          "width": 1280,
+          "height": 720,
+          "error": null
+        },
+        {
+          "file": "kitchen.mp4",
+          "duration": 8,
+          "width": 1280,
+          "height": 854,
+          "error": null
+        },
+        {
+          "file": "garden.mp4",
+          "duration": 8,
+          "width": 1280,
+          "height": 854,
+          "error": null
+        },
+        {
+          "file": "shore.mp4",
+          "duration": 8,
+          "width": 1280,
+          "height": 720,
+          "error": null
+        },
+        {
+          "file": "night.mp4",
+          "duration": 8,
+          "width": 1280,
+          "height": 720,
+          "error": null
+        }
+      ]
+    },
+    {
+      "name": "mobile landscape, tea/photo/shell layouts and reduced motion",
+      "status": "pass",
+      "details": [
+        {
+          "id": "tea",
+          "width": 390,
+          "scroll": 390,
+          "dialog": {
+            "x": 9,
+            "y": 63.890625,
+            "width": 372,
+            "height": 716.21875,
+            "top": 63.890625,
+            "right": 381,
+            "bottom": 780.109375,
+            "left": 9
+          }
+        },
+        {
+          "id": "photo",
+          "width": 390,
+          "scroll": 390,
+          "dialog": {
+            "x": 9,
+            "y": 136.078125,
+            "width": 372,
+            "height": 571.828125,
+            "top": 136.078125,
+            "right": 381,
+            "bottom": 707.90625,
+            "left": 9
+          }
+        },
+        {
+          "id": "shells",
+          "width": 390,
+          "scroll": 390,
+          "dialog": {
+            "x": 9,
+            "y": 72.53125,
+            "width": 372,
+            "height": 698.9375,
+            "top": 72.53125,
+            "right": 381,
+            "bottom": 771.46875,
+            "left": 9
+          }
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "passed": 7,
+  "failed": 0,
+  "browserErrors": 0
+}

@@ -4,7 +4,9 @@ import {
   HandHeart, Headphones, RotateCcw, Sprout, Volume2, VolumeX, X,
 } from 'lucide-react';
 import { getSceneArt, sceneDescription, sceneDetails, sceneArtKey } from './visuals.js';
-import SceneAtmosphere, { SceneTraveler, atmosphereKind } from './SceneAtmosphere.jsx';
+import SceneAtmosphere, { atmosphereKind } from './SceneAtmosphere.jsx';
+import FilmScene from './FilmScene.jsx';
+import { filmForScene } from './films.js';
 import './cinematic-scene.css';
 
 const chapterNumbers = ['一', '二', '三', '四', '五', '六', '七', '八'];
@@ -32,7 +34,7 @@ export default function CinematicScene({
   game, scene, chapter, paragraphs = [], choices = [], onChoose, onMenu,
   onSound, soundEnabled = false, preferences = {}, onReincarnate, onReview, onProgress,
   initialParagraphIndex = 0,
-  activity = null, activityDone = false, onActivity,
+  activity = null, activityDone = false, onActivity, discoveries = [], onDiscover,
   onNarrationChange, onNarration, onNarrationReplay, narrationEnabled = false,
   narrationSupported = false, narrationSpeaking = false, narrationCompleted = null, autoNarration = true,
 }) {
@@ -45,10 +47,7 @@ export default function CinematicScene({
   const [observing, setObserving] = useState(null);
   const [ageTransition, setAgeTransition] = useState(null);
   const [previousArt, setPreviousArt] = useState(null);
-  const [travelerMoment, setTravelerMoment] = useState(false);
-  const travelerTimer = useRef(null);
-  useEffect(() => () => clearTimeout(travelerTimer.current), []);
-  useEffect(() => { setTravelerMoment(false); clearTimeout(travelerTimer.current); }, [scene.id]);
+  const lookPointer = useRef(null);
   const currentArt = getSceneArt(scene);
   const artRef = useRef(currentArt);
   const ageRef = useRef(scene.age || 22);
@@ -78,7 +77,13 @@ export default function CinematicScene({
   const narrationText = observing ? `${observing.label}。${observing.text}${observing.connection}` : landscape ? '' : paragraph;
   const narrationKey = observing ? `detail:${scene.id}:${observing.id}` : landscape ? '' : storyUtteranceKey;
   const narrationPaused = Boolean(paused || ageTransition || (landscape && !observing));
-  const travelerVisible = preferences.showTraveler !== false && !['life_slow', 'life_farewell'].includes(scene.id);
+  const filmQuiet = quietMotion || preferences.filmMotion === false;
+  function lookAround(event) {
+    if (quietMotion || paused || observing || (event.pointerType !== 'mouse' && !lookPointer.current)) return;
+    const bounds = screenRef.current.getBoundingClientRect();
+    screenRef.current.style.setProperty('--look-x', `${((event.clientX - bounds.left) / bounds.width - .5) * -26}px`);
+    screenRef.current.style.setProperty('--look-y', `${((event.clientY - bounds.top) / bounds.height - .5) * -14}px`);
+  }
 
   useEffect(() => {
     narrationRef.current?.({ text: narrationText, utteranceKey: narrationKey, paused: narrationPaused });
@@ -219,9 +224,9 @@ export default function CinematicScene({
       aria-label={`${chapter?.title || '人生旅程'} · ${scene.title}`}
     >
       <div className="cm-world" aria-hidden="true">
-        <img key={currentArt} className="cm-world-image" src={currentArt} alt="" />
+        <FilmScene key={currentArt} scene={scene} poster={currentArt} className="cm-world-plate" paused={paused || Boolean(observing)} quiet={filmQuiet} />
         {previousArt && <img className="cm-world-image cm-world-previous" src={previousArt} alt="" />}
-        <SceneAtmosphere scene={scene} />
+        {!filmForScene(scene) && <SceneAtmosphere scene={scene} />}
         <div className="cm-world-shade" />
         <div className="cm-world-grain" />
         {rainy && ['coast', 'garden'].includes(atmosphereKind(scene)) ? <div className="cm-rain">{Array.from({ length: 16 }, (_, index) => (
@@ -230,12 +235,7 @@ export default function CinematicScene({
           <i key={index} style={{ '--i': index }} />
         ))}</div>}
       </div>
-      {travelerVisible && <SceneTraveler place={sceneArtKey(scene)} age={scene.age || 22} name={game.name} active={travelerMoment} landscape={landscape} />}
       <p className="cm-accessible-text">{sceneDescription(scene)}</p>
-      {landscape && !observing && travelerVisible && <button className="sa-traveler-control" disabled={paused} onClick={() => {
-        setTravelerMoment(true); clearTimeout(travelerTimer.current);
-        travelerTimer.current = setTimeout(() => setTravelerMoment(false), 2300);
-      }} aria-label="陪主人公伸个懒腰"><HandHeart size={14} aria-hidden="true" />伸个懒腰{travelerMoment && <small role="status">肩膀，好像轻了一点。</small>}</button>}
 
       <header className="cm-header" inert={Boolean(observing)} aria-hidden={Boolean(observing)}>
         <div className="cm-brand"><Sprout size={24} strokeWidth={1.25} aria-hidden="true" />
@@ -275,22 +275,20 @@ export default function CinematicScene({
         <p><MapPin size={12} strokeWidth={1.4} aria-hidden="true" />{scene.location}<span className="cm-meta-divider">/</span>{scene.time}</p>
       </div>}
 
-      {landscape ? <div className="cm-landscape" inert={Boolean(observing)} aria-hidden={Boolean(observing)} onClick={() => { setLandscape(false); setObserving(null); }}>
+      {landscape ? <div className="cm-landscape cf-exploring" inert={Boolean(observing)} aria-hidden={Boolean(observing)}
+        onPointerDown={event => { if (!event.target.closest('button')) lookPointer.current = true; }} onPointerMove={lookAround} onPointerUp={() => { lookPointer.current = null; }} onPointerCancel={() => { lookPointer.current = null; }}>
+        <div className="cf-wander-heading"><span>这一页，先不急着翻过去。</span><h2>{scene.location.split('·').at(-1).trim()}</h2><p>{filmForScene(scene) ? '让视线随风走一走，靠近那些有光的地方。' : '在细小的日常里，找一处愿意停下的地方。'}</p></div>
         <div className="cm-detail-points" aria-label="观察身边的风景">
-          {details.map((detail) => <button key={detail.id} className={`cm-detail-point${observing?.id === detail.id ? ' is-observing' : ''}`}
-            style={{ left: `${Math.min(88, Math.max(12, detail.x))}%`, top: `${Math.min(72, Math.max(20, detail.y))}%` }}
-            onClick={(event) => { event.stopPropagation(); observationTriggerRef.current = event.currentTarget; setObserving(detail); }} disabled={paused}
-            aria-label={`仔细看看${detail.label}`} aria-pressed={observing?.id === detail.id}>
-            <span className="cm-detail-glow" /><span className="cm-detail-label">{detail.label}</span>
+          {details.map(detail => <button key={detail.id} className="cm-detail-point" style={{left:`${Math.min(88,Math.max(12,detail.x))}%`,top:`${Math.min(66,Math.max(22,detail.y))}%`}} disabled={paused}
+            onClick={event => { observationTriggerRef.current = event.currentTarget; setObserving(detail); }} aria-label={`仔细看看${detail.label}`}>
+            <span className="cm-detail-glow"/><span className="cm-detail-label">{detail.label}</span>
           </button>)}
         </div>
-        {activity && <button className="cm-landscape-activity" onClick={(event) => { event.stopPropagation(); onActivity?.(); }} disabled={paused}>
-          <HandHeart size={19} strokeWidth={1.3} aria-hidden="true" /><span>{activityDone ? '看看亲手留下的温暖' : activity.actionLabel || activity.title}</span><ChevronRight size={15} />
-        </button>}
-        <div className="cm-landscape-thought"><Leaf size={20} strokeWidth={1} aria-hidden="true" /><p>{scene.note || '什么也不用着急，先在这里待一会儿。'}</p></div>
-        <button className="cm-return-story" onClick={(event) => { event.stopPropagation(); setLandscape(false); }} aria-label="返回故事，继续当前段落">
-          <ArrowLeft size={16} strokeWidth={1.3} aria-hidden="true" />返回故事
-        </button>
+        <div className="cf-explore-bottom"><p>{scene.note || '什么也不用着急，先在这里待一会儿。'}</p><div className="cf-explore-actions">
+          {discoveries.map(item => <button className={'cf-discover cf-discover-'+item.id} key={item.id} onClick={() => onDiscover?.(item.id)} disabled={paused}><span>{item.id === 'photo' ? '留一束光' : item.id === 'tea' ? '沏一盏茶' : '拾起潮汐的信'}</span><ChevronRight size={14}/></button>)}
+          {activity && <button className="cm-landscape-activity" onClick={() => onActivity?.()} disabled={paused}><HandHeart size={16}/>{activityDone ? '看看手作的成果' : activity.title}</button>}
+          <button className="cm-return-story" onClick={() => setLandscape(false)} aria-label="返回故事，继续当前段落"><ArrowLeft size={15}/>回到故事里</button>
+        </div></div>
       </div> : <main className="cm-story-stage">
         <div className="cm-reader" key={scene.id}>
           <div className="cm-reader-topline">
@@ -356,25 +354,28 @@ export default function CinematicScene({
 
       {observing && <ObservationDialog key={`${scene.id}:${observing.id}`} detail={observing} scene={scene} art={currentArt}
         onClose={() => setObserving(null)} returnTo={observationTriggerRef.current} paused={paused}
-        onReplay={narrationEnabled ? onNarrationReplay : null} />}
+        onReplay={narrationEnabled ? onNarrationReplay : null} quiet={filmQuiet} />}
       <footer className="cm-screen-foot" aria-hidden="true"><span>栖屿镇</span><i />时间在这里，走得慢一些。</footer>
     </section>
   );
 }
 
-function ObservationDialog({ detail, scene, art, onClose, returnTo, paused, onReplay }) {
+function ObservationDialog({ detail, scene, art, onClose, returnTo, paused, onReplay, quiet }) {
   const dialogRef = useRef(null);
   const frameRef = useRef(null);
   const closeRef = useRef(onClose);
   const pausedRef = useRef(paused);
   closeRef.current = onClose; pausedRef.current = paused;
+  const [pan, setPan] = useState({x:0,y:0});
+  const [lens, setLens] = useState(1);
+  const pointer = useRef(null);
   const [frameSize, setFrameSize] = useState({ width: 800, height: 400 });
   const [imageSize, setImageSize] = useState({ width: 1672, height: 941 });
-  const scale = Math.max(frameSize.width / imageSize.width, frameSize.height / imageSize.height) * (detail.zoom || 2.15);
+  const scale = Math.max(frameSize.width / imageSize.width, frameSize.height / imageSize.height) * (detail.zoom || 2.15) * lens;
   const imageWidth = imageSize.width * scale;
   const imageHeight = imageSize.height * scale;
-  const left = Math.min(0, Math.max(frameSize.width - imageWidth, frameSize.width / 2 - imageWidth * (detail.focusX ?? detail.x) / 100));
-  const top = Math.min(0, Math.max(frameSize.height - imageHeight, frameSize.height / 2 - imageHeight * (detail.focusY ?? detail.y) / 100));
+  const left = Math.min(0, Math.max(frameSize.width - imageWidth, frameSize.width / 2 - imageWidth * (detail.focusX ?? detail.x) / 100 + pan.x));
+  const top = Math.min(0, Math.max(frameSize.height - imageHeight, frameSize.height / 2 - imageHeight * (detail.focusY ?? detail.y) / 100 + pan.y));
 
   useEffect(() => {
     const frame = frameRef.current;
@@ -409,13 +410,13 @@ function ObservationDialog({ detail, scene, art, onClose, returnTo, paused, onRe
   return <div className="cm-closeup-backdrop" onClick={event => { event.stopPropagation(); if (event.target === event.currentTarget) onClose(); }}>
     <section className="cm-closeup-dialog" ref={dialogRef} role="dialog" aria-modal="true" aria-label={`仔细看看${detail.label}`}
       aria-describedby="cm-detail-description cm-detail-connection" onClick={event => event.stopPropagation()}>
-      <div ref={frameRef} className="cm-closeup-frame">
-        <img className="cm-closeup-image" src={art} alt={`${detail.label}的近景`}
-          onLoad={event => setImageSize({ width: event.currentTarget.naturalWidth, height: event.currentTarget.naturalHeight })}
-          style={{ width: imageWidth, height: imageHeight, left, top }} />
-        <div className="cm-closeup-vignette" />
-        <SceneAtmosphere scene={scene} closeup detailId={detail.id} interactive />
-        <span className="cm-closeup-touch-hint" aria-hidden="true">轻触画面，让这一刻动起来</span>
+      <div ref={frameRef} className="cm-closeup-frame cf-lens-frame" onPointerDown={event => { if(event.target.closest('button'))return; pointer.current={x:event.clientX,y:event.clientY,pan};event.currentTarget.setPointerCapture(event.pointerId); }}
+        onPointerMove={event => { const start=pointer.current;if(start)setPan({x:start.pan.x+event.clientX-start.x,y:start.pan.y+event.clientY-start.y}); }} onPointerUp={() => pointer.current=null} onPointerCancel={() => pointer.current=null}>
+        <FilmScene scene={scene} poster={art} className="film-observation" paused={paused} quiet={quiet}
+          onImageLoad={event => setImageSize({width:event.currentTarget.naturalWidth,height:event.currentTarget.naturalHeight})} style={{width:imageWidth,height:imageHeight,left,top}} />
+        <div className="cm-closeup-vignette"/>
+        <span className="cm-closeup-touch-hint">拖动镜头，慢慢靠近</span>
+        <div className="cf-lens-controls"><button onClick={() => { setLens(l=>Math.max(.75,l-.12));setPan({x:0,y:0}); }} aria-label="镜头退远一点">−</button><span>近处的生活</span><button onClick={() => { setLens(l=>Math.min(1.4,l+.12));setPan({x:0,y:0}); }} aria-label="镜头靠近一点">＋</button></div>
         <span className="cm-closeup-location"><MapPin size={12} strokeWidth={1.4} aria-hidden="true" />{scene.location}</span>
         <button className="cm-closeup-close" onClick={onClose} disabled={paused} aria-label="关闭细节特写"><X size={21} strokeWidth={1.4} aria-hidden="true" /></button>
       </div>
