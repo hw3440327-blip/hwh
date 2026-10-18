@@ -2,6 +2,7 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, Droplets, Flame, Flower2, Hand, Leaf, RotateCw, Sparkles, Sun, Wheat, Wind, X } from 'lucide-react';
 import { activityProgress } from './activities.js';
 import { artwork } from './visuals.js';
+import { artworkPreview } from './artworkAssets.js';
 import './life-activity.css';
 
 const activityCopy = {
@@ -239,7 +240,7 @@ export default function LifeActivity({ game, activity, onAction, onClose, quietM
     <section ref={dialogRef} data-gesture={gesture?.kind || ''} className={'la-dialog la-kind-' + activity.id + (progress.completed ? ' la-completed' : '')} role="dialog" aria-modal="true" aria-labelledby={id + '-title'} aria-describedby={id + '-intro'}>
       <header className="la-header"><div className="la-heading"><span className="la-eyebrow"><Leaf size={13} strokeWidth={1.3} aria-hidden="true" />小镇里的慢时光</span><h2 id={id + '-title'}>{activity.title}</h2><p id={id + '-intro'}>{copy.eyebrow}</p></div><button type="button" className="la-close" onClick={onClose} aria-label="收好手边的事，返回故事"><X size={21} strokeWidth={1.4} aria-hidden="true" /></button></header>
       <div className="la-scroll-area">
-        <div className="la-tableau-banner" aria-hidden="true"><img src={artwork[activity.id === 'bread' ? 'bakery' : activity.id === 'repair' ? 'community' : 'vegetable-garden']} alt="" draggable="false" /><span>{activity.id === 'bread' ? '清晨的面包房' : activity.id === 'repair' ? '靠窗的手作桌' : '有阳光的窗边'}</span><i /></div>
+        <div className="la-tableau-banner" aria-hidden="true"><img src={artworkPreview(artwork[activity.id === 'bread' ? 'bakery' : activity.id === 'repair' ? 'community' : 'vegetable-garden'])} alt="" draggable="false" /><span>{activity.id === 'bread' ? '清晨的面包房' : activity.id === 'repair' ? '靠窗的手作桌' : '有阳光的窗边'}</span><i /></div>
         <ol className="la-step-rail" aria-label="这件小事的进度">{copy.steps.map((step, index) => <li key={step} className={stageIndex > index || progress.completed ? 'is-done' : stageIndex === index ? 'is-current' : ''} aria-current={stageIndex === index && !progress.completed ? 'step' : undefined}><span>{stageIndex > index || progress.completed ? <Check size={12} aria-hidden="true" /> : <i />}</span><small>{step}</small></li>)}</ol>
         <div className="la-npc-note"><span className="la-npc-seal" aria-hidden="true">{copy.person[0]}</span><div><span>{activity.id === 'plant' ? '你在心里，轻轻说' : activity.id === 'repair' ? '想起周予的叮嘱' : copy.person + '轻声说'}</span><p role="status" aria-live="polite" aria-atomic="true">{status}</p></div></div>
         {gesture && <div key={gesture.sequence} className={'la-gesture-effects la-effect-' + gesture.kind} aria-hidden="true">{Array.from({ length: 12 }, (_, i) => <i key={i} style={{ '--n': i }} />)}</div>}

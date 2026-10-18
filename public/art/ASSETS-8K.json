@@ -1,0 +1,426 @@
+{
+  "version": "3.2.0",
+  "backgrounds": 16,
+  "native8K": false,
+  "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+  "assets": [
+    {
+      "key": "arrival",
+      "src": "/art/film-arrival.webp",
+      "width": 7680,
+      "height": 4324,
+      "bytes": 3258614,
+      "sha256": "f91e70bbafdd1bd76f48d659293efa9afda010d4df3984f818d44843d5aba734",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "enhancedDimensions": [
+        1671,
+        941
+      ],
+      "enhancedSourceSha256": "1cf18847e119b8f97c217b52d92a0d3465ae51b9b2cce6d9eca6817bea7984ae",
+      "sourceSha256": "18b34cc156f30f2b9239280b719bbf778f09dc6ec52abf1b682389c101c30c14",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/film-arrival.webp",
+      "previewWidth": 640,
+      "previewHeight": 360,
+      "previewBytes": 82352,
+      "previewSha256": "81365b6951ab7fbef0554b8badf7363a992c1c3fecdca79cc04961dd5f62c288"
+    },
+    {
+      "key": "bakery",
+      "src": "/art/film-bakery.webp",
+      "width": 7680,
+      "height": 4322,
+      "bytes": 2228382,
+      "sha256": "79090ec138361933dfa959a57e4cf350fa998dd5f7b5420f6f609eef2c1be96a",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "enhancedDimensions": [
+        1672,
+        941
+      ],
+      "enhancedSourceSha256": "a6877be4b8e1c494d7e92522872c9f48123bff75f749942d15440f76a4f73662",
+      "sourceSha256": "c4d96e34c92c5caf429830d84578ff6ef10368714ba79bce51ef65501c5ee45c",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/film-bakery.webp",
+      "previewWidth": 640,
+      "previewHeight": 360,
+      "previewBytes": 69246,
+      "previewSha256": "f3138ec9284fef6e947841de74c08692f5a4900348befb8a8e234696c5deb726"
+    },
+    {
+      "key": "bookshop",
+      "src": "/art/film-bookshop.webp",
+      "width": 7680,
+      "height": 4322,
+      "bytes": 2472180,
+      "sha256": "b88857220bb85a94afb412346117b261b33d33d49635400af8d94818197fa14e",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "enhancedDimensions": [
+        1672,
+        941
+      ],
+      "enhancedSourceSha256": "156fce78db8f9aa61c48be40a9b82f5eb0544ebfbd18a14fd1b6135ae74e3392",
+      "sourceSha256": "eb66305ac711b7c10df2d10bf00038832276f5c2ebb20fe0f5c05a6387cf2fe4",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/film-bookshop.webp",
+      "previewWidth": 640,
+      "previewHeight": 360,
+      "previewBytes": 74098,
+      "previewSha256": "5b6d97727dc86c8eb4bb367062e89c42de01d07540f131c8415f66557a7b3fa5"
+    },
+    {
+      "key": "workshop",
+      "src": "/art/film-workshop.webp",
+      "width": 7680,
+      "height": 4322,
+      "bytes": 2171932,
+      "sha256": "6752d2255dd45207af9300e7faacddd130e2f823c5dca425bb5e5d5404adb6cf",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "enhancedDimensions": [
+        1672,
+        941
+      ],
+      "enhancedSourceSha256": "e3d54cb025955e647d2e13f39c88e8ef8b4b80362cdb95d0c038c55fdfa2ef8c",
+      "sourceSha256": "9ae2a0df755574d05d75f8d8d61a311091b88323145b1a1a8dd9d7043761a360",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/film-workshop.webp",
+      "previewWidth": 640,
+      "previewHeight": 360,
+      "previewBytes": 66632,
+      "previewSha256": "bdb553e631d9ba8805348d304bf27db21ec51941a0fa8250e8cd3cdf26bdc087"
+    },
+    {
+      "key": "kitchen",
+      "src": "/art/film-kitchen.webp",
+      "width": 7680,
+      "height": 5120,
+      "bytes": 3354242,
+      "sha256": "a2a0df32416bc633d9b18baac4cd46685f257f1d9e9f5cc35a6646f65d24c8d0",
+      "sourceDimensions": [
+        1536,
+        1024
+      ],
+      "enhancedDimensions": [
+        1536,
+        1024
+      ],
+      "enhancedSourceSha256": "0df81d702b34873371e05d1f255b6f132a4258e4beca6669fd963e9bd51bfde6",
+      "sourceSha256": "5dc17bb989b0366f44645eb442bd5169ed35c6eaf97b6da6195d56bbf374aa1f",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/film-kitchen.webp",
+      "previewWidth": 640,
+      "previewHeight": 427,
+      "previewBytes": 88182,
+      "previewSha256": "db51be739f0d6893aa64a37fff589e86c21d6308f0aeb400ea9f9092482d671d"
+    },
+    {
+      "key": "garden",
+      "src": "/art/film-garden.webp",
+      "width": 7680,
+      "height": 5120,
+      "bytes": 5491940,
+      "sha256": "f80fa62a780cb638b77589bb8d7965c7d9c110924004157968df50164b3f1d25",
+      "sourceDimensions": [
+        1536,
+        1024
+      ],
+      "enhancedDimensions": [
+        1536,
+        1024
+      ],
+      "enhancedSourceSha256": "1d0ca1463545398783eb65712951513e9f8d3ffdac23914ceacb4e7178df02ab",
+      "sourceSha256": "a7912d4cf5bba2502ca6229af57e881cf556fd6760012a551e95d753d00d163c",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/film-garden.webp",
+      "previewWidth": 640,
+      "previewHeight": 427,
+      "previewBytes": 133318,
+      "previewSha256": "02cddecb035719f36f7ed183b2b10d321da84a80372bee736f481b353197630e"
+    },
+    {
+      "key": "shore",
+      "src": "/art/film-shore.webp",
+      "width": 7680,
+      "height": 4322,
+      "bytes": 3939052,
+      "sha256": "52f70e96f48e13453a63617972d82b1f82493c795c92902c06aa5e9770c6ab21",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "enhancedDimensions": [
+        1672,
+        941
+      ],
+      "enhancedSourceSha256": "8e7023bb3bdc612731f4c57ab7be3b5d946b198cfa63394e667982f8b9a97aa0",
+      "sourceSha256": "63bb6890f8b88586337f8ac1f73169cb772a682f1d5461b68f5a8f061b513fa5",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/film-shore.webp",
+      "previewWidth": 640,
+      "previewHeight": 360,
+      "previewBytes": 96916,
+      "previewSha256": "4fc546b6e275622966c877e275139947a3b2cd7e2324a94c2dc7cc64468d9602"
+    },
+    {
+      "key": "night",
+      "src": "/art/film-night.webp",
+      "width": 7680,
+      "height": 4322,
+      "bytes": 1990368,
+      "sha256": "6cfebf925b74f1460a40e9ea72da202b12ceec291dad3461d07c740bf085d028",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "enhancedDimensions": [
+        1672,
+        941
+      ],
+      "enhancedSourceSha256": "9aa604e2a6466cd2f60d0897f0fd932bf747d8cb887c5c3bd53137508c36ac39",
+      "sourceSha256": "001d05852a7c48544709ae3cfd27818b15f77339da839a0ba3512b1e29920657",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/film-night.webp",
+      "previewWidth": 640,
+      "previewHeight": 360,
+      "previewBytes": 57006,
+      "previewSha256": "8fbac6646be8ed6faf2bd387023edaee2f9434a4fcb2d88de21ac3af176e8969"
+    },
+    {
+      "key": "room",
+      "src": "/art/immersive-room.webp",
+      "width": 7680,
+      "height": 4322,
+      "bytes": 2232986,
+      "sha256": "0f72935575defd21e4a0fe59a418d03c83a6940219b37a378b232ac6a34fb7bd",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "enhancedDimensions": [
+        1672,
+        941
+      ],
+      "enhancedSourceSha256": "8c3b7d6378ae94a59433ff87db3eb84c9ee2ca73e885dd76e99af8e2b270e4a4",
+      "sourceSha256": "9e28c76d2392b86ae90c6b82a1ddf9d39ed65374ac697a677981d953498e82e9",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/immersive-room.webp",
+      "previewWidth": 640,
+      "previewHeight": 360,
+      "previewBytes": 64012,
+      "previewSha256": "86000e2efe292dd81a0afd15103a32d49ad705467f5277619ac1195816dba7c3"
+    },
+    {
+      "key": "letters",
+      "src": "/art/immersive-letters.webp",
+      "width": 7680,
+      "height": 4322,
+      "bytes": 2266334,
+      "sha256": "229645da01ae5137b23f84a7ad24bdd79e8883eefb80c3317d52e595257c077d",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "enhancedDimensions": [
+        1672,
+        941
+      ],
+      "enhancedSourceSha256": "ad4635e1d88d8926f1ceb1bdaa1658925d4037090f651ca506436a7f74c3fde1",
+      "sourceSha256": "1ffd62a7cd0879229ad71fc1332fd4640b82e403173629baba65508eb12d4325",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/immersive-letters.webp",
+      "previewWidth": 640,
+      "previewHeight": 360,
+      "previewBytes": 62138,
+      "previewSha256": "59cd7a8ba121fa60303e351285e444f6ad819aa9ab262fba280f2a1dabaee6b8"
+    },
+    {
+      "key": "community",
+      "src": "/art/immersive-community.webp",
+      "width": 7680,
+      "height": 5120,
+      "bytes": 3334582,
+      "sha256": "65f52ac8344bc73ea6d7180360421015552f3dc624ca3fce9726c1eae114ec22",
+      "sourceDimensions": [
+        1536,
+        1024
+      ],
+      "enhancedDimensions": [
+        1536,
+        1024
+      ],
+      "enhancedSourceSha256": "79296287973fd3fd55f0248f12db9e30954de92cd62feba6cbce504551fac520",
+      "sourceSha256": "fb42aee361844dbaa82bd760884879639913c053ed7c65ef9ce3db27953570df",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/immersive-community.webp",
+      "previewWidth": 640,
+      "previewHeight": 427,
+      "previewBytes": 94330,
+      "previewSha256": "a0329d7ef474292b9250ae432e44c11d066bf56bb6f9d3f2aae160d237fa8214"
+    },
+    {
+      "key": "market",
+      "src": "/art/immersive-market.webp",
+      "width": 7680,
+      "height": 4322,
+      "bytes": 3909394,
+      "sha256": "abea07ee807731aad7ece46326dcc8da25314509fcbdf0e732bf1390cb60ce5e",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "enhancedDimensions": [
+        1672,
+        941
+      ],
+      "enhancedSourceSha256": "76cc233a4ba5574e8e24b9cd92e8dbd2d8bcd9c0e68bfbfb51cc878260c34dd6",
+      "sourceSha256": "00b938ab2343c25db9fff295e916a6892f848ce3db4ba97027d6bea546e58d86",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/immersive-market.webp",
+      "previewWidth": 640,
+      "previewHeight": 360,
+      "previewBytes": 100038,
+      "previewSha256": "80dd6b9bbf4860d3bb7b91471cbaabdfeb0dadb981e860057efce08b87f22245"
+    },
+    {
+      "key": "courtyard",
+      "src": "/art/immersive-courtyard.webp",
+      "width": 7680,
+      "height": 4322,
+      "bytes": 3565590,
+      "sha256": "2b527c38869c26066430d0bc8246c32c49d164e87b9f123210529d2bdaca20bb",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "enhancedDimensions": [
+        1672,
+        941
+      ],
+      "enhancedSourceSha256": "cedae5968a74ecca5af982192a3be912ae9c340faaf63860acd25027f407fb94",
+      "sourceSha256": "e548715f094c9d37646ba966b640d2a84a6cc9a52d04e6961f6cbb57f4c66ab3",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/immersive-courtyard.webp",
+      "previewWidth": 640,
+      "previewHeight": 360,
+      "previewBytes": 92484,
+      "previewSha256": "f34c0b8ef25d6186b19efa21ef4644f188fc49d3236d068d2442170db5886362"
+    },
+    {
+      "key": "winter",
+      "src": "/art/immersive-winter-courtyard.webp",
+      "width": 7680,
+      "height": 5120,
+      "bytes": 4392666,
+      "sha256": "7f36b748c532943a4c5fdf122539b62a2beaf84ca5be7f7ad7552b4d5917208e",
+      "sourceDimensions": [
+        1536,
+        1024
+      ],
+      "enhancedDimensions": [
+        1536,
+        1024
+      ],
+      "enhancedSourceSha256": "15d553d079363d8e3e8660e68151ad6c7291a793932dbd98aad36f157881232a",
+      "sourceSha256": "89e99a59f41260fbf01ea622a9805b0afc7a4644d871a13cb4eba6998f10eaa5",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/immersive-winter-courtyard.webp",
+      "previewWidth": 640,
+      "previewHeight": 427,
+      "previewBytes": 118412,
+      "previewSha256": "29b4b26324ed70e8c567681c8bd22ac85c84342c94bfc16a802b4796f5a55e77"
+    },
+    {
+      "key": "tea",
+      "src": "/art/play-tea-table.webp",
+      "width": 7680,
+      "height": 5120,
+      "bytes": 3896514,
+      "sha256": "0113ce9e9a5366c72290ff27452d8ba0e89c2d1f4f1ac9dd565f73dc8a0c1c64",
+      "sourceDimensions": [
+        1536,
+        1024
+      ],
+      "enhancedDimensions": [
+        1536,
+        1024
+      ],
+      "enhancedSourceSha256": "f01dec6a579a912f4fe46d081f75d215c6d36b3e2bfe3467299963840cc4ba4a",
+      "sourceSha256": "db6039e1f3d13e00b18d7ff88c34769d29babfb8e34133cb41b476b0f20dcda3",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/play-tea-table.webp",
+      "previewWidth": 640,
+      "previewHeight": 427,
+      "previewBytes": 103448,
+      "previewSha256": "fff65da09b1bcd529106ddc14a91602f4e45d308645955ac238fdf1572c81f34"
+    },
+    {
+      "key": "shells",
+      "src": "/art/play-shell-shore.webp",
+      "width": 7680,
+      "height": 5120,
+      "bytes": 2898358,
+      "sha256": "c995298953b01ff0f1b045f75c45410c9dccc2a6dbbf20e9c8e911b7dd2fcdad",
+      "sourceDimensions": [
+        1536,
+        1024
+      ],
+      "enhancedDimensions": [
+        1536,
+        1024
+      ],
+      "enhancedSourceSha256": "7a378e09945061272410c5570c9a58f4648f7dd9d192b66076b1aad2700b0a1b",
+      "sourceSha256": "fe66c699cdf5eebe9c3772d31d566c5e31d4339dcc70187f44b44074dc4e39e1",
+      "native8K": false,
+      "resampling": "AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90",
+      "modelSha256": "5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf",
+      "preview": "/art/previews/play-shell-shore.webp",
+      "previewWidth": 640,
+      "previewHeight": 427,
+      "previewBytes": 70390,
+      "previewSha256": "8e09f5f37d54b065633ba019b4ae99628667387ce19f0ff569b79b1fd2d237f3"
+    }
+  ],
+  "clarity": "Every main background is 7680 pixels wide, enhanced/upscaled from the documented smaller sources. Pixel dimensions do not establish native 8K detail.",
+  "motion": "Fixed scene geometry. Independent vector light, reflections, steam and dust. No texture-coordinate displacement or image morphing."
+}

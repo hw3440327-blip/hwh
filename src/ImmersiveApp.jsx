@@ -20,6 +20,7 @@ import { discoveryDefinitions, discoveryProgress, sceneDiscoveries, performDisco
 import './styles.css';
 import './immersive.css';
 import './cinematic-experience.css';
+import './clarity.css';
 
 const PREF_KEY = 'next-spring-preferences-v1';
 const NOTES_KEY = 'next-spring-notes-v1';
@@ -224,7 +225,7 @@ export default function ImmersiveApp() {
             <div className="quiet-chapters">{chapters.map((item, i) => <button key={item.id} disabled={!game.history.some(entry => scenes[entry.sceneId].chapter === i)} onClick={() => setDetail({ type: 'chapter', index: i })}><span>{String(i + 1).padStart(2, '0')}</span><div><strong>{item.title}</strong><small>{item.subtitle}</small></div>{i < scene.chapter ? <Check size={15} /> : i === scene.chapter ? <Sprout size={15} /> : <span className="chapter-unwritten" />}</button>)}</div>
             <div className="journey-save-actions"><button onClick={exportSave}><ArrowDownToLine size={16} />收藏这段旅程</button><button onClick={() => setDetail({ type: 'import' })}><ArrowUpFromLine size={16} />从存档继续</button></div><p className={`quiet-save-status ${saveError ? 'warning' : ''}`}><span />{saveError ? '暂时无法自动保存，可以先导出旅程。' : '旅程正在这个浏览器里，安静地替你收好。'}</p>
           </>}
-          {menu === 'album' && <><PhotoCollection game={game} /><PanelHeading eyebrow="THE LITTLE THINGS THAT STAY" title="有些温暖，记得就不会走远。" subtitle={`${game.memories.length} 段回忆，都有各自的光。`} /><div className="quiet-album">{game.memories.map((memory, i) => <button key={memory.id} className="quiet-photo" onClick={() => setDetail({ type: 'memory', memory })}><img src={memoryArt(memory)} alt="手绘动画里的生活回忆" loading="lazy" /><div><span>NO. {String(i + 1).padStart(2, '0')}</span><h3>{memory.title}</h3><p>{personalize(memory.description)}</p><small>翻开回忆<ChevronRight size={13} /></small></div></button>)}</div></>}
+          {menu === 'album' && <><PhotoCollection game={game} /><PanelHeading eyebrow="THE LITTLE THINGS THAT STAY" title="有些温暖，记得就不会走远。" subtitle={`${game.memories.length} 段回忆，都有各自的光。`} /><div className="quiet-album">{game.memories.map((memory, i) => <button key={memory.id} className="quiet-photo" onClick={() => setDetail({ type: 'memory', memory })}><img src={memoryArt(memory,{preview:true})} alt="手绘动画里的生活回忆" loading="lazy" /><div><span>NO. {String(i + 1).padStart(2, '0')}</span><h3>{memory.title}</h3><p>{personalize(memory.description)}</p><small>翻开回忆<ChevronRight size={13} /></small></div></button>)}</div></>}
           {menu === 'moments' && <>
             <PanelHeading eyebrow="A DAY HELD IN YOUR HANDS" title="有些日子，要亲手过一过。" subtitle="在面粉、木纹和一盆小花里，慢慢和小镇熟起来。" />
             <p className="moment-collection-count"><HandHeart size={18} strokeWidth={1.3} />留下了 {activityDefinitions.filter(item => activityProgress(game, item.id).completed).length} 件亲手做的小事<span>进度会跟着旅程一起保存</span></p>
@@ -232,7 +233,7 @@ export default function ImmersiveApp() {
               const progress = activityProgress(game, item.id);
               const here = sceneActivity?.id === item.id;
               return <article key={item.id} className={`moment-card${progress.completed ? ' is-complete' : ''}`}>
-                <div className="moment-card-art"><img src={memoryArt(item.memory)} alt={`${item.place}的手绘场景`} loading="lazy" /><span>{progress.completed ? <><Check size={14} />已好好记住</> : item.place}</span></div>
+                <div className="moment-card-art"><img src={memoryArt(item.memory,{preview:true})} alt={`${item.place}的手绘场景`} loading="lazy" /><span>{progress.completed ? <><Check size={14} />已好好记住</> : item.place}</span></div>
                 <div className="moment-card-copy"><h3>{item.title}</h3><p>{item.summary}</p><button disabled={!here && !progress.completed} onClick={() => openActivity(item)}>{progress.completed ? '看看亲手留下的成果' : here ? '就在这里，试着做一做' : `路过${item.place}时，可以试试`}<ChevronRight size={15} /></button></div>
               </article>;
             })}</div>
@@ -244,7 +245,7 @@ export default function ImmersiveApp() {
           {menu === 'life' && <><PanelHeading eyebrow="A LIFE, ONE DAY AT A TIME" title="原来，已经走了这么远。" subtitle="起点、相遇和选择，慢慢成为了你。" /><LifeReview game={game} onContinue={closeMenu} onRecall={index => setDetail({ type: 'chapter', index })} /></>}
           {menu === 'settings' && <><PanelHeading eyebrow="MAKE YOURSELF COMFORTABLE" title="找一个，舒服的节奏。" subtitle="把声音和阅读，调成自己喜欢的样子。" />
             <AudioSettings music={music} sound={sound} narration={{ ...narration, toggle: toggleNarration }} autoNarration={preferences.autoNarration} onAutoNarration={() => setPreferences(p => ({ ...p, autoNarration: !p.autoNarration }))} />
-            <div className="quiet-setting"><div><strong>流动的场景</strong><small>让衣袖、海光和窗边的气息，留在同一段镜头里</small></div><Toggle label="场景动态短片" checked={preferences.filmMotion} onChange={() => setPreferences(p => ({ ...p, filmMotion: !p.filmMotion }))} /></div>
+            <div className="quiet-setting"><div><strong>流动的场景</strong><small>海面反光、炉光和茶汽轻轻流动，人物与建筑保持稳定</small></div><Toggle label="场景环境动效" checked={preferences.filmMotion} onChange={() => setPreferences(p => ({ ...p, filmMotion: !p.filmMotion }))} /></div>
             <div className="quiet-setting"><div><strong>文字出现的速度</strong><small>也可以轻点一句，立即读完整段</small></div><select aria-label="文字出现的速度" value={preferences.textSpeed} onChange={event => setPreferences(p => ({ ...p, textSpeed: Number(event.target.value) }))}><option value={30}>慢慢说</option><option value={18}>自然地说</option><option value={0}>整句出现</option></select></div><div className="quiet-setting"><div><strong>大一点的故事文字</strong><small>给眼睛多一点余裕</small></div><Toggle label="故事文字放大" checked={preferences.largeText} onChange={() => setPreferences(p => ({ ...p, largeText: !p.largeText }))} /></div><div className="quiet-setting"><div><strong>减少动态</strong><small>让画面停在安静的时刻</small></div><Toggle label="减少动态" checked={preferences.quietMotion} onChange={() => setPreferences(p => ({ ...p, quietMotion: !p.quietMotion }))} /></div><div className="quiet-setting-actions"><button onClick={returnToTitle}><BookOpen size={16} />回到标题画面</button><button onClick={() => setDetail({ type: 'reset' })}><RotateCcw size={15} />开始新的生活</button></div></>}
         </>}
       </div>

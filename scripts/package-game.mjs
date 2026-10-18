@@ -14,8 +14,6 @@ const requiredAssets = [
   '/art/immersive-room.webp', '/art/immersive-letters.webp', '/art/immersive-community.webp',
   '/art/immersive-market.webp', '/art/immersive-courtyard.webp', '/art/immersive-winter-courtyard.webp',
   '/art/play-tea-table.webp', '/art/play-tea-pot.webp', '/art/play-tea-cup.webp', '/art/play-shell-shore.webp',
-  '/films/arrival.mp4', '/films/bakery.mp4', '/films/bookshop.mp4', '/films/workshop.mp4',
-  '/films/kitchen.mp4', '/films/garden.mp4', '/films/shore.mp4', '/films/night.mp4',
   '/audio/ambience/sea.ogg', '/audio/ambience/rain.ogg', '/audio/ambience/garden.ogg',
   '/audio/ambience/interior.ogg', '/audio/ambience/bakery.ogg', '/audio/ambience/workshop.ogg',
   '/audio/ambience/touch.ogg', '/audio/ambience/wood.ogg', '/audio/ambience/page.ogg',

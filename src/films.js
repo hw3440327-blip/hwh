@@ -1,12 +1,12 @@
 export const sceneFilms = {
-  arrival: { poster:'/art/film-arrival.webp', src:'/films/arrival.mp4', label:'海风停在初来那天', focus:'人物、海面与枝叶的循环镜头' },
-  bakery: { poster:'/art/film-bakery.webp', src:'/films/bakery.mp4', label:'把日子揉进面香', focus:'掌心、炉光与窗外海面的循环镜头' },
-  bookshop: { poster:'/art/film-bookshop.webp', src:'/films/bookshop.mp4', label:'书页之间，有风经过', focus:'扶着书页的手、树影与海光的循环镜头' },
-  workshop: { poster:'/art/film-workshop.webp', src:'/films/workshop.mp4', label:'旧木纹里的新一天', focus:'手作、衣袖与窗光的循环镜头' },
-  kitchen: { poster:'/art/film-kitchen.webp', src:'/films/kitchen.mp4', label:'晚饭以后，先坐一会儿', focus:'捧杯的人、窗帘与湾灯的循环镜头' },
-  garden: { poster:'/art/film-garden.webp', src:'/films/garden.mp4', label:'把耐心交给一畦新绿', focus:'浇水的手、花叶与晨光的循环镜头' },
-  shore: { poster:'/art/film-shore.webp', src:'/films/shore.mp4', label:'潮水会慢慢回来', focus:'海潮、水光与远树的循环镜头' },
-  night: { poster:'/art/film-night.webp', src:'/films/night.mp4', label:'那盏为你留下的灯', focus:'台灯、海湾倒影与窗边气息的循环镜头' },
+  arrival: { poster:'/art/film-arrival.webp', label:'海风停在初来那天', focus:'固定原画上的光影、海面反光与细微环境变化' },
+  bakery: { poster:'/art/film-bakery.webp', label:'把日子揉进面香', focus:'固定原画上的光影、海面反光与细微环境变化' },
+  bookshop: { poster:'/art/film-bookshop.webp', label:'书页之间，有风经过', focus:'固定原画上的光影、海面反光与细微环境变化' },
+  workshop: { poster:'/art/film-workshop.webp', label:'旧木纹里的新一天', focus:'固定原画上的光影、海面反光与细微环境变化' },
+  kitchen: { poster:'/art/film-kitchen.webp', label:'晚饭以后，先坐一会儿', focus:'固定原画上的光影、海面反光与细微环境变化' },
+  garden: { poster:'/art/film-garden.webp', label:'把耐心交给一畦新绿', focus:'固定原画上的光影、海面反光与细微环境变化' },
+  shore: { poster:'/art/film-shore.webp', label:'潮水会慢慢回来', focus:'固定原画上的光影、海面反光与细微环境变化' },
+  night: { poster:'/art/film-night.webp', label:'那盏为你留下的灯', focus:'固定原画上的光影、海面反光与细微环境变化' },
 };
 const scenes = {
   arrival:'arrival',ending_return:'arrival',bakery:'bakery',trial_bakery:'bakery',ending_bakery:'bakery',

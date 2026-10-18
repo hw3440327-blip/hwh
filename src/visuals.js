@@ -1,5 +1,6 @@
 import { scenes } from './story.js';
 import { filmForScene } from './films.js';
+import { artworkPreview } from './artworkAssets.js';
 
 export const artwork = {
   arrival: '/art/film-arrival.webp', spring: '/art/film-arrival.webp',
@@ -38,7 +39,7 @@ const paintedMoments = {
 // The underlying place remains stable for narration and observations, while
 // these chapters receive their own painted time of life.
 export const getSceneArt = scene => filmForScene(scene)?.poster || artwork[paintedMoments[scene?.id] || sceneArtKey(scene)];
-export function memoryArt(memory) {
+function memorySceneArt(memory) {
   if (memory.id === 'discovery_tea') return artwork.kitchen;
   if (memory.id === 'discovery_shells') return artwork.shore;
   if (memory.id === 'discovery_photo') return artwork.bookshop;
@@ -47,6 +48,7 @@ export function memoryArt(memory) {
   const scene = memory.id.startsWith('echo:') ? scenes[memory.id.slice(5)] : Object.values(scenes).find(item => item.choices.some(choice => choice.memory?.id === memory.id));
   return getSceneArt(scene);
 }
+export function memoryArt(memory,{preview=false}={}) { const source=memorySceneArt(memory);return preview?artworkPreview(source):source; }
 export function sceneDescription(scene) {
   const moment = paintedMoments[scene?.id];
   if (moment) return ({

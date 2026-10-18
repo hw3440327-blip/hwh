@@ -1,0 +1,19 @@
+/* The base illustration stays on a fixed plane at every animation frame. */
+.cm-screen .cm-world-plate,.cm-screen.cm-landscape-mode .cm-world-plate{transform:none;transition:none;will-change:auto}
+.cm-screen .cm-world-grain{display:none}
+.cm-screen .cm-world-image{object-position:center;transform:none;will-change:auto}
+.cm-screen .cm-world-previous{animation:none;opacity:1}
+.cm-screen .cm-world-previous.is-leaving{animation:clarity-scene-leave .8s ease both}
+@keyframes clarity-scene-leave{to{opacity:0}}
+.opening-landscape.film-surface,.opening-landscape.film-surface>.film-poster{transform:none;filter:none;animation:none}
+.cm-screen .cm-world-plate>.film-poster,.cm-closeup-frame .film-poster{transform:none;filter:none;animation:none}
+.cm-closeup-frame .film-observation{will-change:auto}
+@media(min-width:3000px){
+  .cm-screen .cm-reader{width:min(46vw,1500px)}
+  .cm-screen .cm-dialogue-text{font-size:clamp(28px,.85vw,48px)}
+  .cm-screen.cm-large-text .cm-dialogue-text{font-size:clamp(36px,1vw,60px)}
+  .cm-screen .cm-choice-copy strong{font-size:clamp(19px,.4vw,29px)}
+  .cm-screen .cm-choice-copy small{font-size:clamp(14px,.27vw,20px)}
+  .cm-screen .cm-scene-caption h1{font-size:clamp(42px,1.15vw,78px)}
+  .cm-screen .cm-header{padding:40px 3.5vw}
+}

@@ -4,9 +4,9 @@ import {
   HandHeart, Headphones, RotateCcw, Sprout, Volume2, VolumeX, X,
 } from 'lucide-react';
 import { getSceneArt, sceneDescription, sceneDetails, sceneArtKey } from './visuals.js';
-import SceneAtmosphere, { atmosphereKind } from './SceneAtmosphere.jsx';
 import FilmScene from './FilmScene.jsx';
 import { filmForScene } from './films.js';
+import { ARTWORK_ASSETS } from './artworkAssets.js';
 import './cinematic-scene.css';
 
 const chapterNumbers = ['一', '二', '三', '四', '五', '六', '七', '八'];
@@ -47,7 +47,7 @@ export default function CinematicScene({
   const [observing, setObserving] = useState(null);
   const [ageTransition, setAgeTransition] = useState(null);
   const [previousArt, setPreviousArt] = useState(null);
-  const lookPointer = useRef(null);
+  const [readyArt, setReadyArt] = useState(null);
   const currentArt = getSceneArt(scene);
   const artRef = useRef(currentArt);
   const ageRef = useRef(scene.age || 22);
@@ -69,7 +69,6 @@ export default function CinematicScene({
   const typing = visibleCount < characters.length;
   const lastParagraph = paragraphIndex >= paragraphs.length - 1;
   const ready = lastParagraph && !typing;
-  const rainy = /雨/.test(scene.weather || '') && !/雨后|雨停|停雨|无雨/.test(scene.weather || '');
   const chapterIndex = Number.isInteger(scene.chapter) ? scene.chapter : 0;
   const details = sceneDetails(scene);
   const textSpeed = preferences.textSpeed === 0 ? 0 : Math.min(100, Math.max(8, Number(preferences.textSpeed) || 18));
@@ -78,12 +77,6 @@ export default function CinematicScene({
   const narrationKey = observing ? `detail:${scene.id}:${observing.id}` : landscape ? '' : storyUtteranceKey;
   const narrationPaused = Boolean(paused || ageTransition || (landscape && !observing));
   const filmQuiet = quietMotion || preferences.filmMotion === false;
-  function lookAround(event) {
-    if (quietMotion || paused || observing || (event.pointerType !== 'mouse' && !lookPointer.current)) return;
-    const bounds = screenRef.current.getBoundingClientRect();
-    screenRef.current.style.setProperty('--look-x', `${((event.clientX - bounds.left) / bounds.width - .5) * -26}px`);
-    screenRef.current.style.setProperty('--look-y', `${((event.clientY - bounds.top) / bounds.height - .5) * -14}px`);
-  }
 
   useEffect(() => {
     narrationRef.current?.({ text: narrationText, utteranceKey: narrationKey, paused: narrationPaused });
@@ -140,10 +133,13 @@ export default function CinematicScene({
       return;
     }
     setPreviousArt(artRef.current);
-    artRef.current = currentArt;
-    const timer = setTimeout(() => setPreviousArt(null), quietMotion ? 0 : 1400);
-    return () => clearTimeout(timer);
   }, [currentArt, quietMotion]);
+
+  useEffect(() => {
+    if (readyArt !== currentArt) return;
+    const timer = setTimeout(() => setPreviousArt(null), quietMotion ? 0 : 820);
+    return () => clearTimeout(timer);
+  }, [readyArt,currentArt,quietMotion]);
 
   useEffect(() => {
     if (paused || landscape || ageTransition) return;
@@ -224,16 +220,11 @@ export default function CinematicScene({
       aria-label={`${chapter?.title || '人生旅程'} · ${scene.title}`}
     >
       <div className="cm-world" aria-hidden="true">
-        <FilmScene key={currentArt} scene={scene} poster={currentArt} className="cm-world-plate" paused={paused || Boolean(observing)} quiet={filmQuiet} />
-        {previousArt && <img className="cm-world-image cm-world-previous" src={previousArt} alt="" />}
-        {!filmForScene(scene) && <SceneAtmosphere scene={scene} />}
+        <FilmScene key={currentArt} scene={scene} poster={currentArt} className="cm-world-plate" paused={paused || Boolean(observing)} quiet={filmQuiet}
+          onImageLoad={() => { artRef.current=currentArt;setReadyArt(currentArt); }} />
+        {previousArt && <img className={`cm-world-image cm-world-previous${readyArt===currentArt?' is-leaving':''}`} src={previousArt} alt="" />}
         <div className="cm-world-shade" />
         <div className="cm-world-grain" />
-        {rainy && ['coast', 'garden'].includes(atmosphereKind(scene)) ? <div className="cm-rain">{Array.from({ length: 16 }, (_, index) => (
-          <i key={index} style={{ '--i': index }} />
-        ))}</div> : ['coast', 'garden'].includes(atmosphereKind(scene)) && <div className="cm-leaves">{Array.from({ length: 5 }, (_, index) => (
-          <i key={index} style={{ '--i': index }} />
-        ))}</div>}
       </div>
       <p className="cm-accessible-text">{sceneDescription(scene)}</p>
 
@@ -276,7 +267,7 @@ export default function CinematicScene({
       </div>}
 
       {landscape ? <div className="cm-landscape cf-exploring" inert={Boolean(observing)} aria-hidden={Boolean(observing)}
-        onPointerDown={event => { if (!event.target.closest('button')) lookPointer.current = true; }} onPointerMove={lookAround} onPointerUp={() => { lookPointer.current = null; }} onPointerCancel={() => { lookPointer.current = null; }}>
+        >
         <div className="cf-wander-heading"><span>这一页，先不急着翻过去。</span><h2>{scene.location.split('·').at(-1).trim()}</h2><p>{filmForScene(scene) ? '让视线随风走一走，靠近那些有光的地方。' : '在细小的日常里，找一处愿意停下的地方。'}</p></div>
         <div className="cm-detail-points" aria-label="观察身边的风景">
           {details.map(detail => <button key={detail.id} className="cm-detail-point" style={{left:`${Math.min(88,Math.max(12,detail.x))}%`,top:`${Math.min(66,Math.max(22,detail.y))}%`}} disabled={paused}
@@ -370,7 +361,7 @@ function ObservationDialog({ detail, scene, art, onClose, returnTo, paused, onRe
   const [lens, setLens] = useState(1);
   const pointer = useRef(null);
   const [frameSize, setFrameSize] = useState({ width: 800, height: 400 });
-  const [imageSize, setImageSize] = useState({ width: 1672, height: 941 });
+  const [imageSize, setImageSize] = useState(ARTWORK_ASSETS[art] || { width: 1672, height: 941 });
   const scale = Math.max(frameSize.width / imageSize.width, frameSize.height / imageSize.height) * (detail.zoom || 2.15) * lens;
   const imageWidth = imageSize.width * scale;
   const imageHeight = imageSize.height * scale;
