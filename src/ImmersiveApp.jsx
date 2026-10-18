@@ -13,7 +13,7 @@ import LifeReview from './LifeReview.jsx';
 import LifeActivity from './LifeActivity.jsx';
 import useSoundscape from './useSoundscape.js';
 import useMusic from './useMusic.js';
-import useNarration from './useNarration.js';
+import useNarration from './useStoryNarration.js';
 import AudioSettings from './AudioSettings.jsx';
 import './styles.css';
 import './immersive.css';

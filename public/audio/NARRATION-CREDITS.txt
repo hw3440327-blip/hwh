@@ -1,0 +1,18 @@
+《下一次春天》内置旁白 · 春语
+
+本游戏的默认旁白是预先制作的神经网络合成语音，采用玩家在试听页选择的 A 音色。
+它不是人类配音演员的录音，不需要在玩家电脑上运行语音模型或安装中文语音包。
+音频内容对应本项目的故事与风景讲解；游戏内的选择和人物姓名仍由玩家决定。
+
+制作模型：Kokoro-82M-v1.1-zh，中文女声 zf_001（sherpa-onnx speaker ID 3）
+模型项目：https://huggingface.co/hexgrad/Kokoro-82M-v1.1-zh
+项目代码：https://github.com/hexgrad/kokoro
+ONNX 模型分发：https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models
+模型包：kokoro-multi-lang-v1_1.tar.bz2
+模型包 SHA-256：a3f4c73d043860e3fd2e5b06f36795eb81de0fc8e8de6df703245edddd87dbad
+模型随附许可：Apache License 2.0，全文见 LICENSE-Kokoro.txt。
+模型及推理程序不随游戏分发。上述链接只用于来源说明，游玩时无需访问。
+
+制作参数：语速 0.94，保留语句停顿；统一响度后转为单声道 24 kHz、48 kbps MP3。
+录制工具：sherpa-onnx 1.13.8；音频处理：FFmpeg。
+本项目在构建时验证完整正文、文件 SHA-256、解码与时长，避免错误段落或缺失录音。

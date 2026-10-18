@@ -12,12 +12,15 @@ function Volume({ label, value, onChange }) {
 
 export default function AudioSettings({ music, sound, narration, autoNarration, onAutoNarration }) {
   const hasVoice = narration.supported && narration.voices.length > 0;
-  const hasLocalVoice = narration.voices.some(voice => voice.localService);
+  const hasLocalVoice = narration.voices.some(voice => voice.localService && voice.kind !== 'recorded');
+  const recordedVoice = narration.voices.find(voice => voice.kind === 'recorded');
   const selectedVoice = narration.voices.find(voice => voice.id === narration.voiceId) || narration.voices[0];
   const voiceMessage = !narration.supported
     ? '这个浏览器暂不支持故事朗读，可以试试新版 Edge 或 Chrome。'
     : !hasVoice
       ? '这台电脑还没有可用的中文声音。可以先在系统的语言与语音设置里添加中文语音包，再重新打开游戏。'
+      : selectedVoice?.kind === 'recorded'
+        ? '「春语」是为游戏预先制作的温柔合成女声。故事与风景讲解都已内置，无需连接语音服务。'
       : selectedVoice?.localService
         ? '这是这台电脑的本机中文音色，通常不需要联网。可以先试听，确认它能在这里播放。'
         : '这是浏览器提供的联网音色。出现在列表里，不代表语音服务当前能连接或播放；听不到时，可以重试或改用本机中文声音。';
@@ -35,10 +38,10 @@ export default function AudioSettings({ music, sound, narration, autoNarration, 
     </div>
 
     <div className="audio-setting-card audio-narration-card">
-      <div className="audio-card-heading"><Headphones size={22} strokeWidth={1.2} aria-hidden="true" /><div><strong>把故事读给你听</strong><small>一段一段慢慢讲，遇到选择时等你决定</small></div><Switch label="故事朗读" checked={narration.enabled} onChange={narration.toggle} disabled={!hasVoice} /></div>
+      <div className="audio-card-heading"><Headphones size={22} strokeWidth={1.2} aria-hidden="true" /><div><strong>把故事读给你听</strong><small>{selectedVoice?.kind === 'recorded' ? '温柔的声音，一段一段陪你读下去' : '一段一段慢慢讲，遇到选择时等你决定'}</small></div><Switch label="故事朗读" checked={narration.enabled} onChange={narration.toggle} disabled={!hasVoice} /></div>
       <p className="audio-voice-help" role="status">{voiceMessage}</p>
       {hasVoice && <>
-        <div className="audio-voice-select"><label htmlFor="story-voice">讲述的声音</label><select id="story-voice" aria-label="讲述的声音" value={selectedVoice?.id || ''} onChange={event => narration.setVoiceId(event.target.value)}>{narration.voices.map(voice => <option key={voice.id} value={voice.id}>{voice.name}{voice.localService ? ' · 本机' : ' · 联网'}{narration.voiceHealth?.[voice.id]?.status === 'failed' ? ' · 刚才未播出' : ''}</option>)}</select></div>
+        <div className="audio-voice-select"><label htmlFor="story-voice">讲述的声音</label><select id="story-voice" aria-label="讲述的声音" value={selectedVoice?.id || ''} onChange={event => narration.setVoiceId(event.target.value)}>{narration.voices.map(voice => <option key={voice.id} value={voice.id}>{voice.name}{voice.kind === 'recorded' ? ' · 内置' : voice.localService ? ' · 系统本机' : ' · 系统联网'}{narration.voiceHealth?.[voice.id]?.status === 'failed' ? ' · 刚才未播出' : ''}</option>)}</select></div>
         <button type="button" className="audio-preview" onClick={() => narration.preview()}><Play size={14} strokeWidth={1.4} aria-hidden="true" />试听这一种声音</button>
         {narration.lastError && <div className="audio-voice-error" role="alert">
           <strong>这次朗读没有成功播放</strong>
@@ -46,9 +49,10 @@ export default function AudioSettings({ music, sound, narration, autoNarration, 
           <small>刚才选择的声音：{narration.lastError.voiceName || selectedVoice?.name || '中文声音'}</small>
           <div className="audio-voice-recovery">
             <button type="button" onClick={() => narration.preview()}><Play size={14} strokeWidth={1.4} aria-hidden="true" />再试听一次</button>
+            {recordedVoice && selectedVoice?.kind !== 'recorded' && <button type="button" onClick={() => narration.tryRecordedVoice()}>使用内置温柔旁白</button>}
             {hasLocalVoice && <button type="button" onClick={() => narration.tryLocalVoice()}>改用本机中文声音</button>}
           </div>
-          {!hasLocalVoice && <p className="audio-local-help">这台电脑暂未列出本机中文声音。若使用 Windows，可在“设置 → 时间和语言 → 语音”中添加中文声音，安装完成后重新打开游戏。</p>}
+          {!hasLocalVoice && selectedVoice?.kind !== 'recorded' && <p className="audio-local-help">这台电脑暂未列出系统本机中文声音。可以改用游戏内置旁白；若使用 Windows，也可在“设置 → 时间和语言 → 语音”中添加中文声音。</p>}
         </div>}
         <label className="audio-volume"><span>讲述的速度<small>{Number(narration.rate).toFixed(2)}×</small></span><input type="range" aria-label="朗读速度" min="0.75" max="1.1" step="0.05" value={narration.rate} onChange={event => narration.setRate(Number(event.target.value))} /></label>
         <Volume label="朗读音量" value={narration.volume} onChange={narration.setVolume} />
