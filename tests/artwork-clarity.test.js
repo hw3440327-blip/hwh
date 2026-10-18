@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { ARTWORK_ASSETS } from '../src/artworkAssets.js';
 import { getSceneArt } from '../src/visuals.js';
 import { scenes } from '../src/story.js';
@@ -20,6 +21,9 @@ test('所有主背景实际编码为 7680 像素宽，原比例、摘要和缩�
   assert.equal(Object.keys(ARTWORK_ASSETS).length,16);
   const metadata=JSON.parse(await readFile(new URL('../public/art/ASSETS-8K.json',import.meta.url),'utf8'));
   assert.equal(metadata.native8K,false);
+  assert.equal(metadata.sourceRevision,'a7b8c74d61b9a2c62aada7c5f222a59bac624fc6');
+  assert.equal(metadata.generativeEnhancement,false);
+  assert.equal(metadata.sharpening,false);
   for(const row of metadata.assets){
     const asset=ARTWORK_ASSETS[row.src];
     assert.ok(asset,row.src);
@@ -27,7 +31,13 @@ test('所有主背景实际编码为 7680 像素宽，原比例、摘要和缩�
     assert.deepEqual(dimensions(bytes),[7680,row.height]);
     assert.equal(createHash('sha256').update(bytes).digest('hex'),row.sha256);
     assert.equal(bytes.length,row.bytes);
-    assert.ok(Math.abs((row.width/row.height)/(row.enhancedDimensions[0]/row.enhancedDimensions[1])-1)<.0003);
+    assert.ok(Math.abs((row.width/row.height)/(row.sourceDimensions[0]/row.sourceDimensions[1])-1)<.0003);
+    assert.equal(row.sourceRevision,metadata.sourceRevision);
+    const original=execFileSync('git',['show',row.sourceRevision+':'+row.sourcePath],{cwd:new URL('../',import.meta.url),maxBuffer:16*1024*1024});
+    assert.equal(createHash('sha256').update(original).digest('hex'),row.sourceSha256);
+    assert.equal(row.generativeEnhancement,false);
+    assert.equal(row.sharpening,false);
+    assert.ok(row.roundTripMeanAbsoluteError<3);
     const preview=await readFile(new URL('../public'+row.preview,import.meta.url));
     const [w,h]=dimensions(preview);assert.ok(w<=640&&h<=480);
     assert.equal(createHash('sha256').update(preview).digest('hex'),row.previewSha256);

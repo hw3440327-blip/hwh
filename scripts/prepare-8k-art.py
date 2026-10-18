@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
-"""Prepare fixed-geometry 8K backgrounds from enhanced scene illustrations.
+"""Restore the approved paintings from Git and resample without new detail.
 
-The output is explicitly enhanced/upscaled art, not native 8K source detail.
-Model and private production inputs are provisioned separately. No source PNG,
-model weights, or machine paths enter the published metadata.
+Only Pillow is needed. No generated replacement, super-resolution model,
+sharpening, colour filter or local deformation enters this pipeline.
+8K describes the output pixels, not the source's native detail.
 """
 import argparse
 import hashlib
+import io
 import json
 from pathlib import Path
 import shutil
-import sys
+import subprocess
 import time
 
-MODEL_SHA = '5c68d18db561aed8ead4ffedf1b897ea615baaf60ebf6c35f8e641f8fa4a21bf'
+SOURCE_REVISION = 'a7b8c74d61b9a2c62aada7c5f222a59bac624fc6'
 FILENAMES = {**{k:'film-'+k+'.webp' for k in ('arrival','bakery','bookshop','workshop','kitchen','garden','shore','night')},
     'room':'immersive-room.webp','letters':'immersive-letters.webp','community':'immersive-community.webp',
     'market':'immersive-market.webp','courtyard':'immersive-courtyard.webp','winter':'immersive-winter-courtyard.webp',
@@ -27,60 +28,56 @@ def write(path,value):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--python-packages',required=True,type=Path)
-    p.add_argument('--model',required=True,type=Path)
-    p.add_argument('--sources',required=True,type=Path)
-    p.add_argument('--enhancements',required=True,type=Path)
     p.add_argument('--output',required=True,type=Path)
-    p.add_argument('--only',default='')
     p.add_argument('--install',action='store_true')
-    args=p.parse_args();assert sha(args.model)==MODEL_SHA
-    sys.path.insert(0,str(args.python_packages.resolve()))
-    import cv2
-    from PIL import Image
+    args=p.parse_args()
+    from PIL import Image, ImageChops, ImageStat
     Image.MAX_IMAGE_PIXELS=120_000_000
-    cv2.setNumThreads(4)
-    original={r['key']:r for r in json.loads(args.sources.read_text())}
-    enhanced=json.loads(args.enhancements.read_text())
-    assert set(original)==set(enhanced)==set(FILENAMES)
+    root=Path(__file__).resolve().parents[1]
     args.output.mkdir(parents=True,exist_ok=True)
     (args.output/'previews').mkdir(exist_ok=True)
-    model=cv2.dnn_superres.DnnSuperResImpl_create();model.readModel(str(args.model));model.setModel('fsrcnn',4)
-    selected=args.only.split(',') if args.only else list(FILENAMES)
-    for key in selected:
-        started=time.perf_counter();filename=FILENAMES[key];src=Path(enhanced[key]);source_sha=sha(src)
-        original_sha=sha(original[key]['source'])
-        dest=args.output/filename;preview=args.output/'previews'/filename;meta=args.output/(key+'.json')
-        if meta.exists() and dest.exists() and preview.exists():
-            cached=json.loads(meta.read_text())
-            if cached['enhancedSourceSha256']==source_sha and cached['sourceSha256']==original_sha and cached['sha256']==sha(dest) and cached['previewSha256']==sha(preview):continue
-        image=cv2.imread(str(src));assert image is not None
-        h,w=image.shape[:2];ow,oh=original[key]['sourceDimensions']
-        with Image.open(original[key]['source']) as check:assert check.size==(ow,oh),'Original source dimensions differ from the inventory'
-        assert abs((w/h)/(ow/oh)-1)<.003,'Enhancement changed the source aspect ratio'
-        up=model.upsample(image)
-        width=7680;height=round(width*h/w/2)*2
-        result=cv2.resize(up,(width,height),interpolation=cv2.INTER_LANCZOS4)
-        del up
-        rgb=Image.fromarray(cv2.cvtColor(result,cv2.COLOR_BGR2RGB));del result
-        rgb.save(dest,format='WEBP',quality=90,method=5)
-        thumb=Image.fromarray(cv2.cvtColor(image,cv2.COLOR_BGR2RGB));thumb.thumbnail((640,480));thumb.save(preview,format='WEBP',quality=86,method=5)
-        with Image.open(dest) as check:assert check.size==(width,height);check.load()
-        row={'key':key,'src':'/art/'+filename,'width':width,'height':height,'bytes':dest.stat().st_size,'sha256':sha(dest),
-            'sourceDimensions':[ow,oh],'enhancedDimensions':[w,h],'enhancedSourceSha256':source_sha,
-            'sourceSha256':original_sha,'native8K':False,'resampling':'AI detail restoration; FSRCNN x4; aspect-preserving Lanczos resize; WebP quality 90',
-            'modelSha256':MODEL_SHA,'preview':'/art/previews/'+filename,'previewWidth':thumb.width,'previewHeight':thumb.height,
+    rows=[]
+    for key,filename in FILENAMES.items():
+        started=time.perf_counter()
+        source_path='public/art/'+filename
+        source=subprocess.check_output(['git','show',SOURCE_REVISION+':'+source_path],cwd=root)
+        original=Image.open(io.BytesIO(source)).convert('RGB')
+        ow,oh=original.size
+        width=7680;height=round(width*oh/ow/2)*2
+        # One ordinary resize from the exact previously published painting.
+        result=original.resize((width,height),Image.Resampling.BICUBIC)
+        dest=args.output/filename;preview=args.output/'previews'/filename
+        result.save(dest,format='WEBP',quality=94,method=5)
+        thumb=original.copy();thumb.thumbnail((640,480),Image.Resampling.LANCZOS)
+        thumb.save(preview,format='WEBP',quality=90,method=5)
+        with Image.open(dest) as check:
+            assert check.size==(width,height)
+            restored=check.convert('RGB').resize((ow,oh),Image.Resampling.BICUBIC)
+        difference=ImageStat.Stat(ImageChops.difference(original,restored))
+        error=sum(difference.mean)/3
+        assert error<3,'Resampling changed the painting beyond the fidelity budget'
+        row={'key':key,'src':'/art/'+filename,'width':width,'height':height,
+            'bytes':dest.stat().st_size,'sha256':sha(dest),'sourceRevision':SOURCE_REVISION,
+            'sourcePath':source_path,'sourceDimensions':[ow,oh],
+            'sourceSha256':hashlib.sha256(source).hexdigest(),'native8K':False,
+            'generativeEnhancement':False,'sharpening':False,
+            'resampling':'Original 3.1.0 painting; one aspect-preserving bicubic resize; WebP quality 94. No added detail or colour processing.',
+            'roundTripMeanAbsoluteError':round(error,6),
+            'preview':'/art/previews/'+filename,'previewWidth':thumb.width,'previewHeight':thumb.height,
             'previewBytes':preview.stat().st_size,'previewSha256':sha(preview)}
-        assert abs((width/height)/(w/h)-1)<.0003
-        write(meta,row);print(json.dumps({'key':key,'width':width,'height':height,'bytes':row['bytes'],'seconds':round(time.perf_counter()-started,2)}),flush=True)
-    rows=[json.loads((args.output/(key+'.json')).read_text()) for key in FILENAMES if (args.output/(key+'.json')).exists()]
-    report={'version':'3.2.0','backgrounds':len(rows),'native8K':False,'modelSha256':MODEL_SHA,'assets':rows,
-        'clarity':'Every main background is 7680 pixels wide, enhanced/upscaled from the documented smaller sources. Pixel dimensions do not establish native 8K detail.',
+        assert abs((width/height)/(ow/oh)-1)<.0003
+        rows.append(row)
+        print(json.dumps({'key':key,'bytes':row['bytes'],'sourceError':row['roundTripMeanAbsoluteError'],
+            'seconds':round(time.perf_counter()-started,2)}),flush=True)
+    version=json.loads((root/'package.json').read_text())['version']
+    report={'version':version,'backgrounds':len(rows),'native8K':False,
+        'sourceRevision':SOURCE_REVISION,'generativeEnhancement':False,'sharpening':False,'assets':rows,
+        'clarity':'Original 3.1.0 paintings resampled to 7680 pixels wide. No new detail is generated. Source colour, brushwork and composition are retained. These are not native 8K paintings.',
         'motion':'Fixed scene geometry. Independent vector light, reflections, steam and dust. No texture-coordinate displacement or image morphing.'}
     write(args.output/'manifest.json',report)
     if args.install:
-        assert len(rows)==16 and not args.only
-        root=Path(__file__).resolve().parents[1];art=root/'public/art';(art/'previews').mkdir(exist_ok=True)
+        assert len(rows)==16
+        art=root/'public/art';(art/'previews').mkdir(exist_ok=True)
         for row in rows:
             filename=Path(row['src']).name
             assert sha(args.output/filename)==row['sha256']
@@ -88,7 +85,7 @@ def main():
             shutil.copyfile(args.output/'previews'/filename,art/'previews'/filename)
         write(art/'ASSETS-8K.json',report)
         entries=[[r['src'],{**{k:r[k] for k in ('width','height','bytes','sha256','preview')},'motionKey':Path(r['src']).stem}] for r in rows]
-        (root/'src/artworkAssets.js').write_text('// Generated from verified 8K-output artwork; sources are enhanced/upscaled.\nexport const ARTWORK_ASSETS = Object.fromEntries('+json.dumps(entries,ensure_ascii=False,indent=2)+');\nexport const artworkPreview = source => ARTWORK_ASSETS[source]?.preview || source;\n')
+        (root/'src/artworkAssets.js').write_text('// Restored original paintings, resampled without added detail.\nexport const ARTWORK_ASSETS = Object.fromEntries('+json.dumps(entries,ensure_ascii=False,indent=2)+');\nexport const artworkPreview = source => ARTWORK_ASSETS[source]?.preview || source;\n')
         print(json.dumps({'installed':len(rows),'bytes':sum(r['bytes'] for r in rows)}),flush=True)
 
 if __name__=='__main__':main()

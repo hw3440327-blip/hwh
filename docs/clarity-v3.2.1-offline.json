@@ -1,0 +1,51 @@
+{
+  "checks": [
+    {
+      "name": "embedded 8K source, metadata lookup and independent reflections work without a network",
+      "status": "pass",
+      "details": {
+        "width": 7680,
+        "height": 4322,
+        "resolution": "7680×4322",
+        "reflections": 11,
+        "videos": 0
+      }
+    },
+    {
+      "name": "selected first reference recording actually plays from its embedded MP3",
+      "status": "pass",
+      "details": {
+        "sha256": "0f9d4f91770ec21a81353431cdfe1730895e0d4f113b0b3e3d156d40e67a22e6",
+        "currentTime": 0.211962
+      }
+    },
+    {
+      "name": "embedded field recordings produce actual audible samples offline",
+      "status": "pass",
+      "details": {
+        "rms": [
+          0.011833483103216748
+        ]
+      }
+    },
+    {
+      "name": "offline observation retains the full-resolution painting and independent motion",
+      "status": "pass",
+      "details": {
+        "width": 7680,
+        "reflections": 11,
+        "transform": "none"
+      }
+    }
+  ],
+  "artifact": {
+    "file": "下一次春天-电影生活版.html",
+    "bytes": 104666151,
+    "sha256": "f7e43245effd02d6b4bdce90c2d5fb717de7272133b2098df393b208139cb469"
+  },
+  "errors": [],
+  "externalRequests": [],
+  "offline": true,
+  "passed": 4,
+  "failed": 0
+}

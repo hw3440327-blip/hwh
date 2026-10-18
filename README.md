@@ -1,4 +1,4 @@
-# 下一次春天 · 8K 清晰版 3.2.0
+# 下一次春天 · 原画回归版 3.2.1
 
 风停在这里，故事从你开始。
 
@@ -6,9 +6,9 @@
 
 ![面包房的 8K 输出插画](public/art/film-bakery.webp)
 
-## 3.2 的画面
+## 3.2.1 的画面
 
-16 幅主背景与互动场景均输出为 7680 像素宽，保留原图比例。来源约为 1.5–1.7K 插画，先用图像模型增强细节，再经 FSRCNN ×4 和 Lanczos 重采样、以 WebP quality 90 编码。它们是增强放大的 8K 输出，并非原生 8K 绘制；实际尺寸、来源摘要和处理记录见 `public/art/ASSETS-8K.json`。
+16 幅背景恢复为 3.1.0 发布时的原画，保留原来的柔和色彩、笔触、光线和构图，移除 3.2.0 新生成和锐化的细节。为保留 7680 像素宽输出，只对原画做一次等比例双三次重采样，以 WebP quality 94 编码，不使用细节生成、超分辨率模型或调色。原图约为 1.5–1.7K，并非原生 8K 绘制；逐幅原图 Git 版本、源文件摘要、输出尺寸、重采样误差见 `public/art/ASSETS-8K.json`。
 
 背景本体保持固定，独立的矢量光影、水面反光、茶汽与微尘提供轻微动态。人物、手、木梁和窗框不参与局部拉伸；已移除旧形变视频的运行路径。风景特写与摄影直接取自同一幅 8K 背景。相册列表使用独立缩略图，避免一次解码多张大图。
 
@@ -39,7 +39,7 @@
 
 公开网站：https://hw3440327-blip.github.io/hwh/ 。无需账号。网页按需加载当前场景的画面与声音；也可以下载完整离线成品。
 
-解压 `docs/downloads/next-spring-v3.2.0.zip`，在电脑的新版 Edge 或 Chrome 中打开 **下一次春天-电影生活版.html**。图像、字体、程序和默认中文旁白都已内嵌，无需安装 Node.js、注册账号或连接语音服务。也可打开 `release/下一次春天-电影生活版.html`；旧版成品分别保留。
+解压 `docs/downloads/next-spring-v3.2.1.zip`，在电脑的新版 Edge 或 Chrome 中打开 **下一次春天-电影生活版.html**。图像、字体、程序和默认中文旁白都已内嵌，无需安装 Node.js、注册账号或连接语音服务。也可打开 `release/下一次春天-电影生活版.html`；旧版成品分别保留。
 
 首次点击“从这一刻出发”，填写名字与来时的故事，再“走进小镇”。已有旅程时点击“继续这段人生”。手机浏览器若只预览下载的 HTML，可在电脑浏览器中打开成品。
 
@@ -79,7 +79,7 @@ npm run package:web  # 生成按需加载的网站到 release/web/hwh
 
 旁白重制流程：`scripts/list-narration.mjs` 枚举正文和讲解；`scripts/generate-reference-narration.py` 使用本地 ZipVoice 与私有参考录音，并逐段通过 SenseVoice 检查正文；`--first-reference-audition --steps 4 --speed .94 --threads 1` 保留第一次试听的完整配置与缓存；`scripts/build-narration-manifest.mjs` 核对精确文本、SHA-256、时长和解码。来源与许可见 `public/audio/NARRATION-CREDITS.txt`。
 
-8K 素材制作脚本为 `scripts/prepare-8k-art.py`，需要 OpenCV contrib、Pillow、校验过的 FSRCNN x4 模型、增强后的插画与制作清单；模型和源 PNG 不随游戏分发。`--install` 在完整批次核对后安装背景、缩略图和运行清单。`src/SceneMotion.jsx` 使用独立 SVG 元素，始终不修改原画的纹理坐标。
+原画恢复脚本为 `scripts/prepare-8k-art.py`，只需要 Pillow 和包含 3.1.0 提交的 Git 历史。运行 `python scripts/prepare-8k-art.py --output release/art-original-restored --install`，从固定提交直接取出原画，经普通重采样后核对编码尺寸和色彩误差，再安装背景、缩略图和运行清单。`src/SceneMotion.jsx` 使用独立 SVG 元素，始终不修改原画的纹理坐标。
 
 ## 内容结构
 

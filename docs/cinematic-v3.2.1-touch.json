@@ -1,0 +1,23 @@
+{
+  "passed": 2,
+  "failed": 0,
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "nativeCDPTouch": true,
+  "checks": [
+    {
+      "name": "native finger drag continuously pours and stops on touchEnd",
+      "filled": 24,
+      "stopped": 24
+    },
+    {
+      "name": "native finger drag viewfinder and real JPEG capture",
+      "jpegChars": 51695,
+      "caption": "海风带着面包香"
+    }
+  ],
+  "errors": [],
+  "externalRequests": []
+}
