@@ -10,7 +10,8 @@ const url = process.env.TOWN_TEST_URL || 'http://127.0.0.1:4173/hwh/';
 const offline = process.env.TOWN_OFFLINE === '1';
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const check = (value, message) => { if (!value) throw new Error(message); };
-const output = path.join(root, 'release', `town-v4-${offline ? 'offline' : 'browser'}.json`);
+const releaseTag = 'v' + JSON.parse(fs.readFileSync(path.join(root, 'package.json'))).version;
+const output = path.join(root, 'release', `town-${releaseTag}-${offline ? 'offline' : 'browser'}.json`);
 const report = { version: JSON.parse(fs.readFileSync(path.join(root, 'package.json'))).version,
   startedAt: new Date().toISOString(), url, offline, checks: [], errors: [], resourceFailures: [], externalRequests: [], cancelledRequests: [] };
 let browser;
@@ -34,7 +35,7 @@ let browser;
     } catch(error) {
       const index = report.checks.length;
       if(page && !page.isClosed()) {
-        await page.screenshot({ path:path.join(root,'release',`town-v4-failure-${offline?'offline-':''}${index}.png`),fullPage:true }).catch(()=>{});
+        await page.screenshot({ path:path.join(root,'release',`town-${releaseTag}-failure-${offline?'offline-':''}${index}.png`),fullPage:true }).catch(()=>{});
       }
       report.checks.push({ name, status:'fail', error:error.stack }); console.log('FAIL', name, error.message);
     }
@@ -173,7 +174,7 @@ let browser;
     const clue=await town(page).locator('.td-panel').innerText();check(clue.includes('林姨'),'The clue does not connect to a resident');
     check(!clue.split('\n').some(line=>['lin','he','zhou'].includes(line.trim())),'An internal resident ID leaked into the discovery copy');
     await dismiss(page);const conversation=await talk(page,'lin');check((await state(page)).talks['1:lin'],'The chosen reply was not saved');
-    await dismiss(page);await page.screenshot({path:path.join(root,'release',`town-v4-${offline?'offline-':''}bakery.png`)});
+    await dismiss(page);await page.screenshot({path:path.join(root,'release',`town-${releaseTag}-${offline?'offline-':''}bakery.png`)});
     return {clue,conversation,chosenReply:(await state(page)).talks['1:lin']};
   },page);
 
@@ -181,7 +182,7 @@ let browser;
     dayOneBread=await craft(page,{recipe:'milk',shape:'twist',pointer:true});
     check(dayOneBread && dayOneBread.recipe==='milk' && dayOneBread.shape==='twist','The resulting loaf does not preserve its recipe and shape');
     check((await state(page)).breads.length===1,'One baking session created duplicate loaves');
-    await page.screenshot({path:path.join(root,'release',`town-v4-${offline?'offline-':''}bread.png`)});
+    await page.screenshot({path:path.join(root,'release',`town-${releaseTag}-${offline?'offline-':''}bread.png`)});
     await dismiss(page);return {bread:dayOneBread,pointerKneading:true,keyboardKneading:true,keyboardTemperature:180};
   },page);
 
@@ -213,7 +214,7 @@ let browser;
     await button(page,'收好这句话').click();
     const progress=await state(page);check(progress.decor.window?.item==='flower','The chosen decoration was not placed on the window');
     check(progress.card==='雨停以后，也给自己留一点温柔。','The personal card was not saved');
-    await dismiss(page);await page.screenshot({path:path.join(root,'release',`town-v4-${offline?'offline-':''}room.png`)});
+    await dismiss(page);await page.screenshot({path:path.join(root,'release',`town-${releaseTag}-${offline?'offline-':''}room.png`)});
     return {decor:progress.decor,card:progress.card};
   },page);
 
@@ -290,7 +291,7 @@ let browser;
     check(digest(first)===digest(second),'Painting pixels move when environment overlays are hidden');await hide.evaluate(el=>el.remove());
     await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>!document.querySelector('[data-town-place] .scene-motion'));
     check(await painting(page).evaluate(img=>img.naturalWidth)===7680,'Reduced motion changed the original resolution');
-    await page.emulateMedia({reducedMotion:'no-preference'});await page.screenshot({path:path.join(root,'release',`town-v4-${offline?'offline-':''}wide.png`)});
+    await page.emulateMedia({reducedMotion:'no-preference'});await page.screenshot({path:path.join(root,'release',`town-${releaseTag}-${offline?'offline-':''}wide.png`)});
     await page.setViewportSize({width:1440,height:1000});await closeTown(page);return {geometry,basePixelsStable:true,reducedMotionPreservesPainting:true};
   },page);
 
@@ -338,7 +339,7 @@ let browser;
       const imageShape=await painting(mobile).evaluate(img=>{const b=img.getBoundingClientRect(),m=img.closest('.td-scene-map').getBoundingClientRect();return {natural:[img.naturalWidth,img.naturalHeight],display:[b.width,b.height],plane:[m.width,m.height]}});
       check(Math.abs((imageShape.display[0]/imageShape.display[1])/(imageShape.natural[0]/imageShape.natural[1])-1)<.001,'The phone image is stretched');
       check(Math.abs((imageShape.plane[0]/imageShape.plane[1])/(imageShape.natural[0]/imageShape.natural[1])-1)<.001,'The phone hotspot canvas is stretched');
-      await mobile.screenshot({path:path.join(root,'release',`town-v4-${offline?'offline-':''}mobile.png`),fullPage:true});
+      await mobile.screenshot({path:path.join(root,'release',`town-${releaseTag}-${offline?'offline-':''}mobile.png`),fullPage:true});
       return {nativeCDPTouch:true,kneads:1,cancelDoesNotCommit:true,decorationPlaced:true,...dims,imageShape};
     } finally { await mobileContext.close(); }
   });

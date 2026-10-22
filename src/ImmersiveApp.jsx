@@ -19,6 +19,9 @@ import DiscoveryScene, { PhotoCollection } from './DiscoveryScene.jsx';
 import { discoveryDefinitions, discoveryProgress, sceneDiscoveries, performDiscovery } from './discoveries.js';
 import TownDay from './TownDay.jsx';
 import { townProgress, townJournal, performTownAction } from './townDay.js';
+import MemoryBox from './MemoryBox.jsx';
+import { memoryBoxProgress, performMemoryBoxAction } from './memoryBox.js';
+import useMemoryBoxAudio from './useMemoryBoxAudio.js';
 import './styles.css';
 import './immersive.css';
 import './cinematic-experience.css';
@@ -48,6 +51,8 @@ export default function ImmersiveApp() {
   const [activityId, setActivityId] = useState(null);
   const [discoveryId, setDiscoveryId] = useState(null);
   const [townOpen, setTownOpen] = useState(false);
+  const [memoryBoxOpen, setMemoryBoxOpen] = useState(false);
+  const [memoryBoxPlace, setMemoryBoxPlace] = useState('workshop');
   const [detail, setDetail] = useState(null);
   const [note, setNote] = useState(() => read(NOTES_KEY));
   const [reading, setReading] = useState(() => validReading(parse(READING_KEY, null), game));
@@ -69,14 +74,18 @@ export default function ImmersiveApp() {
   const menuTrigger = useRef(null);
   const activityTrigger = useRef(null);
   const townReturn = useRef(null);
+  const boxReturn = useRef(null);
   const scene = scenes[game.sceneId];
   const chapter = chapters[scene.chapter];
   const sceneActivity = getSceneActivity(game);
   const activeActivity = activityDefinitions.find(item => item.id === activityId);
   const activeDiscovery = discoveryDefinitions.find(item => item.id === discoveryId);
-  const overlayOpen = menu !== null || Boolean(activeActivity) || Boolean(activeDiscovery) || townOpen;
+  const overlayOpen = menu !== null || Boolean(activeActivity) || Boolean(activeDiscovery) || townOpen || memoryBoxOpen;
   const town = townProgress(game);
   const townNotes = townJournal(game);
+  const box = memoryBoxProgress(game);
+  const handleBoxHeard = useCallback(id => setGame(current => performMemoryBoxAction(current, { type: 'heard', id })), []);
+  const memoryAudio = useMemoryBoxAudio({ active: memoryBoxOpen, box, onHeard: handleBoxHeard });
   const isTitle = showTitle || !game.introDone;
   const handleNarrationEnd = useCallback(({ utteranceKey }) => {
     setNarrationCompleted(previous => ({ utteranceKey, sequence: previous.sequence + 1 }));
@@ -87,11 +96,13 @@ export default function ImmersiveApp() {
     paused: isTitle || overlayOpen || narrationFrame.paused || narrationFrame.utteranceKey.split(':')[1] !== scene.id,
     onError: message => notify(message), onEnd: handleNarrationEnd,
   });
-  const audioScene = townOpen
+  const audioScene = memoryBoxOpen
+    ? { id: `memory-${memoryBoxPlace}`, image: memoryBoxPlace, weather: '窗外微风', time: '初秋，白天 10:00' }
+    : townOpen
     ? { id: `town-${town.place}`, image: town.place, weather: '雨后微风', time: '初秋，白天 10:00' }
     : { ...scene, image: sceneArtKey(scene) };
-  const music = useMusic({ scene: audioScene, ducked: narration.speaking, onError: message => notify(message) });
-  const sound = useSoundscape(audioScene, { ducked: narration.speaking, onError: message => notify(message) });
+  const music = useMusic({ scene: audioScene, ducked: narration.speaking || memoryAudio.speaking, onError: message => notify(message) });
+  const sound = useSoundscape(audioScene, { ducked: narration.speaking || memoryBoxOpen, onError: message => notify(message) });
   const anySound = sound.enabled || music.enabled;
   function toggleSound() {
     const next = !anySound;
@@ -138,6 +149,21 @@ export default function ImmersiveApp() {
     });
   }
   function actInTown(action) { setGame(current => performTownAction(current, action)); }
+  function openMemoryBox() {
+    boxReturn.current = { element: document.activeElement, menu };
+    setMemoryBoxPlace(box.completed ? (box.destination==='return'?'bakery':'room') : 'workshop');
+    resetNarrationSession();setMenu(null);setDetail(null);setActivityId(null);setDiscoveryId(null);setMemoryBoxOpen(true);
+  }
+  function closeMemoryBox() {
+    const previous=boxReturn.current;
+    memoryAudio.pause();setGame(current=>performMemoryBoxAction(current,{type:'lid',value:0}));setMemoryBoxOpen(false);
+    if(previous?.menu)setMenu(previous.menu);
+    requestAnimationFrame(()=>{
+      const target=previous?.element?.isConnected?previous.element:document.querySelector('[data-town-memory-box], .memory-box-journal-entry button');
+      target?.focus({preventScroll:true});
+    });
+  }
+  function actOnMemoryBox(action) { setGame(current=>performMemoryBoxAction(current,action)); }
   function openDiscovery(id) {
     if (!sceneDiscoveries(game).some(d => d.id === id) && !(id !== 'photo' && discoveryProgress(game, id)?.completed)) return;
     activityTrigger.current = document.activeElement; setMenu(null); setActivityId(null); setDiscoveryId(id);
@@ -196,7 +222,7 @@ export default function ImmersiveApp() {
       setGame(restored); setReading(validReading(parsed.reading, restored)); setSceneSession(value => value + 1);
       setNote(typeof parsed.note === 'string' ? parsed.note.slice(0, 5000) : '');
       if (Number.isSafeInteger(parsed.cycles) && parsed.cycles > 0) setPreferences(p => ({ ...p, cycles: parsed.cycles }));
-      setActivityId(null); setDiscoveryId(null); setTownOpen(false); closeMenu(); setShowTitle(!restored.introDone); notify('风翻回了熟悉的那一页。');
+      setActivityId(null); setDiscoveryId(null); setTownOpen(false); setMemoryBoxOpen(false); closeMenu(); setShowTitle(!restored.introDone); notify('风翻回了熟悉的那一页。');
     } catch { notify('这份存档还没有读懂，请选择之前导出的旅程文件。'); }
     event.target.value = '';
   }
@@ -205,7 +231,7 @@ export default function ImmersiveApp() {
     const next = carry ? reincarnate(game) : createGame(game.name, game.origin);
     setGame(next); setReading({ sceneId: 'arrival', paragraphIndex: 0 });
     if (carry) setPreferences(p => ({ ...p, cycles: p.cycles + 1 }));
-    setActivityId(null); setDiscoveryId(null); setTownOpen(false); closeMenu(); setShowTitle(true);
+    setActivityId(null); setDiscoveryId(null); setTownOpen(false); setMemoryBoxOpen(false); closeMenu(); setShowTitle(true);
   }
   function rename(event) {
     event.preventDefault(); const value = nameInput.trim();
@@ -230,7 +256,8 @@ export default function ImmersiveApp() {
         activity={sceneActivity} activityDone={Boolean(sceneActivity && activityProgress(game, sceneActivity.id).completed)} onActivity={() => openActivity()}
       />}
     </div>
-    {townOpen && <TownDay game={game} onAction={actInTown} onClose={closeTown} quietMotion={preferences.quietMotion || !preferences.filmMotion} onCue={cue => sound.playCue?.(cue === 'paper' ? 'touch' : cue)} onSound={toggleSound} soundEnabled={anySound} />}
+    {townOpen && <div inert={memoryBoxOpen} aria-hidden={memoryBoxOpen}><TownDay game={game} onAction={actInTown} onClose={closeTown} paused={memoryBoxOpen} onMemoryBox={openMemoryBox} quietMotion={preferences.quietMotion || !preferences.filmMotion} onCue={cue => sound.playCue?.(cue === 'paper' ? 'touch' : cue)} onSound={toggleSound} soundEnabled={anySound} /></div>}
+    {memoryBoxOpen && <MemoryBox game={game} place={memoryBoxPlace} onAction={actOnMemoryBox} onClose={closeMemoryBox} audio={memoryAudio} quietMotion={preferences.quietMotion || !preferences.filmMotion} onCue={cue=>sound.playCue?.(cue==='paper'?'touch':cue)} />}
     {activeDiscovery && <DiscoveryScene onPouringChange={sound.setPouring} game={game} scene={scene} discovery={activeDiscovery} onAction={actOnDiscovery} onClose={closeDiscovery} quiet={preferences.quietMotion || !preferences.filmMotion} />}
     {activeActivity && <LifeActivity game={game} activity={activeActivity} onAction={action => actOnMoment(activeActivity.id, action)} onClose={closeActivity} quietMotion={preferences.quietMotion} />}
     {menu && <JourneyDialog onClose={closeMenu}>
@@ -261,6 +288,7 @@ export default function ImmersiveApp() {
               <div><span className="eyebrow">初秋的三天 · 22 岁时的小镇</span><h3>{town.completed ? '那些日子，留下了你的痕迹。' : '走出故事，亲自过三个普通的日子。'}</h3><p>在五个地方走走，听听居民的近况。做一只想送给谁的面包，再把小屋布置成喜欢的样子。</p><button onClick={openTown} aria-label="走进初秋的三天"><Compass size={17} strokeWidth={1.3} />{town.completed ? '回小镇看看' : `去过第${['一','二','三'][town.day - 1] || '一'}天`}<ArrowRight size={16} /></button></div>
             </section>
             {(town.explored.length > 0 || Object.keys(town.talks).length > 0) && <div className="town-relationship-notes" aria-label="居民记得的事">{townNotes.people.map(person => <article key={person.id}><strong>{person.name}</strong><span>{person.label}</span><p>{person.text}</p></article>)}</div>}
+            <section className="town-journal-entry memory-box-journal-entry"><img src={memoryArt({id:'memory_rain_box'},{preview:true})} alt="修补铺里等待修复的旧木盒" loading="lazy"/><div><span className="eyebrow">一件旧物，留住一场雨</span><h3>修好木盒，听见旧友的约定。</h3><p>顺着木纹慢慢修补，抬起盒盖。林姨年轻时留下的雨声和旧话，会从里面一点点传来。</p><button onClick={openMemoryBox} aria-label="修复雨声里的木盒"><HandHeart size={17}/>{box.completed?'再听听盒里的雨':box.repaired?'打开修好的木盒':'去修补铺看看'}<ArrowRight size={16}/></button></div></section>
             <p className="moment-collection-count"><HandHeart size={18} strokeWidth={1.3} />留下了 {activityDefinitions.filter(item => activityProgress(game, item.id).completed).length} 件亲手做的小事<span>进度会跟着旅程一起保存</span></p>
             <div className="moment-collection">{activityDefinitions.map(item => {
               const progress = activityProgress(game, item.id);

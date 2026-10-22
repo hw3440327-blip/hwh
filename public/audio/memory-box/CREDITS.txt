@@ -1,0 +1,6 @@
+《下一次春天》4.1.0 · 雨声木盒
+
+三段“旧友分别前的约定”为本游戏原创角色对白，使用玩家选定的初版参考音色合成演绎，预先制作成内置MP3。它们不是历史录音或真人配音。模型、原始参考录音不随游戏分发。
+声音制作沿用 ZipVoice Distill FP32、4步、speed 0.94、Vocos；许可与原有旁白一致，见 NARRATION-CREDITS.txt、LICENSE-ZipVoice.txt、LICENSE-Vocos.txt。
+对白文本、音频完整摘要、时长、合成设置摘要和自动识别核对结果见 SOURCES.json。
+盒内雨声来自已有真实环境录音 rain.ogg，作者、许可、处理方式见 SOUND-CREDITS.txt、SOUND-SOURCES.json。雨声与说话声独立混音，盒盖开合改变音量与清晰度。

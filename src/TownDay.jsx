@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, BookOpen, Check, ChevronDown, Compass, Feather, 
 import FilmScene from './FilmScene.jsx';
 import { ARTWORK_ASSETS, artworkPreview } from './artworkAssets.js';
 import { TOWN_PLACES, TOWN_PEOPLE, TOWN_RECIPES, TOWN_SHAPES, TOWN_DECORATIONS, TOWN_SLOTS, townProgress, townDialogue, townJournal, townStage, townDecorationUnlocked } from './townDay.js';
+import { memoryBoxProgress, memoryBoxFollowUp } from './memoryBox.js';
 import './town-day.css';
 
 const days = ['雨后的第一天', '有人记得的第二天', '把生活留下的第三天'];
@@ -59,7 +60,7 @@ function KneadDough({ craft, onKnead }) {
   }}><BreadArt baked={false} {...craft}/><span><Hand size={15}/>轻按，或推开再收回来</span></button>;
 }
 
-export default function TownDay({ game, onAction, onClose, quietMotion=false, onCue, onSound, soundEnabled=false }) {
+export default function TownDay({ game, onAction, onClose, quietMotion=false, onCue, onSound, soundEnabled=false, onMemoryBox, paused=false }) {
   const town=townProgress(game), journal=townJournal(game);
   const place=TOWN_PLACES.find(p=>p.id===town.place)||TOWN_PLACES[0];
   const person=TOWN_PEOPLE.find(p=>p.place===town.place);
@@ -77,6 +78,9 @@ export default function TownDay({ game, onAction, onClose, quietMotion=false, on
   const pickedBread=town.breads.find(b=>b.id===giftId)||town.breads[0];
   const alreadyGifted=Boolean(selectedPerson&&town.gifts.some(g=>g.day===town.day&&g.person===selectedPerson));
   const seenCount=place.hotspots.filter(h=>town.explored.includes(h.id)).length;
+  const boxState=memoryBoxProgress(game),boxEcho=memoryBoxFollowUp(game,place.id);
+  const pausedRef=useRef(paused);pausedRef.current=paused;
+  const personEcho=selectedPerson?memoryBoxFollowUp(game,selectedPerson):null;
 
   function flash(text){clearTimeout(messageTimer.current);setMessage(text);messageTimer.current=setTimeout(()=>setMessage(''),5200);}
   function act(action,cue='touch'){onAction(action);if(cue)onCue?.(cue);}
@@ -90,7 +94,7 @@ export default function TownDay({ game, onAction, onClose, quietMotion=false, on
     const previous=document.activeElement,overflow=document.body.style.overflow;document.body.style.overflow='hidden';
     rootRef.current?.querySelector('.td-close')?.focus({preventScroll:true});
     function key(event){
-      const root=rootRef.current;if(!root)return;
+      const root=rootRef.current;if(!root||pausedRef.current||root.closest('[inert]'))return;
       if(event.key==='Escape'){event.preventDefault();event.stopPropagation();if(panelState.current){setPanel(null);setGhost(null);decorDrag.current=null;requestAnimationFrame(()=>panelTrigger.current?.isConnected&&panelTrigger.current.focus({preventScroll:true}));}else closeRef.current();}
       if(event.key==='Tab'){
         const nodes=[...root.querySelectorAll(focusable)].filter(n=>n.getClientRects().length&&!n.closest('[inert]'));
@@ -147,7 +151,7 @@ export default function TownDay({ game, onAction, onClose, quietMotion=false, on
   const PlaceIcon=placeIcon;
   const hint=town.explored.length===0?'先看看画面里的小光点。每一件东西，都可能藏着一点生活的线索。':town.gifts.length===0?'可以听听居民的近况，再亲手做一只面包，带给想见的人。':'你送出的东西、说过的话和屋里的摆放，都会被这个小镇记住。';
 
-  return <section className={`td-world ${quietMotion?'td-quiet':''} ${panel?'has-panel':''} ${panel==='decorate'?'td-arranging':''} ${readyArt!==place.art?'td-loading':''}`} role="dialog" aria-modal="true" aria-label="初秋的三天" tabIndex={-1} ref={rootRef} data-town-place={place.id} data-town-day={town.day}>
+  return <section className={`td-world ${quietMotion?'td-quiet':''} ${paused?'td-paused':''} ${panel?'has-panel':''} ${panel==='decorate'?'td-arranging':''} ${readyArt!==place.art?'td-loading':''}`} role="dialog" aria-modal="true" aria-label="初秋的三天" tabIndex={-1} ref={rootRef} data-town-place={place.id} data-town-day={town.day}>
     <header className="td-header">
       <div className="td-day-mark"><Sprout size={23} strokeWidth={1.2}/><div><span>初来小镇 · 二十二岁的初秋</span><h2>{days[town.day-1]}</h2></div><ol aria-label={`初秋三天，现在是第${town.day}天`}>{[1,2,3].map(d=><li key={d} className={town.day===d?'is-today':town.day>d?'is-lived':''}><span>{d<town.day?<Check size={11}/>:d}</span></li>)}</ol></div>
       <nav aria-label="随身物件" className="td-top-actions">{onSound&&<button type="button" onClick={onSound} aria-label={soundEnabled?'关闭小镇声音':'开启小镇声音'} aria-pressed={soundEnabled}>{soundEnabled?<Volume2 size={19}/>:<VolumeX size={19}/>}<span>{soundEnabled?'声音已开启':'听听小镇'}</span></button>}<button type="button" onClick={()=>openPanel('map')} aria-label="打开小镇地图"><Compass size={20}/><span>小镇地图</span></button><button type="button" onClick={()=>openPanel('bag')} aria-label="打开随身布袋"><ShoppingBag size={19}/><span>随身布袋</span>{town.breads.length>0&&<i>{town.breads.length}</i>}</button><button type="button" onClick={()=>openPanel('journal')} aria-label="翻开初秋手记"><BookOpen size={19}/><span>初秋手记</span></button><button type="button" className="td-close" onClick={onClose} aria-label="收好这一天，回到故事"><X size={24}/></button></nav>
@@ -157,7 +161,7 @@ export default function TownDay({ game, onAction, onClose, quietMotion=false, on
       <div className="td-place-caption"><PlaceIcon size={17} strokeWidth={1.3}/><span>{place.name}</span><small>{readyArt===place.art?place.subtitle:'正在慢慢走近…'}</small></div>
       <div className="td-scene-view" ref={stageRef} onPointerDown={panDown} onPointerMove={panMove} onPointerUp={panEnd} onPointerCancel={panEnd} aria-label={`${place.name}的可探索画面，可左右滑动`}>
         <div className="td-scene-map" data-town-painting={place.id} aria-busy={readyArt!==place.art} style={{width:frame.width,height:frame.height}}>
-          <FilmScene key={place.art} poster={place.art} scene={{id:place.id}} quiet={quietMotion} className="td-painting" onImageLoad={()=>{if(currentArt.current===place.art){setReadyArt(place.art);lastLoadedArt.current=place.art;}}}/>{previousArt&&<FilmScene poster={previousArt} quiet={true} className={`td-painting td-painting-previous ${readyArt===place.art?'is-leaving':''}`}/>}
+          <FilmScene key={place.art} poster={place.art} scene={{id:place.id}} quiet={quietMotion} paused={paused} className="td-painting" onImageLoad={()=>{if(currentArt.current===place.art){setReadyArt(place.art);lastLoadedArt.current=place.art;}}}/>{previousArt&&<FilmScene poster={previousArt} quiet={true} className={`td-painting td-painting-previous ${readyArt===place.art?'is-leaving':''}`}/>}
           <div className="td-scene-vignette" aria-hidden="true"/>
           {place.id==='room'&&TOWN_SLOTS.map(slot=>{
             const decoration=town.decor[slot.id];const age=decoration?Math.max(0,town.day-decoration.placedDay):0;
@@ -167,6 +171,7 @@ export default function TownDay({ game, onAction, onClose, quietMotion=false, on
             </button>;
           })}
           {place.id==='room'&&town.card&&<button type="button" className="td-room-card" onClick={()=>openPanel('decorate')} aria-label="看看留在家里的卡片" style={{left:'37%',top:'66%'}}><Feather size={12}/><span>{town.card}</span></button>}
+          {onMemoryBox&&(place.id==='workshop'||boxEcho?.showBox)&&<button type="button" className="td-memory-box-object" data-town-memory-box style={{left:place.id==='workshop'?'67%':place.id==='room'?'57%':'76%',top:place.id==='workshop'?'74%':place.id==='room'?'62%':'67%'}} aria-label={place.id==='workshop'?'修复雨声里的木盒':boxEcho.objectLabel} onClick={onMemoryBox}><svg viewBox="0 0 160 110" aria-hidden="true"><ellipse cx="82" cy="96" rx="68" ry="7" fill="#222b22" opacity=".18"/><path d="M17 42L81 18L146 42L143 84L78 104L20 80Z" fill="#aa805a" stroke="#674a33" strokeWidth="2"/><path d="M17 42L79 65L146 42L81 18Z" fill="#c8a67d" stroke="#82613f" strokeWidth="2"/><path d="M79 65L78 104M27 48L77 67L135 47M32 61L67 73M91 72L134 57M32 73L64 84M93 86L129 73" stroke="#806040" strokeWidth="1.4" fill="none" opacity=".5"/><path d="M52 34Q76 46 103 37M45 42Q74 54 112 43" stroke="#ead3a8" fill="none" opacity=".6"/>{boxState.style==='leaf'&&<path d="M67 41Q75 26 94 33Q89 48 67 41Z" fill="#b5bb88" stroke="#6e7e54"/>}<path d="M72 65H85V79H72Z" fill="#bda475" stroke="#6b593d"/><circle cx="78" cy="72" r="2" fill="#5c4b34"/>{boxState.repaired&&<path d="M44 18Q35 10 45 3M85 12Q78 4 88-2M119 23Q110 14 120 5" stroke="#e9d8b5" opacity=".65" fill="none" strokeWidth="2"/>}</svg><span>{place.id==='workshop'?'雨声里的木盒':'修好的雨声木盒'}<ChevronDown size={12}/></span></button>}
           {place.id==='bakery'&&<div className="td-recipe-prop" aria-hidden="true"><i/><i/><i/><span>牛奶 · 轻火</span></div>}
           {place.id==='room'&&<div className="td-address-prop" aria-hidden="true"><i/><span>小镇散步</span></div>}
           {place.hotspots.map(h=><button key={h.id} type="button" className={`td-hotspot ${town.explored.includes(h.id)?'is-known':''}`} data-town-hotspot={h.id} style={{left:`${h.id==='bakery-recipe'?53:h.x}%`,top:`${h.id==='bakery-recipe'?72:h.y}%`}} onClick={()=>explore(h)} aria-label={`查看${h.label}`}><i><span/></i><span>{h.label}</span>{town.explored.includes(h.id)&&<Check size={11}/>}</button>)}
@@ -180,6 +185,7 @@ export default function TownDay({ game, onAction, onClose, quietMotion=false, on
 
     <footer className="td-footer"><div className="td-current-invitation"><Leaf size={15} strokeWidth={1.2}/><p>{hint}</p></div><div className="td-place-actions">
       {place.id==='bakery'&&<button type="button" className="td-main-action" onClick={()=>openPanel('craft')} aria-label="在面包房烤一炉面包"><Wheat size={18}/>烤一炉自己的面包<ArrowRight size={15}/></button>}
+      {place.id==='workshop'&&onMemoryBox&&<button type="button" className="td-main-action" onClick={onMemoryBox}><PackageOpen size={17}/>{boxState.repaired?'再听听木盒里的雨':'修好一只留住雨声的木盒'}<ArrowRight size={15}/></button>}
       {person&&<button type="button" onClick={()=>talk(person.id)} aria-label={`和${person.name}聊聊`}><Heart size={16}/>和{person.name}坐一会儿</button>}
       {place.id==='room'&&<><button type="button" className="td-main-action" onClick={()=>openPanel('decorate')} aria-label="布置我的小屋"><Flower2 size={17}/>把小屋布置成喜欢的样子</button><button type="button" onClick={()=>openPanel('rest')} aria-label="让今天慢慢结束"><Moon size={17}/>{town.day<3?'让今天慢慢结束':'收好这段初秋'}</button></>}
       {place.id==='shore'&&<button type="button" className="td-main-action" onClick={()=>explore(place.hotspots[0])}><Wind size={17}/>在海边停一会儿</button>}
@@ -191,6 +197,7 @@ export default function TownDay({ game, onAction, onClose, quietMotion=false, on
       {panel==='detail'&&detail&&<><span className="td-eyebrow">在这里，多停留一会儿</span><h3>{detail.label}</h3><p className="td-discovery-text">{detail.text}</p>{detail.clue&&<div className="td-found-clue"><Feather size={17}/><p>{TOWN_PEOPLE.some(p=>p.id===detail.clue)?`你记下了：${TOWN_PEOPLE.find(p=>p.id===detail.clue).name}喜欢${TOWN_PEOPLE.find(p=>p.id===detail.clue).preference}。`:'这一点小发现，已经收进初秋手记。'}</p></div>}<p className="td-quiet-note"><Check size={14}/>这件小事，已经记在初秋手记里。</p><button type="button" className="td-primary" onClick={closePanel}>再看看周围<ArrowRight size={15}/></button></>}
       {panel==='bag'&&<><span className="td-eyebrow">出门时，带上一点心意</span><h3>随身的布袋</h3><p className="td-panel-intro">手里的面包可以留给自己，也可以去居民身边，亲手递给他们。</p>{town.breads.length?<div className="td-bag-breads">{town.breads.map(b=><article key={b.id}><BreadArt {...b} baked tiny/><div><h4>{b.name}</h4><p>{textureText[b.texture]||'亲手烘烤的香气'}</p><small>第{b.day}天亲手做的 · {TOWN_SHAPES.find(s=>s.id===b.shape)?.name}</small><button type="button" className="td-snack-button" onClick={()=>{act({type:'eat',breadId:b.id},'paper');flash('给自己留的一只，也要坐下来好好吃。');}} aria-label={`留给自己尝尝：${b.name}`}>留给自己尝尝<Heart size={12}/></button></div></article>)}</div>:<div className="td-empty-bag"><ShoppingBag size={34} strokeWidth={1}/><p>布袋还是轻轻的。</p><small>去面包房试着做一炉，或者先逛逛也好。</small><button type="button" className="td-text-button" onClick={()=>visit('bakery')}>去有光面包房<ArrowRight size={14}/></button></div>}<div className="td-bag-keepsakes"><h4>找到的小物件</h4><div>{TOWN_DECORATIONS.filter(i=>townDecorationUnlocked(game,i.id)).map(i=><span key={i.id}><DecorationArt item={i.id}/>{i.name}</span>)}</div><button type="button" className="td-text-button" onClick={()=>visit('room')}>带回小屋，找个喜欢的位置<ArrowRight size={14}/></button></div></>}
       {panel==='talk'&&dialogue&&<><span className="td-eyebrow">{dialogue.person.role} · 第{town.day}天</span><h3>和{dialogue.person.name}坐一会儿</h3><div className="td-dialogue" data-town-dialogue={selectedPerson}><span className="td-speaker">{dialogue.person.name}</span><p>{dialogue.line}</p>{dialogue.recalledGift&&<span className="td-recalled"><Gift size={13}/>还记得你上次送来的面包</span>}{dialogue.response&&<div className="td-answer"><span>你们又多说了几句</span><p>{dialogue.response}</p></div>}</div>{!dialogue.selected&&<div className="td-replies">{dialogue.choices.map(choice=><button key={choice.id} type="button" data-town-reply={choice.id} onClick={()=>act({type:'talk',person:selectedPerson,reply:choice.id},'paper')}>{choice.text}<ArrowRight size={14}/></button>)}</div>}
+        {personEcho&&<aside className="td-memory-box-echo"><PackageOpen size={19}/><div><h4>{personEcho.title}</h4><p>{personEcho.text}</p></div></aside>}
         <div className="td-gift-area"><h4><Gift size={15}/>把手里的温暖，递过去</h4>{alreadyGifted?<p className="td-gift-response">{town.gifts.find(g=>g.day===town.day&&g.person===selectedPerson)?.response}</p>:town.breads.length?<><label htmlFor="td-gift-bread">挑一只亲手做的面包</label><div className="td-gift-choice"><BreadArt {...pickedBread} baked tiny/><select id="td-gift-bread" aria-label="挑选送出的面包" value={pickedBread?.id||''} onChange={event=>setGiftId(event.target.value)}>{town.breads.map(b=><option key={b.id} value={b.id}>{b.name} · {textureText[b.texture]||'亲手做的'}</option>)}</select></div><button type="button" className="td-primary" onClick={()=>act({type:'gift',person:selectedPerson,breadId:pickedBread.id},'complete')}>送出这只面包<Gift size={16}/></button></>:<p className="td-quiet-note">今天还没有随身的面包。听过近况，再去烤一炉也来得及。</p>}</div></>}
       {panel==='craft'&&<><span className="td-eyebrow">有光面包房 · 借用一角操作台</span><h3>把今天，揉进面香里</h3><p className="td-panel-intro">{stage==='done'?'这一炉已经装进布袋。想把它带给谁？':stage==='knead'?'用手推开面团，再慢慢收回来。它会记得你的手温。':stage==='bake'?'火轻一点更柔软，火旺一点更酥香。每一种都有自己的味道。':'先想想，今天想做什么味道。原料还没拌齐时，都可以重新选。'}</p>
         <div className="td-craft-layout"><div className={'td-workbench td-craft-'+stage}>{stage==='knead'?<KneadDough craft={town.craft} onKnead={()=>act({type:'knead'},'touch')}/>:<BreadArt {...town.craft} baked={stage==='done'}/>}<div className="td-craft-progress"><span className={stage==='ingredients'?'is-active':''}>拌入原料</span><i/><span className={stage==='knead'?'is-active':''}>揉进手温</span><i/><span className={stage==='bake'||stage==='done'?'is-active':''}>守一炉香气</span></div>{stage==='knead'&&<div className="td-knead-count" aria-label={`已揉${town.craft.kneads}次，共三次`}>{[1,2,3].map(i=><span key={i} className={town.craft.kneads>=i?'is-done':''}>{town.craft.kneads>=i?<Check size={12}/>:i}</span>)}</div>}</div>
