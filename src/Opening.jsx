@@ -7,7 +7,7 @@ import './opening.css';
 const originIcons = { pause: Coffee, craft: Feather, independent: Compass };
 const motes = [0, 1, 2, 3, 4, 5, 6, 7];
 
-export default function Opening({ game, onBegin, onContinue, onImport, onSound, soundEnabled = false, quietMotion = false }) {
+export default function Opening({ game, onBegin, onContinue, onTown, onImport, onSound, soundEnabled = false, quietMotion = false }) {
   const [settingUp, setSettingUp] = useState(false);
   const [name, setName] = useState(game.name || '旅人');
   const [origin, setOrigin] = useState(game.origin || origins[0].id);
@@ -83,6 +83,7 @@ export default function Opening({ game, onBegin, onContinue, onImport, onSound, 
             <p className="opening-film-subtitle">风停在这里，故事从你开始</p>
             <p className="opening-film-intro">{canContinue ? <>你的日子已经在这里留下了痕迹。<br />歇一会儿，再从熟悉的那一页继续。</> : <>二十二岁，你带着行李来到海边。<br />从一间小屋、一顿热饭，开始新的生活。</>}</p>
             <button ref={startRef} type="button" className="opening-depart" onClick={() => canContinue ? onContinue?.() : setSettingUp(true)}><span>{canContinue ? '继续这段人生' : '从这一刻出发'}</span><ArrowRight size={18} strokeWidth={1.3} aria-hidden="true" /></button>
+            {canContinue && onTown && <button type="button" className="opening-town-button" onClick={onTown} aria-label="走进初秋的三天"><Compass size={15} strokeWidth={1.3} /><span>初秋的三天 · 去小镇走走</span><ArrowRight size={14} /></button>}
             {echo && <p className="opening-echo" aria-label="上一段人生的回响"><span>你依稀记得……{echo.title.replace(/^梦里的/, '')}</span></p>}
           </section>
         ) : (

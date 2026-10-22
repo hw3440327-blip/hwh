@@ -1,0 +1,259 @@
+{
+  "version": "4.0.0",
+  "startedAt": "2026-10-22T16:52:16.764Z",
+  "url": "http://127.0.0.1:4173/hwh/",
+  "offline": false,
+  "checks": [
+    {
+      "name": "the browser target matches the exact production build or standalone artifact",
+      "status": "pass",
+      "details": {
+        "version": "4.0.0",
+        "entry": {
+          "bytes": 847,
+          "sha256": "30d85ad47ec61c591441fffaea4ee0db760427de3820ef26545bc49d99192ea6"
+        },
+        "javascript": {
+          "file": "assets/index-95771ffc6e05.js",
+          "bytes": 784923,
+          "sha256": "95771ffc6e0590d6c8f29828f000062fbaa17357872f8ea48f51ab253e68d891"
+        },
+        "assetManifestSha256": "1796e52b351d189b0cdf98484c17d4c4b47cc4997b2d4325e2247f760d980618"
+      }
+    },
+    {
+      "name": "legacy journeys discover the town directly and through the journal",
+      "status": "pass",
+      "details": {
+        "legacySave": true,
+        "titleEntry": true,
+        "storyEntry": true,
+        "journalEntry": true,
+        "firstDay": 1
+      }
+    },
+    {
+      "name": "spatial exploration reveals a preference and a daily conversation records the chosen reply",
+      "status": "pass",
+      "details": {
+        "clue": "在这里，多停留一会儿\n翻看沾着面粉的食谱\n\n食谱边上有林姨的字：“牛奶面包，火轻些，自己吃。”她每天给别人烤脆皮包，给自己的那一只却总要柔软一些。夹在书里的纸袋可以带回家装面包。\n\n你记下了：林姨喜欢柔软一点的牛奶面包。\n\n这件小事，已经记在初秋手记里。\n\n再看看周围",
+        "conversation": "有光面包房的店主 · 第1天\n和林姨坐一会儿\n林姨\n\n林姨把抹布搭在水池边：“手腕这阵子有点酸。早上忙着给客人装袋，自己倒还没吃上。”\n\n你们又多说了几句\n\n“那我可要坐下来好好吃。”她没有再把话岔回客人的订单，先给自己倒了杯热水。\n\n把手里的温暖，递过去\n\n今天还没有随身的面包。听过近况，再去烤一炉也来得及。",
+        "chosenReply": "share"
+      }
+    },
+    {
+      "name": "recipe, shape, actual pointer kneading and keyboard oven control produce a custom loaf",
+      "status": "pass",
+      "details": {
+        "bread": {
+          "id": "bread-1",
+          "day": 1,
+          "recipe": "milk",
+          "shape": "twist",
+          "heat": 180,
+          "texture": "soft",
+          "name": "松软的牛奶面包 · 双股辫"
+        },
+        "pointerKneading": true,
+        "keyboardKneading": true,
+        "keyboardTemperature": 180
+      }
+    },
+    {
+      "name": "gifting the actual loaf changes the resident response and consumes it once",
+      "status": "pass",
+      "details": {
+        "feedback": {
+          "textBefore": "有光面包房的店主 · 第1天\n和林姨坐一会儿\n林姨\n\n林姨把抹布搭在水池边：“手腕这阵子有点酸。早上忙着给客人装袋，自己倒还没吃上。”\n\n你们又多说了几句\n\n“那我可要坐下来好好吃。”她没有再把话岔回客人的订单，先给自己倒了杯热水。\n\n把手里的温暖，递过去\n挑一只亲手做的面包\n松软的牛奶面包 · 双股辫 · 松软\n送出这只面包",
+          "textAfter": "有光面包房的店主 · 第1天\n和林姨坐一会儿\n林姨\n\n林姨把抹布搭在水池边：“手腕这阵子有点酸。早上忙着给客人装袋，自己倒还没吃上。”\n\n你们又多说了几句\n\n“那我可要坐下来好好吃。”她没有再把话岔回客人的订单，先给自己倒了杯热水。\n\n把手里的温暖，递过去\n\n林姨掰开面包，松软的内里慢慢弹回来：“正好是我想吃的那种。你还记得。”柔软的一角被慢慢掰开，余下的仍仔细留在纸袋里。两股交织的面包可以慢慢撕开，分给身边的人。"
+        },
+        "gifts": [
+          {
+            "day": 1,
+            "person": "lin",
+            "breadId": "bread-1",
+            "recipe": "milk",
+            "shape": "twist",
+            "heat": 180,
+            "texture": "soft",
+            "matched": true,
+            "response": "林姨掰开面包，松软的内里慢慢弹回来：“正好是我想吃的那种。你还记得。”柔软的一角被慢慢掰开，余下的仍仔细留在纸袋里。两股交织的面包可以慢慢撕开，分给身边的人。"
+          }
+        ]
+      }
+    },
+    {
+      "name": "the other places and residents can be explored freely without advancing the main story",
+      "status": "pass",
+      "details": {
+        "visited": [
+          {
+            "place": "bookshop",
+            "clue": "book-margin"
+          },
+          {
+            "place": "workshop",
+            "clue": "workshop-grain"
+          },
+          {
+            "place": "shore",
+            "clue": "shore-shell"
+          }
+        ],
+        "talks": {
+          "1:lin": "share",
+          "1:he": "route",
+          "1:zhou": "keep"
+        }
+      }
+    },
+    {
+      "name": "a chosen room object and a personal card remain in the scene",
+      "status": "pass",
+      "details": {
+        "decor": {
+          "window": {
+            "item": "flower",
+            "placedDay": 1
+          },
+          "desk": null,
+          "door": null
+        },
+        "card": "雨停以后，也给自己留一点温柔。"
+      }
+    },
+    {
+      "name": "the next day remembers the actual gift and advances the flower",
+      "status": "pass",
+      "details": {
+        "day": 2,
+        "flowerPlacedDay": 1,
+        "roomText": "初来小镇 · 二十二岁的初秋\n有人记得的第二天\n2\n3\n听听小镇\n小镇地图\n随身布袋\n初秋手记\n蓝门小屋\n把这里慢慢住成自己的样子\n窗台 · 长新叶了\n雨停以后，也给自己留一点温柔。\n小镇散步\n推开有些涩的窗\n桌角的手写地址\n00 / 02\n\n这是初到栖屿镇时的一段回忆。屋里的窗还不太好推，空白的纸卡等着写上今天的一句话。\n\n你送出的东西、说过的话和屋里的摆放，都会被这个小镇记住。\n\n把小屋布置成喜欢的样子\n让今天慢慢结束\n\n第2天。昨天留下的小事，今天还在。",
+        "remembered": "有光面包房的店主 · 第2天\n和林姨坐一会儿\n林姨\n\n昨天你送来的牛奶面包，林姨还记得。“你记得我的口味，我很高兴。”\n\n林姨把热水放在桌上：“昨天听了你的，今天先坐着吃完早饭再开门。差那五分钟，客人也等得。”\n\n林姨在门外翻过营业牌：“今天开门前，我想先把这张旧食谱抄清楚。字小，看着费眼。”\n\n还记得你上次送来的面包\n替她把用量抄大一些\n请她讲讲这张食谱从哪里来\n把手里的温暖，递过去\n\n今天还没有随身的面包。听过近况，再去烤一炉也来得及。"
+      }
+    },
+    {
+      "name": "different gifts receive their own response and three days form one saved memory",
+      "status": "pass",
+      "details": {
+        "secondLoaf": {
+          "id": "bread-2",
+          "day": 2,
+          "recipe": "fruit",
+          "shape": "leaf",
+          "heat": 180,
+          "texture": "soft",
+          "name": "松软的果干面包 · 叶子形"
+        },
+        "feedback": {
+          "textBefore": "有光面包房的店主 · 第2天\n和林姨坐一会儿\n林姨\n\n昨天你送来的牛奶面包，林姨还记得。“你记得我的口味，我很高兴。”\n\n林姨把热水放在桌上：“昨天听了你的，今天先坐着吃完早饭再开门。差那五分钟，客人也等得。”\n\n林姨在门外翻过营业牌：“今天开门前，我想先把这张旧食谱抄清楚。字小，看着费眼。”\n\n还记得你上次送来的面包\n你们又多说了几句\n\n你把“牛奶”两个字写得很开。林姨把纸靠近看了看：“这下不用一边揉面一边找眼镜了。”\n\n把手里的温暖，递过去\n挑一只亲手做的面包\n松软的果干面包 · 叶子形 · 松软\n送出这只面包",
+          "textAfter": "有光面包房的店主 · 第2天\n和林姨坐一会儿\n林姨\n\n昨天你送来的牛奶面包，林姨还记得。“你记得我的口味，我很高兴。”\n\n林姨把热水放在桌上：“昨天听了你的，今天先坐着吃完早饭再开门。差那五分钟，客人也等得。”\n\n林姨在门外翻过营业牌：“今天开门前，我想先把这张旧食谱抄清楚。字小，看着费眼。”\n\n还记得你上次送来的面包\n你们又多说了几句\n\n你把“牛奶”两个字写得很开。林姨把纸靠近看了看：“这下不用一边揉面一边找眼镜了。”\n\n把手里的温暖，递过去\n\n林姨接过纸袋，先给自己摆好盘子：“你做的这一只，今天就坐下来尝尝。”柔软的一角被慢慢掰开，余下的仍仔细留在纸袋里。那道像叶脉的割纹被多看了一眼。"
+        },
+        "dayThree": "有光面包房的店主 · 第3天\n和林姨坐一会儿\n林姨\n\n昨天你送来的果干面包，林姨还记得。“收到别人惦记的一份，做事时也会想起来。”\n\n林姨把抄好的食谱贴到炉边。最常用的几行写得很大，她抬眼就能看见。\n\n门口的风铃响了一下。林姨看见你，已经不用再问名字：“还是老地方坐？今天可以慢慢吃。”\n\n还记得你上次送来的面包\n你们又多说了几句\n\n她把小盘子推近一些。你们一人拿了一半，等门外的脚步经过，也没有急着填满沉默。\n\n把手里的温暖，递过去\n\n今天还没有随身的面包。听过近况，再去烤一炉也来得及。",
+        "memory": "town_three_days"
+      }
+    },
+    {
+      "name": "closing, reopening and reloading keep the episode and main story",
+      "status": "pass",
+      "details": {
+        "completed": true,
+        "threeDayStatePreserved": true,
+        "mainStoryPreserved": true
+      }
+    },
+    {
+      "name": "real exported JSON and imported legacy/current journeys retain legal town state",
+      "status": "pass",
+      "details": {
+        "downloadName": "下一次春天-我的旅程.json",
+        "legacyMigration": true,
+        "currentSaveRoundTrip": true
+      }
+    },
+    {
+      "name": "nested Escape and keyboard focus stay in the active layer and return to the trigger",
+      "status": "pass",
+      "details": {
+        "focusContained": true,
+        "mapAndTownCloseSeparately": true,
+        "focusRestored": true
+      }
+    },
+    {
+      "name": "the source painting stays fixed and reduced motion preserves its resolution",
+      "status": "pass",
+      "details": {
+        "geometry": {
+          "width": 7680,
+          "height": 4322,
+          "cssWidth": 2560,
+          "cssHeight": 1440.65625,
+          "planeWidth": 2560,
+          "planeHeight": 1440.65625,
+          "transform": "none",
+          "filter": "none",
+          "objectFit": "contain"
+        },
+        "basePixelsStable": true,
+        "reducedMotionPreservesPainting": true
+      }
+    },
+    {
+      "name": "the selected first reference voice plays in the story and pauses while exploring",
+      "status": "pass",
+      "details": {
+        "voiceConfigHash": "358365d3aa946c0e80c943259352d9a05d9b16bee9583e7fa47f69ee690cc8bd",
+        "recordedOpeningPlayed": true,
+        "oldStoryPausedInsideTown": true
+      }
+    },
+    {
+      "name": "native phone gestures knead once, cancel safely, place an object and keep the scene within the screen",
+      "status": "pass",
+      "details": {
+        "nativeCDPTouch": true,
+        "kneads": 1,
+        "cancelDoesNotCommit": true,
+        "decorationPlaced": true,
+        "viewport": 390,
+        "scroll": 390,
+        "dialog": 390,
+        "imageShape": {
+          "natural": [
+            7680,
+            4322
+          ],
+          "display": [
+            1101.703125,
+            620
+          ],
+          "plane": [
+            1101.703125,
+            620
+          ]
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "resourceFailures": [],
+  "externalRequests": [],
+  "cancelledRequests": [],
+  "buildFingerprint": {
+    "version": "4.0.0",
+    "entry": {
+      "bytes": 847,
+      "sha256": "30d85ad47ec61c591441fffaea4ee0db760427de3820ef26545bc49d99192ea6"
+    },
+    "javascript": {
+      "file": "assets/index-95771ffc6e05.js",
+      "bytes": 784923,
+      "sha256": "95771ffc6e0590d6c8f29828f000062fbaa17357872f8ea48f51ab253e68d891"
+    },
+    "assetManifestSha256": "1796e52b351d189b0cdf98484c17d4c4b47cc4997b2d4325e2247f760d980618"
+  },
+  "completedAt": "2026-10-22T16:53:17.981Z",
+  "passed": 15,
+  "failed": 0
+}

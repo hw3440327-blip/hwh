@@ -40,6 +40,7 @@ const paintedMoments = {
 // these chapters receive their own painted time of life.
 export const getSceneArt = scene => filmForScene(scene)?.poster || artwork[paintedMoments[scene?.id] || sceneArtKey(scene)];
 function memorySceneArt(memory) {
+  if (memory.id === 'town_three_days') return artwork.bakery;
   if (memory.id === 'discovery_tea') return artwork.kitchen;
   if (memory.id === 'discovery_shells') return artwork.shore;
   if (memory.id === 'discovery_photo') return artwork.bookshop;

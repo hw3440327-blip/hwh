@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpFromLine, BookOpen, Check, ChevronRight, Feather, Flower2, HandHeart, Heart, Image, Leaf, Mail, NotebookPen, Pencil, RotateCcw, Route, Settings2, Sprout, Wallet, X } from 'lucide-react';
+import { ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpFromLine, BookOpen, Check, ChevronRight, Compass, Feather, Flower2, HandHeart, Heart, Image, Leaf, Mail, NotebookPen, Pencil, RotateCcw, Route, Settings2, Sprout, Wallet, X } from 'lucide-react';
 import { chapters, scenes } from './story.js';
 import { origins } from './origins.js';
 import { STORAGE_KEY, createGame, availableChoices, choose, serializeGame, restoreGame, reincarnate, finishIntroduction, getSceneParagraphs, replyToLetter } from './engine.js';
@@ -17,10 +17,13 @@ import useNarration from './useStoryNarration.js';
 import AudioSettings from './AudioSettings.jsx';
 import DiscoveryScene, { PhotoCollection } from './DiscoveryScene.jsx';
 import { discoveryDefinitions, discoveryProgress, sceneDiscoveries, performDiscovery } from './discoveries.js';
+import TownDay from './TownDay.jsx';
+import { townProgress, townJournal, performTownAction } from './townDay.js';
 import './styles.css';
 import './immersive.css';
 import './cinematic-experience.css';
 import './clarity.css';
+import './town-entry.css';
 
 const PREF_KEY = 'next-spring-preferences-v1';
 const NOTES_KEY = 'next-spring-notes-v1';
@@ -44,6 +47,7 @@ export default function ImmersiveApp() {
   const [menu, setMenu] = useState(null);
   const [activityId, setActivityId] = useState(null);
   const [discoveryId, setDiscoveryId] = useState(null);
+  const [townOpen, setTownOpen] = useState(false);
   const [detail, setDetail] = useState(null);
   const [note, setNote] = useState(() => read(NOTES_KEY));
   const [reading, setReading] = useState(() => validReading(parse(READING_KEY, null), game));
@@ -64,12 +68,15 @@ export default function ImmersiveApp() {
   const toastTimer = useRef(null);
   const menuTrigger = useRef(null);
   const activityTrigger = useRef(null);
+  const townReturn = useRef(null);
   const scene = scenes[game.sceneId];
   const chapter = chapters[scene.chapter];
   const sceneActivity = getSceneActivity(game);
   const activeActivity = activityDefinitions.find(item => item.id === activityId);
   const activeDiscovery = discoveryDefinitions.find(item => item.id === discoveryId);
-  const overlayOpen = menu !== null || Boolean(activeActivity) || Boolean(activeDiscovery);
+  const overlayOpen = menu !== null || Boolean(activeActivity) || Boolean(activeDiscovery) || townOpen;
+  const town = townProgress(game);
+  const townNotes = townJournal(game);
   const isTitle = showTitle || !game.introDone;
   const handleNarrationEnd = useCallback(({ utteranceKey }) => {
     setNarrationCompleted(previous => ({ utteranceKey, sequence: previous.sequence + 1 }));
@@ -80,7 +87,9 @@ export default function ImmersiveApp() {
     paused: isTitle || overlayOpen || narrationFrame.paused || narrationFrame.utteranceKey.split(':')[1] !== scene.id,
     onError: message => notify(message), onEnd: handleNarrationEnd,
   });
-  const audioScene = { ...scene, image: sceneArtKey(scene) };
+  const audioScene = townOpen
+    ? { id: `town-${town.place}`, image: town.place, weather: '雨后微风', time: '初秋，白天 10:00' }
+    : { ...scene, image: sceneArtKey(scene) };
   const music = useMusic({ scene: audioScene, ducked: narration.speaking, onError: message => notify(message) });
   const sound = useSoundscape(audioScene, { ducked: narration.speaking, onError: message => notify(message) });
   const anySound = sound.enabled || music.enabled;
@@ -112,6 +121,23 @@ export default function ImmersiveApp() {
   }
   function returnToTitle() { resetNarrationSession(); closeMenu(); setShowTitle(true); }
   function closeMenu() { setMenu(null); setDetail(null); requestAnimationFrame(() => { if (menuTrigger.current?.isConnected) menuTrigger.current.focus(); }); }
+  function openTown() {
+    townReturn.current = { element: document.activeElement, menu };
+    resetNarrationSession();
+    setMenu(null); setDetail(null); setActivityId(null); setDiscoveryId(null); setTownOpen(true);
+  }
+  function closeTown() {
+    const previous = townReturn.current;
+    setTownOpen(false);
+    if (previous?.menu) setMenu(previous.menu);
+    requestAnimationFrame(() => {
+      const target = previous?.element?.isConnected ? previous.element
+        : previous?.menu ? document.querySelector('.town-journal-entry button')
+          : document.querySelector('.cm-town-button, .opening-town-button');
+      target?.focus({ preventScroll: true });
+    });
+  }
+  function actInTown(action) { setGame(current => performTownAction(current, action)); }
   function openDiscovery(id) {
     if (!sceneDiscoveries(game).some(d => d.id === id) && !(id !== 'photo' && discoveryProgress(game, id)?.completed)) return;
     activityTrigger.current = document.activeElement; setMenu(null); setActivityId(null); setDiscoveryId(id);
@@ -170,7 +196,7 @@ export default function ImmersiveApp() {
       setGame(restored); setReading(validReading(parsed.reading, restored)); setSceneSession(value => value + 1);
       setNote(typeof parsed.note === 'string' ? parsed.note.slice(0, 5000) : '');
       if (Number.isSafeInteger(parsed.cycles) && parsed.cycles > 0) setPreferences(p => ({ ...p, cycles: parsed.cycles }));
-      setActivityId(null); closeMenu(); setShowTitle(!restored.introDone); notify('风翻回了熟悉的那一页。');
+      setActivityId(null); setDiscoveryId(null); setTownOpen(false); closeMenu(); setShowTitle(!restored.introDone); notify('风翻回了熟悉的那一页。');
     } catch { notify('这份存档还没有读懂，请选择之前导出的旅程文件。'); }
     event.target.value = '';
   }
@@ -179,7 +205,7 @@ export default function ImmersiveApp() {
     const next = carry ? reincarnate(game) : createGame(game.name, game.origin);
     setGame(next); setReading({ sceneId: 'arrival', paragraphIndex: 0 });
     if (carry) setPreferences(p => ({ ...p, cycles: p.cycles + 1 }));
-    setActivityId(null); closeMenu(); setShowTitle(true);
+    setActivityId(null); setDiscoveryId(null); setTownOpen(false); closeMenu(); setShowTitle(true);
   }
   function rename(event) {
     event.preventDefault(); const value = nameInput.trim();
@@ -191,7 +217,7 @@ export default function ImmersiveApp() {
 
   return <div className={`immersive-shell ${preferences.largeText ? 'large-text' : ''} ${preferences.quietMotion ? 'quiet-motion' : ''}`}>
     <div className="story-layer" inert={overlayOpen} aria-hidden={overlayOpen}>
-      {isTitle ? <Opening quietMotion={preferences.quietMotion || !preferences.filmMotion} game={game} onBegin={begin} onContinue={() => setShowTitle(false)} onImport={importSave} onSound={toggleSound} soundEnabled={anySound} /> : <CinematicScene key={sceneSession}
+      {isTitle ? <Opening quietMotion={preferences.quietMotion || !preferences.filmMotion} game={game} onBegin={begin} onContinue={() => setShowTitle(false)} onTown={openTown} onImport={importSave} onSound={toggleSound} soundEnabled={anySound} /> : <CinematicScene key={sceneSession}
         game={game} scene={scene} chapter={chapter} paragraphs={getSceneParagraphs(game).map(personalize)} choices={availableChoices(game)}
         initialParagraphIndex={reading.sceneId === game.sceneId ? reading.paragraphIndex : 0}
         onChoose={makeChoice} onMenu={() => openMenu()} onSound={toggleSound} soundEnabled={anySound}
@@ -200,9 +226,11 @@ export default function ImmersiveApp() {
         narrationSpeaking={narration.speaking} narrationCompleted={narrationCompleted} autoNarration={preferences.autoNarration}
         preferences={{ ...preferences, paused: overlayOpen }} onReincarnate={() => nextLife(true)} onReview={() => openMenu('life')} onProgress={recordProgress}
         discoveries={sceneDiscoveries(game)} onDiscover={openDiscovery}
+        onTown={openTown} townDay={town.day} townCompleted={town.completed}
         activity={sceneActivity} activityDone={Boolean(sceneActivity && activityProgress(game, sceneActivity.id).completed)} onActivity={() => openActivity()}
       />}
     </div>
+    {townOpen && <TownDay game={game} onAction={actInTown} onClose={closeTown} quietMotion={preferences.quietMotion || !preferences.filmMotion} onCue={cue => sound.playCue?.(cue === 'paper' ? 'touch' : cue)} onSound={toggleSound} soundEnabled={anySound} />}
     {activeDiscovery && <DiscoveryScene onPouringChange={sound.setPouring} game={game} scene={scene} discovery={activeDiscovery} onAction={actOnDiscovery} onClose={closeDiscovery} quiet={preferences.quietMotion || !preferences.filmMotion} />}
     {activeActivity && <LifeActivity game={game} activity={activeActivity} onAction={action => actOnMoment(activeActivity.id, action)} onClose={closeActivity} quietMotion={preferences.quietMotion} />}
     {menu && <JourneyDialog onClose={closeMenu}>
@@ -228,6 +256,11 @@ export default function ImmersiveApp() {
           {menu === 'album' && <><PhotoCollection game={game} /><PanelHeading eyebrow="THE LITTLE THINGS THAT STAY" title="有些温暖，记得就不会走远。" subtitle={`${game.memories.length} 段回忆，都有各自的光。`} /><div className="quiet-album">{game.memories.map((memory, i) => <button key={memory.id} className="quiet-photo" onClick={() => setDetail({ type: 'memory', memory })}><img src={memoryArt(memory,{preview:true})} alt="手绘动画里的生活回忆" loading="lazy" /><div><span>NO. {String(i + 1).padStart(2, '0')}</span><h3>{memory.title}</h3><p>{personalize(memory.description)}</p><small>翻开回忆<ChevronRight size={13} /></small></div></button>)}</div></>}
           {menu === 'moments' && <>
             <PanelHeading eyebrow="A DAY HELD IN YOUR HANDS" title="有些日子，要亲手过一过。" subtitle="在面粉、木纹和一盆小花里，慢慢和小镇熟起来。" />
+            <section className="town-journal-entry">
+              <img src={memoryArt({ id: 'town_three_days' }, { preview: true })} alt="初秋面包房的暖光" loading="lazy" />
+              <div><span className="eyebrow">初秋的三天 · 22 岁时的小镇</span><h3>{town.completed ? '那些日子，留下了你的痕迹。' : '走出故事，亲自过三个普通的日子。'}</h3><p>在五个地方走走，听听居民的近况。做一只想送给谁的面包，再把小屋布置成喜欢的样子。</p><button onClick={openTown} aria-label="走进初秋的三天"><Compass size={17} strokeWidth={1.3} />{town.completed ? '回小镇看看' : `去过第${['一','二','三'][town.day - 1] || '一'}天`}<ArrowRight size={16} /></button></div>
+            </section>
+            {(town.explored.length > 0 || Object.keys(town.talks).length > 0) && <div className="town-relationship-notes" aria-label="居民记得的事">{townNotes.people.map(person => <article key={person.id}><strong>{person.name}</strong><span>{person.label}</span><p>{person.text}</p></article>)}</div>}
             <p className="moment-collection-count"><HandHeart size={18} strokeWidth={1.3} />留下了 {activityDefinitions.filter(item => activityProgress(game, item.id).completed).length} 件亲手做的小事<span>进度会跟着旅程一起保存</span></p>
             <div className="moment-collection">{activityDefinitions.map(item => {
               const progress = activityProgress(game, item.id);
