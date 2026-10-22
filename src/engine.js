@@ -5,6 +5,7 @@ import { activityDefinitions, normalizeActivities } from './activities.js';
 import { discoveryDefinitions, normalizeDiscoveries } from './discoveries.js';
 import { normalizeTownDay, TOWN_MEMORY } from './townDay.js';
 import { normalizeMemoryBox, MEMORY_BOX_MEMORY } from './memoryBox.js';
+import { normalizeBakeryLife, BAKERY_MEMORY } from './bakeryLife.js';
 
 export const STORAGE_KEY = 'next-spring-save-v1';
 
@@ -39,6 +40,7 @@ export function createGame(name = '旅人', origin = 'pause') {
     discoveries: {},
     townDay: normalizeTownDay(),
     memoryBox: normalizeMemoryBox(),
+    bakeryLife: normalizeBakeryLife(),
     sceneId: 'arrival',
     energy: 72,
     money: 860,
@@ -204,6 +206,7 @@ export function restoreGame(raw) {
       ...discoveryDefinitions.map(item => [item.memory.id, item.memory]),
       [TOWN_MEMORY.id, TOWN_MEMORY],
       [MEMORY_BOX_MEMORY.id, MEMORY_BOX_MEMORY],
+      [BAKERY_MEMORY.id, BAKERY_MEMORY],
     ]);
     if (!Array.isArray(saved.memories) || !saved.memories.length) return null;
     if (!saved.memories.every((memory) =>
@@ -237,6 +240,7 @@ export function restoreGame(raw) {
       discoveries: normalizeDiscoveries(saved.discoveries, saved.visited),
       townDay: normalizeTownDay(saved.townDay),
       memoryBox: normalizeMemoryBox(saved.memoryBox),
+      bakeryLife: normalizeBakeryLife(saved.bakeryLife),
       sceneId: saved.sceneId,
       energy: clamp(saved.energy, 0, 100),
       money: clamp(saved.money, 0),

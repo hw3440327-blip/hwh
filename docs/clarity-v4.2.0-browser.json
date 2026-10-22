@@ -1,0 +1,116 @@
+{
+  "version": "4.2.0",
+  "checks": [
+    {
+      "name": "all production files match their full SHA-256 and no warped video is requested",
+      "status": "pass",
+      "details": {
+        "files": 267,
+        "totalBytes": 79168331,
+        "legacyVideos": 0
+      }
+    },
+    {
+      "name": "title and saved story use actual 8K images and the selected first reference voice",
+      "status": "pass",
+      "details": {
+        "title": {
+          "width": 7680,
+          "height": 4322,
+          "src": "http://127.0.0.1:4173/hwh/art/film-arrival.webp?v=d8a480b640a5"
+        },
+        "prefs": {
+          "mode": "recorded",
+          "edition": "358365d3aa946c0e80c943259352d9a05d9b16bee9583e7fa47f69ee690cc8bd"
+        }
+      }
+    },
+    {
+      "name": "painting pixels stay identical while independent environment effects change",
+      "status": "pass",
+      "details": {
+        "basePixelsIdentical": true,
+        "environmentChanges": true,
+        "geometry": {
+          "plane": "none",
+          "image": "none",
+          "filter": "none"
+        }
+      }
+    },
+    {
+      "name": "actual prerecorded MP3 plays and opening a journal pauses scene animation",
+      "status": "pass",
+      "details": {
+        "audio": {
+          "src": "http://127.0.0.1:4173/hwh/audio/narration/1c9a5c2cd357d71486be5e588d296f876ebc8bc9bcb722a59ce1b8cfba8676f0.mp3?v=0f9d4f91770e",
+          "duration": 11.31625,
+          "error": null
+        },
+        "pausedTimeStable": true
+      }
+    },
+    {
+      "name": "8K closeup shares the source and moves only by uniform camera framing",
+      "status": "pass",
+      "details": {
+        "width": 7680,
+        "height": 4322,
+        "aspectPreserved": true,
+        "pan": true,
+        "zoom": true
+      }
+    },
+    {
+      "name": "full-resolution background can be photographed and the saved journey survives reload",
+      "status": "pass",
+      "details": {
+        "jpegChars": 59975,
+        "namePreserved": true,
+        "photoPreserved": true
+      }
+    },
+    {
+      "name": "new 8K scene waits for decode before retiring the previous painting",
+      "status": "pass",
+      "details": {
+        "oldFrameHeldUntilReady": true,
+        "fadeUsesOpacityOnly": true
+      }
+    },
+    {
+      "name": "tea uses an actual 8K background and pointer pouring still completes",
+      "status": "pass",
+      "details": {
+        "filled": 82,
+        "completed": true
+      }
+    },
+    {
+      "name": "mobile scene and closeup remain sharp, proportionate and within the viewport",
+      "status": "pass",
+      "details": {
+        "viewport": 390,
+        "scroll": 390,
+        "width": 7680,
+        "reducedMotionKeeps8K": true
+      }
+    },
+    {
+      "name": "a native 7680 by 4320 viewport renders the 8K painting with readable UI",
+      "status": "pass",
+      "details": {
+        "width": 7680,
+        "height": 4320,
+        "image": 7680,
+        "font": 48,
+        "overflow": false,
+        "largeFont": 60
+      }
+    }
+  ],
+  "errors": [],
+  "voiceConfigHash": "358365d3aa946c0e80c943259352d9a05d9b16bee9583e7fa47f69ee690cc8bd",
+  "passed": 10,
+  "failed": 0
+}

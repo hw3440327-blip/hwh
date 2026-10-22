@@ -112,12 +112,18 @@ const safeText = (text,max=40) => typeof text==='string' ? Array.from(text.repla
 const initialCraft = () => ({recipe:'milk',shape:'round',heat:180,ingredients:[],kneads:0,baked:false});
 function textureFor(heat) { return heat<170?'pale':heat<=185?'soft':heat<=200?'crisp':'toasty'; }
 const textureNames={pale:'浅色柔软',soft:'松软',crisp:'脆边',toasty:'焦香'};
+export function handmadeBreadName(b){const names={milk:'奶香',fruit:'果干',sesame:'芝麻'},taste=b.additions.map(id=>names[id]).join('')||'麦香',shape=TOWN_SHAPES.find(s=>s.id===b.shape)?.name||'小圆包';return `${b.finish==='soup'?'配热汤的薄片':b.colour>.8?'深烘脆香':b.colour<.4?'浅烘柔软':'金黄'}${taste} · ${shape}`;}
+function handmadeFor(b){
+  if(!object(b)||!Number.isFinite(b.flour)||b.flour<80||b.flour>160||!Number.isFinite(b.water)||b.water<25||b.water>125||!Number.isFinite(b.colour)||b.colour<.15||b.colour>1||!Array.isArray(b.additions)||!b.additions.every(id=>['milk','fruit','sesame'].includes(id)))return null;
+  return {flour:Math.round(b.flour),water:Math.round(b.water),colour:b.colour,additions:unique(b.additions),stretch:Number.isFinite(b.stretch)?Math.max(.15,Math.min(1,b.stretch)):.5,finish:b.finish==='soup'&&b.colour>=.74?'soup':'whole'};
+}
 function breadFrom(value,day,serial) {
   if(!object(value)||!/^bread-[1-9]\d{0,3}$/.test(value.id)||Number(value.id.slice(6))>serial||!recipeIds.has(value.recipe)||!shapeIds.has(value.shape)||!Number.isInteger(value.day)||value.day<1||value.day>day||!Number.isInteger(value.heat)||value.heat<150||value.heat>210)return null;
   const recipe=TOWN_RECIPES.find(item=>item.id===value.recipe);
   const shape=TOWN_SHAPES.find(item=>item.id===value.shape);
   const texture=textureFor(value.heat);
-  return {id:value.id,day:value.day,recipe:value.recipe,shape:value.shape,heat:value.heat,texture,name:`${textureNames[texture]}的${recipe.name} · ${shape.name}`};
+  const handmade=handmadeFor(value.handmade);
+  return {id:value.id,day:value.day,recipe:value.recipe,shape:value.shape,heat:value.heat,texture,name:handmade?handmadeBreadName({...handmade,shape:value.shape}):`${textureNames[texture]}的${recipe.name} · ${shape.name}`,...(handmade?{handmade}:{})};
 }
 function matchedGift(person,bread) {
   return person.recipe===bread.recipe&&(person.id!=='lin'||['pale','soft'].includes(bread.texture))&&(person.id!=='zhou'||['crisp','toasty'].includes(bread.texture));
@@ -131,7 +137,8 @@ function responseForGift(person,bread) {
   };
   const textures={pale:'颜色浅一些，切开能闻到淡淡的麦香。',soft:'他没有急着吃完，把松软的一角慢慢掰开。',crisp:'边缘发出轻轻的脆响，碎屑落在纸袋里。',toasty:'烤得深一些，带着浓一点的焦香；切成薄片配茶正合适。'};
   let detail=textures[bread.texture];
-  if(bread.texture==='soft'&&person.id!=='zhou')detail='柔软的一角被慢慢掰开，余下的仍仔细留在纸袋里。';
+  if(bread.handmade?.finish==='soup')detail='你把深烘的面包切成薄片，和热汤一起摆好。原来这一炉还能长成另一种早餐。';
+  if(bread.texture==='soft'&&person.id!=='zhou'&&bread.handmade?.finish!=='soup')detail='柔软的一角被慢慢掰开，余下的仍仔细留在纸袋里。';
   if(bread.shape==='leaf')detail+='那道像叶脉的割纹被多看了一眼。';
   if(bread.shape==='twist')detail+='两股交织的面包可以慢慢撕开，分给身边的人。';
   return openings[person.id]+detail;
@@ -167,7 +174,7 @@ export function normalizeTownDay(value) {
     if(!bread||bread.day>value.day||giftKeys.has(key)||usedBread.has(bread.id))continue;
     giftKeys.add(key);usedBread.add(bread.id);
     const person=TOWN_PEOPLE.find(item=>item.id===value.person);
-    state.gifts.push({day:value.day,person:value.person,breadId:bread.id,recipe:bread.recipe,shape:bread.shape,heat:bread.heat,texture:bread.texture,matched:matchedGift(person,bread),response:responseForGift(person,bread)});
+    state.gifts.push({day:value.day,person:value.person,breadId:bread.id,recipe:bread.recipe,shape:bread.shape,heat:bread.heat,texture:bread.texture,matched:matchedGift(person,bread),response:responseForGift(person,bread),...(bread.handmade?{handmade:bread.handmade}:{})});
   }
   if(Array.isArray(saved.breads))for(const value of saved.breads.slice(0,30)){
     const bread=breadFrom(value,day,serial);
@@ -297,7 +304,7 @@ export function performTownAction(game,action) {
     case 'gift':{
       const person=TOWN_PEOPLE.find(item=>item.id===action.person),bread=state.breads.find(item=>item.id===action.breadId);
       if(!person||person.place!==state.place||!bread||state.gifts.some(gift=>gift.day===state.day&&gift.person===person.id))return game;
-      const gift={day:state.day,person:person.id,breadId:bread.id,recipe:bread.recipe,shape:bread.shape,heat:bread.heat,texture:bread.texture,matched:matchedGift(person,bread),response:responseForGift(person,bread)};
+      const gift={day:state.day,person:person.id,breadId:bread.id,recipe:bread.recipe,shape:bread.shape,heat:bread.heat,texture:bread.texture,matched:matchedGift(person,bread),response:responseForGift(person,bread),...(bread.handmade?{handmade:bread.handmade}:{})};
       next={...state,breads:state.breads.filter(item=>item.id!==bread.id),gifts:[...state.gifts,gift]};break;
     }
     case 'eat':{

@@ -1,0 +1,320 @@
+{
+  "version": "4.2.0",
+  "startedAt": "2026-10-22T19:22:31.895Z",
+  "url": "http://127.0.0.1:4173/hwh/offline-8k-test.html",
+  "offline": true,
+  "checks": [
+    {
+      "name": "the target matches the exact production build or independent HTML artifact",
+      "status": "pass",
+      "details": {
+        "version": "4.2.0",
+        "file": "下一次春天-电影生活版.html",
+        "bytes": 105175096,
+        "sha256": "7e7d4fbcd78e58961d32d4b3ca9b3f15a8c70fe5b72c367fcdd05ed31ffe0745"
+      }
+    },
+    {
+      "name": "an existing journey enters the repair workshop and observes the three physical clues",
+      "status": "pass",
+      "details": {
+        "legacyMigration": true,
+        "observations": [
+          "scratch",
+          "hinge",
+          "grain"
+        ]
+      }
+    },
+    {
+      "name": "real sanding gestures follow the grain, cancel without progress and support a keyboard alternative",
+      "status": "pass",
+      "details": {
+        "firstStroke": 0.3,
+        "cancelPreserved": true,
+        "keyboardAlternative": true
+      }
+    },
+    {
+      "name": "the repair keeps a personal mark and both hinges must be physically fixed",
+      "status": "pass",
+      "details": {
+        "style": "leaf",
+        "fasteners": [
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "name": "a continuously opening lid reveals actual rain and speech without inventing heard progress",
+      "status": "pass",
+      "details": {
+        "audibleRms": [
+          0.15889742393413542
+        ],
+        "closedRms": [
+          0
+        ],
+        "sources": [
+          {
+            "duration": 38.999977324263035,
+            "loop": true,
+            "offset": 0,
+            "ended": false
+          },
+          {
+            "duration": 6.920748299319728,
+            "loop": false,
+            "offset": 0,
+            "ended": false
+          }
+        ],
+        "heardBeforeNaturalEnd": 0
+      }
+    },
+    {
+      "name": "three owner recordings really play to their natural ends with the exact subtitles",
+      "status": "pass",
+      "details": {
+        "recordings": [
+          {
+            "id": "rain-table",
+            "subtitle": "雨还没停，先把手暖一暖。明天你就要走了，今晚这杯茶，我们慢慢喝。",
+            "heard": [
+              "rain-table"
+            ]
+          },
+          {
+            "id": "rain-window",
+            "subtitle": "到了那边，记得给我写信。不用写什么大事，就说说今天吃了什么，路上有没有下雨。",
+            "heard": [
+              "rain-table",
+              "rain-window"
+            ]
+          },
+          {
+            "id": "rain-home",
+            "subtitle": "等院子里的桂花再开，我们就在这扇窗边见。来晚一点也没关系，我会给你留一盏灯。",
+            "heard": [
+              "rain-table",
+              "rain-window",
+              "rain-home"
+            ]
+          }
+        ],
+        "read": [],
+        "sources": [
+          {
+            "duration": 38.999977324263035,
+            "loop": true,
+            "offset": 0,
+            "ended": false
+          },
+          {
+            "duration": 6.920748299319728,
+            "loop": false,
+            "offset": 0,
+            "ended": true
+          },
+          {
+            "duration": 6.920748299319728,
+            "loop": false,
+            "offset": 0.7807709750566891,
+            "ended": true
+          },
+          {
+            "duration": 7.736621315192743,
+            "loop": false,
+            "offset": 0,
+            "ended": true
+          },
+          {
+            "duration": 8.473945578231293,
+            "loop": false,
+            "offset": 0,
+            "ended": true
+          }
+        ],
+        "resumedInterruptedVoice": true
+      }
+    },
+    {
+      "name": "a personal response and returning the repaired box create a visible resident follow-up",
+      "status": "pass",
+      "details": {
+        "destination": "return",
+        "reply": "愿下一次下雨时，你们还能坐在同一扇窗边。",
+        "followUp": {
+          "title": "柜台边，多了一只旧木盒",
+          "text": "林姨用指腹摸过那片浅色木叶，说下一次见面时，也想把这处新修补指给旧友看。林姨认真读过你留下的话，把旧地址抄在一张新的明信片上。她想先写一写今天，给下一次重逢留一个开头。",
+          "objectLabel": "林姨柜台上的雨声木盒",
+          "destination": "return",
+          "showBox": true
+        },
+        "conversation": {
+          "title": "柜台边，多了一只旧木盒",
+          "text": "林姨用指腹摸过那片浅色木叶，说下一次见面时，也想把这处新修补指给旧友看。林姨认真读过你留下的话，把旧地址抄在一张新的明信片上。她想先写一写今天，给下一次重逢留一个开头。",
+          "objectLabel": "林姨柜台上的雨声木盒",
+          "destination": "return",
+          "showBox": true
+        },
+        "memory": "memory_rain_box"
+      }
+    },
+    {
+      "name": "reopening and replaying preserve the repair and never repeat its reward",
+      "status": "pass",
+      "details": {
+        "place": "bakery",
+        "completedCaption": true,
+        "replayStarted": true,
+        "rewardCount": 1,
+        "stopsWhenClosed": true
+      }
+    },
+    {
+      "name": "reloading and real exported/imported journeys retain the legal memory state",
+      "status": "pass",
+      "details": {
+        "download": "下一次春天-我的旅程.json",
+        "legacyMigration": true,
+        "currentSaveRoundTrip": true
+      }
+    },
+    {
+      "name": "keyboard focus stays in the active memory and Escape returns to the town entry",
+      "status": "pass",
+      "details": {
+        "focusContained": true,
+        "escapeClosesOneLayer": true
+      }
+    },
+    {
+      "name": "the painted background stays fixed, keeps its aspect and supports reduced motion",
+      "status": "pass",
+      "details": {
+        "geometry": {
+          "width": 7680,
+          "height": 4322,
+          "transform": "none",
+          "filter": "none",
+          "fit": "cover"
+        },
+        "basePixelsStable": true,
+        "reducedMotionPreservesPainting": true
+      }
+    },
+    {
+      "name": "native phone gestures sand once, cancel safely and continuously open the lid",
+      "status": "pass",
+      "details": {
+        "nativeCDPTouch": true,
+        "sanding": 0.3,
+        "cancelPreserved": true,
+        "lid": 0.9,
+        "viewport": 390,
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "name": "a real decoding error is explained and the retry starts the packaged owner voice",
+      "status": "pass",
+      "details": {
+        "injectedSingleDecodeFailure": true,
+        "error": "这段旧话暂时没有播放成功。可以点重听再试，也可以先读字幕。再试一次",
+        "retryPlaysRealOwnerBuffer": true
+      }
+    },
+    {
+      "name": "a late failure from an abandoned recording cannot interrupt the new owner fragment",
+      "status": "pass",
+      "details": {
+        "oldDecoderFailedAfterSwitch": true,
+        "currentId": "rain-window",
+        "newVoiceRemainsAudible": true
+      }
+    },
+    {
+      "name": "continuing to move a nearly closed lid cannot consume unheard owner speech",
+      "status": "pass",
+      "details": {
+        "subThresholdAdjustments": 38,
+        "resumed": [
+          {
+            "offset": 0.8591383219954649,
+            "duration": 6.920748299319728
+          }
+        ],
+        "unheardSpeechPreserved": true
+      }
+    },
+    {
+      "name": "the selected story narration stays paused inside the box and its sound switch resumes the owner",
+      "status": "pass",
+      "details": {
+        "openingPlayed": true,
+        "storyPausedInsideBox": true,
+        "mutingSilent": true,
+        "unmutingContinuesOwner": true,
+        "leavingStopsOwner": true
+      }
+    },
+    {
+      "name": "captions provide a separate silent path and a borrowed box really appears at home",
+      "status": "pass",
+      "details": {
+        "heard": [],
+        "read": [
+          "rain-table",
+          "rain-window",
+          "rain-home"
+        ],
+        "destination": "window",
+        "echo": {
+          "title": "窗边，留住了一小段雨声",
+          "text": "林姨把木盒借你留一阵。你给它找了一个能看见天光的位置，旁边放着还可以继续写下去的明信片。她约好有空来喝茶，一起看看桂花什么时候开。",
+          "objectLabel": "借放在窗边的雨声木盒",
+          "destination": "window",
+          "showBox": true
+        }
+      }
+    },
+    {
+      "name": "the existing large-text preference also enlarges the new memory captions",
+      "status": "pass",
+      "details": {
+        "normal": 20,
+        "large": 24
+      }
+    },
+    {
+      "name": "starting a new life clears the repaired object and its one-time memory",
+      "status": "pass",
+      "details": {
+        "repaired": false,
+        "completed": false,
+        "memoryCleared": true
+      }
+    }
+  ],
+  "errors": [],
+  "resourceFailures": [],
+  "cancelledRequests": [],
+  "externalRequests": [],
+  "artifact": {
+    "file": "下一次春天-电影生活版.html",
+    "bytes": 105175096,
+    "sha256": "7e7d4fbcd78e58961d32d4b3ca9b3f15a8c70fe5b72c367fcdd05ed31ffe0745"
+  },
+  "buildFingerprint": {
+    "version": "4.2.0",
+    "file": "下一次春天-电影生活版.html",
+    "bytes": 105175096,
+    "sha256": "7e7d4fbcd78e58961d32d4b3ca9b3f15a8c70fe5b72c367fcdd05ed31ffe0745"
+  },
+  "completedAt": "2026-10-22T19:24:22.120Z",
+  "passed": 19,
+  "failed": 0
+}

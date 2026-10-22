@@ -10,7 +10,7 @@ const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 const check=(ok,message)=>{if(!ok)throw Error(message)};
 const report={version:JSON.parse(fs.readFileSync(path.join(root,'package.json'))).version,
  startedAt:new Date().toISOString(),url,offline,checks:[],errors:[],resourceFailures:[],cancelledRequests:[],externalRequests:[]};
-const output=path.join(root,'release',`memory-box-v41-${offline?'offline':'browser'}.json`);
+const output=path.join(root,'release',`memory-box-v${report.version}-${offline?'offline':'browser'}.json`);
 let browser;
 (async()=>{
  const E=await import(path.join(root,'src/engine.js'));
@@ -23,7 +23,7 @@ let browser;
  browser=await chromium.launch({headless:true,executablePath:'/usr/bin/chromium',args:['--no-sandbox','--disable-dev-shm-usage']});
  async function test(name,fn,page){
   try{const details=await fn();report.checks.push({name,status:'pass',details});console.log('PASS',name,JSON.stringify(details||{}));}
-  catch(error){if(page&&!page.isClosed())await page.screenshot({path:path.join(root,'release',`memory-box-v41-${offline?'offline-':''}failure-${report.checks.length}.png`),fullPage:true}).catch(()=>{});
+  catch(error){if(page&&!page.isClosed())await page.screenshot({path:path.join(root,'release',`memory-box-v${report.version}-${offline?'offline-':''}failure-${report.checks.length}.png`),fullPage:true}).catch(()=>{});
    report.checks.push({name,status:'fail',error:error.stack});console.error('FAIL',name,error.message);throw error;}
  }
  async function setup(g=legacy,options={},largeText=false){
@@ -123,7 +123,7 @@ let browser;
   check((await state(page)).repaired&&await stage(page)==='listen','Both fixed hinges did not unlock the lid');
   check(await box(page).locator('[data-memory-fragment]').count()===0,'The closed box reveals an unheard recording before the player opens it');
   check(await button(page,'读完这段主人的话').isDisabled(),'A closed box permits the player to read an undiscovered recording');
-  await page.screenshot({path:path.join(root,'release',`memory-box-v41-${offline?'offline-':''}repaired.png`)});
+  await page.screenshot({path:path.join(root,'release',`memory-box-v${report.version}-${offline?'offline-':''}repaired.png`)});
   repairedSeed=await save(page);return {style:(await state(page)).style,fasteners:(await state(page)).fasteners};
  },page);
  await test('a continuously opening lid reveals actual rain and speech without inventing heard progress',async()=>{
@@ -157,7 +157,7 @@ let browser;
   check(await stage(page)==='reply','The natural listening sequence did not reach a response');
   const sources=await page.evaluate(()=>window.__memorySources.map(s=>({duration:s.duration,loop:s.loop,offset:s.offset,ended:s.ended})));
   check(sources.some(s=>!s.loop&&s.duration>1&&s.ended),'No actual non-looping voice buffer reached its natural end');
-  heardSeed=await save(page);await page.screenshot({path:path.join(root,'release',`memory-box-v41-${offline?'offline-':''}listening.png`)});
+  heardSeed=await save(page);await page.screenshot({path:path.join(root,'release',`memory-box-v${report.version}-${offline?'offline-':''}listening.png`)});
   return {recordings:listened,read:final.read,sources,resumedInterruptedVoice:sources.some(s=>!s.loop&&s.offset>.3)};
  },page);
  await test('a personal response and returning the repaired box create a visible resident follow-up',async()=>{
@@ -245,7 +245,7 @@ let browser;
    check((await state(mobile)).lid>.1,'A real finger drag did not open the lid continuously');
    const dims=await mobile.evaluate(()=>({viewport:innerWidth,scroll:document.documentElement.scrollWidth,width:document.querySelector('[data-memory-box-stage]').getBoundingClientRect().width}));
    check(dims.scroll<=dims.viewport&&dims.width<=dims.viewport+1,'The memory view overflows the phone');
-   await mobile.screenshot({path:path.join(root,'release',`memory-box-v41-${offline?'offline-':''}mobile.png`),fullPage:true});
+   await mobile.screenshot({path:path.join(root,'release',`memory-box-v${report.version}-${offline?'offline-':''}mobile.png`),fullPage:true});
    return {nativeCDPTouch:true,sanding:sanded,cancelPreserved:true,lid:(await state(mobile)).lid,...dims};
   }finally{await mobileContext.close()}
  });

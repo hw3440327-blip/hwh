@@ -31,3 +31,5 @@
 @media(max-width:700px){.td-memory-box-object{width:105px}.td-memory-box-object>span{font-size:11px}.td-memory-box-echo p{font-size:14px}}
 @media(min-width:3000px){.td-memory-box-object{width:310px}.td-memory-box-object>span{font-size:25px;padding:15px 22px}.td-memory-box-echo p{font-size:32px}.td-memory-box-echo h4{font-size:36px}}
 @media(prefers-reduced-motion:reduce){.td-memory-box-object>svg{transition:none}}
+.td-bakery-life-entry{position:absolute;transform:translate(-50%,-50%);z-index:9;display:flex;align-items:center;gap:9px;padding:13px 19px;color:#ece0bb;background:#365140bc;border:1px solid #d8c48b77;border-radius:6px;font:inherit;font-size:14px;box-shadow:0 6px 20px #142a2055;cursor:pointer}.td-bakery-life-entry:focus-visible{outline:2px solid #e3c786;outline-offset:5px}.td-loading .td-bakery-life-entry{visibility:hidden}
+.td-bakery-recipe-keepsake{position:absolute;z-index:8;transform:translate(-50%,-50%) rotate(-5deg);display:flex;align-items:center;gap:8px;padding:10px 14px;min-height:44px;color:#516049;background:#d8d0afeb;border:1px solid #989f7c;border-radius:3px;font:inherit;font-size:11px;box-shadow:1px 4px 12px #24332233;cursor:pointer}

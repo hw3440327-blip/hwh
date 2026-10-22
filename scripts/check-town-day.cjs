@@ -98,7 +98,7 @@ let browser;
     return town(page).locator('.td-panel').innerText();
   }
   async function craft(page,{recipe='milk',shape='twist',pointer=false}={}) {
-    await go(page,'bakery'); await button(page,'在面包房烤一炉面包').click();
+    await go(page,'bakery'); await town(page).locator('[data-town-hotspot="bakery-recipe"]').click(); await button(page,'照着旧食谱试一炉').click();
     if((await state(page)).craft.baked)await button(page,'再做一炉').click();
     await town(page).locator(`[data-town-recipe="${recipe}"]`).click();
     await town(page).locator(`[data-town-shape="${shape}"]`).click();
@@ -315,7 +315,7 @@ let browser;
     const {context:mobileContext,page:mobile}=await setup(legacy,{viewport:{width:390,height:844},isMobile:true,hasTouch:true});
     try {
       await navigate(mobileContext,mobile);await mobile.getByRole('button',{name:'继续这段人生',exact:true}).tap();await openTown(mobile);
-      await go(mobile,'bakery');await button(mobile,'在面包房烤一炉面包').tap();
+      await go(mobile,'bakery');await town(mobile).locator('[data-town-hotspot="bakery-recipe"]').tap();await button(mobile,'照着旧食谱试一炉').tap();
       await town(mobile).locator('[data-town-recipe="milk"]').tap();
       for(const ingredient of T.TOWN_RECIPES.find(item=>item.id==='milk').ingredients)await button(mobile,'加入'+ingredient.label).tap();
       const dough=button(mobile,'轻轻揉一下面团');await dough.scrollIntoViewIfNeeded();let box=await dough.boundingBox();
