@@ -1,0 +1,26 @@
+{
+  "version": "4.2.0",
+  "target": "Windows 10/11 amd64",
+  "format": "portable GUI executable with embedded game, using installed Edge/Chrome",
+  "windowsGUILaunchTested": false,
+  "codeSigned": false,
+  "embeddedFiles": 267,
+  "windowsEmbeddedFilesVerified": 267,
+  "profileRelaunchTestedOnLinux": true,
+  "assetManifestSHA256": "33d5856165582891ecb31ba2b0b9a81028c811b941532c496edd7589a5d4dca3",
+  "goTestsPassed": true,
+  "desktopBrowserChecks": 15,
+  "outboundGameRequests": 0,
+  "zipCRCVerified": true,
+  "exe": {
+    "file": "下一次春天.exe",
+    "bytes": 86263296,
+    "sha256": "3eaf72b95c7a297b385d2ee19d21e40ae5199795237419e3347d53b96d87deb0"
+  },
+  "archive": {
+    "file": "next-spring-v4.2.0-windows-x64.zip",
+    "bytes": 81003342,
+    "sha256": "9fca659ca5a58ffe2734473c494acbf4f160a628a24a8f1b488a1131ec6ca0f0"
+  },
+  "scope": "Windows PE target and every embedded asset verified. The same local server, persistent browser profile and full game flow were exercised on Linux; Windows GUI launch was not executed."
+}

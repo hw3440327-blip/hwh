@@ -2,5 +2,6 @@ node_modules/
 dist/
 release/
 .local/
+desktop/payload/
 *.log
 .DS_Store
