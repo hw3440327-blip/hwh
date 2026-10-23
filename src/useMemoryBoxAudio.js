@@ -44,7 +44,7 @@ export default function useMemoryBoxAudio({ active = false, box, onHeard } = {})
     session.current = null; s.disposed = true; s.token += 1;
     clearTimeout(s.pauseTimer); pauseVoice(s); s.abort.abort();
     try { s.rain?.stop(); } catch { /* Released. */ }
-    for (const node of [s.rain,s.rainGain,s.rainFilter,s.voiceGain,s.master]) try { node?.disconnect(); } catch { /* Released. */ }
+    for (const node of [s.rain,s.rainGain,s.rainFilter,s.voiceGain,s.voiceTone,s.voiceBody,s.room,s.roomGain,s.master]) try { node?.disconnect(); } catch { /* Released. */ }
     s.buffers.clear(); s.offsets.clear();
     if (s.context.state !== 'closed') Promise.resolve(s.context.close()).catch(() => {});
     if (mounted.current) { setReady(false); setProgress(0); }
@@ -90,8 +90,10 @@ export default function useMemoryBoxAudio({ active = false, box, onHeard } = {})
       setProgress(0);
     }
     ramp(s.master.gain, .85, s.context);
-    ramp(s.rainGain.gain, Math.pow(lid, .9) * .52, s.context);
+    // The rain surrounds the memory, but leaves the intimate words intelligible.
+    ramp(s.rainGain.gain, Math.pow(lid, .9) * (lid>=.55?.27:.46), s.context,.5);
     ramp(s.rainFilter.frequency, 650 + lid * 7600, s.context);
+    ramp(s.voiceTone.frequency, 1900 + lid * 5100, s.context,.22);
     const voiceOpen = lid >= .55;
     if (voiceOpen) { clearTimeout(s.pauseTimer); s.pauseTimer = null; }
     ramp(s.voiceGain.gain, voiceOpen ? .5 + ((lid - .55) / .45) * .48 : 0, s.context);
@@ -123,7 +125,8 @@ export default function useMemoryBoxAudio({ active = false, box, onHeard } = {})
       let offset = s.offsets.get(id) || 0;
       if (offset >= voice.duration - .04) offset = 0;
       const source=s.context.createBufferSource();source.buffer=voice;source.connect(s.voiceGain);
-      s.voice=source;s.voiceId=id;s.voiceBuffer=voice;s.voiceOffset=offset;s.voiceStarted=s.context.currentTime;
+      const lead=offset===0?.55:.08;
+      s.voice=source;s.voiceId=id;s.voiceBuffer=voice;s.voiceOffset=offset;s.voiceStarted=s.context.currentTime+lead;
       source.onended=()=>{
         if (s.disposed || session.current!==s || s.voice!==source) return;
         s.voice=null;source.disconnect();setSpeaking(false);
@@ -132,7 +135,7 @@ export default function useMemoryBoxAudio({ active = false, box, onHeard } = {})
           s.completed.add(id);s.offsets.set(id,voice.duration);setProgress(1);setStatus('finished');now.onHeard?.(id);
         } else { s.offsets.set(id,0);setStatus('paused'); }
       };
-      source.start(0,offset);setReady(true);setSpeaking(true);setStatus('playing');
+      source.start(s.voiceStarted,offset);setReady(true);setSpeaking(true);setStatus('playing');
     } catch (e) { if (!s.disposed && session.current === s && token === s.token && e.name !== 'AbortError') failure(s); }
   }, [bufferFor, failure, pauseVoice]);
 
@@ -145,8 +148,22 @@ export default function useMemoryBoxAudio({ active = false, box, onHeard } = {})
       try {
         const context=new Context({latencyHint:'interactive'}),master=context.createGain(),rainGain=context.createGain(),rainFilter=context.createBiquadFilter(),voiceGain=context.createGain();
         master.gain.value=0;rainGain.gain.value=0;voiceGain.gain.value=0;rainFilter.type='lowpass';rainFilter.frequency.value=650;rainFilter.Q.value=.4;
-        rainGain.connect(rainFilter);rainFilter.connect(master);voiceGain.connect(master);master.connect(context.destination);
-        s={context,master,rainGain,rainFilter,voiceGain,rain:null,voice:null,buffers:new Map(),offsets:new Map(),completed:new Set(),abort:new AbortController(),token:0,disposed:false,selectedId:null,pauseTimer:null};
+        const voiceTone=context.createBiquadFilter(),voiceBody=context.createBiquadFilter(),room=context.createConvolver(),roomGain=context.createGain();
+        voiceTone.type='lowpass';voiceTone.frequency.value=7000;voiceTone.Q.value=.45;
+        voiceBody.type='lowshelf';voiceBody.frequency.value=240;voiceBody.gain.value=1.1;
+        // Quiet early reflections suggest the small room in the remembered rain.
+        // No long echo, pitch change, added rain track or replacement voice.
+        const impulse=context.createBuffer(2,Math.round(context.sampleRate*.31),context.sampleRate);
+        for(let channel=0;channel<2;channel++){
+          const values=impulse.getChannelData(channel);
+          for(const [seconds,level]of [[.017+channel*.003,.38],[.029+channel*.004,.24],[.047+channel*.005,.13],[.083+channel*.007,.055]])values[Math.round(seconds*context.sampleRate)]=level;
+          for(let i=1;i<values.length;i++)values[i]+=Math.sin(i*12.9898+channel*78.233)*.005*Math.exp(-i/(context.sampleRate*.055));
+        }
+        room.buffer=impulse;room.normalize=false;roomGain.gain.value=.12;
+        rainGain.connect(rainFilter);rainFilter.connect(master);
+        voiceGain.connect(voiceTone);voiceTone.connect(voiceBody);voiceBody.connect(master);
+        voiceBody.connect(room);room.connect(roomGain);roomGain.connect(master);master.connect(context.destination);
+        s={context,master,rainGain,rainFilter,voiceGain,voiceTone,voiceBody,room,roomGain,rain:null,voice:null,buffers:new Map(),offsets:new Map(),completed:new Set(),abort:new AbortController(),token:0,disposed:false,selectedId:null,pauseTimer:null};
         session.current=s;setError('');
       } catch { failure(null,'暂时没有连上声音设备。可以重听再试，也可以先读字幕。');return; }
     }

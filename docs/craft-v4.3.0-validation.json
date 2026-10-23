@@ -1,0 +1,29 @@
+{
+  "version": "4.3.0",
+  "webManifestSHA256": "2d132458fd3f531f05b26ac040e6a033300e9d06c18e89f4575d4a2405144b90",
+  "webFiles": 274,
+  "bytes": 82487876,
+  "reports": {
+    "craft-v4.3.0-browser.json": 6,
+    "craft-v4.3.0-offline.json": 6,
+    "bakery-v4.3.0-browser.json": 15,
+    "bakery-v4.3.0-offline.json": 15,
+    "memory-box-v4.3.0-browser.json": 19,
+    "memory-box-v4.3.0-offline.json": 19,
+    "town-v4.3.0-browser.json": 15
+  },
+  "originalBackgroundsUnchanged": true,
+  "original213NarrationClipsPreserved": true,
+  "newPerformedMemoryClips": 3,
+  "offlineArchive": {
+    "file": "next-spring-v4.3.0.zip",
+    "bytes": 82058012,
+    "sha256": "d86d42397ac0f390a399d90e7c8a2552243a8e13c4fa492ef1a7faa389ecf52f",
+    "fullCRCVerified": true
+  },
+  "offlineHTML": {
+    "bytes": 109589612,
+    "sha256": "23765fb08f4b9eb6185481e3f4e570f734c44d29e0fc1ab091e392f88bb8d319"
+  },
+  "scope": "Automated functional and resource checks plus visual review. This does not establish subjective art or acting quality, or a native Windows GUI launch."
+}

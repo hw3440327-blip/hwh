@@ -1,6 +1,6 @@
 # Portable Windows desktop shell
 
-The shell embeds only the verified `release/web-build-v4.2.0.json` allowlist. It
+The shell embeds only the verified `release/web-build-v4.3.0.json` allowlist. It
 binds `127.0.0.1:19842`, starts installed Edge (or Chrome) in application mode,
 and keeps a dedicated profile in `%LOCALAPPDATA%\NextSpringDesktop\profile`.
 The fixed origin retains saves between launches and future compatible versions.

@@ -8,7 +8,7 @@ export const TOWN_MEMORY = {
 export const TOWN_PLACES = [
   { id: 'room', name: '蓝门小屋', subtitle: '把这里慢慢住成自己的样子', art: '/art/immersive-room.webp', description: '这是初到栖屿镇时的一段回忆。屋里的窗还不太好推，空白的纸卡等着写上今天的一句话。', hotspots: [
     { id: 'room-window', label: '推开有些涩的窗', x: 68, y: 36, text: '你托住窗框往上抬，再慢慢推开。海风把屋里潮湿的味道带走一点。窗台刚好放得下一只小花盆，明天可以再来看它。' },
-    { id: 'room-letter', label: '桌角的手写地址', x: 35, y: 62, text: '林姨把面包房、书店和修补铺画在同一张纸上，旁边写着：“有空就走走，不必一天认全。”你把纸留在桌上，出门时已经没那么慌。' },
+    { id: 'room-letter', label: '桌角的手写地址', x: 25, y: 51, text: '林姨把面包房、书店和修补铺画在同一张纸上，旁边写着：“有空就走走，不必一天认全。”你把纸留在桌上，出门时已经没那么慌。' },
   ] },
   { id: 'bakery', name: '有光面包房', subtitle: '今天这一炉，想分给谁', art: '/art/film-bakery.webp', description: '门没关严，炉口亮着。林姨给你留了一小块工作台，试做的原料都在手边。', hotspots: [
     { id: 'bakery-recipe', label: '翻看沾着面粉的食谱', x: 48, y: 63, clue: 'lin', text: '食谱边上有林姨的字：“牛奶面包，火轻些，自己吃。”她每天给别人烤脆皮包，给自己的那一只却总要柔软一些。夹在书里的纸袋可以带回家装面包。' },
@@ -48,11 +48,13 @@ export const TOWN_DECORATIONS = [
   { id: 'shell', name: '海边的小白贝', description: '海堤上拾来的那一枚。', hotspot: 'shore-shell' },
   { id: 'book', name: '借来的短篇集', description: '还没读完的那一页，可以明天接着读。', hotspot: 'book-margin' },
   { id: 'basket', name: '装面包的纸袋', description: '为自己留一点，也能给人带一点。', hotspot: 'bakery-recipe' },
+  { id: 'lamp', name: '暖光小台灯', description: '给想读完的那一页，留一盏灯。' },
+  { id: 'cup', name: '蓝灰色陶杯', description: '把常用的杯子，放在顺手的位置。' },
 ];
 export const TOWN_SLOTS = [
-  { id: 'window', name: '窗台', x: 68, y: 50 },
-  { id: 'desk', name: '木桌', x: 35, y: 63 },
-  { id: 'door', name: '门边', x: 86, y: 70 },
+  { id: 'window', name: '窗台', x: 49, y: 48, width: 5.5, minX: 43, maxX: 57 },
+  { id: 'desk', name: '木桌', x: 29, y: 53, width: 6, minX: 24, maxX: 36 },
+  { id: 'door', name: '床边小柜', x: 78, y: 50.5, width: 5.2, minX: 76.8, maxX: 79.5 },
 ];
 
 const DIALOGUES = {
@@ -162,7 +164,10 @@ export function normalizeTownDay(value) {
   const day=Number.isInteger(saved.day)&&saved.day>=1&&saved.day<=3?saved.day:1;
   const serial=bounded(saved.serial,0,9999,0);
   const explored=Array.isArray(saved.explored)?unique(saved.explored.filter(id=>hotspotIds.has(id))):[];
-  const state={version:1,day,place:placeIds.has(saved.place)?saved.place:'room',explored,talks:{},gifts:[],craft:initialCraft(),breads:[],decor:{window:null,desk:null,door:null},card:safeText(saved.card),completed:false,serial,decoratedSlots:[],lastSnack:null,flowerPlantedDay:null};
+  const state={version:1,day,place:placeIds.has(saved.place)?saved.place:'room',explored,talks:{},gifts:[],craft:initialCraft(),breads:[],decor:{window:null,desk:null,door:null},card:safeText(saved.card),completed:false,serial,decoratedSlots:[],lastSnack:null,flowerPlantedDay:null,
+    home:{window:Number.isFinite(saved.home?.window)?Math.max(0,Math.min(1,saved.home.window)):.65,lamp:saved.home?.lamp!==false},
+    reading:{book:['tide','garden','letters'].includes(saved.reading?.book)?saved.reading.book:'tide',page:bounded(saved.reading?.page,0,2,0),mark:bounded(saved.reading?.mark,0,2,0),kept:saved.reading?.kept===true,keptBook:['tide','garden','letters'].includes(saved.reading?.keptBook)?saved.reading.keptBook:'tide',keptPage:bounded(saved.reading?.keptPage,0,2,0),quote:safeText(saved.reading?.quote)},
+    shore:{casts:bounded(saved.shore?.casts,0,9999,0),skips:bounded(saved.shore?.skips,0,6,0),stone:['flat','round','heart'].includes(saved.shore?.stone)?saved.shore.stone:'flat',words:safeText(saved.shore?.words),washed:saved.shore?.washed===true}};
   if(object(saved.talks))for(let d=1;d<=day;d++)for(const person of TOWN_PEOPLE){
     const key=`${d}:${person.id}`;
     if(own(saved.talks,key)&&DIALOGUES[person.id][d-1].choices.some(choice=>choice.id===saved.talks[key]))state.talks[key]=saved.talks[key];
@@ -191,7 +196,7 @@ export function normalizeTownDay(value) {
   const placedItems=new Set();
   if(object(saved.decor))for(const slot of TOWN_SLOTS){
     const item=saved.decor[slot.id];
-    if(object(item)&&decorationIds.has(item.item)&&!placedItems.has(item.item)&&decorationUnlocked(state,item.item)){state.decor[slot.id]={item:item.item,placedDay:bounded(item.placedDay,1,day,day)};placedItems.add(item.item);}
+    if(object(item)&&decorationIds.has(item.item)&&!placedItems.has(item.item)&&decorationUnlocked(state,item.item)){state.decor[slot.id]={item:item.item,placedDay:bounded(item.placedDay,1,day,day),x:typeof item.x==='number'&&Number.isFinite(item.x)?Math.max(slot.minX,Math.min(slot.maxX,item.x)):slot.x,scale:typeof item.scale==='number'&&Number.isFinite(item.scale)?Math.max(.75,Math.min(1.2,item.scale)):1,rotation:typeof item.rotation==='number'&&Number.isFinite(item.rotation)?Math.max(-12,Math.min(12,item.rotation)):0};placedItems.add(item.item);}
   }
   const placedFlower=Object.values(state.decor).find(item=>item?.item==='flower');
   const savedFlowerDay=Number.isInteger(saved.flowerPlantedDay)&&saved.flowerPlantedDay>=1&&saved.flowerPlantedDay<=day?saved.flowerPlantedDay:null;
@@ -237,6 +242,8 @@ export function townJournal(game) {
   }
   for(const gift of state.gifts)entries.push({id:'gift:'+gift.breadId,title:`第${gift.day}天 · 给${TOWN_PEOPLE.find(item=>item.id===gift.person).name}的面包`,text:gift.response});
   if(state.lastSnack)entries.push({id:'snack:'+state.lastSnack.id,title:`第${state.lastSnack.eatenDay}天 · 给自己留的一只`,text:`你把${state.lastSnack.name}留给自己。坐下来吃完这一份，也算认真照顾了今天。`});
+  if(state.reading.kept)entries.push({id:'reading:bookmark',title:'留在书店的一枚书签',text:`第 ${state.reading.page+1} 页，还留着你想再读的那一句。${state.reading.quote||'阿禾说，下次仍能从这里继续。'}`});
+  if(state.shore.casts)entries.push({id:'shore:stones',title:'海记得的几个片刻',text:`你向海面送出 ${state.shore.casts} 枚小石，最近一枚轻轻走了 ${state.shore.skips} 步。${state.shore.washed?'写在沙上的话，也已经被海收好了。':''}`});
   const people=TOWN_PEOPLE.map(person=>{
     const conversations=Object.keys(state.talks).filter(key=>key.endsWith(':'+person.id)).length;
     const gifts=state.gifts.filter(gift=>gift.person===person.id);
@@ -257,6 +264,43 @@ export function performTownAction(game,action) {
   const state=townProgress(game);
   let next=null;
   switch(action.type){
+    case 'home_window':
+      if(state.place!=='room'||!Number.isFinite(action.value))return game;
+      next={...state,home:{...state.home,window:Math.max(0,Math.min(1,action.value))}};break;
+    case 'home_lamp':
+      if(state.place!=='room')return game;
+      next={...state,home:{...state.home,lamp:!state.home.lamp}};break;
+    case 'arrange':{
+      const slot=TOWN_SLOTS.find(s=>s.id===action.slot),item=state.decor[action.slot];
+      if(state.place!=='room'||!slot||!item)return game;
+      const adjusted={...item};
+      for(const [key,min,max]of [['x',slot.minX,slot.maxX],['scale',.75,1.2],['rotation',-12,12]])if(Number.isFinite(action[key]))adjusted[key]=Math.max(min,Math.min(max,action[key]));
+      if(JSON.stringify(item)===JSON.stringify(adjusted))return game;
+      next={...state,decor:{...state.decor,[action.slot]:adjusted}};break;
+    }
+    case 'reading':{
+      if(state.place!=='bookshop')return game;
+      const reading={...state.reading};
+      if(['tide','garden','letters'].includes(action.book)){reading.book=action.book;reading.page=reading.kept&&reading.keptBook===action.book?reading.keptPage:0;}
+      if(Number.isInteger(action.page))reading.page=Math.max(0,Math.min(2,action.page));
+      if(Number.isInteger(action.mark))reading.mark=Math.max(0,Math.min(2,action.mark));
+      if(typeof action.quote==='string')reading.quote=safeText(action.quote);
+      if(action.keep===true){reading.kept=true;reading.keptBook=reading.book;reading.keptPage=reading.page;}
+      if(JSON.stringify(reading)===JSON.stringify(state.reading))return game;
+      next={...state,reading,explored:reading.kept?unique([...state.explored,'book-margin']):state.explored};break;
+    }
+    case 'shore_stone':
+      if(state.place!=='shore'||!['flat','round','heart'].includes(action.stone))return game;
+      next={...state,shore:{...state.shore,stone:action.stone}};break;
+    case 'shore_cast':
+      if(state.place!=='shore'||!Number.isInteger(action.skips)||action.skips<1||action.skips>6)return game;
+      next={...state,shore:{...state.shore,casts:Math.min(9999,state.shore.casts+1),skips:action.skips}};break;
+    case 'shore_words':
+      if(state.place!=='shore'||typeof action.text!=='string')return game;
+      next={...state,shore:{...state.shore,words:safeText(action.text),washed:false}};break;
+    case 'shore_wash':
+      if(state.place!=='shore'||!state.shore.words)return game;
+      next={...state,shore:{...state.shore,washed:true}};break;
     case 'visit':
       if(!placeIds.has(action.place)||action.place===state.place)return game;
       next={...state,place:action.place};break;
@@ -320,7 +364,8 @@ export function performTownAction(game,action) {
       const decor={...state.decor};
       for(const slot of TOWN_SLOTS)if(decor[slot.id]?.item===action.item)decor[slot.id]=null;
       const plantedDay=state.flowerPlantedDay||(action.item==='flower'?state.day:null);
-      decor[action.slot]=action.item===null?null:{item:action.item,placedDay:action.item==='flower'?plantedDay:earlier?.placedDay||state.day};
+      const surface=TOWN_SLOTS.find(s=>s.id===action.slot);
+      decor[action.slot]=action.item===null?null:{item:action.item,placedDay:action.item==='flower'?plantedDay:earlier?.placedDay||state.day,x:surface.x,scale:1,rotation:0};
       next={...state,decor,flowerPlantedDay:plantedDay,decoratedSlots:action.item===null?state.decoratedSlots:unique([...state.decoratedSlots,action.slot])};break;
     }
     case 'card':{

@@ -145,12 +145,12 @@ function cueLayer(session) {
   layer.lastCueAt = -Infinity; layer.lastCompleteAt = -Infinity; session.cueLayer = layer; return layer;
 }
 function playInteractionCue(session, kind) {
-  if (!['touch', 'wood', 'water', 'complete'].includes(kind)) return false;
+  if (!['touch', 'wood', 'water', 'complete', 'page'].includes(kind)) return false;
   const layer = cueLayer(session), now = session.context.currentTime;
   if (kind === 'complete' ? now - layer.lastCompleteAt < .8 : now - layer.lastCueAt < .14) return false;
   if (kind === 'complete') layer.lastCompleteAt = now;
   layer.lastCueAt = now;
-  const levels = { touch: .18, wood: .29, water: .34, complete: .28 };
+  const levels = { touch: .18, wood: .29, water: .34, complete: .28, page: .17 };
   return playFoley(layer, kind, levels[kind], kind === 'water' ? 1.05 : undefined);
 }
 function changePouring(session, wanted) {

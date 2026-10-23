@@ -51,13 +51,17 @@ def main():
         assert f'{len(manifest["files"])} embedded files verified' in (RELEASE/'desktop-embedded-verification.log').read_text()
         profile=load(RELEASE/f'desktop-v{VERSION}-profile.json')
         assert profile['passed'] and not profile['errors'] and not profile['externalRequests']
+        craft=load(RELEASE/f'craft-v{VERSION}-desktop.json')
+        assert craft['success'] and craft['passed']>=6 and craft['desktopLocalOnly']
         guide=RELEASE/'desktop/先读我-使用说明.txt'
         guide.write_text(f'''《下一次春天》{VERSION} · Windows 64位免安装应用
 
 解压整个压缩包，双击“下一次春天.exe”。不要在压缩包预览窗口里直接运行。
 支持 Windows 10/11 64位。使用电脑已经安装的 Microsoft Edge，找不到时尝试 Chrome，在独立游戏窗口中显示。无需安装 Node.js、Python 或游戏运行库。
 
-所有画面、字体、默认配音与环境声都已包含在应用中。游玩不需要连接互联网，也不需要VPN。声音需要在游戏中主动开启。游戏内容与{VERSION}面包房生活版一致。
+所有画面、字体、默认配音与环境声都已包含在应用中。游玩不需要连接互联网，也不需要VPN。声音需要在游戏中主动开启。游戏内容与{VERSION}小镇手作版一致。
+
+新增互动：书店可以翻页、拖动书签和写页边话；海堤可以蓄力投石、在沙上写话并让海水带走；小屋可以摆放六件绘画物件，挪动、转向和调整大小。木盒配音保持原声线，改为分句演绎与雨夜空间混音。
 
 面包房入口：去小镇走走→有光面包房→走近工作台。也可在旅程手记→小镇日常进入。
 可以取料、持续添水、揉面整形、观察炉色出炉，深烘可切片配汤；配方、隔日早餐、帮忙与托店会留在旅程里。读对话、看海和离开游戏时，制作暂停。
@@ -72,7 +76,7 @@ def main():
 字体、声音及Go运行时许可见LICENSES文件夹。原始参考录音、模型权重及工作素材不随应用分发。
 ''',encoding='utf-8-sig')
         licenses=[]
-        for name in ['OFL-Noto.txt','NARRATION-CREDITS.txt','LICENSE-ZipVoice.txt','LICENSE-Vocos.txt','SOUND-CREDITS.txt','SOUND-SOURCES.json','CLARITY-CREDITS.txt','ASSETS-8K.json','LICENSE-FSRCNN.txt']:
+        for name in ['OFL-Noto.txt','NARRATION-CREDITS.txt','LICENSE-ZipVoice.txt','LICENSE-Vocos.txt','SOUND-CREDITS.txt','SOUND-SOURCES.json','CLARITY-CREDITS.txt','ASSETS-8K.json','LICENSE-FSRCNN.txt','CRAFT-CREDITS.json']:
             source=RELEASE/name;assert source.is_file();licenses.append((source,'LICENSES/'+name))
         for name in ['CREDITS.txt','SOURCES.json']:
             licenses.append((ROOT/'public/audio/memory-box'/name,'LICENSES/memory-box/'+name))
@@ -90,11 +94,12 @@ def main():
         target=ROOT/'docs/downloads'/archive.name;shutil.copyfile(archive,target)
         sums=ROOT/'docs/downloads'/f'SHA256SUMS-v{VERSION}-windows-x64.txt'
         sums.write_text(f'{sha(archive)}  {archive.name}\n{sha(exe)}  {exe.name}\n')
-        summary={'version':VERSION,'target':'Windows 10/11 amd64','format':'portable GUI executable with embedded game, using installed Edge/Chrome','windowsGUILaunchTested':False,'codeSigned':False,'embeddedFiles':len(manifest['files']),'windowsEmbeddedFilesVerified':len(manifest['files']),'profileRelaunchTestedOnLinux':True,'assetManifestSHA256':sha(manifest_path),'goTestsPassed':True,'desktopBrowserChecks':report['passed'],'outboundGameRequests':0,'zipCRCVerified':True,'exe':{'file':exe.name,'bytes':exe.stat().st_size,'sha256':sha(exe)},'archive':{'file':archive.name,'bytes':archive.stat().st_size,'sha256':sha(archive)},'scope':'Windows PE target and every embedded asset verified. The same local server, persistent browser profile and full game flow were exercised on Linux; Windows GUI launch was not executed.'}
+        summary={'version':VERSION,'target':'Windows 10/11 amd64','format':'portable GUI executable with embedded game, using installed Edge/Chrome','windowsGUILaunchTested':False,'codeSigned':False,'embeddedFiles':len(manifest['files']),'windowsEmbeddedFilesVerified':len(manifest['files']),'profileRelaunchTestedOnLinux':True,'assetManifestSHA256':sha(manifest_path),'goTestsPassed':True,'desktopBrowserChecks':report['passed'],'desktopCraftChecks':craft['passed'],'outboundGameRequests':0,'zipCRCVerified':True,'exe':{'file':exe.name,'bytes':exe.stat().st_size,'sha256':sha(exe)},'archive':{'file':archive.name,'bytes':archive.stat().st_size,'sha256':sha(archive)},'scope':'Windows PE target and every embedded asset verified. The same local server, persistent browser profile and full game flow were exercised on Linux; Windows GUI launch was not executed.'}
         (RELEASE/f'desktop-v{VERSION}-validation.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n')
         record=ROOT/'docs'/f'desktop-v{VERSION}-validation.json';shutil.copyfile(RELEASE/record.name,record)
         browser_record=ROOT/'docs'/f'bakery-v{VERSION}-desktop.json';shutil.copyfile(RELEASE/browser_record.name,browser_record)
-        (RELEASE/f'desktop-v{VERSION}-web-files.json').write_text(json.dumps([str(p.relative_to(ROOT))for p in [target,sums,record,browser_record]],ensure_ascii=False,indent=2)+'\n')
+        craft_record=ROOT/'docs'/f'craft-v{VERSION}-desktop.json';shutil.copyfile(RELEASE/craft_record.name,craft_record)
+        (RELEASE/f'desktop-v{VERSION}-web-files.json').write_text(json.dumps([str(p.relative_to(ROOT))for p in [target,sums,record,browser_record,craft_record]],ensure_ascii=False,indent=2)+'\n')
         print(json.dumps(summary,ensure_ascii=False))
     assert args.prepare or args.package
 

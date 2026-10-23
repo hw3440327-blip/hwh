@@ -1,0 +1,184 @@
+{
+  "version": "4.3.0",
+  "url": "http://127.0.0.1:19842/hwh/",
+  "offline": false,
+  "developmentProbe": false,
+  "desktopLocalOnly": true,
+  "startedAt": "2026-10-23T16:53:29.078Z",
+  "checks": [
+    {
+      "name": "the target is the exact production build or independent HTML artifact",
+      "status": "pass",
+      "details": {
+        "version": "4.3.0",
+        "entry": {
+          "bytes": 847,
+          "sha256": "4290b524b61b784ba47e366f57fce3d3c76d8820eed0b12fd041fea036bead54"
+        },
+        "javascript": {
+          "file": "assets/index-615c4bad838f.js",
+          "bytes": 902157,
+          "sha256": "615c4bad838f0d0d3ee68fcf5e9ca32ccca3031adf34d976318b9666e4e4a559"
+        },
+        "assetManifestSha256": "2d132458fd3f531f05b26ac040e6a033300e9d06c18e89f4575d4a2405144b90"
+      }
+    },
+    {
+      "name": "the new afternoon visibly covers the town and begins with door, coat and workbench",
+      "status": "pass",
+      "details": {
+        "visibleAboveTown": true,
+        "realCoatDrag": true,
+        "legacySave": true
+      }
+    },
+    {
+      "name": "physical ingredients and continuous pouring determine the measured dough",
+      "status": "pass",
+      "details": {
+        "flour": 100,
+        "water": 72,
+        "additions": [
+          "fruit",
+          "milk"
+        ],
+        "stopsOnRelease": true
+      }
+    },
+    {
+      "name": "resident work finishes before teaching and conversation pauses the same physical world",
+      "status": "pass",
+      "details": {
+        "readingPauses": true,
+        "helpLearned": true,
+        "residentResting": true
+      }
+    },
+    {
+      "name": "a cancelled knead does not count and a real stroke changes the dough before keyboard shaping",
+      "status": "pass",
+      "details": {
+        "pointerStroke": true,
+        "cancelSafe": true,
+        "keyboardAlternative": true
+      }
+    },
+    {
+      "name": "there is one physical dough and the tray can be reversed before the oven",
+      "status": "pass",
+      "details": {
+        "reversibleTray": true,
+        "singleDough": true
+      }
+    },
+    {
+      "name": "looking at the sea, reading recipes and a manual pause all preserve oven colour",
+      "status": "pass",
+      "details": {
+        "sea": true,
+        "recipe": true,
+        "pause": true,
+        "heatAdjusted": 205
+      }
+    },
+    {
+      "name": "observed deep colour becomes soup slices, a saved recipe and a real shared loaf",
+      "status": "pass",
+      "details": {
+        "water": 72,
+        "colour": 0.8301944444444456,
+        "finish": "soup",
+        "oneMemory": true
+      }
+    },
+    {
+      "name": "export, reload and import retain the actual measured recipe and promise",
+      "status": "pass",
+      "details": {
+        "exportedBytes": 5255,
+        "recipeAndPromiseRetained": true
+      }
+    },
+    {
+      "name": "tomorrow brings the promised breakfast and the saved recipe remains adjustable",
+      "status": "pass",
+      "details": {
+        "nextDay": 2,
+        "fulfilled": true,
+        "shared": 2
+      }
+    },
+    {
+      "name": "shared days earn the resident trust and a visitor responds to the earlier loaf",
+      "status": "pass",
+      "details": {
+        "earnedBySharedDays": true,
+        "visitorGreeted": true,
+        "residentReturned": true
+      }
+    },
+    {
+      "name": "keyboard layers and reduced motion preserve fixed 8K painting geometry",
+      "status": "pass",
+      "details": {
+        "width": 7680,
+        "transform": "none",
+        "filter": "none",
+        "fit": "cover"
+      }
+    },
+    {
+      "name": "native phone touches pour, knead and cancel without leaving the viewport",
+      "status": "pass",
+      "details": {
+        "nativeTouch": true,
+        "cancelSafe": true,
+        "water": 36,
+        "viewport": 390,
+        "scroll": 390,
+        "header": true
+      }
+    },
+    {
+      "name": "sound is real, story narration stays paused and leaving stops active cooking",
+      "status": "pass",
+      "details": {
+        "rms": [
+          0.014764212174612318,
+          0.0009076725809226552
+        ],
+        "storyPaused": true,
+        "leavingStopsClock": true
+      }
+    },
+    {
+      "name": "the native 8K viewport keeps the scene and its controls readable",
+      "status": "pass",
+      "details": {
+        "source": 7680,
+        "screen": 7680,
+        "scroll": 7680,
+        "caption": 30
+      }
+    }
+  ],
+  "errors": [],
+  "resourceFailures": [],
+  "externalRequests": [],
+  "buildFingerprint": {
+    "version": "4.3.0",
+    "entry": {
+      "bytes": 847,
+      "sha256": "4290b524b61b784ba47e366f57fce3d3c76d8820eed0b12fd041fea036bead54"
+    },
+    "javascript": {
+      "file": "assets/index-615c4bad838f.js",
+      "bytes": 902157,
+      "sha256": "615c4bad838f0d0d3ee68fcf5e9ca32ccca3031adf34d976318b9666e4e4a559"
+    },
+    "assetManifestSha256": "2d132458fd3f531f05b26ac040e6a033300e9d06c18e89f4575d4a2405144b90"
+  },
+  "finishedAt": "2026-10-23T16:55:46.033Z",
+  "passed": 15,
+  "failed": 0
+}

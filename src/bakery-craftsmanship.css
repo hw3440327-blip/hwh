@@ -1,0 +1,33 @@
+.bl-world .painted-kitchen { filter:saturate(.78) brightness(.91); }
+.bl-world .painted-bread { filter:drop-shadow(1px 5px 3px #3f2c1c22); }
+.bl-world .bl-object>svg.painted-kitchen { overflow:hidden; }
+.bl-world .bl-ingredient { width:9%!important; height:26%!important; }
+.bl-world .bl-ingredient>span { top:91%; font-size:clamp(11px,calc(var(--bl-u)*13),30px); }
+.bl-world .bl-ingredient:not(:disabled):hover>svg { filter:saturate(.9) brightness(1.06) drop-shadow(2px 7px 5px #372e2833); }
+.bl-world .bl-work-cloth { opacity:.9;left:36%;top:63%;width:46%;height:45%;filter:drop-shadow(3px 5px 3px #352e1c33); }
+.bl-world .bl-bowl { filter:drop-shadow(2px 7px 4px #42301a24); }
+.bl-world .bl-bowl-front { filter:brightness(.96); }
+.bl-world .bl-shape-tools { gap:9px; }
+.bl-world .bl-shape-tools button { background:#e4d5b2e8; border-color:#ad9b6c87; color:#4c634a; border-radius:8px 8px 16px 8px; box-shadow:1px 4px 10px #2431252b; }
+.bl-world .bl-shape-tools button[aria-pressed=true] { background:#a8b48ce8; border-color:#e3d8ac; }
+.bl-world .bl-tray { filter:drop-shadow(2px 8px 4px #3a2b1a55); }
+.bl-world .bl-tray>svg.painted-bread { top:-24%; width:88%; height:113%; }
+.bl-world .bl-tray.is-in-oven { opacity:.16; }
+.bl-world .bl-object:not(:hover):not(:focus-visible)>span { opacity:.82; }
+.bl-world .bl-resident { filter:saturate(.8) brightness(.88); width:28%!important;height:92%!important;top:63%!important; }
+.bl-world .bl-resident>svg { filter:drop-shadow(2px 4px 2px #232c2226);clip-path:inset(0 0 40% 0); }
+.bl-world .bl-resident>span {top:24%;left:90%;font-size:clamp(11px,calc(var(--bl-u)*12),28px);}
+.bl-world .bl-oven-fire { opacity:.45; }
+.bl-world .bl-oven-loaf { left:1%;top:0;width:60%;height:52%; }
+.bl-world .bl-soup { width:16%!important; height:26%!important; }
+.bl-world .bl-soup>span { top:93%; }
+.bl-world .bl-grain { opacity:.055; }
+.bl-focus-toggle { display:flex; align-items:center; gap:8px; background:#65795930!important; border:1px solid #c7c89844!important; border-radius:4px; font-size:12px!important; padding:9px 12px!important; }
+.bl-focus-toggle span { font-size:inherit; color:inherit; letter-spacing:0; }
+.bl-object-pulse { position:absolute; width:25%; height:20%; left:44%; top:72%; pointer-events:none; background:radial-gradient(ellipse,#efe6c12b,transparent 65%); animation:bl-flour-settle .7s ease-out both; z-index:12; }
+@keyframes bl-flour-settle { from{opacity:.7;transform:scale(.7) translateY(-20px)} to{opacity:0;transform:scale(1.1) translateY(4px)} }
+.bl-world .bl-tray>svg.painted-bread,.bl-world .bl-oven-loaf { transition:filter 1s; }
+.bl-world .bl-dough>svg { filter:drop-shadow(0 4px 2px #78634133); }
+.bl-quiet .bl-object-pulse { animation:none; display:none; }
+@media(max-width:650px) { .bl-focus-toggle span {display:none} }
+@media(min-width:3000px) { .bl-focus-toggle {font-size:28px!important;padding:20px 25px!important}.bl-focus-toggle svg {width:32px;height:32px} }

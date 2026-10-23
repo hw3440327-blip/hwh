@@ -152,6 +152,7 @@ export default function MemoryBox({ game, onAction, onClose, quietMotion=false, 
 
   return <section className={`mb-world ${quietMotion?'mb-quiet':''}`} role="dialog" aria-modal="true" aria-label="雨声里的木盒" data-memory-box-stage={stage} data-memory-place={place} data-memory-audio-status={audio.status||'closed'} data-memory-audio-id={audio.currentId||''} ref={rootRef} tabIndex={-1}>
     <FilmScene poster={setting.poster} scene={{id:place}} className="mb-backdrop" quiet={quietMotion} paused={hidden}/>
+    <div className="mb-recollection-painting" aria-hidden="true" style={{opacity:state.repaired?clamp((state.lid-.25)*1.2)*.7:0}}><img src="/art/film-night.webp" alt=""/><svg viewBox="0 0 1000 600" preserveAspectRatio="none"><g>{Array.from({length:32},(_,i)=><path key={i} d={`M${25+i*18} ${20+i*37%120}l-4 ${24+i*11%30}`} style={{animationDelay:`${i*-.19}s`}}/>)}</g></svg></div>
     <div className="mb-world-shade" aria-hidden="true"/>
     <header className="mb-header"><div className="mb-heading"><Leaf size={23} strokeWidth={1.2}/><div><span>栖屿镇 · {setting.title}</span><h2>雨声里的木盒</h2></div></div><div className="mb-header-actions"><button type="button" onClick={()=>{activate();audio.toggle?.();}} aria-label={audio.enabled?'关闭木盒声音':'开启木盒声音'} aria-pressed={Boolean(audio.enabled)}>{audio.enabled?<Volume2 size={18}/>:<VolumeX size={18}/>}<span>{audio.enabled?'听着这场雨':'听听木盒'}</span></button><button type="button" className="mb-close" onClick={onClose} aria-label="收好木盒，回到小镇"><X size={23}/></button></div></header>
     <div className="mb-content">

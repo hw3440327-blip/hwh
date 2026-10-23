@@ -4,3 +4,5 @@
 声音制作沿用 ZipVoice Distill FP32、4步、speed 0.94、Vocos；许可与原有旁白一致，见 NARRATION-CREDITS.txt、LICENSE-ZipVoice.txt、LICENSE-Vocos.txt。
 对白文本、音频完整摘要、时长、合成设置摘要和自动识别核对结果见 SOURCES.json。
 盒内雨声来自已有真实环境录音 rain.ogg，作者、许可、处理方式见 SOUND-CREDITS.txt、SOUND-SOURCES.json。雨声与说话声独立混音，盒盖开合改变音量与清晰度。
+
+4.3.0 演绎处理：保持玩家选定的第一次参考声线，分句生成，轻缓语速、句间留白。短房间反射与雨声避让由程序独立混音，不向人声文件混入雨声；闭盖和离开均停止。合成声音，不宣称真人表演。

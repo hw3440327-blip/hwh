@@ -1,0 +1,76 @@
+{
+  "version": "4.3.0",
+  "url": "http://127.0.0.1:4173/hwh/offline-8k-test.html",
+  "offline": true,
+  "checks": [
+    {
+      "name": "furnishings are painted, lie on real surfaces and can be moved without cloning",
+      "passed": true,
+      "detail": {
+        "items": [
+          "flower",
+          "cup",
+          "lamp"
+        ],
+        "plant": {
+          "item": "flower",
+          "placedDay": 1,
+          "x": 49.5,
+          "scale": 1.12,
+          "rotation": 6
+        }
+      }
+    },
+    {
+      "name": "the original painting remains fixed while light and the window breeze change independently",
+      "passed": true,
+      "detail": {
+        "fixedPainting": true,
+        "lightSaved": true
+      }
+    },
+    {
+      "name": "a real book page is turned, marked by a drag, and remembered with a personal margin note",
+      "passed": true,
+      "detail": {
+        "book": "garden",
+        "page": 1,
+        "mark": 2,
+        "kept": true,
+        "keptBook": "garden",
+        "keptPage": 1,
+        "quote": "原来慢一点，也能长出新叶。"
+      }
+    },
+    {
+      "name": "stone force changes the result and a cancelled or abandoned throw leaves no completed action",
+      "passed": true,
+      "detail": {
+        "near": 3,
+        "far": 6,
+        "cancelSafe": true
+      }
+    },
+    {
+      "name": "the wave washes the written words and keeps the memory after a reload",
+      "passed": true,
+      "detail": {
+        "reloadKeepsAll": true,
+        "washed": true
+      }
+    },
+    {
+      "name": "phone touches move the bookmark and neither activity overflows a narrow screen",
+      "passed": true,
+      "detail": {
+        "nativeTouch": true,
+        "noHorizontalOverflow": true
+      }
+    }
+  ],
+  "errors": [],
+  "resources": [],
+  "external": [],
+  "passed": 6,
+  "success": true
+}

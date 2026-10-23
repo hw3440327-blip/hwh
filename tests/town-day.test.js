@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGame, finishIntroduction, restoreGame, serializeGame, availableChoices, choose, reincarnate } from '../src/engine.js';
-import { TOWN_MEMORY, TOWN_PLACES, TOWN_PEOPLE, TOWN_RECIPES, normalizeTownDay, townProgress, townStage, townDialogue, townJournal, townDecorationUnlocked, performTownAction } from '../src/townDay.js';
+import { TOWN_MEMORY, TOWN_PLACES, TOWN_PEOPLE, TOWN_RECIPES, TOWN_SLOTS, normalizeTownDay, townProgress, townStage, townDialogue, townJournal, townDecorationUnlocked, performTownAction } from '../src/townDay.js';
 
 const act=(game,type,fields={})=>performTownAction(game,{type,...fields});
 const visit=(game,place)=>act(game,'visit',{place});
@@ -152,7 +152,7 @@ test('同一陈设在真实位置之间移动而不复制，花的成长不会�
   game=act(game,'decorate',{slot:'desk',item:'flower'});
   const state=townProgress(game);
   assert.equal(state.decor.window,null);
-  assert.deepEqual(state.decor.desk,{item:'flower',placedDay:1});
+  assert.deepEqual(state.decor.desk,{item:'flower',placedDay:1,x:TOWN_SLOTS.find(s=>s.id==='desk').x,scale:1,rotation:0});
   assert.equal(Object.values(state.decor).filter(Boolean).length,1);
   assert.equal(townJournal(game).decorations[0].age,1);
   game=visit(game,'shore');game=act(game,'explore',{hotspot:'shore-shell'});

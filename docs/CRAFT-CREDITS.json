@@ -1,0 +1,63 @@
+{
+  "version": "4.3.0",
+  "creation": "Generated for this project using image_gen; encoded to WebP without adding resolution or details. Sprite views use independent clipping, no displacement of original paintings.",
+  "original16BackgroundsUnchanged": true,
+  "files": [
+    {
+      "file": "play-bread-atlas.webp",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 703370,
+      "sha256": "b0ab7656e84eab340ba5a2d960537dc901ef17473193adf347025ec791ed0830",
+      "kind": "project-generated painted sprite atlas"
+    },
+    {
+      "file": "play-home-atlas.webp",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 593802,
+      "sha256": "d2cb04d3884653d03345cfc78c73fbed46ab7129d825c94162a1da1ba475b385",
+      "kind": "project-generated painted sprite atlas"
+    },
+    {
+      "file": "play-kitchen-atlas.webp",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 508648,
+      "sha256": "af0257f45e11ad297369a7ae003f7069a5f7737d54ed655ec5ee9e02ef08fd67",
+      "kind": "project-generated painted sprite atlas"
+    },
+    {
+      "file": "play-workbench-atlas.webp",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 440676,
+      "sha256": "1846631ab32c1dda70e20a69077ac353c95d7c305e0b8643149756da8ba3c9fb",
+      "kind": "project-generated painted sprite atlas"
+    },
+    {
+      "file": "play-bakery-details.webp",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 407174,
+      "sha256": "ffa58be50707030f110c5f74c4f70099bee2e3611c1571a9d2b41f08d8cc1d7a",
+      "kind": "project-generated painted sprite atlas"
+    },
+    {
+      "file": "play-lin-packing.webp",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 281486,
+      "sha256": "22c18cbb6ce2be380ce2c887d27a6aa26499dd84e9d3a0176298c1a2980fa1ac",
+      "kind": "project-generated character painting"
+    },
+    {
+      "file": "play-lin-poses.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 278680,
+      "sha256": "f76a497a42750b25371144f8c0d791eb3034b0f8e04838b40aaa8cb2dcbbb5bb",
+      "kind": "project-generated character painting"
+    }
+  ]
+}
