@@ -18,10 +18,12 @@ export function PaintedBread({ recipe='milk', shape='round', colour=.55, additio
   </svg>;
 }
 
-export function PaintedDecoration({item,age=0,className=''}) {
+export function PaintedDecoration({item,age=0,className='',surface}) {
   const region={flower:'0 0 430 575',shell:'437 150 380 405',book:'811 157 443 439',basket:'8 580 455 610',lamp:'461 584 370 626',cup:'825 615 429 606'}[item]||'0 0 430 575';
-  return <svg className={`painted-decoration ${className}`} viewBox="0 0 418 627" aria-hidden="true" data-painted-decoration={item} data-growth={age}>
-    <AtlasCell src="/art/play-home-atlas.webp" region={region}/>
+  const placed={flower:'30 95 400 520',shell:'462 365 305 242',book:'788 303 461 329',basket:'20 819 408 375',lamp:'465 671 320 511',cup:'847 838 393 346'}[item];
+  const [, ,w,h]=(placed||region).split(' ').map(Number),height=surface?418*h/w:627;
+  return <svg className={`painted-decoration ${className}`} viewBox={`0 0 418 ${height}`} aria-hidden="true" data-painted-decoration={item} data-decor-pose={surface?'resting':'inventory'} data-decor-surface={surface} data-growth={age}>
+    <AtlasCell src={surface?'/art/play-home-placed.webp':'/art/play-home-atlas.webp'} region={surface?placed:region} height={height}/>
     {item==='flower'&&age>0&&<g className="home-new-leaf" fill="#849765" stroke="#536e43" strokeWidth="1"><path d="M208 370Q257 301 287 318Q283 361 208 370Z"/>{age>1&&<path d="M210 340Q166 286 132 306Q144 342 210 340Z"/>}</g>}
   </svg>;
 }

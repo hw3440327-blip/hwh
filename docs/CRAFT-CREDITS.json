@@ -1,5 +1,5 @@
 {
-  "version": "4.3.0",
+  "version": "4.3.1",
   "creation": "Generated for this project using image_gen; encoded to WebP without adding resolution or details. Sprite views use independent clipping, no displacement of original paintings.",
   "original16BackgroundsUnchanged": true,
   "files": [
@@ -58,6 +58,14 @@
       "bytes": 278680,
       "sha256": "f76a497a42750b25371144f8c0d791eb3034b0f8e04838b40aaa8cb2dcbbb5bb",
       "kind": "project-generated character painting"
+    },
+    {
+      "file": "play-home-placed.webp",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 464382,
+      "sha256": "c121471a3f453613bf15127a3d1f9bff297694b0f6774bf075b09c5a150f5b2e",
+      "kind": "project-generated painted furnishings in resting poses; original inventory and cottage painting preserved"
     }
   ]
 }

@@ -53,7 +53,7 @@ export const TOWN_DECORATIONS = [
 ];
 export const TOWN_SLOTS = [
   { id: 'window', name: '窗台', x: 49, y: 48, width: 5.5, minX: 43, maxX: 57 },
-  { id: 'desk', name: '木桌', x: 29, y: 53, width: 6, minX: 24, maxX: 36 },
+  { id: 'desk', name: '木桌', x: 29, y: 50.5, width: 6, minX: 24, maxX: 36 },
   { id: 'door', name: '床边小柜', x: 78, y: 50.5, width: 5.2, minX: 76.8, maxX: 79.5 },
 ];
 

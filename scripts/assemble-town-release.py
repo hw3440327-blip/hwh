@@ -9,7 +9,7 @@ def sha(p):
     with p.open('rb')as f:return hashlib.file_digest(f,'sha256').hexdigest()
 def main():
     reports=[]
-    for name,count in [(f'craft-v{V}-browser.json',6),(f'craft-v{V}-offline.json',6),(f'bakery-v{V}-browser.json',15),(f'bakery-v{V}-offline.json',15),(f'memory-box-v{V}-browser.json',19),(f'memory-box-v{V}-offline.json',19),(f'town-v{V}-browser.json',15)]:
+    for name,count in [(f'craft-v{V}-browser.json',7),(f'craft-v{V}-offline.json',7),(f'bakery-v{V}-browser.json',15),(f'bakery-v{V}-offline.json',15),(f'memory-box-v{V}-browser.json',19),(f'memory-box-v{V}-offline.json',19),(f'town-v{V}-browser.json',15)]:
         d=load(R/name);assert d['version']==V and d['passed']>=count and not d.get('failed') and not d.get('error') and not d.get('fatalError')
         for key in ['errors','resources','resourceFailures','external','externalRequests']:assert not d.get(key),(name,key,d.get(key))
         reports.append((name,d['passed']))
@@ -27,9 +27,9 @@ def main():
 
 从“去小镇走走”或“旅程手记→小镇日常”进入初秋三天。打开小镇地图可以在五处往返。
 面包房：走近工作台，挂外套、取原料、持续添水、揉面与整形、观察炉色出炉。可以装袋分享、留配方、给林姨留早餐；烤深的面包可以切薄配汤。三种口味、三种造型使用不同绘画切片。“走近手边”能放大查看操作。
-小屋：摆六件绘画物品。先选窗台、木桌或床边小柜，再轻点物品，也可拖入位置；选中后可以直接沿台面挪动，用方向键或滑杆调整位置、大小、转向。物件只有一份，换位置不会复制。
+小屋：摆六件绘画物品。先选窗台、木桌或床边小柜，再轻点物品，也可拖入位置；选中后可以直接沿台面挪动，用方向键或滑杆调整位置、大小、转向。进入布置保留画幅与缩放；落地换用摊书、平放贝壳等另一套绘画形态并匹配台面光影。物件只有一份，换位置不会复制。
 书店：坐下来翻三本三页短篇，拖动书签，或轻点想再读的一句话。写自己的页边话，阿禾会回应；书签记住书名和页码。
-海堤：走到水边，换一枚石子，握住后拖动、松手。Enter轻抛，上/下方向键用不同力道。取消或离开不会记录完成。也能在沙上写一句话，让海水带走。
+海堤：走到水边，换一枚石子，握住后拖动、松手。Enter轻抛，上/下方向键用不同力道。取消或离开不会记录完成。投石有亮色辅助线、落水圈与力道提示。也能用内置手写体在沙上写一句话，让海水带走。
 修补铺：顺纹打磨木盒，拧紧两枚合页，慢慢开合听雨。保留选定的初版参考声线，三段角色声音改为分句演绎；字幕也能独立阅读。闭盖淡出，重新打开接着听。
 
 音乐和故事声音需要主动开启。默认内置声音不需要语音服务；可选系统联网声音仍取决于浏览器服务。新增书页和场景说明采用文字，未给这些新句子冒充已有的故事配音。
@@ -38,7 +38,7 @@ def main():
 16幅背景保持既有原画和摘要，仍为7680像素宽输出；原画是普通重采样，不是原生8K绘制。新道具是项目生成的绘画素材，见CRAFT-CREDITS.json。声音仍为合成演绎，自然度与情绪需要实际试听判断。
 字体、声音及模型的许可和署名随包提供。原始参考录音和模型权重不在包内。
 ''',encoding='utf-8-sig')
-    notices=['OFL-Noto.txt','NARRATION-CREDITS.txt','LICENSE-ZipVoice.txt','LICENSE-Vocos.txt','SOUND-CREDITS.txt','SOUND-SOURCES.json','CLARITY-CREDITS.txt','ASSETS-8K.json','LICENSE-FSRCNN.txt','CRAFT-CREDITS.json']
+    notices=['OFL-Noto.txt','OFL-MaShanZheng.txt','NARRATION-CREDITS.txt','LICENSE-ZipVoice.txt','LICENSE-Vocos.txt','SOUND-CREDITS.txt','SOUND-SOURCES.json','CLARITY-CREDITS.txt','ASSETS-8K.json','LICENSE-FSRCNN.txt','CRAFT-CREDITS.json']
     html=R/'下一次春天-电影生活版.html';archive=R/f'next-spring-v{V}.zip'
     entries=[(html,html.name),(guide,guide.name)]+[(R/name,name)for name in notices]+[(ROOT/'public/audio/memory-box'/n,'memory-box/'+n)for n in ['CREDITS.txt','SOURCES.json']]
     with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=9)as z:

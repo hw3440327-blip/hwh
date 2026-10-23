@@ -22,7 +22,7 @@ import (
 	"time"
 )
 
-const version = "4.3.0"
+const version = "4.3.1"
 const desktopPort = 19842 // Stable origin preserves the browser's local saves.
 
 // Explicit types avoid relying on file associations in the Windows registry.

@@ -36,6 +36,8 @@ export default function TownRitual({place,town,onAction,onClose,onCue,quietMotio
   function wash(){if(washing||!words)return;setWashing(true);onCue?.('water');washTimer.current=setTimeout(()=>{onAction({type:'shore_wash'});setWashing(false);setNote('你写过的话，海已经听见了。想再写一句，也可以。');},quietMotion?100:2800);}
   const t=flight?.progress||0,first=.27,local=t<first?t/first:(t-first)/(1-first),hop=t<first?0:Math.min(flight?.skips||1,Math.floor(local*(flight?.skips||1))),phase=t<first?local:(local*(flight?.skips||1))%1;
   const stone=flight?(t<first?{x:650-330*phase,y:480-290*phase-120*Math.sin(phase*Math.PI)}:{x:320-local*190+(flight.lean||0)*60,y:190-local*100-Math.sin(phase*Math.PI)*45*(1-local)}):{x:650,y:480};
+  const previewSkips=aim?clamp(Math.round(1+clamp(aim.distance*4,.1,1)*4+(town.shore.stone==='flat'?1:town.shore.stone==='heart'?-1:0)),1,6):0;
+  const aimPath='M650 480C540 258 430 161 320 190';
   return <section className={`tr-world ${shore?'tr-shore':'tr-reading'} ${quietMotion?'tr-quiet':''}`} ref={root} role="dialog" aria-modal="true" aria-label={shore?'海边的慢时光':'书店里的一页光'}>
     <img className="tr-background" src={shore?'/art/play-shell-shore.webp':'/art/film-bookshop.webp'} alt=""/>
     <div className="tr-shade" aria-hidden="true"/>
@@ -46,11 +48,17 @@ export default function TownRitual({place,town,onAction,onClose,onCue,quietMotio
           <defs><radialGradient id="tr-stone-light"><stop stopColor="#c1b6a1"/><stop offset="1" stopColor="#6d7c76"/></radialGradient></defs>
           {flight&&Array.from({length:hop},(_,i)=><g key={i} className="tr-impact" style={{'--ripple-age':`${i*-.13}s`}}><ellipse cx={320-i*190/flight.skips} cy={190-i*100/flight.skips} rx={8+(hop-i)*9} ry={3+(hop-i)*3} fill="none" stroke="#f7f9da" strokeWidth="1.5" opacity={.7-(hop-i)*.08}/><path d={`M${320-i*190/flight.skips-4} ${190-i*100/flight.skips}q-7-12-10-9m14 9q4-18 8-13`} stroke="#f7f9de" strokeWidth="1.2" fill="none"/></g>)}
           {flight&&<><ellipse cx={stone.x} cy={stone.y+10} rx="9" ry="2.5" fill="#2b4d4855"/><ellipse cx={stone.x} cy={stone.y} rx="7" ry="4" fill="url(#tr-stone-light)" transform={`rotate(${t*680} ${stone.x} ${stone.y})`}/></>}
-          {aim&&<path d={`M650 480Q${430-aim.dx*120} ${130-aim.distance*150} 320 190`} fill="none" stroke="#fff3cb" strokeWidth="2" strokeDasharray="3 10" opacity=".65"/>}
+          {aim&&<g className="tr-aim-guide" data-shore-aim>
+            <path className="tr-aim-outline" d={aimPath}/>
+            <path className="tr-aim-line" d={aimPath}/>
+            <path className="tr-aim-arrow" d="M342 171L320 190L348 198"/>
+            {Array.from({length:previewSkips},(_,i)=><g key={i} className="tr-aim-landing" opacity={1-i*.09}><ellipse cx={320-i*190/previewSkips} cy={190-i*100/previewSkips} rx={i?11:21} ry={i?5:10}/><circle cx={320-i*190/previewSkips} cy={190-i*100/previewSkips} r="2.5"/></g>)}
+          </g>}
           {washing&&<path className="tr-wash" d="M-150 100Q400 0 900 450Q1100 600 1200 900" fill="none" stroke="#e8f7e7bb" strokeWidth="150"/>}
         </svg>
         {!flight&&<button type="button" className={`tr-stone tr-stone-${town.shore.stone}`} data-shore-stone onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={e=>up(e,true)} onClick={e=>{if(e.detail===0)cast();}} onKeyDown={e=>{if(e.key==='ArrowUp'){e.preventDefault();cast(.95);}if(e.key==='ArrowDown'){e.preventDefault();cast(.3);}}} aria-label="握住石子，向后拉再松手；Enter轻抛，上方向键远抛"><PaintedStone kind={town.shore.stone}/><span>{aim?'松开，让它向海面走去':'握住，向后拉，再松开'}</span></button>}
-        <div className={`tr-sand-words ${washing||town.shore.washed?'is-washed':''}`}>{words&&!town.shore.washed?words:''}</div>
+        <div className={`tr-sand-words ${washing||town.shore.washed?'is-washed':''}`}>{words&&!town.shore.washed?Array.from(words).map((letter,i)=><span key={i} style={{'--letter-tilt':`${[-5,2,-2,4,0][i%5]}deg`,'--letter-rise':`${[0,-1,1,0,-2][i%5]}px`}}>{letter}</span>):''}</div>
+        {aim&&<div className="tr-aim-hint" role="status">力道{aim.distance<.1?'轻轻':aim.distance<.2?'适中':'饱满'} · 预计轻跳 {previewSkips} 次</div>}
       </div>
       <aside className="tr-shore-tools"><div className="tr-stone-choices" aria-label="挑一枚顺手的石子">{[['flat','扁平的小石'],['round','圆润的小石'],['heart','心形的小石']].map(([id,name])=><button type="button" key={id} disabled={Boolean(flight)} aria-pressed={town.shore.stone===id} onClick={()=>{onAction({type:'shore_stone',stone:id});onCue?.('wood');}}><span className="tr-pebble-paint"><PaintedStone kind={id}/></span>{name}</button>)}</div><div className="tr-sand-form"><label htmlFor="tr-sand">写在沙上的一句话</label><input id="tr-sand" aria-label="写在沙上的一句话" maxLength={24} value={words} placeholder="今天，先对自己温柔一点。" onChange={e=>{setWords(e.target.value);onAction({type:'shore_words',text:e.target.value});}}/><button type="button" onClick={wash} disabled={washing||!words||town.shore.washed}><Waves size={15}/>让海水带走这句话</button></div></aside>
     </>:<>

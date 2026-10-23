@@ -1,3 +1,4 @@
+@font-face { font-family:"Sand Hand"; src:url("/fonts/sand-hand.woff2") format("woff2"); font-style:normal; font-weight:400; font-display:swap; }
 .tr-world { position:absolute; inset:0; z-index:80; isolation:isolate; display:flex; flex-direction:column; color:#f2e7cb; background:#30483e; font-family:var(--font-body,serif); overflow:auto; }
 .tr-world * { box-sizing:border-box; }
 .tr-world button,.tr-world input { font:inherit; }
@@ -62,7 +63,16 @@
 .tr-sand-form label { grid-column:1/-1; font-size:11px; letter-spacing:.12em; }
 .tr-sand-form input { min-width:0; background:none; border:0; border-bottom:1px solid #81926c5c; color:#586c53; font-size:13px; padding:8px 0; }
 .tr-sand-form button { display:flex; gap:8px; align-items:center; border:0; background:none; padding:8px 0; color:#5e7755; font-size:11px; }
-.tr-sand-words { position:absolute; left:45%; top:45%; max-width:35%; text-align:center; color:#8b7e538c; text-shadow:0 1px 0 #fff6d5b3; font-size:clamp(18px,2vw,40px); font-family:var(--font-story,serif); transform:rotate(-8deg); line-height:1.9; letter-spacing:.17em; pointer-events:none; transition:opacity 2.5s; }
+.tr-sand-words { position:absolute; left:42%; top:44%; max-width:46%; text-align:center; color:#70512e; -webkit-text-stroke:.35px #765232; text-shadow:0 2px 0 #fff1c7,1px -1px 1px #4e391e80,0 4px 5px #b29b6738; font-size:clamp(32px,3.5vw,150px); font-family:"Sand Hand",var(--font-story,serif); transform:rotate(-7deg); line-height:1.4; letter-spacing:.06em; overflow-wrap:anywhere; pointer-events:none; transition:opacity 2.5s; }
+.tr-sand-words>span { display:inline-block; white-space:pre; transform:translateY(var(--letter-rise)) rotate(var(--letter-tilt)); }
+.tr-aim-guide path { fill:none; stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke; }
+.tr-aim-outline { stroke:#34534ae6; stroke-width:clamp(7px,.65vw,24px); }
+.tr-aim-line { stroke:#fff2ba; stroke-width:clamp(3px,.3vw,12px); stroke-dasharray:9 9; }
+.tr-aim-arrow { stroke:#fff2ba; stroke-width:clamp(3px,.3vw,12px); paint-order:stroke; filter:drop-shadow(0 2px 1px #29463d); }
+.tr-aim-landing ellipse { fill:#f7e6ab40; stroke:#fff4ca; stroke-width:clamp(2px,.18vw,7px); vector-effect:non-scaling-stroke; filter:drop-shadow(0 1px 2px #284638); }
+.tr-aim-landing circle { fill:#fff5c7; }
+.tr-aim-hint { position:absolute; top:13%; left:21%; color:#fff1cc; background:#294d42e8; border:1px solid #e8d6a5; border-radius:20px; padding:9px 15px; font-size:clamp(12px,1vw,32px); letter-spacing:.08em; pointer-events:none; box-shadow:0 3px 15px #203e3933; }
+
 .tr-sand-words.is-washed { opacity:0; }
 .tr-wash { animation:tr-wash-shore 2.8s ease-in-out both; }
 @keyframes tr-wash-shore { 0% {transform:translate(-500px,-300px);opacity:0} 45% {opacity:.7} 100% {transform:translate(400px,250px);opacity:0} }
@@ -77,7 +87,7 @@
   .tr-reading-note { width:91vw; padding:14px; flex-wrap:wrap; gap:9px; margin:20px auto 8px; }.tr-reading-note label { width:100%;font-size:11px; }.tr-reading-note input { font-size:12px; }.tr-reading-note button { font-size:10px; padding:9px; }
   .tr-footer { padding:13px 20px; gap:8px; min-height:65px; }.tr-footer p {font-size:11px; }.tr-footer small { display:none; }
   .tr-shore-tools { flex-direction:column; align-items:stretch; padding:15px 20px; gap:12px; }.tr-stone-choices { justify-content:center; }.tr-stone-choices button { padding:10px 17px; }
-  .tr-sand-form { width:100%; }.tr-sea-stage { min-height:250px; }.tr-stone { left:65%; width:65px; }.tr-stone>span {font-size:10px;max-width:170px;width:170px;text-align:center;}.tr-sand-words { font-size:19px; left:35%; max-width:53%; }
+  .tr-sand-form { width:100%; }.tr-sea-stage { min-height:250px; }.tr-stone { left:65%; width:65px; }.tr-stone>span {font-size:10px;max-width:170px;width:170px;text-align:center;}.tr-sand-words { font-size:clamp(28px,7.8vw,36px); left:22%; top:38%; max-width:72%; }.tr-aim-hint {top:10%;left:7%;font-size:11px;padding:7px 11px;}
 }
 @media(min-width:2500px) {
   .tr-header { padding:45px 75px; }.tr-header span {font-size:25px}.tr-header h3 {font-size:62px}.tr-header button {width:85px;height:85px;}.tr-header button svg {width:40px;height:40px}

@@ -118,7 +118,7 @@ for (const tag of iconTags) {
   html = html.replace(tag, () => inlineTag);
 }
 
-html = html.replace('</head>', `<!-- Next Spring: Cinematic Life Edition ${version}. Original music is synthesized locally. Primary Chinese narration is prerecorded neural audio embedded locally; optional system voices depend on device services. Spring Serif is a subset of Noto Serif SC, licensed under the SIL Open Font License 1.1; see the accompanying OFL-Noto.txt. -->\n  </head>`);
+html = html.replace('</head>', `<!-- Next Spring: Cinematic Life Edition ${version}. Original music is synthesized locally. Primary Chinese narration is prerecorded neural audio embedded locally; optional system voices depend on device services. Spring Serif is a subset of Noto Serif SC, licensed under the SIL Open Font License 1.1; see the accompanying OFL-Noto.txt. Sand Hand uses Ma Shan Zheng under SIL OFL 1.1; see OFL-MaShanZheng.txt. -->\n  </head>`);
 if (/(?:src|href)\s*=\s*["']\/(?:assets|art|fonts|audio|films)\//i.test(html) || /<link\b[^>]*rel=["']modulepreload["']/i.test(html)) {
   throw new Error('The HTML still requires a production asset request.');
 }

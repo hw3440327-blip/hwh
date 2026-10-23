@@ -52,7 +52,7 @@ def main():
         profile=load(RELEASE/f'desktop-v{VERSION}-profile.json')
         assert profile['passed'] and not profile['errors'] and not profile['externalRequests']
         craft=load(RELEASE/f'craft-v{VERSION}-desktop.json')
-        assert craft['success'] and craft['passed']>=6 and craft['desktopLocalOnly']
+        assert craft['success'] and craft['passed']>=7 and craft['desktopLocalOnly']
         guide=RELEASE/'desktop/先读我-使用说明.txt'
         guide.write_text(f'''《下一次春天》{VERSION} · Windows 64位免安装应用
 
@@ -76,7 +76,7 @@ def main():
 字体、声音及Go运行时许可见LICENSES文件夹。原始参考录音、模型权重及工作素材不随应用分发。
 ''',encoding='utf-8-sig')
         licenses=[]
-        for name in ['OFL-Noto.txt','NARRATION-CREDITS.txt','LICENSE-ZipVoice.txt','LICENSE-Vocos.txt','SOUND-CREDITS.txt','SOUND-SOURCES.json','CLARITY-CREDITS.txt','ASSETS-8K.json','LICENSE-FSRCNN.txt','CRAFT-CREDITS.json']:
+        for name in ['OFL-Noto.txt','OFL-MaShanZheng.txt','NARRATION-CREDITS.txt','LICENSE-ZipVoice.txt','LICENSE-Vocos.txt','SOUND-CREDITS.txt','SOUND-SOURCES.json','CLARITY-CREDITS.txt','ASSETS-8K.json','LICENSE-FSRCNN.txt','CRAFT-CREDITS.json']:
             source=RELEASE/name;assert source.is_file();licenses.append((source,'LICENSES/'+name))
         for name in ['CREDITS.txt','SOURCES.json']:
             licenses.append((ROOT/'public/audio/memory-box'/name,'LICENSES/memory-box/'+name))
